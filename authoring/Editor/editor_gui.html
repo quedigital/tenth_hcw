@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Editor GUI</title>
+
+	<link href="css/main.css" rel="stylesheet"/>
+	<link href="css/easyui.css" rel="stylesheet"/>
+	<link href="css/icon.css" rel="stylesheet"/>
+
+	<link href="css/col.css" rel="stylesheet"/>
+	<link href="css/3cols.css" rel="stylesheet"/>
+	<link href="css/4cols.css" rel="stylesheet"/>
+	<link href="css/5cols.css" rel="stylesheet"/>
+
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+	
+	<script src="js/jquery.autosize.min.js"></script>
+	<script src="js/jquery.easyui.min.js"></script>
+
+	<script src="https://cdn.firebase.com/js/client/1.0.15/firebase.js"></script>
+	
+	<script src="js/knockout-3.1.0.js"></script>
+	
+	<script src="js/knockoutfire.js"></script>
+		
+	<script data-main="editor" src="js/require.js"></script>
+</head>
+
+<body class="easyui-layout">
+	<div id="toc" region="west" split="true" title="TOC">
+		<div id="spreadModel">
+			<ul class="easyui-tree" data-bind="foreach: spreads">
+				<li data-bind="click: function () { $parent.showSpread($index()) }">
+					<span class="id" data-bind="text: id"></span>
+					<span class="title" data-bind="text: title"></span>
+				</li>
+			</div>
+		</div>
+	</div>
+	<div id="content" region="center" title="Content">
+		<div id="contentModel">
+			<div data-bind="with: spread">
+				<div class="header-background">
+					<div class="header spaced section group">
+						<div class="col span_1_of_5">
+							<div class="col span_1_of_5">
+								<label for="inputSpreadID">ID</label>
+							</div>
+							<div class="col span_4_of_5">
+								<input data-bind="value: id" type="text" id="inputSpreadID">
+							</div>
+						</div>
+						<div class="col span_3_of_5">
+							<div class="section group">
+								<div class="col span_1_of_5">
+									<label id="lblInputTitle" for="inputTitle">Title</label>
+								</div>
+								<div class="col span_4_of_5">
+									<!--<input data-bind="value: title" type="text" id="inputTitle">-->
+									<textarea data-bind="autosize: title"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="col span_1_of_5">
+							<label for="inputType">Type</label>
+							<select data-bind="options: ['grid', 'fixed'], value: type"></select>
+						</div>
+						<div data-bind="if: type()==='fixed'">
+							<label for="inputBackground">Background</label>
+							<input data-bind="value: background" type="text" id="inputBackground">
+							<div class="thumbnail">
+								<img data-bind="attr: { src: background }"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<div id="cells">
+					<div data-bind="foreach: cells">
+						<div id="cell" class="spaced">
+							<div class="header section group">
+								<div class="control">
+									<div>
+										<label>Cell Type</label>
+									</div>
+									<div>
+										<select data-bind="options: ['step','image'], value: type"></select>
+									</div>
+								</div>
+								<div class="control">
+									<div>
+										<label for="inputNumber">Number</label>
+									</div>
+									<div>
+										<input id="inputNumber" data-bind="value: number" type="number">
+									</div>
+								</div>
+								<div class="control">
+									<div>
+										<label for="inputID">ID</label>
+									</div>
+									<div>
+										<input id="inputID" data-bind="value: id" type="text">
+									</div>
+								</div>
+							</div>
+							<div class="step-text" data-bind="if: type() === 'step'">
+								<textarea data-bind="autosize: text"></textarea>
+							</div>
+							<div class="section group">
+								<div class="col span_2_of_4">
+									<label for="inputID">Image</label>
+									<input data-bind="value: image" type="text"></input>
+								</div>
+								<div class="col span_2_of_4">
+									<div class="thumbnail" data-bind="visible: image">
+										<img data-bind="attr: { src: image }"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="layout" region="east" split="true" title="Layout">
+		<div id="layoutModel">
+			<div data-bind="with: spread">
+				<label for="inputSpreadID">ID</label>
+				<input data-bind="value: id" type="text" id="inputSpreadID">
+				<label for="inputStyle">Type</label>
+				<select data-bind="options: ['fixed','grid'], value: style"></select>
+		
+				<div class="grid">
+					<div class="cell" data-width="50" data-id="0"></div>
+					<div class="cell" data-width="50" data-id="1"></div>
+					<div class="cell" data-width="100" data-id="2"></div>
+					<div class="cell" data-width="100" data-id="3"></div>
+					<div class="cell" data-width="40" data-id="4"></div>
+					<div class="cell" data-width="60" data-id="5"></div>
+					<div class="cell" data-width="100" data-id="6"></div>
+					<div class="cell" data-width="50" data-id="7"></div>
+					<div class="cell" data-width="50" data-id="8"></div>
+					<div class="cell" data-width="100" data-id="9"></div>
+				</div>
+
+				<table class="properties" data-bind="foreach: hints">
+					<tbody data-bind="attr: { 'data-id': $index }">
+						<tr>
+							<td>id</td>
+							<td><input data-bind="value: $index" type="text"/></td>
+						</tr>
+						<tr>
+							<td>width</td>
+							<td><input data-bind="value: width" type="number"/></td>
+						</tr>
+						<tr>
+							<td>image pos</td>
+							<td><input data-bind="value: image" type="text"/></td>
+						</tr>
+					</tbody>
+					<tbody data-bind="getVariableProperties: imageCSS, attr: { 'data-id': $index }">
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

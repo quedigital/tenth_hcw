@@ -1,0 +1,367 @@
+/*
+@import "compass/css3";
+@import "compass/typography";
+@import "compass/css3/user-interface";
+*/
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+/* line 9, ../sass/_initializr.scss */
+html,
+button,
+input,
+select,
+textarea {
+  color: #222;
+}
+
+/* line 13, ../sass/_initializr.scss */
+body {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/* line 18, ../sass/_initializr.scss */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 23, ../sass/_initializr.scss */
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 28, ../sass/_initializr.scss */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/* line 37, ../sass/_initializr.scss */
+img {
+  vertical-align: middle;
+}
+
+/* line 41, ../sass/_initializr.scss */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 47, ../sass/_initializr.scss */
+textarea {
+  resize: vertical;
+}
+
+/* line 51, ../sass/_initializr.scss */
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/* line 96, ../sass/_initializr.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+/* line 103, ../sass/_initializr.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+/* line 110, ../sass/_initializr.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 115, ../sass/_initializr.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 127, ../sass/_initializr.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 136, ../sass/_initializr.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 141, ../sass/_initializr.scss */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+/* line 146, ../sass/_initializr.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 150, ../sass/_initializr.scss */
+.clearfix {
+  *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+@media print {
+  /* line 159, ../sass/_initializr.scss */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* line 167, ../sass/_initializr.scss */
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  /* line 171, ../sass/_initializr.scss */
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* line 175, ../sass/_initializr.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  /* line 185, ../sass/_initializr.scss */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  /* line 190, ../sass/_initializr.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* line 195, ../sass/_initializr.scss */
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */
+  }
+
+  /* line 200, ../sass/_initializr.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* line 204, ../sass/_initializr.scss */
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+}
+
+  /* line 214, ../sass/_initializr.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* line 220, ../sass/_initializr.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+/* line 1, ../sass/_editor.scss */
+html, body {
+  font-family: sans-serif;
+}
+
+/* line 5, ../sass/_editor.scss */
+* {
+  box-sizing: border-box;
+}
+
+/* line 9, ../sass/_editor.scss */
+#toc {
+  width: 250px;
+}
+/* line 15, ../sass/_editor.scss */
+#toc .title {
+  font-style: italic;
+}
+
+/* line 21, ../sass/_editor.scss */
+#content .header {
+  max-width: 800px;
+}
+/* line 25, ../sass/_editor.scss */
+#content .spaced {
+  padding: 10px;
+}
+/* line 29, ../sass/_editor.scss */
+#content .header-background {
+  background-color: #eee;
+}
+/* line 33, ../sass/_editor.scss */
+#content label {
+  font-weight: bold;
+}
+/* line 37, ../sass/_editor.scss */
+#content select {
+  font-size: 14px;
+  border: 0;
+}
+/* line 42, ../sass/_editor.scss */
+#content input {
+  font-size: 14px;
+  width: 100%;
+  margin: 0;
+  padding-right: 10px;
+}
+/* line 49, ../sass/_editor.scss */
+#content #lblInputTitle {
+  text-align: right;
+  display: inline-block;
+  width: 100%;
+}
+/* line 55, ../sass/_editor.scss */
+#content .control {
+  display: inline-block;
+}
+/* line 59, ../sass/_editor.scss */
+#content #cell:nth-child(even) {
+  background-color: #eef;
+}
+/* line 63, ../sass/_editor.scss */
+#content #cell:nth-child(odd) {
+  background-color: #cce;
+}
+/* line 67, ../sass/_editor.scss */
+#content .step-text {
+  margin-top: 10px;
+}
+/* line 71, ../sass/_editor.scss */
+#content textarea {
+  width: 100%;
+  font-size: 18px;
+}
+
+/* line 77, ../sass/_editor.scss */
+#layout {
+  width: 750px;
+}
+/* line 80, ../sass/_editor.scss */
+#layout .grid {
+  position: relative;
+  margin: 1em auto;
+  background-color: blue;
+}
+/* line 85, ../sass/_editor.scss */
+#layout .grid .cell {
+  display: block;
+  position: absolute;
+}
+/* line 89, ../sass/_editor.scss */
+#layout .grid .cell .inset {
+  position: absolute;
+  background-color: orange;
+}
+/* line 93, ../sass/_editor.scss */
+#layout .grid .cell .inset.selected {
+  background-color: yellow;
+}
+
+/* line 101, ../sass/_editor.scss */
+.thumbnail {
+  width: 250px;
+  height: 250px;
+  border: 2px solid #66a;
+  border-radius: 10px;
+  padding: 10px;
+}
+/* line 109, ../sass/_editor.scss */
+.thumbnail img {
+  width: 100%;
+}
+
+/* line 114, ../sass/_editor.scss */
+table.properties {
+  border: 1px solid #669;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+}
+/* line 123, ../sass/_editor.scss */
+table.properties td {
+  border: 1px solid #99e;
+}
+/* line 126, ../sass/_editor.scss */
+table.properties td:first-child {
+  background-color: #ddd;
+}
+/* line 130, ../sass/_editor.scss */
+table.properties td input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 12px;
+  padding: 0;
+}
+/* line 137, ../sass/_editor.scss */
+table.properties td input:focus {
+  outline: 0;
+}

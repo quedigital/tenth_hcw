@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Editor</title>
+
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/main.css" rel="stylesheet">
+
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/jquery.autosize.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="https://cdn.firebase.com/js/client/1.0.15/firebase.js"></script>
+	
+	<script src="js/knockout-3.1.0.js"></script>
+	
+	<script src="js/knockoutfire.js"></script>
+		
+	<script data-main="editor" src="js/require.js"></script>	
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+	
+			<div class="col-md-2">
+				<div id="spread-list">
+					<div id="spreadModel">
+						<div data-bind="foreach: spreads" class="">
+							<div class="input-group input-group-sm">
+								<span class="input-group-btn">
+									<button data-bind="text: id, click: function () { $parent.showSpread($index()) }" class="btn btn-default" type="button"></button>
+								</span>
+								<input data-bind="value: title" type="text" class="form-control" disabled>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="col-md-5 left-edged">
+				<div id="content">
+					<div id="contentModel">
+						<div data-bind="with: spread">
+<!--						<div data-bind="foreach: spreads">-->
+							<nav class="navbar navbar-default" role="navigation">
+								<div class="container-fluid">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="inputSpreadID" class="col-lg-2 control-label">ID</label>
+											<div class="col-lg-10">
+												<input data-bind="value: id" type="text" class="form-control" id="inputSpreadID" placeholder="Spread ID">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputTitle" class="col-lg-2 control-label">Title</label>
+											<div class="col-lg-10">
+												<input data-bind="value: title" type="text" class="form-control" id="inputTitle" placeholder="Title">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputType" class="col-lg-2 control-label">Type</label>
+											<div class="col-lg-2">
+												<select class="form-control" data-bind="options: ['grid', 'fixed'], value: type"></select>
+											</div>
+										</div>
+										<div data-bind="if: type()==='fixed'" class="form-group">
+											<label for="inputBackground" class="col-lg-2 control-label">Background</label>
+											<div class="col-lg-5">
+												<input data-bind="value: background" type="text" class="form-control" id="inputBackground">
+											</div>
+											<div class="col-lg-5">
+												<div class="thumbnail">
+													<img data-bind="attr: { src: background }"/>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</nav>
+				
+<!--							<div class="contents panel panel-default">
+								<div class="panel-body">-->
+									<div data-bind="foreach: cells">
+										<div class="well">
+										<div class="form-horizontal">
+											<div class="form-group">
+												<div class="col-lg-2">
+													<select class="form-control" data-bind="options: ['step','image'], value: type"></select>
+												</div>
+												<label for="inputNumber" class="col-lg-1 control-label">Number</label>
+												<div class="col-lg-2">
+													<input id="inputNumber" data-bind="value: number" type="number" class="form-control" placeholder="number">
+												</div>
+												<label for="inputID" class="col-lg-1 control-label">ID</label>
+												<div class="col-lg-2">
+													<input id="inputID" data-bind="value: id" type="text" class="form-control" placeholder="id">
+												</div>
+											</div>
+											<div class="form-group">
+												<div data-bind="if: type() === 'step'" class="col-lg-12">
+													<textarea data-bind="autosize: text" class="form-control"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="inputID" class="col-lg-1 control-label">Image</label>
+												<div class="col-lg-6">
+													<input data-bind="value: image" class="form-control" type="text"></input>
+												</div>
+												<div class="col-lg-5">
+													<div class="thumbnail" data-bind="visible: image">
+														<img data-bind="attr: { src: image }"/>
+													</div>
+												</div>
+											</div>
+										</div>
+<!--										</div>
+									</div>-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="col-md-5 left-edged">
+				<div id="layout">
+					<div id="layoutModel">
+						<div data-bind="with: spread">
+							<nav class="navbar navbar-default" role="navigation">
+								<div class="container-fluid">
+									<form class="form-horizontal" role="form">
+										<div class="form-group">
+											<label for="inputSpreadID" class="col-lg-2 control-label">ID</label>
+											<div class="col-lg-10">
+												<input data-bind="value: id" type="text" class="form-control" id="inputSpreadID">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputStyle" class="col-lg-2 control-label">Type</label>
+											<div class="col-lg-2">
+												<select class="form-control" data-bind="options: ['fixed','grid'], value: style"></select>
+											</div>
+										</div>
+									</form>
+								</div>
+							</nav>
+								<div data-bind="foreach: hints">
+									<div class="well">
+										<div class="form-horizontal">
+											<div class="form-group">
+												<p data-bind="text: $index"></p>
+												<label for="inputWidth" class="col-lg-1 control-label">Width</label>
+												<div class="col-lg-2">
+													<input id="inputWidth" data-bind="value: width" type="number" class="form-control" placeholder="width">
+												</div>
+												<label for="inputImage" class="col-lg-1 control-label">Image</label>
+												<div class="col-lg-2">    												
+													<input id="inputImage" data-bind="value: image" type="text" class="form-control" placeholder="text">
+												</div>
+											</div>
+											<div data-bind="visible: imageCSS, getVariableProperties: imageCSS">
+											</div>
+											<div data-bind="ifnot: imageCSS">
+												<button type="button" class="btn btn-primary">Add CSS</button>
+											</div>
+										</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+</body>
+
+
+</html>

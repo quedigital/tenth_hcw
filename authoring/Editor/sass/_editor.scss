@@ -1,0 +1,142 @@
+html, body {
+	font-family: sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#toc {
+	width: 250px;
+	
+	.id {
+	}
+	
+	.title {
+		font-style: italic;
+	}
+}
+
+#content {	
+	.header {
+		max-width: 800px;
+	}
+	
+	.spaced {
+		padding: 10px;
+	}
+	
+	.header-background {
+		background-color: #eee;
+	}
+	
+	label {
+		font-weight: bold;
+	}
+	
+	select {
+		font-size: 14px;
+		border: 0;
+	}
+	
+	input {
+		font-size: 14px;
+		width: 100%;
+		margin: 0;
+		padding-right: 10px;
+	}
+	
+	#lblInputTitle {
+		text-align: right;
+		display: inline-block;
+		width: 100%;
+	}
+	
+	.control {
+		display: inline-block;
+	}
+	
+	#cell:nth-child(even) {
+		background-color: #eef;
+	}
+	
+	#cell:nth-child(odd) {
+		background-color: #cce;
+	}
+
+	.step-text {
+		margin-top: 10px;
+	}
+		
+	textarea {
+		width: 100%;
+		font-size: 18px;
+	}
+}
+
+#layout {
+	width: 750px;
+	
+	.grid {
+		position: relative;
+		margin: 1em auto;
+		background-color: blue;
+		
+		.cell {
+			display: block;
+			position: absolute;
+			
+			.inset {
+				position: absolute;
+				background-color: orange;
+				
+				&.selected {
+					background-color: yellow;
+				}
+			}
+		}
+	}
+}
+
+.thumbnail {
+	width: 250px;
+	height: 250px;
+	
+	border: 2px solid #66a;
+	border-radius: 10px;
+	padding: 10px;
+	
+	img {
+		width: 100%;
+	}
+}
+
+table.properties {
+	border: 1px solid #669;
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: separate;
+		
+	tr {
+	}
+	
+	td {
+		border: 1px solid #99e;
+		
+		&:first-child {
+			background-color: #ddd;
+		}
+		
+		input {
+			width: 100%;
+			height: 100%;
+			border: none;
+			font-size: 12px;
+			padding: 0;
+			
+			&:focus {
+				outline: 0;
+			}
+		}
+	}
+}
