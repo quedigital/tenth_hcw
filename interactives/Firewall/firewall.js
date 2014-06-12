@@ -1,7 +1,7 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "phaser.min",
+		"Phaser": "../../Common/js/phaser.min",
 	},
 	
 	shim: {
