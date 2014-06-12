@@ -5,11 +5,11 @@ define(["Phaser"], function (Phaser) {
 		
 		var SPEED = .2;
 		
-		Phaser.Sprite.call(this, game, path[0].x, path[0].y, options.sprite || "bad packet");
+		Phaser.Sprite.call(this, game, path[0].x, path[0].y, options.sprite || "yellow packet");
 		
 		if (options.animated) {
 			this.animations.add("animation");
-			this.animations.play("animation", 12, true);
+			this.animations.play("animation", options.fps || 12, true);
 		}
 
 		// Set the pivot point for this sprite to the center
