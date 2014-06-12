@@ -8,8 +8,15 @@ define(["Phaser"], function (Phaser) {
 		// Set the pivot point for this sprite to the center
 		this.anchor.setTo(0.5, 0.5);
 
-		var firstAngle = Phaser.Math.angleBetween(path[0].x, path[0].y, path[1].x, path[1].y);
-		this.rotation = firstAngle + defaultAngle;
+		if (path.length > 1) {
+			var firstAngle = Phaser.Math.angleBetween(path[0].x, path[0].y, path[1].x, path[1].y);
+			this.rotation = firstAngle + defaultAngle;
+		} else {
+			this.rotation = defaultAngle;
+		}
+		
+		this.x = path[0].x;
+		this.y = path[0].y;
 				
 		var tween = game.add.tween(this);
 		
