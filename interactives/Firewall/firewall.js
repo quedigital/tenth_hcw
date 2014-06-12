@@ -39,8 +39,15 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 		this.game.add.sprite(75, 320, "arrow2");
 		this.game.add.sprite(75, 360, "arrow3");
 		
-		var packet = new Packet(this.game, 70, 350);
-		this.game.add.existing(packet);
+		var packet1 = new Packet(this.game, .45, [ { x: 70, y: 350 },
+												{ x: 150, y: 361 },
+												{ x: 200, y: 363 },
+												{ x: 260, y: 362 },
+												{ x: 320, y: 352 },
+												{ x: 385, y: 334 },
+												{ x: 450, y: 300 }	]);
+		
+		this.game.add.existing(packet1);
 		
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
