@@ -59,6 +59,7 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 												{ x: 385, y: 459 },
 												{ x: 450, y: 434 },
 												{ x: 510, y: 403 },
+												{ x: 540, y: 383 },
 												{ x: 591, y: 334 },
 													]);
 		
