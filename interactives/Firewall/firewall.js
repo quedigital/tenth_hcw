@@ -30,6 +30,7 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("success popup", 'assets/success_alert.png');
 		this.game.load.image("failure popup", 'assets/failure_alert.png');
+		this.game.load.spritesheet("sparkly packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
 	};
 
 	// Setup the example
@@ -50,7 +51,7 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 		this.game.add.sprite(0, 410, "arrow3");
 		
 		//first arrow
-		var packet1 = new Packet(this.game, .45, [
+		var packet1 = new Packet(this.game, { defaultAngle: .45} , [
 												{ x: 0, y: 400 },
 												{ x: 80, y: 411 },
 												{ x: 130, y: 413 },
@@ -62,7 +63,7 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 		
 		this.game.add.existing(packet1);
 		//second arrow
-		var packet2 = new Packet(this.game, .45, [ 
+		var packet2 = new Packet(this.game, { defaultAngle: .45, sprite: "green packet" }, [ 
 												{ x: 0, y: 558 },
 												{ x: 125, y: 547 },
 												{ x: 185, y: 538 },
@@ -76,7 +77,7 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 		
 		this.game.add.existing(packet2);
 		//third arrow
-		var packet3 = new Packet(this.game, .45, [ 
+		var packet3 = new Packet(this.game, { defaultAngle: .45, sprite: "sparkly packet", animated: true, fps: 20 }, [ 
 												{ x: 0, y: 708 },
 												{ x: 125, y: 683 },
 												{ x: 185, y: 669 },
