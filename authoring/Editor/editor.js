@@ -11,6 +11,8 @@ requirejs.config({
 
 require(["gridder"], function (gridder) {
 
+$("body").layout({ applyDefaultStyles: true, livePaneResizing: true });
+
 ko.bindingHandlers.getVariableProperties = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // This will be called when the binding is first applied to an element
@@ -145,7 +147,7 @@ function SpreadListModel () {
 
 ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);
 
-gridder.format($(".grid"));
+var grid = new gridder.Gridder($(".grid"));
     
 });
 

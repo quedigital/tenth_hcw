@@ -16,12 +16,14 @@
 	<link href="css/3cols.css" rel="stylesheet"/>
 	<link href="css/4cols.css" rel="stylesheet"/>
 	<link href="css/5cols.css" rel="stylesheet"/>
+	
+	<link href="css/jquery-ui.css" rel="stylesheet"/>
 
 	<script src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+	<script src="js/jquery-ui-1.10.4.min.js"></script>
+	<script src="js/jquery.layout-latest.min.js"></script>
 	
 	<script src="js/jquery.autosize.min.js"></script>
-	<script src="js/jquery.easyui.min.js"></script>
 
 	<script src="https://cdn.firebase.com/js/client/1.0.15/firebase.js"></script>
 	
@@ -32,10 +34,10 @@
 	<script data-main="editor" src="js/require.js"></script>
 </head>
 
-<body class="easyui-layout">
-	<div id="toc" region="west" split="true" title="TOC">
+<body>
+	<div id="toc" class="ui-layout-west">
 		<div id="spreadModel">
-			<ul class="easyui-tree" data-bind="foreach: spreads">
+			<ul data-bind="foreach: spreads">
 				<li data-bind="click: function () { $parent.showSpread($index()) }">
 					<span class="id" data-bind="text: id"></span>
 					<span class="title" data-bind="text: title"></span>
@@ -43,7 +45,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="content" region="center" title="Content">
+	<div id="content" class="ui-layout-center">
 		<div id="contentModel">
 			<div data-bind="with: spread">
 				<div class="header-background">
@@ -131,7 +133,7 @@
 		</div>
 	</div>
 	
-	<div id="layout" region="east" split="true" title="Layout">
+	<div id="layout" class="ui-layout-east">
 		<div id="layoutModel">
 			<div data-bind="with: spread">
 				<label for="inputSpreadID">ID</label>
