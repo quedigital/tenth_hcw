@@ -140,7 +140,6 @@ window.gridder = gridder;
 
 // BUG: "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!)
 // TODO: only show placement checkboxes for cells that have an associated image
-// TODO: trigger cell resize when width is updated (ala checkbox subscribe method)
 // TODO: don't hard-code variable "cm"
 // TODO: put "grid / fixed" field in content or layout – NOT BOTH
 // TODO: view one spread at a time, selectable from list
@@ -154,6 +153,7 @@ window.gridder = gridder;
 // TODO: backup and undo capability
 // TODO: handle glossary terms (ie, bold) within text
 
+// DONE: trigger cell resize when width is updated (ala checkbox subscribe method)
 // DONE: set image placement checkboxes on load
 // DONE: what if content and layout indices don't line up sometimes? [switched to id's]
 // DONE: getVariableProperties doesn't work when updating values (yes, I think it does)

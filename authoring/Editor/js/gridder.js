@@ -2,7 +2,13 @@ define([], function () {
 	ko.bindingHandlers.gridThing = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			$(element).trigger("init", element);
-			// TODO: register resizable here?
+			
+			// when the observable changes, trigger a resize (it doesn't happen automatically when the observable isn't a custom binding)
+			valueAccessor().subscribe(function (newValue) {
+				var grid = $(element).parent(".grid");
+				grid.trigger("reformat");
+			});
+			
 		},
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// reformat the grid and save a reference to our viewModel for future updates (ie, resizing)
@@ -95,7 +101,8 @@ define([], function () {
 		this.elem.find("div.cell").each(function (index) {
 			var cell = $(this);
 			
-			var width = cell.data("width");
+//			var width = cell.data("width");
+			var width = cell.attr("data-width");
 			if (width) {
 				width = parseFloat(width);
 				var cell_width = width * me.ROW_WIDTH;
