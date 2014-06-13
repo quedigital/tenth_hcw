@@ -15,6 +15,13 @@ require(["Phaser"], function (Phaser) {
 	// Load images and sounds
 	GameState.prototype.preload = function() {
 		this.game.load.image("etched", "assets/etched_silicon.png");
+		this.game.load.image("unetched", "assets/unetched_silicon.png");
+		this.game.load.image("negative base", "assets/chip_negative.png");
+		this.game.load.image("negative1", "assets/negative1.png");
+		this.game.load.image("negative2", "assets/negative2.png");
+		this.game.load.image("negative3", "assets/negative3.png");
+		this.game.load.image("negative4", "assets/negative4.png");
+		this.game.load.image("laser", "assets/laser_off.png");
 	};
 
 	// Setup the example
@@ -22,7 +29,14 @@ require(["Phaser"], function (Phaser) {
 		// Set stage background color
 		this.game.stage.backgroundColor = 0xe02020;//0x4488cc;
 
-		this.game.add.sprite(200, 310, "etched");
+		this.game.add.sprite(300, 400, "etched");
+		//this.game.add.sprite(300, 400, "unetched");
+		//this.game.add.sprite(300, 260, "negative base");
+		this.game.add.sprite(412, 260, "negative4");
+		this.game.add.sprite(340, 260, "negative3");
+		this.game.add.sprite(300, 292, "negative2");
+		this.game.add.sprite(375, 313, "negative1");
+		this.game.add.sprite(425, 70, "laser");
 		
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(

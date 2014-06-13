@@ -116,7 +116,8 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 	game.state.add('game', GameState, true);
 	
 	function closePort (port) {
-		game.add.tween(port).to({ y: 303 }, 500, Phaser.Easing.Linear.None).start();
+		game.add.tween(port).to({ y: 353 }, 500, Phaser.Easing.Linear.None).start();
+
 	}
 	
 });
