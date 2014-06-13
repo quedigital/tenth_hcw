@@ -13,6 +13,9 @@ require(["gridder"], function (gridder) {
 
 $("body").layout({ applyDefaultStyles: true, livePaneResizing: true });
 
+// create our gridder element
+var grid = new gridder.Gridder($(".grid"));
+
 ko.bindingHandlers.getVariableProperties = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // This will be called when the binding is first applied to an element
@@ -25,24 +28,6 @@ ko.bindingHandlers.getVariableProperties = {
 		var value = valueAccessor();
 		var valueUnwrapped = ko.unwrap(value);
 		
-		/*
-		var table = $("<table>").addClass("table");
-		table.append($("<thead><tr><th>Property</th><th>Value</th></tr></thead>"));
-		var tbody = $("<tbody>");
-		
-		for (var key in valueUnwrapped) {
-			if (key != "firebase") {
-				var value = valueUnwrapped[key];
-				var a = $("<input>").addClass("form-control").attr("value", key);
-				var b = $("<input>").addClass("form-control").attr("value", value);
-				var c = $("<td>").append(a);
-				var d = $("<td>").append(b);
-				tbody.append($("<tr>").append(c).append(d));
-			}
-		}
-		table.append(tbody);
-		$(element).append(table);
-		*/
 		for (var key in valueUnwrapped) {
 			if (key != "firebase") {
 				var value = valueUnwrapped[key];
@@ -106,6 +91,7 @@ function LayoutModel (index) {
 					"style": true,
 					"hints": {
 						"$hint": {
+							"id": true,
 							"image": true,
 							"width": true,
 							"imageCSS": true
@@ -120,7 +106,7 @@ function LayoutModel (index) {
 		var firebase = new Firebase("https://howcomputerswork.firebaseio.com/layouts/" + index);
 		// set the spread observable to the new firebase data
 		self.spread(KnockoutFire.observable(firebase, schema));
-	}
+	}	
 }
 
 var lm = new LayoutModel(0);
@@ -147,18 +133,18 @@ function SpreadListModel () {
 
 ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);
 
-var grid = new gridder.Gridder($(".grid"));
+//var grid = new gridder.Gridder($(".grid"));
+window.gridder = gridder;
     
 });
 
 // BUG: "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!)
-// TODO: getVariableProperties doesn't work when updating values
+// TODO: only show placement checkboxes for cells that have an associated image
+// TODO: trigger cell resize when width is updated (ala checkbox subscribe method)
 // TODO: don't hard-code variable "cm"
-// TODO: what if content and layout indices don't line up sometimes?
 // TODO: put "grid / fixed" field in content or layout – NOT BOTH
 // TODO: view one spread at a time, selectable from list
 // TODO: load published pages from json
-// TODO: tie layout cells to content cells (rather than rely on indices)?
 // TODO: ability to add extra properties and cells, etc.
 // TODO: button to jump from content to its relevant layout hint
 // TODO: collapsible columns
@@ -168,6 +154,9 @@ var grid = new gridder.Gridder($(".grid"));
 // TODO: backup and undo capability
 // TODO: handle glossary terms (ie, bold) within text
 
+// DONE: set image placement checkboxes on load
+// DONE: what if content and layout indices don't line up sometimes? [switched to id's]
+// DONE: getVariableProperties doesn't work when updating values (yes, I think it does)
 // DONE: steps nicely set off in panels or wells
 // DONE: textarea sized to fit
 // DONE: custom fields for grid or fixed layouts (using knockout if binding)

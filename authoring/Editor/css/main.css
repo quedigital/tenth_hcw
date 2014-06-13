@@ -320,8 +320,8 @@ html, body {
   position: absolute;
   background-color: orange;
 }
-/* line 93, ../sass/_editor.scss */
-#layout .grid .cell .inset.selected {
+/* line 94, ../sass/_editor.scss */
+#layout .grid .cell.selected .inset {
   background-color: yellow;
 }
 
@@ -364,4 +364,49 @@ table.properties td input {
 /* line 137, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
+}
+
+/* line 146, ../sass/_editor.scss */
+.grid .inset .id-label {
+  text-align: center;
+  display: block;
+  line-height: 65px;
+}
+/* line 152, ../sass/_editor.scss */
+.grid .inset input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 12px;
+  height: 12px;
+}
+/* line 160, ../sass/_editor.scss */
+.grid .inset input[name='TL'] {
+  top: 0;
+  left: 0;
+}
+/* line 165, ../sass/_editor.scss */
+.grid .inset input[name='TR'] {
+  top: 0;
+  right: 0;
+}
+/* line 170, ../sass/_editor.scss */
+.grid .inset input[name='R'] {
+  right: 0;
+  top: 27px;
+}
+/* line 175, ../sass/_editor.scss */
+.grid .inset input[name='BR'] {
+  bottom: 0;
+  right: 0;
+}
+/* line 180, ../sass/_editor.scss */
+.grid .inset input[name='BL'] {
+  bottom: 0;
+  left: 0;
+}
+/* line 185, ../sass/_editor.scss */
+.grid .inset input[name='L'] {
+  left: 0;
+  top: 27px;
 }

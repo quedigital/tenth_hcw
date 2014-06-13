@@ -89,10 +89,10 @@ html, body {
 			.inset {
 				position: absolute;
 				background-color: orange;
-				
-				&.selected {
-					background-color: yellow;
-				}
+			}
+			
+			&.selected .inset {
+				background-color: yellow;
 			}
 		}
 	}
@@ -137,6 +137,54 @@ table.properties {
 			&:focus {
 				outline: 0;
 			}
+		}
+	}
+}
+
+.grid {
+	.inset {
+		.id-label {
+			text-align: center;
+			display: block;
+			line-height: 65px;
+		}
+		
+		input {
+			position: absolute;
+			margin: 0;
+			padding: 0;
+			width: 12px;
+			height: 12px;
+		}
+		
+		input[name='TL'] {
+			top: 0;
+			left: 0;
+		}
+		
+		input[name='TR'] {
+			top: 0;
+			right: 0;
+		}
+		
+		input[name='R'] {
+			right: 0;
+			top: 27px;
+		}
+		
+		input[name='BR'] {
+			bottom: 0;
+			right: 0;
+		}
+		
+		input[name='BL'] {
+			bottom: 0;
+			left: 0;
+		}
+		
+		input[name='L'] {
+			left: 0;
+			top: 27px;
 		}
 	}
 }
