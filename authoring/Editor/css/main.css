@@ -308,52 +308,61 @@ html, body {
 #layout .grid {
   position: relative;
   margin: 1em auto;
-  background-color: blue;
 }
-/* line 85, ../sass/_editor.scss */
+/* line 84, ../sass/_editor.scss */
 #layout .grid .cell {
   display: block;
   position: absolute;
 }
-/* line 89, ../sass/_editor.scss */
+/* line 88, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
   background-color: orange;
 }
-/* line 94, ../sass/_editor.scss */
+/* line 92, ../sass/_editor.scss */
+#layout .grid .cell .inset .ui-resizable-handle {
+  width: 5px;
+  right: -5px;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  background-color: #ccc;
+  height: 100%;
+}
+/* line 102, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
 
-/* line 101, ../sass/_editor.scss */
+/* line 109, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   height: 250px;
   border: 2px solid #66a;
   border-radius: 10px;
+  background-color: #339;
   padding: 10px;
 }
-/* line 109, ../sass/_editor.scss */
+/* line 118, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 114, ../sass/_editor.scss */
+/* line 123, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
   border-spacing: 0;
   border-collapse: separate;
 }
-/* line 123, ../sass/_editor.scss */
+/* line 132, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 126, ../sass/_editor.scss */
+/* line 135, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 130, ../sass/_editor.scss */
+/* line 139, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -361,18 +370,18 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 137, ../sass/_editor.scss */
+/* line 146, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 146, ../sass/_editor.scss */
+/* line 155, ../sass/_editor.scss */
 .grid .inset .id-label {
   text-align: center;
   display: block;
   line-height: 65px;
 }
-/* line 152, ../sass/_editor.scss */
+/* line 161, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -380,32 +389,32 @@ table.properties td input:focus {
   width: 12px;
   height: 12px;
 }
-/* line 160, ../sass/_editor.scss */
+/* line 169, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 165, ../sass/_editor.scss */
+/* line 174, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 170, ../sass/_editor.scss */
+/* line 179, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 175, ../sass/_editor.scss */
+/* line 184, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 180, ../sass/_editor.scss */
+/* line 189, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 185, ../sass/_editor.scss */
+/* line 194, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;

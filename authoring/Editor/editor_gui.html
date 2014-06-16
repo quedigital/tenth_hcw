@@ -141,22 +141,8 @@
 				<label for="inputStyle">Type</label>
 				<select data-bind="options: ['fixed','grid'], value: style"></select>
 		
-		<!--
-				<div class="grid">
-					<div class="cell" data-width=".5" data-id="0"></div>
-					<div class="cell" data-width=".5" data-id="1"></div>
-					<div class="cell" data-width="1" data-id="2"></div>
-					<div class="cell" data-width="1" data-id="3"></div>
-					<div class="cell" data-width=".4" data-id="4"></div>
-					<div class="cell" data-width=".6" data-id="5"></div>
-					<div class="cell" data-width="1" data-id="6"></div>
-					<div class="cell" data-width=".5" data-id="7"></div>
-					<div class="cell" data-width=".5" data-id="8"></div>
-					<div class="cell" data-width="1" data-id="9"></div>
-				</div>
-		-->	
 				<div class="grid" data-bind="foreach: hints">
-					<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id }, gridThing: width"></div>
+					<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, gridThing: width"></div>
 				</div>
 
 				<table class="properties" data-bind="foreach: hints">

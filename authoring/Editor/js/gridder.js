@@ -8,7 +8,6 @@ define([], function () {
 				var grid = $(element).parent(".grid");
 				grid.trigger("reformat");
 			});
-			
 		},
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// reformat the grid and save a reference to our viewModel for future updates (ie, resizing)
@@ -71,14 +70,19 @@ define([], function () {
 			var inset = $("<div>").addClass("inset");
 			inset.attr("data-id", cell.data("id"));
 			$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
+			if (cell.data("image")) {
+				$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
+				$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
+				$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
+				$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
+				$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
+				$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
+			}
+			
 			cell.append(inset);
-			inset.resizable( { grid: 10, maxWidth: 150, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
+			
+			inset.resizable( { grid: 10, maxWidth: this.ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
+			
 			cell.click(setSelected);
 		}
 	}
@@ -87,7 +91,7 @@ define([], function () {
 		var x = 0;
 		var y = 0;
 		
-		this.ROW_WIDTH = 150;
+		this.ROW_WIDTH = this.elem.parent().width();
 		this.ROW_HEIGHT = 75;
 		this.MARGIN = 10;
 		
@@ -100,6 +104,11 @@ define([], function () {
 		
 		this.elem.find("div.cell").each(function (index) {
 			var cell = $(this);
+			
+			var inset = cell.find(".inset");
+			if (inset) {
+				inset.resizable( { maxWidth: me.ROW_WIDTH } );
+			}
 			
 //			var width = cell.data("width");
 			var width = cell.attr("data-width");
@@ -127,9 +136,6 @@ define([], function () {
 		this.elem.height(y * me.ROW_HEIGHT).width(me.ROW_WIDTH);
 	}
 	
-	// TODO: save the new width to the database
-	// TODO: add a handle for the resizable
-	// TODO: add checkboxes for image position
 	// reformat during cell resize
 	Gridder.prototype.onResize = function (event, ui) {
 		var w = ui.element.width() + this.MARGIN;
