@@ -1,6 +1,6 @@
 define(["Phaser"], function (Phaser) {
 	// Follower constructor
-	var Packet = function (game, options, path) {
+	var Packet = function (game, events, options, path) {
 		this.defaultAngle = options.defaultAngle || 0;
 		
 		var SPEED = .2;
@@ -36,8 +36,8 @@ define(["Phaser"], function (Phaser) {
 		tween.start();
 		
 		// NOTE: hack to trigger onComplete after LAST tween (not the first)
-		var me = this;
-		tween._lastChild.onComplete.add(function () { me.x = path[0].x; me.y = path[0].y; me.rotation = firstAngle + me.defaultAngle; tween.start(); });
+		var self = this;
+		tween._lastChild.onComplete.add(function () { events.onPacketComplete.dispatch(self); });
 	};
 
 	Packet.prototype = Object.create(Phaser.Sprite.prototype);

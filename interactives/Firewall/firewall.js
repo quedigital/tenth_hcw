@@ -8,7 +8,7 @@ requirejs.config({
 	},
 });
 
-require(["Phaser", "packet"], function (Phaser, Packet) {
+require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 	var GameState = function(game) {
 	};
 
@@ -41,75 +41,54 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 
 		this.game.add.sprite(325, 200, "router");
 		
-		// TO: 303
+		this.thingsInFront = [];
+		this.thingsInFront.push(this.game.add.sprite(357, 306, "overlay1"));
+		this.thingsInFront.push(this.game.add.sprite(436, 327, "overlay2"));
+		this.thingsInFront.push(this.game.add.sprite(569, 363, "overlay3"));
+
 		var door = this.game.add.sprite(505, 292, "closed port");
 		door.inputEnabled = true;
 		door.input.pixelPerfectClick = true;
 		door.events.onInputDown.add(closePort);
 		
-		this.game.add.sprite(0, 330, "arrow1");
-		this.game.add.sprite(0, 370, "arrow2");
-		this.game.add.sprite(0, 410, "arrow3");
+		var arrow1 = this.game.add.sprite(0, 330, "arrow1");
+		var arrow2 = this.game.add.sprite(0, 370, "arrow2");
+		var arrow3 = this.game.add.sprite(0, 410, "arrow3");
 		
-		//first arrow
-		var packet1 = new Packet(this.game, { defaultAngle: .45} , [
-												{ x: 0, y: 400 },
-												{ x: 80, y: 411 },
-												{ x: 130, y: 413 },
-												{ x: 190, y: 412 },
-												{ x: 250, y: 402 },
-												{ x: 315, y: 384 },
-												{ x: 418, y: 337 }
-												]);
+		this.packetManager = new PacketManager(this.game);
+		this.packetManager.events.onPacketLaunched.add(this.moveThingsInFront, this);
 		
-		this.game.add.existing(packet1);
-		//second arrow
-		var packet2 = new Packet(this.game, { defaultAngle: .45, sprite: "animated bad packet", animated: true, fps: 18 }, [ 
-												{ x: 0, y: 558 },
-												{ x: 125, y: 547 },
-												{ x: 185, y: 538 },
-												{ x: 245, y: 526 },
-												{ x: 310, y: 509 },
-												{ x: 375, y: 484 },
-												{ x: 435, y: 453 },
-												{ x: 465, y: 433 },
-												{ x: 535, y: 370 },
-													]);
+		this.magnifier = this.game.add.sprite(0, 0, "magnifying glass");
+		this.magnifier.anchor.setTo(46 / 74, 28 / 96);
 		
-		this.game.add.existing(packet2);
-		//third arrow
-		var packet3 = new Packet(this.game, { defaultAngle: .45, sprite: "sparkly packet", animated: true }, [ 
-												{ x: 0, y: 708 },
-												{ x: 125, y: 683 },
-												{ x: 185, y: 669 },
-												{ x: 245, y: 652 },
-												{ x: 310, y: 633 },
-												{ x: 375, y: 610 },
-												{ x: 435, y: 585 },
-												{ x: 516, y: 544 },
-												{ x: 565, y: 512 },
-												{ x: 605, y: 479 },
-												{ x: 665, y: 405 },
-													]);
-		
-		this.game.add.existing(packet3);
-
-		this.game.add.sprite(357, 306, "overlay1");
-		this.game.add.sprite(436, 327, "overlay2");
-		this.game.add.sprite(569, 363, "overlay3");
-		this.game.add.sprite(0, 0, "magnifying glass");
+		this.thingsInFront.push(this.magnifier);
 		
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
 		);
+		
+		this.game.input.onDown.add(this.onClick, this);
 	};
+	
+	GameState.prototype.onClick = function (data) {
+		this.magnifier.x = event.clientX;
+		this.magnifier.y = event.clientY;
+	}
+	
+	GameState.prototype.moveThingsInFront = function () {
+		for (var i = 0; i < this.thingsInFront.length; i++) {
+			this.thingsInFront[i].bringToTop();
+		}
+	}
 
 	// The update() method is called every frame
 	GameState.prototype.update = function() {
 		if (this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
+		
+		this.packetManager.update();
 	};
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
@@ -117,7 +96,6 @@ require(["Phaser", "packet"], function (Phaser, Packet) {
 	
 	function closePort (port) {
 		game.add.tween(port).to({ y: 353 }, 500, Phaser.Easing.Linear.None).start();
-
 	}
 	
 });
