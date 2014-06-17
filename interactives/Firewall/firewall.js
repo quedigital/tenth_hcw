@@ -9,11 +9,11 @@ requirejs.config({
 });
 
 require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
-	var GameState = function(game) {
+	var GameState = function (game) {
 	};
 
 	// Load images and sounds
-	GameState.prototype.preload = function() {
+	GameState.prototype.preload = function () {
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("router", "assets/firewall_box.png");
 		this.game.load.image("closed port", "assets/door.png");
@@ -35,7 +35,7 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 	};
 
 	// Setup the example
-	GameState.prototype.create = function() {
+	GameState.prototype.create = function () {
 		// Set stage background color
 		this.game.stage.backgroundColor = 0x4488cc;
 
@@ -60,25 +60,29 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		
 		this.magnifier = this.game.add.sprite(0, 0, "magnifying glass");
 		this.magnifier.anchor.setTo(46 / 74, 28 / 96);
+		this.magnifier.allowRotation = false;
+		game.physics.enable(this.magnifier, Phaser.Physics.ARCADE);
 		
 		this.thingsInFront.push(this.magnifier);
+		
+		var g = this.game.add.graphics(0, 0);
+		g.lineStyle(2, 0xe0e020, 2);
+		g.drawRect(200, 150, 700, 400);
+		this.activeRect = new Phaser.Rectangle(200, 150, 700, 400);
+
+		this.thingsInFront.push(g);
 		
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
 		);
-		
-		this.game.input.onDown.add(this.onClick, this);
 	};
-	
-	GameState.prototype.onClick = function (data) {
-		this.magnifier.x = event.clientX;
-		this.magnifier.y = event.clientY;
-	}
 	
 	GameState.prototype.moveThingsInFront = function () {
 		for (var i = 0; i < this.thingsInFront.length; i++) {
-			this.thingsInFront[i].bringToTop();
+			// ARGH! Graphics don't have a bringToTop (!)
+//			this.thingsInFront[i].bringToTop();
+			this.game.world.bringToTop(this.thingsInFront[i]);
 		}
 	}
 
@@ -86,6 +90,12 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 	GameState.prototype.update = function() {
 		if (this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
+		}
+		
+		if (Phaser.Rectangle.contains(this.activeRect, game.input.x, game.input.y)) {
+			this.game.physics.arcade.moveToPointer(this.magnifier, 60, game.input.activePointer, 300);
+		} else {
+			this.magnifier.body.velocity.set(this.magnifier.body.velocity.x * .9, this.magnifier.body.velocity.y * .9);
 		}
 		
 		this.packetManager.update();
