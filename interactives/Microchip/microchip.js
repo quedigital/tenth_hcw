@@ -64,7 +64,7 @@ require(["Phaser"], function (Phaser) {
 		this.game.physics.arcade.moveToXY(this.laser, x, yy, 60, 200);
 		
 		this.beam.clear();
-		this.beam.lineStyle(4, 0xe0e020, 2);
+		this.beam.lineStyle(4, 0xffa0e0, 2);
 		this.beam.moveTo(this.laser.x, this.laser.y - 1);
 		this.beam.lineTo(this.laser.x, y);
 		
