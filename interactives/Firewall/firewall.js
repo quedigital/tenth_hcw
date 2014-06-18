@@ -24,9 +24,7 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("arrow1", 'assets/arrow1.png');
 		this.game.load.image("arrow2", 'assets/arrow2.png');
 		this.game.load.image("arrow3", 'assets/arrow3.png');
-		this.game.load.image("overlay1", 'assets/overlay1.png');
-		this.game.load.image("overlay2", 'assets/overlay2.png');
-		this.game.load.image("overlay3", 'assets/overlay3.png');
+		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("success popup", 'assets/success_alert.png');
 		this.game.load.image("failure popup", 'assets/failure_alert.png');
@@ -47,18 +45,6 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.doorGroup = game.add.group();
 		this.frontArrowGroup = game.add.group();
 		this.frontPacketGroup = game.add.group();
-		
-		this.panel.add(new Phaser.Sprite(game, 357, 306, "overlay1"));
-		this.panel.add(new Phaser.Sprite(game, 436, 327, "overlay2"));
-		this.panel.add(new Phaser.Sprite(game, 569, 363, "overlay3"));				
-		
-		this.arrows = [
-			new Phaser.Sprite(game, 0, 330, "arrow1"),
-			new Phaser.Sprite(game, 0, 370, "arrow2"),
-			new Phaser.Sprite(game, 0, 410, "arrow3") ];
-		this.arrowGroup.add(this.arrows[0]);
-		this.arrowGroup.add(this.arrows[1]);
-		this.arrowGroup.add(this.arrows[2]);
 					
 		this.doorPositions = [ [375, 256, 318], [505, 292, 353], [638, 328, 390] ];
 		for (var i = 0; i <= 2; i++) {
@@ -69,6 +55,16 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			door.index = i;
 			door.events.onInputDown.add(this.togglePort, this);
 		}
+		
+		this.panel.add(new Phaser.Sprite(game, 357, 289, "overlay"));				
+		
+		this.arrows = [
+			new Phaser.Sprite(game, 0, 330, "arrow1"),
+			new Phaser.Sprite(game, 0, 370, "arrow2"),
+			new Phaser.Sprite(game, 0, 410, "arrow3") ];
+		this.arrowGroup.add(this.arrows[0]);
+		this.arrowGroup.add(this.arrows[1]);
+		this.arrowGroup.add(this.arrows[2]);
 		
 		this.packetManager = new PacketManager(this.game, this.backPacketGroup, this.frontPacketGroup);
 		
