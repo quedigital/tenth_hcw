@@ -43,7 +43,7 @@ require(["Phaser"], function (Phaser) {
 		this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
 
 		this.bmd = game.make.bitmapData(game.cache.getImage("etched").width, game.cache.getImage("etched").height);
-		this.etched = new Phaser.Sprite(this.game, 300, 400, this.bmd);
+		this.etched = new Phaser.Sprite(this.game, 299, 401, this.bmd);
 
 		etching.add(this.etched);
 	
