@@ -1,7 +1,9 @@
 define(["Phaser", "Packet"], function (Phaser, Packet) {
 	// Follower constructor
-	var PacketManager = function (game) {
+	var PacketManager = function (game, backgroup, frontgroup) {
 		this.game = game;
+		this.backgroup = backgroup;
+		this.frontgroup = frontgroup;
 		
 		this.events = {
 							onPacketComplete: new Phaser.Signal(),
@@ -13,7 +15,9 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.packets = [];
 		this.maximumPackets = 5;
 		this.spawnRate = .02;
-		this.lastEmit = 0;		
+		this.lastEmit = 0;
+		
+		this.ports = [];
 	}
 	
 	PacketManager.prototype.constructor = PacketManager;
@@ -21,7 +25,9 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 	PacketManager.prototype.onPacketComplete = function (packet) {
 		var i = this.packets.indexOf(packet);
 		this.packets.splice(i, 1);
-		this.game.world.remove(packet, true);
+		
+		this.backgroup.remove(packet, true);
+		this.frontgroup.remove(packet, true);
 	}
 	
 	PacketManager.prototype.update = function () {
@@ -39,8 +45,33 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		}
 	}
 	
-	PacketManager.prototype.emitPacket = function (type, path) {
-		var paths = [ [ { x: 0, y: 400 },
+	// TODO: move all packets on this line to the front and switch their paths
+	PacketManager.prototype.closePort = function (index) {
+		this.ports[index] = false;
+		
+		for (var i = 0; i < this.packets.length; i++) {
+			var packet = this.packets[i];
+			if (packet.port == index) {
+				this.frontgroup.add(packet);
+				packet.setPath(this.closedPaths[index]);
+			}
+		}
+	}
+
+	PacketManager.prototype.openPort = function (index) {
+		this.ports[index] = true;
+		
+		for (var i = 0; i < this.packets.length; i++) {
+			var packet = this.packets[i];
+			if (packet.port == index) {
+				this.backgroup.add(packet);	
+				packet.setPath(this.openPaths[index]);
+			}
+		}
+	}
+	
+	PacketManager.prototype.emitPacket = function (type, port) {
+		this.openPaths = [ [ { x: 0, y: 400 },
 						{ x: 80, y: 411 },
 						{ x: 130, y: 413 },
 						{ x: 190, y: 412 },
@@ -69,27 +100,70 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 565, y: 512 },
 						{ x: 605, y: 479 },
 						{ x: 665, y: 405 },
-					] ];
+					],
+				 ];
+		this.closedPaths = [
+						[ { x: 0, y: 400 },
+						{ x: 80, y: 411 },
+						{ x: 130, y: 413 },
+						{ x: 190, y: 412 },
+						{ x: 250, y: 402 },
+						{ x: 315, y: 384 },
+						{ x: 380, y: 350 },
+						{ x: 380, y: 430 }
+					],
+					 [ { x: 0, y: 558 },
+						{ x: 125, y: 547 },
+						{ x: 185, y: 538 },
+						{ x: 245, y: 526 },
+						{ x: 310, y: 509 },
+						{ x: 375, y: 484 },
+						{ x: 435, y: 453 },
+						{ x: 465, y: 433 },
+						{ x: 515, y: 390 },
+						{ x: 510, y: 480 },
+					],
+					 [ { x: 0, y: 708 },
+						{ x: 125, y: 683 },
+						{ x: 185, y: 669 },
+						{ x: 245, y: 652 },
+						{ x: 310, y: 633 },
+						{ x: 375, y: 610 },
+						{ x: 435, y: 585 },
+						{ x: 516, y: 544 },
+						{ x: 565, y: 512 },
+						{ x: 605, y: 479 },
+						{ x: 650, y: 425 },
+						{ x: 660, y: 499 },
+					]
+				];
 
 		var packet;
 		var spriteChoices, choice;
+		
+		var portIsClosed = this.ports[port] == false;
+		
+		var thePath = portIsClosed ? this.closedPaths[port] : this.openPaths[port];
 		
 		switch (type) {
 			case "good":
 				spriteChoices = ["green packet", "yellow packet", "blue packet", "sparkly packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
 				animated = choice == 3;
-				packet = new Packet(this.game, this.events, { defaultAngle: .45, sprite: spriteChoices[choice], animated: animated } , paths[path]);
+				packet = new Packet(this.game, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated }, thePath);
 				break;
 			
 			case "bad":
 				spriteChoices = ["animated bad packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
-				packet = new Packet(this.game, this.events, { defaultAngle: .45, sprite: spriteChoices[choice], animated: true, fps: 18 }, paths[path]);		
+				packet = new Packet(this.game, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: true, fps: 18 }, thePath);		
 				break;
 		}
 		
-		this.game.add.existing(packet);
+		if (portIsClosed)
+			this.frontgroup.add(packet);
+		else
+			this.backgroup.add(packet);
 		
 		this.packets.push(packet);
 		
