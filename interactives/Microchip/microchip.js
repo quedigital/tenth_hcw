@@ -23,6 +23,7 @@ require(["Phaser"], function (Phaser) {
 		this.game.load.image("negative4", "assets/negative4.png");
 		this.game.load.image("laser", "assets/laser_off.png");
 		this.game.load.image("laser on", "assets/laser.png");
+		this.game.load.image("laserbeam", "assets/laserbeam.png");
 	};
 
 	// Setup the example
@@ -47,7 +48,11 @@ require(["Phaser"], function (Phaser) {
 
 		etching.add(this.etched);
 	
-		this.beam = this.game.add.graphics(0, 0);
+//		this.beam = this.game.add.graphics(0, 0);
+		this.beam = this.game.add.sprite(0, 0, "laserbeam");
+		this.beam.anchor.set(.5, 0);
+		this.lower_beam = this.game.add.sprite(0, 0, "laserbeam");
+		this.lower_beam.anchor.set(.5, 0);
 
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
@@ -63,18 +68,20 @@ require(["Phaser"], function (Phaser) {
 		
 		this.game.physics.arcade.moveToXY(this.laser, x, yy, 60, 200);
 		
-		this.beam.clear();
-		this.beam.lineStyle(4, 0xffa0e0, 2);
-		this.beam.moveTo(this.laser.x, this.laser.y - 1);
-		this.beam.lineTo(this.laser.x, y);
-		
+		this.beam.x = this.laser.x;
+		this.beam.y = this.laser.y - 1;
+		var rect  = { x: 0, y: 0, width: this.beam.width, height: y - this.laser.y - 1 };
+		this.beam.crop(rect);
+				
 		var etchX = this.laser.x - 300, etchY = y - 260;
 		var area = new Phaser.Rectangle(etchX - 10, etchY - 10, 20, 20);
 		this.bmd.copyPixels("etched", area, etchX - 10, etchY - 10);
 		
 		if (etchY + 400 > 435) {
-			this.beam.moveTo(this.laser.x, 435);
-			this.beam.lineTo(this.laser.x, etchY + 400);
+			this.lower_beam.x = this.laser.x;
+			this.lower_beam.y = 435;
+			var rect = { x: 0, y: 0, width: this.lower_beam.width, height: etchY - 40 };
+			this.lower_beam.crop(rect);
 		}
 	}
 
