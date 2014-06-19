@@ -1,6 +1,8 @@
 define(["Phaser"], function (Phaser) {
 	// Follower constructor
-	var Packet = function (game, events, options, path) {
+	var Packet = function (game, manager, events, options, path) {
+		this.manager = manager;
+		
 		this.defaultAngle = options.defaultAngle || 0;
 		
 		Phaser.Sprite.call(this, game, path[0].x, path[0].y, options.sprite || "yellow packet");
@@ -60,9 +62,16 @@ define(["Phaser"], function (Phaser) {
 	Packet.prototype = Object.create(Phaser.Sprite.prototype);
 	Packet.prototype.constructor = Packet;
 
+	Packet.prototype.beginDrag = function () {
+		this.isDragging = true;
+		this.bringToTop();
+	}
+	
 	Packet.prototype.update = function (time) {
+		if (this.isDragging) return;
+		
 		this.timeElapsed += this.game.time.physicsElapsed;
-		this.curDistance = this.timeElapsed * this.speed;
+		this.curDistance += this.game.time.physicsElapsed * this.manager.speed;//this.speed;
 		
 		if (this.curDistance < this.totalDistance) {
 			var obj = getPointAlongPath(this.path, this.curDistance);

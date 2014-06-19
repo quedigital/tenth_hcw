@@ -18,6 +18,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.lastEmit = 0;
 		
 		this.ports = [];
+		
+		this.speed = 200;
 	}
 	
 	PacketManager.prototype.constructor = PacketManager;
@@ -32,8 +34,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 	
 	PacketManager.prototype.update = function () {
 		if (this.packets.length < this.maximumPackets) {
-			var t = this.game.time.elapsedSecondsSince(this.lastEmit);
-			if (t > .3) {
+			var t = this.game.time.elapsedSecondsSince(this.lastEmit) * this.speed;
+			if (t > 60) {
 				if (Math.random() < this.spawnRate) {
 					var path = Math.floor(Math.random() * 3);
 					var choices = ["bad", "good"];
@@ -43,6 +45,29 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 				}
 			}
 		}
+		
+		var xx = this.game.input.x, yy = this.game.input.y;
+		
+		var min_d;
+		for (var i = 0; i < this.packets.length; i++) {
+			var packet = this.packets[i];
+			var d = Phaser.Math.distance(xx, yy, packet.x, packet.y);
+			if (min_d == undefined || d < min_d) {
+				min_d = d;
+			}
+		}
+		
+		var s;
+		if (min_d) {
+			s = Phaser.Math.interpolateFloat(this.speed, min_d, .1);
+		} else {
+			s = Phaser.Math.interpolateFloat(this.speed, 200, .1);
+		}
+		
+		if (s < 20) s = 20;
+		else if (s > 200) s = 200;		
+		
+		this.speed = s;
 	}
 	
 	// TODO: move all packets on this line to the front and switch their paths
@@ -120,8 +145,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 375, y: 484 },
 						{ x: 435, y: 453 },
 						{ x: 465, y: 433 },
-						{ x: 515, y: 390 },
-						{ x: 510, y: 480 },
+						{ x: 518, y: 390 },
+						{ x: 519, y: 480 },
 					],
 					 [ { x: 0, y: 708 },
 						{ x: 125, y: 683 },
@@ -133,8 +158,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 516, y: 544 },
 						{ x: 565, y: 512 },
 						{ x: 605, y: 479 },
-						{ x: 650, y: 425 },
-						{ x: 660, y: 499 },
+						{ x: 658, y: 425 },
+						{ x: 661, y: 499 },
 					]
 				];
 
@@ -150,13 +175,13 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 				spriteChoices = ["green packet", "yellow packet", "blue packet", "sparkly packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
 				animated = choice == 3;
-				packet = new Packet(this.game, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated }, thePath);
+				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated }, thePath);
 				break;
 			
 			case "bad":
 				spriteChoices = ["animated bad packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
-				packet = new Packet(this.game, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: true, fps: 18 }, thePath);		
+				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: true, fps: 18 }, thePath);		
 				break;
 		}
 		
@@ -165,9 +190,18 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		else
 			this.backgroup.add(packet);
 		
+		packet.inputEnabled = true;
+		packet.input.enableDrag(true, true);
+		packet.events.onDragStart.add(this.startDraggingPacket, this);
+		
 		this.packets.push(packet);
 		
 		this.events.onPacketLaunched.dispatch(packet);
+	}
+	
+	PacketManager.prototype.startDraggingPacket = function (packet) {
+		packet.beginDrag();
+		this.frontgroup.add(packet);
 	}
 	
 	return PacketManager;

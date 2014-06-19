@@ -24,6 +24,9 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("arrow1", 'assets/arrow1.png');
 		this.game.load.image("arrow2", 'assets/arrow2.png');
 		this.game.load.image("arrow3", 'assets/arrow3.png');
+		this.game.load.image("bouncearrow1", 'assets/bouncearrow1.png');
+		this.game.load.image("bouncearrow2", 'assets/bouncearrow2.png');
+		this.game.load.image("bouncearrow3", 'assets/bouncearrow3.png');
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("success popup", 'assets/success_alert.png');
@@ -62,9 +65,17 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			new Phaser.Sprite(game, 0, 330, "arrow1"),
 			new Phaser.Sprite(game, 0, 370, "arrow2"),
 			new Phaser.Sprite(game, 0, 410, "arrow3") ];
+		this.bouncearrows = [
+			new Phaser.Sprite(game, 0, 333, "bouncearrow1"),
+			new Phaser.Sprite(game, 0, 373, "bouncearrow2"),
+			new Phaser.Sprite(game, 0, 410, "bouncearrow3") ];
 		this.arrowGroup.add(this.arrows[0]);
 		this.arrowGroup.add(this.arrows[1]);
 		this.arrowGroup.add(this.arrows[2]);
+		this.frontArrowGroup.add(this.bouncearrows[0]);
+		this.frontArrowGroup.add(this.bouncearrows[1]);
+		this.frontArrowGroup.add(this.bouncearrows[2]);
+		this.bouncearrows[0].alpha = this.bouncearrows[1].alpha = this.bouncearrows[2].alpha = 0;
 		
 		this.packetManager = new PacketManager(this.game, this.backPacketGroup, this.frontPacketGroup);
 		
@@ -103,14 +114,20 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 	GameState.prototype.togglePort = function (sprite) {
 		var index = sprite.index;
 		
+		// open:
 		if (sprite.y > this.doorPositions[index][2] - 5) {
 			game.add.tween(sprite).to({ y: this.doorPositions[index][1] }, 500, Phaser.Easing.Linear.None).start();
 			this.packetManager.openPort(index);
-			this.arrowGroup.add(this.arrows[index]);
+//			this.arrowGroup.add(this.arrows[index]);
+			this.arrows[index].alpha = 1;
+			this.bouncearrows[index].alpha = 0;
+		// closed:
 		} else {
 			game.add.tween(sprite).to({ y: this.doorPositions[index][2] }, 500, Phaser.Easing.Linear.None).start();
 			this.packetManager.closePort(index);
-			this.frontArrowGroup.add(this.arrows[index]);
+//			this.frontArrowGroup.add(this.arrows[index]);
+			this.arrows[index].alpha = 0;
+			this.bouncearrows[index].alpha = 1;
 		}
 	}		
 
