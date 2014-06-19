@@ -28,6 +28,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.load.image("laserbeam", "assets/laserbeam.png");
 		this.game.load.image("smoke", "assets/smoke.png");
 		this.game.load.image("glow", "assets/laser_glowpoint.png");
+		this.game.load.image("finished", "assets/finished_chip.png");
 	};
 
 	// Setup the example
@@ -36,13 +37,16 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.stage.backgroundColor = 0xe02020;//0x4488cc;
 
 //		this.game.add.sprite(300, 400, "etched");
-		this.game.add.sprite(300, 400, "unetched");
+		this.unetched = this.game.add.sprite(300, 400, "unetched");
+		this.finished = this.game.add.sprite(300, 400, "finished");
+		this.finished.alpha = 0;
 		var etching = this.game.add.group();
 		//this.game.add.sprite(300, 260, "negative base");
-		this.game.add.sprite(412, 260, "negative4");
-		this.game.add.sprite(340, 260, "negative3");
-		this.game.add.sprite(300, 292, "negative2");
-		this.game.add.sprite(375, 313, "negative1");
+		this.negatives = [];
+		this.negatives.push(this.game.add.sprite(412, 260, "negative4"));
+		this.negatives.push(this.game.add.sprite(340, 260, "negative3"));
+		this.negatives.push(this.game.add.sprite(300, 292, "negative2"));
+		this.negatives.push(this.game.add.sprite(375, 313, "negative1"));
 		this.laser = this.game.add.sprite(425, 170, "laser");
 		this.laser.anchor.set(.5, 1);
 		this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
@@ -116,10 +120,21 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 		this.completeText.setText(Math.round(percent * 100) + "%");
 		
-		if (percent == 1 && !this.complete) {
+		if (percent > .1 && !this.complete) {
+//		if (percent == 1 && !this.complete) {
+			this.showComplete();
 			this.complete = true;
-			alert("You did it!");
 		}
+	}
+	
+	GameState.prototype.showComplete = function () {
+		for (var i = 0; i < this.negatives.length; i++) {
+			game.add.tween(this.negatives[i]).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		}
+		game.add.tween(this.etched).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.unetched).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.laser).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.finished).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
 	}
 	
 	GameState.prototype.getBurnProgress = function () {
@@ -206,7 +221,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
 		
-		if (this.game.input.mousePointer.isDown) {
+		if (!this.complete && this.game.input.mousePointer.isDown) {
 			if (this.laserOff) {
 				// TODO: animate laser on
 				this.laserOff = false;
