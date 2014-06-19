@@ -29,6 +29,7 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("bouncearrow3", 'assets/bouncearrow3.png');
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
+		this.game.load.image("trash", 'assets/trashbin.png');
 		this.game.load.image("success popup", 'assets/success_alert.png');
 		this.game.load.image("failure popup", 'assets/failure_alert.png');
 		this.game.load.spritesheet("sparkly packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
@@ -79,10 +80,13 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		
 		this.packetManager = new PacketManager(this.game, this.backPacketGroup, this.frontPacketGroup);
 		
+		this.game.add.sprite(930, 670, "trash");
+		
 		var g = this.game.add.graphics(0, 0);
 		g.lineStyle(2, 0xe0e020, 2);
 		g.drawRect(200, 150, 700, 400);
 		this.activeRect = new Phaser.Rectangle(200, 150, 700, 400);
+		
 
 		this.magnifier = this.game.add.sprite(1200, 900, "magnifying glass");
 		this.magnifier.anchor.setTo(46 / 74, 28 / 96);
