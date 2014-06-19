@@ -40,7 +40,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 
 //		this.game.add.sprite(300, 400, "etched");
 		this.unetched = this.game.add.sprite(300, 400, "unetched");
-		this.finished = this.game.add.sprite(300, 400, "finished");
+		this.finished = this.game.add.sprite(300, 416, "finished");
 		this.finished.alpha = 0;
 		var etching = this.game.add.group();
 		//this.game.add.sprite(300, 260, "negative base");
@@ -127,8 +127,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 		this.showProgress(percent);
 		
-//		if (percent > .1 && !this.complete) {
-		if (percent == 1 && !this.complete) {
+		if (percent > .1 && !this.complete) {
+//		if (percent == 1 && !this.complete) {
 			this.showComplete();
 			this.complete = true;
 		}
