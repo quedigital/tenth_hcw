@@ -29,6 +29,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.load.image("smoke", "assets/smoke.png");
 		this.game.load.image("glow", "assets/laser_glowpoint.png");
 		this.game.load.image("finished", "assets/finished_chip.png");
+		this.game.load.image("empty progress", "assets/progress_empty.png");
+		this.game.load.image("complete progress", "assets/progress_complete.png");
 	};
 
 	// Setup the example
@@ -64,7 +66,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.lower_beam = this.game.add.sprite(-200, 0, "laserbeam");
 		this.lower_beam.anchor.set(.5, 0);
 
-		this.emitter = game.add.emitter(game.world.centerX, 200, 400);
+		this.emitter = game.add.emitter(this.game.world.centerX, 200, 400);
 		this.emitter.makeParticles("smoke");
 		this.emitter.setRotation(0, 0);
 		this.emitter.setAlpha(1, 0, 3000);
@@ -74,6 +76,9 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.emitter.setYSpeed(-50, -50);
 		this.emitter.start(false, 3000, 100);
 		this.emitter.on = false;
+    	
+    	this.progress0 = this.game.add.sprite(430, 660, "empty progress");
+    	this.progress1 = this.game.add.sprite(430, 660, "complete progress");
     	
     	this.segments = [
     		[377, 425], [400, 370],
@@ -87,7 +92,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
     					];
     					
     	this.resetBurnProgress();
-    					
+    	
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
@@ -96,6 +101,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.completeText = this.game.add.text(20, 20, "", { font: "12px Arial", fill: "#ffffff" });
 		
 		this.laserOff = true;
+		
+    	this.showProgress(0);				
 	};
 	
 	GameState.prototype.resetBurnProgress = function () {
@@ -118,13 +125,22 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 		var percent = this.getBurnProgress();
 		
-		this.completeText.setText(Math.round(percent * 100) + "%");
+		this.showProgress(percent);
 		
-		if (percent > .1 && !this.complete) {
-//		if (percent == 1 && !this.complete) {
+//		if (percent > .1 && !this.complete) {
+		if (percent == 1 && !this.complete) {
 			this.showComplete();
 			this.complete = true;
 		}
+	}
+	
+	GameState.prototype.showProgress = function (percent) {
+		this.completeText.setText(Math.round(percent * 100) + "%");
+		
+		var w = this.progress0.width * percent;
+		
+		var rect  = { x: 0, y: 0, width: w, height: this.progress1.height };
+		this.progress1.crop(rect);
 	}
 	
 	GameState.prototype.showComplete = function () {
