@@ -1,5 +1,4 @@
 define(["Phaser", "Packet"], function (Phaser, Packet) {
-	// Follower constructor
 	var PacketManager = function (game, backgroup, frontgroup) {
 		this.game = game;
 		this.backgroup = backgroup;
@@ -7,7 +6,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		
 		this.events = {
 							onPacketComplete: new Phaser.Signal(),
-							onPacketLaunched: new Phaser.Signal()
+							onPacketLaunched: new Phaser.Signal(),
+							onDropPacket: new Phaser.Signal()
 						};
 						
 		this.events.onPacketComplete.add(this.onPacketComplete, this);
@@ -20,6 +20,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.ports = [];
 		
 		this.speed = 200;
+		
+		this.isDragging = false;
 	}
 	
 	PacketManager.prototype.constructor = PacketManager;
@@ -70,7 +72,7 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.speed = s;
 	}
 	
-	// TODO: move all packets on this line to the front and switch their paths
+	// move all packets on this line to the front and switch their paths
 	PacketManager.prototype.closePort = function (index) {
 		this.ports[index] = false;
 		
@@ -193,6 +195,7 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		packet.inputEnabled = true;
 		packet.input.enableDrag(true, true);
 		packet.events.onDragStart.add(this.startDraggingPacket, this);
+		packet.events.onDragStop.add(this.stopDraggingPacket, this);
 		
 		this.packets.push(packet);
 		
@@ -200,8 +203,25 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 	}
 	
 	PacketManager.prototype.startDraggingPacket = function (packet) {
+		this.isDragging = true;
+		
 		packet.beginDrag();
 		this.frontgroup.add(packet);
+	}
+	
+	PacketManager.prototype.stopDraggingPacket = function (packet) {
+		this.isDragging = false;
+
+		// put the packet back into the correct group
+		var port = packet.port;
+		var portIsClosed = this.ports[port] == false;
+				
+		if (portIsClosed)
+			this.frontgroup.add(packet);
+		else
+			this.backgroup.add(packet);
+			
+		this.events.onDropPacket.dispatch(packet);
 	}
 	
 	return PacketManager;

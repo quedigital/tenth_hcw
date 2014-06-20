@@ -68,7 +68,7 @@ define(["Phaser"], function (Phaser) {
 	}
 	
 	Packet.prototype.update = function (time) {
-		if (this.isDragging) return;
+		if (this.manager.isDragging) return;
 		
 		this.timeElapsed += this.game.time.physicsElapsed;
 		this.curDistance += this.game.time.physicsElapsed * this.manager.speed;//this.speed;

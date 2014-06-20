@@ -34,6 +34,7 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("failure popup", 'assets/failure_alert.png');
 		this.game.load.spritesheet("sparkly packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
 		this.game.load.spritesheet("animated bad packet", 'assets/sparksRed_sheet.png', 50, 50, 15);
+		this.game.load.image("success", 'assets/success_alert.png');
 	};
 
 	// Setup the example
@@ -48,6 +49,9 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.panel = game.add.group();
 		this.doorGroup = game.add.group();
 		this.frontArrowGroup = game.add.group();
+		
+		this.game.add.sprite(730, 570, "trash");
+		
 		this.frontPacketGroup = game.add.group();
 					
 		this.doorPositions = [ [375, 256, 318], [505, 292, 353], [638, 328, 390] ];
@@ -79,24 +83,32 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.bouncearrows[0].alpha = this.bouncearrows[1].alpha = this.bouncearrows[2].alpha = 0;
 		
 		this.packetManager = new PacketManager(this.game, this.backPacketGroup, this.frontPacketGroup);
+		this.packetManager.events.onDropPacket.add(this.onDropPacket, this);
 		
-		this.game.add.sprite(930, 670, "trash");
+		this.success = this.game.add.sprite(650, 390, "success");
+		this.success.alpha = 0;
 		
+		/*
 		var g = this.game.add.graphics(0, 0);
 		g.lineStyle(2, 0xe0e020, 2);
 		g.drawRect(200, 150, 700, 400);
 		this.activeRect = new Phaser.Rectangle(200, 150, 700, 400);
+		*/
 		
-
+		/*
 		this.magnifier = this.game.add.sprite(1200, 900, "magnifying glass");
 		this.magnifier.anchor.setTo(46 / 74, 28 / 96);
 		this.magnifier.allowRotation = false;
 		game.physics.enable(this.magnifier, Phaser.Physics.ARCADE);
+		*/
 				
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
 		);
+		
+		this.game.add.text(20, 20, "Good Packets: 12", { font: '12px Arial', fill: '#ffffff' });
+		this.game.add.text(20, 40, "Bad Packets: 3", { font: '12px Arial', fill: '#ffffff' });
 	};
 	
 	// The update() method is called every frame
@@ -105,12 +117,14 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
 		
+		/*
 		if (Phaser.Rectangle.contains(this.activeRect, this.game.input.x, this.game.input.y)) {
 //			this.game.physics.arcade.moveToPointer(this.magnifier, 60, this.game.input.activePointer, 200);
 			this.game.physics.arcade.moveToXY(this.magnifier, 890, 540, 60, 200);
 		} else {
 			this.magnifier.body.velocity.set(this.magnifier.body.velocity.x * .9, this.magnifier.body.velocity.y * .9);
 		}
+		*/
 		
 		this.packetManager.update();
 	};
@@ -133,7 +147,11 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			this.arrows[index].alpha = 0;
 			this.bouncearrows[index].alpha = 1;
 		}
-	}		
+	}
+	
+	GameState.prototype.onDropPacket = function (packet) {
+		this.success.alpha = 1;
+	}
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
 	game.state.add('game', GameState, true);	

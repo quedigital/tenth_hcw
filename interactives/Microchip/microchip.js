@@ -11,20 +11,16 @@ requirejs.config({
 
 require(["Phaser", "utils"], function (Phaser, utils) {
 	var GameState = function (game) {
-		GameState.RESOLUTION = 20;
+		GameState.RESOLUTION = 30;
 	};
 
 	// Load images and sounds
 	GameState.prototype.preload = function () {
 		this.game.load.image("etched", "assets/etched_silicon.png");
 		this.game.load.image("unetched", "assets/unetched_silicon.png");
+		this.game.load.image("blank", "assets/blank.png");
 		this.game.load.image("negative base", "assets/chip_negative.png");
-		this.game.load.image("negative1", "assets/negative1.png");
-		this.game.load.image("negative2", "assets/negative2.png");
-		this.game.load.image("negative3", "assets/negative3.png");
-		this.game.load.image("negative4", "assets/negative4.png");
 		this.game.load.image("laser", "assets/laser_off.png");
-		this.game.load.image("laser on", "assets/laser.png");
 		this.game.load.image("laserbeam", "assets/laserbeam.png");
 		this.game.load.image("smoke", "assets/smoke.png");
 		this.game.load.image("glow", "assets/laser_glowpoint.png");
@@ -37,24 +33,22 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	GameState.prototype.create = function () {
 		// Set stage background color
 		this.game.stage.backgroundColor = 0xe02020;//0x4488cc;
-
-//		this.game.add.sprite(300, 400, "etched");
-		this.unetched = this.game.add.sprite(300, 400, "unetched");
-		this.finished = this.game.add.sprite(300, 416, "finished");
+		
+		this.unetchedData = this.game.make.bitmapData(this.game.cache.getImage("unetched").width, this.game.cache.getImage("unetched").height);
+		this.unetchedData.copyPixels("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
+		this.unetchedData.update();
+		
+		this.unetched = this.game.add.sprite(252, 400, this.unetchedData);
+		
+//		this.unetched = this.game.add.sprite(252, 400, "unetched");
+		
+		this.finished = this.game.add.sprite(252, 416, "finished");
 		this.finished.alpha = 0;
 		var etching = this.game.add.group();
-		//this.game.add.sprite(300, 260, "negative base");
-		this.negatives = [];
-		this.negatives.push(this.game.add.sprite(412, 260, "negative4"));
-		this.negatives.push(this.game.add.sprite(340, 260, "negative3"));
-		this.negatives.push(this.game.add.sprite(300, 292, "negative2"));
-		this.negatives.push(this.game.add.sprite(375, 313, "negative1"));
-		this.laser = this.game.add.sprite(425, 170, "laser");
-		this.laser.anchor.set(.5, 1);
-		this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
+		this.negative = this.game.add.sprite(252, 200, "negative base");
 
-		this.bmd = game.make.bitmapData(game.cache.getImage("etched").width, game.cache.getImage("etched").height);
-		this.etched = new Phaser.Sprite(this.game, 299, 401, this.bmd);
+		this.etchedData = game.make.bitmapData(game.cache.getImage("etched").width, game.cache.getImage("etched").height);
+		this.etched = new Phaser.Sprite(this.game, 252, 401, this.etchedData);
 
 		etching.add(this.etched);
 
@@ -76,19 +70,23 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.emitter.setYSpeed(-50, -50);
 		this.emitter.start(false, 3000, 100);
 		this.emitter.on = false;
+
+		this.laser = this.game.add.sprite(this.game.world.centerX, 170, "laser");
+		this.laser.anchor.set(.5, 1);
+		this.game.physics.enable(this.laser, Phaser.Physics.ARCADE);
     	
-    	this.progress0 = this.game.add.sprite(430, 660, "empty progress");
-    	this.progress1 = this.game.add.sprite(430, 660, "complete progress");
+    	this.progress0 = this.game.add.sprite(406, 675, "empty progress");
+    	this.progress1 = this.game.add.sprite(406, 675, "complete progress");
     	
     	this.segments = [
-    		[377, 425], [400, 370],
-    		[400, 370], [538, 370],
-    		[538, 370], [659, 316],
-    		[343, 345], [541, 344],
-    		[541, 344], [648, 295],
-    		[432, 263], [410, 323],
-    		[410, 323], [540, 323],
-    		[540, 323], [640, 280],
+    		[346, 402], [373, 335],
+    		[373, 335], [545, 335],
+    		[545, 335], [698, 269],
+    		[304, 304], [551, 304],
+    		[551, 304], [684, 244],
+    		[415, 205], [389, 277],
+    		[389, 277], [551, 278],
+    		[551, 278], [672, 224],
     					];
     					
     	this.resetBurnProgress();
@@ -127,8 +125,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 		this.showProgress(percent);
 		
-		if (percent > .1 && !this.complete) {
-//		if (percent == 1 && !this.complete) {
+//		if (percent > .1 && !this.complete) {
+		if (percent == 1 && !this.complete) {
 			this.showComplete();
 			this.complete = true;
 		}
@@ -144,12 +142,12 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	}
 	
 	GameState.prototype.showComplete = function () {
-		for (var i = 0; i < this.negatives.length; i++) {
-			game.add.tween(this.negatives[i]).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-		}
+		game.add.tween(this.negative).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.etched).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.unetched).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.laser).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.progress0).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.progress1).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.finished).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
 	}
 	
@@ -193,33 +191,46 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.physics.arcade.moveToXY(this.laser, x, yy, 60, 200);
 		
 		this.beam.x = this.laser.x;
-		this.beam.y = this.laser.y - 1;
-		var rect  = { x: 0, y: 0, width: this.beam.width, height: y - this.laser.y - 1 };
+		this.beam.y = this.laser.y - 10;
+		var rect  = { x: 0, y: 0, width: this.beam.width, height: y - this.laser.y + 10 };
 		this.beam.crop(rect);
 		
-		var onEtching = this.isOnSegment({ x: x, y: y });
-
+		var onEtching = this.isOnSegment({ x: this.laser.x, y: y });
+		
+		var y0 = this.laser.y + this.laser.height;
+		var y1 = this.negative.y;
+		var y2 = this.negative.y + this.negative.height;
+		var y3 = this.unetched.y + 10;
+		var y4 = this.unetched.y + 10 + this.unetched.height;
+		
+		var offsetY = y - y1;
+		
 		if (onEtching) {
 			// find our distance along this segment
 			var d = utils.distanceAlongSegment({ x: x, y: y }, onEtching.segment[0], onEtching.segment[1]);
 			this.markSegmentBurned(onEtching.index, d);
 				
-			var etchX = this.laser.x - 300, etchY = y - 260;
-			var area = new Phaser.Rectangle(etchX - 10, etchY - 10, 20, 20);
-			this.bmd.copyPixels("etched", area, etchX - 10, etchY - 10);
-		
+			var etchX = Math.floor(this.laser.x - this.etched.width * .5);
+			var etchY = y3 + offsetY - 15;
+			
+			var area = new Phaser.Rectangle(etchX - 10, offsetY - 15, 20, 20);
+			this.etchedData.copyPixels("etched", area, etchX - 10, offsetY - 15);
+			
+			area.y += 1;
+			fillRGB.call(this.unetchedData, 255, 0, 0, 0, area);
+			
 			this.emitter.x = this.laser.x;
-			this.emitter.y = etchY + 400;
-			this.emitter.on = etchY > 40;
+			this.emitter.y = etchY;
+			this.emitter.on = etchY > y2;
 
 			this.glow.x = this.laser.x;
-			this.glow.y = etchY + 400;
-			this.glow.alpha = etchY + 400 > 435 ? 1 : 0;
+			this.glow.y = etchY;
+			this.glow.alpha = etchY > y2 || etchY < y2 - 20 ? 1 : 0;
 				
-			if (etchY + 400 > 435 && etchY > 40) {
+			if (etchY > y2) {
 				this.lower_beam.x = this.laser.x;
-				this.lower_beam.y = 435;
-				var rect = { x: 0, y: 0, width: this.lower_beam.width, height: etchY - 40 };
+				this.lower_beam.y = y2;
+				var rect = { x: 0, y: 0, width: this.lower_beam.width, height: etchY - y2 };
 				this.lower_beam.crop(rect);
 				this.lower_beam.alpha = 1;				
 			} else {
@@ -232,10 +243,12 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	}
 
 	// The update() method is called every frame
-	GameState.prototype.update = function() {
+	GameState.prototype.update = function () {
 		if (this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
+		
+//		console.log(this.game.input.x + ", " + this.game.input.y);
 		
 		if (!this.complete && this.game.input.mousePointer.isDown) {
 			if (this.laserOff) {
@@ -248,16 +261,18 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			var xx = this.game.input.x, yy = this.game.input.y;
 			
 			// don't let the laser go off the bounds of the etching
+			// right side:
 			var p = { x: xx, y: yy };
-			var v = { x: 631, y: 263 };
-			var w = { x: 718, y: 426 };
+			var v = { x: 664, y: 203 };
+			var w = { x: 772, y: 404 };
 			var side = utils.sideOfLineSegment(p, v, w);
 			if (side < 0) {
 				var pt = utils.closestPointAlongSegment(p, v, w);
 				xx = pt.x;
 				yy = pt.y;
 			}
-			v = { x: 300, y: 426 }, w = { x: 384, y: 264 };
+			// left side:
+			v = { x: 253, y: 404 }, w = { x: 352, y: 204 };
 			var side = utils.sideOfLineSegment(p, v, w);
 			if (side < 0) {
 				var pt = utils.closestPointAlongSegment(p, v, w);
@@ -265,11 +280,11 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 				yy = pt.y;
 			}
 			
-			if (yy > 426) yy = 426;
-			else if (yy < 263) yy = 263;
+			if (yy > 404) yy = 404;
+			else if (yy < 203) yy = 203;
 			
-			if (xx < 304) xx = 304;
-			else if (xx > 718) xx = 718;
+			if (xx < 253) xx = 253;
+			else if (xx > 772) xx = 772;
 			
 			this.glow.x = this.laser.x;
 			this.glow.y = yy;
@@ -286,5 +301,32 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	};
 	
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
-	game.state.add('game', GameState, true);	
+	game.state.add('game', GameState, true);
+	
+	function fillRGB (r1, g1, b1, a1, region) {
+		var sx = 0;
+		var sy = 0;
+		var w = this.width;
+		var h = this.height;
+
+		if (region !== undefined && region instanceof Phaser.Rectangle)
+		{
+			sx = region.x;
+			sy = region.y;
+			w = region.width;
+			h = region.height;
+		}
+
+		for (var y = 0; y < h; y++)
+		{
+			for (var x = 0; x < w; x++)
+			{
+				this.setPixel32(sx + x, sy + y, r1, g1, b1, a1, false);
+			}
+		}
+
+		this.context.putImageData(this.imageData, 0, 0);
+		this.dirty = true;
+	}
+
 });
