@@ -16,6 +16,7 @@ require(["Phaser"], function (Phaser) {
 	GameState.prototype.preload = function () {
 		this.game.load.image("controller", 'assets/normal_controller.png');
 		this.game.load.image("xray", 'assets/xray_controller.png');
+		this.game.load.image("xray w/o motor", 'assets/xray_controller_noMotor.png');
 	};
 
 	// Setup the example
