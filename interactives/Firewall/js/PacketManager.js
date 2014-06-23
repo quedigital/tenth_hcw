@@ -7,7 +7,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.events = {
 							onPacketComplete: new Phaser.Signal(),
 							onPacketLaunched: new Phaser.Signal(),
-							onDropPacket: new Phaser.Signal()
+							onDropPacket: new Phaser.Signal(),
+							onScorePacket: new Phaser.Signal()
 						};
 						
 		this.events.onPacketComplete.add(this.onPacketComplete, this);
@@ -27,6 +28,24 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 	PacketManager.prototype.constructor = PacketManager;
 	
 	PacketManager.prototype.onPacketComplete = function (packet) {
+		var portIsClosed = this.ports[packet.port] == false;
+		
+		if (packet.good) {
+			if (!portIsClosed) {
+				this.events.onScorePacket.dispatch("good");
+			}
+		} else {
+			if (portIsClosed) {
+				this.events.onScorePacket.dispatch("blocked");
+			} else {
+				this.events.onScorePacket.dispatch("bad");
+			}
+		}
+		
+		this.remove(packet);
+	}
+	
+	PacketManager.prototype.remove = function (packet) {
 		var i = this.packets.indexOf(packet);
 		this.packets.splice(i, 1);
 		
@@ -136,7 +155,7 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 190, y: 412 },
 						{ x: 250, y: 402 },
 						{ x: 315, y: 384 },
-						{ x: 380, y: 350 },
+						{ x: 380, y: 350, bounce: true },
 						{ x: 380, y: 430 }
 					],
 					 [ { x: 0, y: 558 },
@@ -147,7 +166,7 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 375, y: 484 },
 						{ x: 435, y: 453 },
 						{ x: 465, y: 433 },
-						{ x: 518, y: 390 },
+						{ x: 518, y: 390, bounce: true },
 						{ x: 519, y: 480 },
 					],
 					 [ { x: 0, y: 708 },
@@ -160,13 +179,13 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 						{ x: 516, y: 544 },
 						{ x: 565, y: 512 },
 						{ x: 605, y: 479 },
-						{ x: 658, y: 425 },
+						{ x: 658, y: 425, bounce: true },
 						{ x: 661, y: 499 },
 					]
 				];
 
 		var packet;
-		var spriteChoices, choice;
+		var spriteChoices, choice, animated;
 		
 		var portIsClosed = this.ports[port] == false;
 		
@@ -178,12 +197,15 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 				choice = Math.floor(Math.random() * spriteChoices.length);
 				animated = choice == 3;
 				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated }, thePath);
+				packet.good = true;
 				break;
 			
 			case "bad":
 				spriteChoices = ["animated bad packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
-				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: true, fps: 18 }, thePath);		
+				animated = true;
+				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated, fps: 18 }, thePath);
+				packet.good = false;
 				break;
 		}
 		
@@ -206,6 +228,7 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		this.isDragging = true;
 		
 		packet.beginDrag();
+		packet.startAnimating();
 		this.frontgroup.add(packet);
 	}
 	

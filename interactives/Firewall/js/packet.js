@@ -9,7 +9,8 @@ define(["Phaser"], function (Phaser) {
 		
 		if (options.animated) {
 			this.animations.add("animation");
-			this.animations.play("animation", options.fps || 12, true);
+			this.fps = options.fps || 12;
+//			this.animations.play("animation", options.fps || 12, true);
 		}
 
 		this.port = options.port || 0;
@@ -35,12 +36,18 @@ define(["Phaser"], function (Phaser) {
 		this.totalDistance = 0;
 		this.speed = 200;
 		
+		this.autopilot = true;
+		
+		this.good = true;
+		
+		this.bounced = false;
+		
 		for (var i = 1; i < path.length; i++) {
 			var d = Phaser.Math.distance(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y);
 			this.totalDistance += d;
 		}
 		
-		this.onComplete = function () { events.onPacketComplete.dispatch(this); }
+//		this.onComplete = function () { events.onPacketComplete.dispatch(this); }
 		
 		/*
 		var tween = game.add.tween(this);		
@@ -62,13 +69,41 @@ define(["Phaser"], function (Phaser) {
 	Packet.prototype = Object.create(Phaser.Sprite.prototype);
 	Packet.prototype.constructor = Packet;
 
+	Packet.prototype.isPacket = function () { return true; }
+	
+	Packet.prototype.onComplete = function () {
+		this.manager.events.onPacketComplete.dispatch(this);
+	}
+	
 	Packet.prototype.beginDrag = function () {
 		this.isDragging = true;
+		this.scale.x = this.scale.y = 1.5;
 		this.bringToTop();
 	}
 	
+	Packet.prototype.startAnimating = function () {
+			this.animations.play("animation", this.fps || 12, true);
+	}
+	
+	Packet.prototype.resumeCourse = function () {
+		var obj = getPointAlongPath(this.path, this.curDistance);
+		var x = obj.point.x;
+		var y = obj.point.y;
+		
+		this.autopilot = false;
+		
+		this.game.add.tween(this.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
+		
+		this.resumeTween = this.game.add.tween(this).to({ x: x, y: y }, 100, Phaser.Easing.Linear.None, true)
+			.onComplete.add(this.onResumed, this);
+	}
+	
+	Packet.prototype.onResumed = function () {
+		this.autopilot = true;
+	}
+	
 	Packet.prototype.update = function (time) {
-		if (this.manager.isDragging) return;
+		if (this.manager.isDragging || !this.autopilot) return;
 		
 		this.timeElapsed += this.game.time.physicsElapsed;
 		this.curDistance += this.game.time.physicsElapsed * this.manager.speed;//this.speed;
@@ -78,6 +113,10 @@ define(["Phaser"], function (Phaser) {
 			this.x = obj.point.x;
 			this.y = obj.point.y;
 			this.rotation = this.defaultAngle + obj.angle;
+			if (obj.bounce && !this.bounced) {
+				this.bounced = true;
+				this.game.add.tween(this).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true);
+			}
 		} else {
 			if (this.onComplete) {
 				this.onComplete();
@@ -106,6 +145,7 @@ define(["Phaser"], function (Phaser) {
 				var p2 = new Phaser.Point(path[i].x, path[i].y);
 				obj.point = Phaser.Point.interpolate(p1, p2, f);
 				obj.angle = Phaser.Math.angleBetween(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y);
+				obj.bounce = path[i - 1].bounce;
 				break;
 			}
 			total += d;

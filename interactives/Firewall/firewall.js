@@ -1,7 +1,7 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../Common/js/phaser.min",
+		"Phaser": "../../Common/js/phaser",
 	},
 	
 	shim: {
@@ -50,7 +50,8 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.doorGroup = game.add.group();
 		this.frontArrowGroup = game.add.group();
 		
-		this.game.add.sprite(730, 570, "trash");
+		this.trash = this.game.add.sprite(760, 590, "trash");
+		this.trash.anchor.set(.5, .5);
 		
 		this.frontPacketGroup = game.add.group();
 					
@@ -84,8 +85,11 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		
 		this.packetManager = new PacketManager(this.game, this.backPacketGroup, this.frontPacketGroup);
 		this.packetManager.events.onDropPacket.add(this.onDropPacket, this);
+		this.packetManager.events.onScorePacket.add(this.onScorePacket, this);
 		
-		this.success = this.game.add.sprite(650, 390, "success");
+		this.success = this.game.add.sprite(760, 460, "success");
+		this.success.anchor.setTo(.5, .5);
+		this.success.smoothed = false;
 		this.success.alpha = 0;
 		
 		/*
@@ -101,20 +105,49 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.magnifier.allowRotation = false;
 		game.physics.enable(this.magnifier, Phaser.Physics.ARCADE);
 		*/
+		
+		this.isOverTrash = false;
+		this.trashTween = null;
+		this.successTween = null;
+		
+		this.numGood = 0;
+		this.numBlocked = 0;
+		this.numMissed = 0;
 				
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
 		);
 		
-		this.game.add.text(20, 20, "Good Packets: 12", { font: '12px Arial', fill: '#ffffff' });
-		this.game.add.text(20, 40, "Bad Packets: 3", { font: '12px Arial', fill: '#ffffff' });
+		this.scoreTexts = [
+			this.game.add.text(20, 20, "Good Packets Received: 0", { font: '12px Arial', fill: '#ffffff' }),
+			this.game.add.text(20, 40, "Bad Packets Missed: 0", { font: '12px Arial', fill: '#ffffff' }),
+			this.game.add.text(20, 60, "Bad Packets Blocked: 0", { font: '12px Arial', fill: '#ffffff' })
+		];
 	};
 	
 	// The update() method is called every frame
 	GameState.prototype.update = function() {
 		if (this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
+		}
+		
+		this.scoreTexts[0].setText("Good Packets Received: " + this.numGood);
+		this.scoreTexts[1].setText("Bad Packets Blocked: " + this.numBlocked);
+		this.scoreTexts[2].setText("Bad Packets Missed: " + this.numMissed);
+		
+		// have to check for over the trash manually because Phaser skips input testing when something is being dragged
+		if (this.packetManager.isDragging) {
+			var temp = new Phaser.Point();
+			if (this.game.input.hitTest(this.trash, this.game.input.activePointer, temp)) {
+				if (this.isOverTrash == false) {
+					this.isOverTrash = true;
+					this.onOverTrash();
+				}
+			} else if (this.isOverTrash) {
+				this.isOverTrash = false;
+				this.onOutTrash();
+			}
 		}
 		
 		/*
@@ -150,7 +183,61 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 	}
 	
 	GameState.prototype.onDropPacket = function (packet) {
-		this.success.alpha = 1;
+		if (this.isOverTrash) {
+			this.packetManager.remove(packet);
+
+			this.stopTrashAnimation();
+			
+			if (!packet.good) {
+				this.success.scale.x = this.success.scale.y = .25;
+				this.game.add.tween(this.success.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
+				
+				if (this.success.alpha == 0) {
+					this.success.alpha = 1;
+				}
+			
+				if (this.successTween) {
+					this.successTween.stop();
+				}
+			
+				this.successTween = this.game.add.tween(this.success).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 2000);
+		
+				this.numBlocked++;
+			}
+		} else {
+			// tween packet back into place
+			packet.resumeCourse();
+		}
+	}
+	
+	GameState.prototype.onOverTrash = function () {
+		this.trashTween = game.add.tween(this.trash).to({ rotation: -.1 }, 100, Phaser.Easing.Cubic.InOut)
+			.to({ rotation: .1 }, 100, Phaser.Easing.Cubic.InOut, true, 0, Number.MAX_VALUE, true);
+	}
+
+	GameState.prototype.onOutTrash = function () {
+		this.stopTrashAnimation();
+	}
+	
+	GameState.prototype.stopTrashAnimation = function () {
+		// NOTE: this is kind of annoying to have to stop all the tweens individually
+		this.trashTween.stop();
+		this.trashTween._lastChild.stop();
+		game.add.tween(this.trash).to({ rotation: 0 }, 100, Phaser.Easing.Linear.None, true);
+	}
+	
+	GameState.prototype.onScorePacket = function (value) {
+		switch (value) {
+			case "good":
+				this.numGood++;
+				break;
+			case "bad":
+				this.numMissed++;
+				break;
+			case "blocked":
+				this.numBlocked++;
+				break;
+		}
 	}
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
