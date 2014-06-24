@@ -15,7 +15,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		
 		this.packets = [];
 		this.maximumPackets = 5;
-		this.spawnRate = .02;
+		this.spawnRate = 1000;
+		this.successBonus = 0;
 		this.lastEmit = 0;
 		
 		this.ports = [];
@@ -35,7 +36,8 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 				this.events.onScorePacket.dispatch("good");
 			}
 		} else {
-			if (portIsClosed) {
+			// use alpha to correctly score bounced bad packets when the port is opened before they are actually cleared
+			if (portIsClosed || packet.alpha < 1) {
 				this.events.onScorePacket.dispatch("blocked");
 			} else {
 				this.events.onScorePacket.dispatch("bad");
@@ -56,14 +58,13 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 	PacketManager.prototype.update = function () {
 		if (this.packets.length < this.maximumPackets) {
 			var t = this.game.time.elapsedSecondsSince(this.lastEmit) * this.speed;
-			if (t > 60) {
-				if (Math.random() < this.spawnRate) {
-					var path = Math.floor(Math.random() * 3);
-					var choices = ["bad", "good"];
-					var choice = Math.floor(Math.random() * choices.length);
-					this.emitPacket(choices[choice], path);
-					this.lastEmit = this.game.time.now;
-				}
+			var rate = Math.max(this.spawnRate - this.successBonus, 60);
+			if (t > rate) {
+				var path = Math.floor(Math.random() * 3);
+				var choices = ["bad", "good"];
+				var choice = Math.floor(Math.random() * choices.length);
+				this.emitPacket(choices[choice], path);
+				this.lastEmit = this.game.time.now;
 			}
 		}
 		

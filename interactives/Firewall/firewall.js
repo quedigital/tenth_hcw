@@ -190,12 +190,9 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			
 			if (!packet.good) {
 				this.success.scale.x = this.success.scale.y = .25;
+				this.success.alpha = 1;
 				this.game.add.tween(this.success.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
 				
-				if (this.success.alpha == 0) {
-					this.success.alpha = 1;
-				}
-			
 				if (this.successTween) {
 					this.successTween.stop();
 				}
@@ -238,6 +235,8 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 				this.numBlocked++;
 				break;
 		}
+		
+		this.packetManager.successBonus = this.numGood * 50;
 	}
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
