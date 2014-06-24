@@ -30,11 +30,9 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("trash", 'assets/trashbin.png');
-		this.game.load.image("success popup", 'assets/success_alert.png');
-		this.game.load.image("failure popup", 'assets/failure_alert.png');
 		this.game.load.spritesheet("sparkly packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
 		this.game.load.spritesheet("animated bad packet", 'assets/sparksRed_sheet.png', 50, 50, 15);
-		this.game.load.image("success", 'assets/success_alert.png');
+		this.game.load.image("success", 'assets/success_popup.png');
 	};
 
 	// Setup the example
