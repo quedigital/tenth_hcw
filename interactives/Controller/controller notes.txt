@@ -1,3 +1,5 @@
+CB> Maybe the X-ray image shouldn't include the yellow arrows, etc. (they should come from the individual animation sprites)
+
 action (triangle) button:
 - closed & open: (180, 48, 18)
 - notes: the open circuit always be playing with user views X-ray view of controller, 
@@ -6,11 +8,15 @@ action (triangle) button:
 up button (147, 73, 48)
 right button (105, 103, 48)
 
+CB> Is there a reason rightcircuit_spritesheet.png has the black circuit and part of the yellow arrow embedded in it?
+
 button pngs in folder
 -I imagined those as hit buttons, like what would appear when the button is already
 pressed. I personally like the kind of interactivity that allows the user to explore the 
 page for the buttons, which could be indicated by the arrow simply turning into 
 a pointing finger.
+
+CB> The trouble with mouse pointers is they don't work the iPad
 
 -the rubble sprite is the only one that is not transparent because I wanted the 
 controller and motors to shake. I can position the motors in the right place and then 
