@@ -10,6 +10,7 @@ right button (105, 103, 48)
 
 CB> Is there a reason rightcircuit_spritesheet.png has the black circuit and part of the yellow arrow embedded in it?
 KH> I overwrote the files and had to erase each frame by hand, I can fix the black circuit but I didn’t think the yellow arrow would be a big problem.
+CB> It doubles the pixels.  Check it out.
 
 button pngs in folder
 -I imagined those as hit buttons, like what would appear when the button is already
