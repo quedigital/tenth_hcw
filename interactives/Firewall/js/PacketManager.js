@@ -33,14 +33,14 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		
 		if (packet.good) {
 			if (!portIsClosed) {
-				this.events.onScorePacket.dispatch("good");
+				this.events.onScorePacket.dispatch("good", packet);
 			}
 		} else {
 			// use alpha to correctly score bounced bad packets when the port is opened before they are actually cleared
 			if (portIsClosed || packet.alpha < 1) {
-				this.events.onScorePacket.dispatch("blocked");
+				this.events.onScorePacket.dispatch("blocked", packet);
 			} else {
-				this.events.onScorePacket.dispatch("bad");
+				this.events.onScorePacket.dispatch("bad", packet);
 			}
 		}
 		
@@ -194,9 +194,9 @@ define(["Phaser", "Packet"], function (Phaser, Packet) {
 		
 		switch (type) {
 			case "good":
-				spriteChoices = ["green packet", "yellow packet", "blue packet", "sparkly packet"];
+				spriteChoices = ["green packet", "yellow packet", "blue packet"];
 				choice = Math.floor(Math.random() * spriteChoices.length);
-				animated = choice == 3;
+				animated = true;//choice == 3;
 				packet = new Packet(this.game, this, this.events, { port: port, defaultAngle: .45, sprite: spriteChoices[choice], animated: animated }, thePath);
 				packet.good = true;
 				break;

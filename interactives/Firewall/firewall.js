@@ -8,7 +8,9 @@ requirejs.config({
 	},
 });
 
-require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
+require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, Scorer) {
+	var MISSES_UNTIL_GAME_OVER = 3;
+	
 	var GameState = function (game) {
 	};
 
@@ -17,10 +19,10 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("router", "assets/firewall_box.png");
 		this.game.load.image("closed port", "assets/door.png");
-		this.game.load.image("bad packet", 'assets/packet_red.png');
-		this.game.load.image("green packet", 'assets/packet_green.png');
-		this.game.load.image("yellow packet", 'assets/packet_yellow.png');
-		this.game.load.image("blue packet", 'assets/packet_blue.png');
+		this.game.load.spritesheet("green packet", 'assets/greenSparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("yellow packet", 'assets/yellowSparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("blue packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("animated bad packet", 'assets/sparksRed_sheet.png', 50, 50, 15);
 		this.game.load.image("arrow1", 'assets/arrow1.png');
 		this.game.load.image("arrow2", 'assets/arrow2.png');
 		this.game.load.image("arrow3", 'assets/arrow3.png');
@@ -30,9 +32,12 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("trash", 'assets/trashbin.png');
-		this.game.load.spritesheet("sparkly packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
-		this.game.load.spritesheet("animated bad packet", 'assets/sparksRed_sheet.png', 50, 50, 15);
 		this.game.load.image("success", 'assets/success_popup.png');
+		this.game.load.image("scorer", "assets/packet_list.png");
+		this.game.load.image("red x", "assets/redx.png");
+		this.game.load.image("good deleted", "assets/goodDeleted_popup.png");
+		this.game.load.image("failure", "assets/failure_popup.png");
+		this.game.load.image("game over", "assets/gameover_popup.png");
 	};
 
 	// Setup the example
@@ -85,10 +90,13 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.packetManager.events.onDropPacket.add(this.onDropPacket, this);
 		this.packetManager.events.onScorePacket.add(this.onScorePacket, this);
 		
-		this.success = this.game.add.sprite(760, 460, "success");
-		this.success.anchor.setTo(.5, .5);
-		this.success.smoothed = false;
-		this.success.alpha = 0;
+		this.popup = this.game.add.sprite(760, 460, "success");
+		this.popup.anchor.setTo(.5, .5);
+		this.popup.smoothed = false;
+		this.popup.alpha = 0;
+		
+		this.scorer = new Scorer(this.game, -30, -10);
+//		this.game.add.existing(this.scorer);
 		
 		/*
 		var g = this.game.add.graphics(0, 0);
@@ -106,7 +114,7 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		
 		this.isOverTrash = false;
 		this.trashTween = null;
-		this.successTween = null;
+		this.popupTween = null;
 		
 		this.numGood = 0;
 		this.numBlocked = 0;
@@ -115,24 +123,14 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		this.game.time.advancedTiming = true;
 		this.fpsText = this.game.add.text(
 			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
-		);
-		
-		this.scoreTexts = [
-			this.game.add.text(20, 20, "Good Packets Received: 0", { font: '12px Arial', fill: '#ffffff' }),
-			this.game.add.text(20, 40, "Bad Packets Missed: 0", { font: '12px Arial', fill: '#ffffff' }),
-			this.game.add.text(20, 60, "Bad Packets Blocked: 0", { font: '12px Arial', fill: '#ffffff' })
-		];
+		);		
 	};
 	
 	// The update() method is called every frame
-	GameState.prototype.update = function() {
+	GameState.prototype.update = function () {
 		if (this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
-		
-		this.scoreTexts[0].setText("Good Packets Received: " + this.numGood);
-		this.scoreTexts[1].setText("Bad Packets Blocked: " + this.numBlocked);
-		this.scoreTexts[2].setText("Bad Packets Missed: " + this.numMissed);
 		
 		// have to check for over the trash manually because Phaser skips input testing when something is being dragged
 		if (this.packetManager.isDragging) {
@@ -187,17 +185,11 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 			this.stopTrashAnimation();
 			
 			if (!packet.good) {
-				this.success.scale.x = this.success.scale.y = .25;
-				this.success.alpha = 1;
-				this.game.add.tween(this.success.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
-				
-				if (this.successTween) {
-					this.successTween.stop();
-				}
-			
-				this.successTween = this.game.add.tween(this.success).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 2000);
+				this.showPopup("success");
 		
 				this.numBlocked++;
+			} else {
+				this.showPopup("good deleted");
 			}
 		} else {
 			// tween packet back into place
@@ -221,13 +213,20 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		game.add.tween(this.trash).to({ rotation: 0 }, 100, Phaser.Easing.Linear.None, true);
 	}
 	
-	GameState.prototype.onScorePacket = function (value) {
+	GameState.prototype.onScorePacket = function (value, packet) {
 		switch (value) {
 			case "good":
 				this.numGood++;
 				break;
-			case "bad":
+			case "bad":				
 				this.numMissed++;
+				
+				if (this.numMissed >= MISSES_UNTIL_GAME_OVER) {
+					this.doGameOver();
+				} else {
+					this.showPopup("failure");
+				}
+				
 				break;
 			case "blocked":
 				this.numBlocked++;
@@ -235,8 +234,66 @@ require(["Phaser", "PacketManager"], function (Phaser, PacketManager) {
 		}
 		
 		this.packetManager.successBonus = this.numGood * 50;
+		
+		this.scorer.log(packet.key, value);
+		
+		this.scorer.updateScores(this.numGood, this.numBlocked, this.numMissed);
+	}
+	
+	GameState.prototype.showPopup = function (name) {
+		switch (name) {
+			case "failure":
+				this.popup.x = 630;
+				this.popup.y = 200;
+				break;
+			case "game over":
+				this.popup.x = this.game.world.centerX;
+				this.popup.y = this.game.world.centerY;
+				break;
+			default:
+				this.popup.x = 760;
+				this.popup.y = 460;
+				break;
+		}
+		
+		this.popup.loadTexture(name);
+		this.popup.scale.x = this.popup.scale.y = .25;
+		this.popup.alpha = 1;
+		this.game.add.tween(this.popup.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
+		
+		if (this.popupTween) {
+			this.popupTween.stop();
+		}
+	
+		this.popupTween = this.game.add.tween(this.popup).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 2000);
+	}
+	
+	GameState.prototype.doGameOver = function () {
+		this.game.state.start("game over", false, false);
 	}
 
-	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
-	game.state.add('game', GameState, true);	
+	// GAME OVER STATE:
+	
+	var GameOver = function (game) {
+	}
+
+	GameOver.prototype.preload = function () {
+	}
+
+	GameOver.prototype.create = function () {
+		this.popup = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, "game over");
+		this.popup.anchor.setTo(.5, .5);
+		this.popup.smoothed = false;
+		this.popup.scale.x = this.popup.scale.y = .25;
+		this.popup.alpha = 1;
+		
+		this.game.add.tween(this.popup.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
+	}
+	
+	GameOver.prototype.update = function () {
+	}
+
+	var game = new Phaser.Game(1024, 768, Phaser.AUTO, "game");
+	game.state.add("game", GameState, true);
+	game.state.add("game over", GameOver);
 });
