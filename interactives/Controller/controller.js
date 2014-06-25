@@ -21,11 +21,12 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.game.load.image("dpad right button", "assets/rightbtn.png");
 		this.game.load.spritesheet("dpad up", "assets/upcircuit_spritesheet.png", 147, 73, 48);
 		this.game.load.spritesheet("action closed", "assets/actionclosed_spritesheet.png", 180, 48, 18);
-		this.game.load.spritesheet("action open", "assets/actionopen_spritesheet.png", 180, 48, 18);
+		this.game.load.spritesheet("action open", "assets/actionopen_spritesheet.png", 226, 85, 35);
 		this.game.load.spritesheet("shake", "assets/shake_spritesheet.png", 703, 502, 4);
 		this.game.load.image("motors", "assets/motors.png");
 		this.game.load.spritesheet("standing", "assets/standing_spritesheet.png", 118, 190, 10);
 		this.game.load.spritesheet("jump", "assets/jump_spritesheet.png", 125, 216, 30);
+		this.game.load.spritesheet("punch", "assets/punching_spritesheet.png", 140, 190, 30);
 	};
 
 	function showPos (sprite) {
@@ -103,7 +104,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.closed.alpha = 0;
 		this.group2.add(this.closed);
 
-		this.open = new Phaser.Sprite(this.game, 534, 241, "action open");
+		this.open = new Phaser.Sprite(this.game, 488, 236, "action open");
 		this.open.smoothed = false;
 		this.open.inputEnabled = true;
 		this.open.events.onInputDown.add(play);
@@ -137,7 +138,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		group1.add(this.action_button);
 		
 		this.character = new MultiSprite(this.game, 440, 100, [ { key: "standing", looping: true },
-																{ key: "jump", next: "standing", offset: { x: -2, y: -24 } }
+																{ key: "punch", next: "standing", offset: { x: -19, y: 5} }
 															]);
 		this.character.playAnim("standing");
 		this.game.add.existing(this.character);
@@ -193,7 +194,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	}
 	
 	GameState.prototype.playAction = function () {
-		this.character.playAnim("jump");
+		this.character.playAnim("punch");
 	}
 	
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
