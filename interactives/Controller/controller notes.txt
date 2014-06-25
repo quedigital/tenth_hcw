@@ -1,0 +1,18 @@
+action (triangle) button:
+- closed & open: (180, 48, 18)
+- notes: the open circuit always be playing with user views X-ray view of controller, 
+  closed is the animation that would play when the action button is pressed
+
+up button (147, 73, 48)
+right button (105, 103, 48)
+
+button pngs in folder
+-I imagined those as hit buttons, like what would appear when the button is already
+pressed. I personally like the kind of interactivity that allows the user to explore the 
+page for the buttons, which could be indicated by the arrow simply turning into 
+a pointing finger.
+
+-the rubble sprite is the only one that is not transparent because I wanted the 
+controller and motors to shake. I can position the motors in the right place and then 
+use the xray_controller_noMotor image as the base for the x-ray view so the motors.png 
+image can act as a button.
