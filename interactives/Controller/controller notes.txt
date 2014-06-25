@@ -19,4 +19,4 @@ image can act as a button.
 
 
 sprites
--jumping (125, 216, 30)
+-jumping (125, 216, 31)
