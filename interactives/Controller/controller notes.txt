@@ -14,5 +14,9 @@ a pointing finger.
 
 -the rubble sprite is the only one that is not transparent because I wanted the 
 controller and motors to shake. I can position the motors in the right place and then 
-use the xray_controller_noMotor image as the base for the x-ray view so the motors.png 
+use the xray_controller_noMotor image as the base for the x-ray view so the motors.png
 image can act as a button.
+
+
+sprites
+-jumping (125, 216, 30)
