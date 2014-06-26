@@ -52,6 +52,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.game.stage.backgroundColor = 0x4488cc;
 
 		var group1 = this.game.add.group();
+		this.group1 = group1;
 		group1.y = 100;
 
 		this.controller = new Phaser.Sprite(this.game, this.game.world.centerX, this.game.world.centerY, "controller");
@@ -85,7 +86,8 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.dpad_up.smoothed = false;
 //		this.dpad_up.inputEnabled = true;
 //		this.dpad_up.events.onInputDown.add(play);
-		this.dpad_up.animations.add("animation");
+		var anim = this.dpad_up.animations.add("animation");
+		anim.onComplete.add(this.onUpComplete, this);
 		group1.add(this.dpad_up);
 
 		var up_btn = new FakeButton(this.game, 285, 245, 50, 50);
@@ -112,20 +114,24 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.open.play("animation", 18, true);
 		this.group2.add(this.open);
 		
+		/*
 		var shake = new Phaser.Sprite(this.game, this.controller.x, this.controller.y, "shake");
 		shake.anchor.set(.5, .5);
 		shake.smoothed = false;		
-		shake.inputEnabled = true;
+//		shake.inputEnabled = true;
 //		shake.events.onInputDown.add(play);
 		shake.animations.add("animation");
-//		group1.add(shake);
+		shake.play("animation", 1, true);
+		group1.add(shake);
+		*/
 		
 		var motors = new Phaser.Sprite(this.game, 205, 366, "motors");
 		motors.smoothed = false;	
 		motors.inputEnabled = true;
-		motors.input.pixelPerfectClick = true;
-//		motors.events.onInputDown.add(playSprite, { sprite: shake });
+//		motors.input.pixelPerfectClick = true;
+		motors.events.onInputDown.add(this.doShake, this);
 		group1.add(motors);
+		this.motors = motors;
 		
 //		makeDraggable(motors);
 
@@ -138,7 +144,8 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		group1.add(this.action_button);
 		
 		this.character = new MultiSprite(this.game, 440, 100, [ { key: "standing", looping: true },
-																{ key: "punch", next: "standing", offset: { x: -19, y: 5} }
+																{ key: "punch", next: "standing", offset: { x: -19, y: 5} },
+																{ key: "jump", next: "standing", offset: { x: -2, y: -24 } }
 															]);
 		this.character.playAnim("standing");
 		this.game.add.existing(this.character);
@@ -167,7 +174,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 			alpha = 1.0 - Math.max(Math.min((yy - y1) / 200, 1), 0);
 		}
 
-		this.xray.alpha = this.dpad_right.alpha = this.dpad_up.alpha = this.group2.alpha = alpha;
+		this.xray.alpha = this.dpad_right.alpha = this.dpad_up.alpha = this.motors.alpha = this.group2.alpha = alpha;
 	};
 	
 	GameState.prototype.showOpenAgain = function () {
@@ -196,6 +203,29 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	GameState.prototype.playAction = function () {
 		this.character.playAnim("punch");
 	}
+	
+	GameState.prototype.onUpComplete = function () {
+		this.character.playAnim("jump");
+	}
+
+	GameState.prototype.doShake = function () {
+		var x = this.group1.x, y = this.group1.y;
+		
+		var tween = game.add.tween(this.group1)
+			.to({ x: x + 3, y: y + 3 }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 6, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 3, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 3, y: y + 3 }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 6, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 3, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 3, y: y + 3 }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 6, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x + 3, y: y }, 20, Phaser.Easing.Linear.None)
+			.to({ x: x, y: y }, 20, Phaser.Easing.Linear.None)
+			.start();
+	}	
 	
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
 	game.state.add('game', GameState, true);	

@@ -26,6 +26,7 @@ controller and motors to shake. I can position the motors in the right place and
 use the xray_controller_noMotor image as the base for the x-ray view so the motors.png
 image can act as a button.
 
+CB> Let me know what you think of the shaking.  I did it with code because it seemed simpler.  I can always animate the motors in code too so they'll move slightly (as you did in your animation).  I just didn't have time today.
 
 sprites
 -jumping (125, 216, 31)
