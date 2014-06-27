@@ -1,7 +1,7 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../Common/js/phaser",
+		"Phaser": "../../Common/js/phaser.min",
 	},
 	
 	shim: {
@@ -9,6 +9,8 @@ requirejs.config({
 });
 
 require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, Scorer) {
+	var DEBUG = false;
+	
 	var MISSES_UNTIL_GAME_OVER = 3;
 	
 	var GameState = function (game) {
@@ -38,6 +40,8 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.load.image("good deleted", "assets/goodDeleted_popup.png");
 		this.game.load.image("failure", "assets/failure_popup.png");
 		this.game.load.image("game over", "assets/gameover_popup.png");
+		this.game.load.image("start button", 'assets/start_upbtn.png');
+		this.game.load.image("start button down", 'assets/start_hitbtn.png');
 	};
 
 	// Setup the example
@@ -120,17 +124,34 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.numBlocked = 0;
 		this.numMissed = 0;
 				
-		this.game.time.advancedTiming = true;
-		this.fpsText = this.game.add.text(
-			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
-		);		
+		this.instructions = this.game.add.text(380, 675, "", { font: "bold 24px Arial", fill: "#fff0cf" });
+		this.instructions.align = "center";
+		this.instructions.setText("Be the firewall.  Use your mouse or touch to\npick out the suspicious packets. Don't let them in!");
+
+		var btn = this.game.add.sprite(this.game.world.centerX, 100, "start button");
+		btn.anchor.set(.5, .5);
+		btn.inputEnabled = true;
+		btn.events.onInputDown.add(this.showDownState, this);
+		btn.events.onInputUp.add(this.startGame, this);
+		this.startButton = btn;
+		
+		this.miniState = "title";
+		
+		if (DEBUG) {
+			this.game.time.advancedTiming = true;
+			this.fpsText = this.game.add.text(
+				970, 20, '', { font: '12px Arial', fill: '#ffffff' }
+			);
+		}
 	};
 	
 	// The update() method is called every frame
 	GameState.prototype.update = function () {
-		if (this.game.time.fps !== 0) {
+		if (DEBUG && this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
+		
+		if (this.miniState == "title") return;
 		
 		// have to check for over the trash manually because Phaser skips input testing when something is being dragged
 		if (this.packetManager.isDragging) {
@@ -246,10 +267,6 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 				this.popup.x = 630;
 				this.popup.y = 200;
 				break;
-			case "game over":
-				this.popup.x = this.game.world.centerX;
-				this.popup.y = this.game.world.centerY;
-				break;
 			default:
 				this.popup.x = 760;
 				this.popup.y = 460;
@@ -272,12 +289,23 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.state.start("game over", false, false);
 	}
 
+	GameState.prototype.showDownState = function () {
+		this.startButton.loadTexture("start button down");
+	}
+	
+	GameState.prototype.startGame = function () {
+		this.startButton.alpha = 0;
+		this.miniState = "play";
+	}
+	
 	// GAME OVER STATE:
 	
 	var GameOver = function (game) {
 	}
-
+	
 	GameOver.prototype.preload = function () {
+		this.game.load.image("restart button", "assets/startover_upbtn.png");
+		this.game.load.image("restart button down", "assets/startover_hitbtn.png");
 	}
 
 	GameOver.prototype.create = function () {
@@ -287,10 +315,28 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.popup.scale.x = this.popup.scale.y = .25;
 		this.popup.alpha = 1;
 		
+		var btn = this.game.add.sprite(this.game.world.centerX, 100, "restart button");
+		btn.anchor.set(.5, .5);
+		btn.inputEnabled = true;
+		btn.events.onInputDown.add(this.showDownState, this);
+		btn.events.onInputUp.add(this.startOver, this);
+		this.startButton = btn;
+		this.startButton.alpha = 0;
+		
+		this.game.add.tween(this.startButton).to({ alpha: 1 }, 100, Phaser.Easing.Linear.None, true, 1000);
+		
 		this.game.add.tween(this.popup.scale).to({ x: 1, y: 1 }, 100, Phaser.Easing.Linear.None, true);
 	}
 	
 	GameOver.prototype.update = function () {
+	}
+	
+	GameOver.prototype.showDownState = function () {
+		this.startButton.loadTexture("restart button down");
+	}
+	
+	GameOver.prototype.startOver = function () {
+		this.game.state.start("game", true, true, { beginGame: true });		
 	}
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, "game");
