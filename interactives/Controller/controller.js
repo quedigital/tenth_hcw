@@ -29,6 +29,8 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.game.load.spritesheet("standing", "assets/standing_spritesheet.png", 118, 190, 10);
 		this.game.load.spritesheet("jump", "assets/jump_spritesheet.png", 125, 216, 21);
 		this.game.load.spritesheet("punch", "assets/punching_spritesheet.png", 140, 190, 30);
+		this.game.load.spritesheet("walk", "assets/walk_spritesheet.png", 137, 207, 8);
+		this.game.load.image("tv", "assets/TV.png");
 	};
 
 	function showPos (sprite) {
@@ -53,10 +55,14 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	GameState.prototype.create = function () {
 		this.game.stage.backgroundColor = 0x4488cc;
 
+		var tv = new Phaser.Sprite(this.game, this.game.world.centerX, 220, "tv");
+		tv.anchor.set(.5, .5);
+		this.game.add.existing(tv);
+
 		var group1 = this.game.add.group();
 		this.group1 = group1;
-		group1.y = 100;
-
+		group1.y = 150;
+		
 		this.controller = new Phaser.Sprite(this.game, this.game.world.centerX, this.game.world.centerY, "controller");
 		this.controller.anchor.set(.5, .5);
 		group1.add(this.controller);
@@ -70,7 +76,8 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.dpad_right.smoothed = false;
 		this.dpad_right.inputEnabled = true;
 //		this.dpad_right.events.onInputDown.add(play);
-		this.dpad_right.animations.add("animation");
+		var anim = this.dpad_right.animations.add("animation");
+		anim.onComplete.add(this.onRightComplete, this);
 		group1.add(this.dpad_right);
 //		makeDraggable(dpad_right);
 
@@ -145,14 +152,15 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.action_button.events.onInputDown.add(this.showAction, this);
 		group1.add(this.action_button);
 		
-		this.character = new MultiSprite(this.game, 440, 100, [ { key: "standing", looping: true },
+		this.character = new MultiSprite(this.game, 450, 100, [ { key: "standing", looping: true },
 																{ key: "punch", next: "standing", offset: { x: -19, y: 5} },
-																{ key: "jump", next: "standing", offset: { x: -2, y: -24 } }
+																{ key: "jump", next: "standing", offset: { x: -2, y: -24 } },
+																{ key: "walk", next: "standing", offset: { x: 0, y: -12 } }
 															]);
 		this.character.playAnim("standing");
 		this.game.add.existing(this.character);
 
-		this.instructions = this.game.add.text(this.game.world.centerX, 20, "", { font: "bold 24px Arial", fill: "#d0e044" });
+		this.instructions = this.game.add.text(this.game.world.centerX, 30, "", { font: "bold 24px Arial", fill: "#d0e044" });
 		this.instructions.anchor.set(.5, .5);
 		this.instructions.align = "center";
 		this.instructions.setText("Try out the buttons on this controller to see what's happening behind the scenes.");
@@ -173,8 +181,8 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		
 		// TODO: how to handle transparency on tablets
 		var yy = this.game.input.y;
-		var y0 = this.controller.y - 150;
-		var y1 = this.controller.y + 100;
+		var y0 = 400;
+		var y1 = 580;
 		
 		var alpha = 1.0;
 		if (yy < y0) {
@@ -215,6 +223,10 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	
 	GameState.prototype.onUpComplete = function () {
 		this.character.playAnim("jump");
+	}
+	
+	GameState.prototype.onRightComplete = function () {
+		this.character.playAnim("walk");
 	}
 
 	GameState.prototype.doShake = function () {
