@@ -21,13 +21,13 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.game.load.image("xray w/o motor", 'assets/xray_controller_noMotor.png');
 		this.game.load.spritesheet("dpad right", "assets/rightcircuit_spritesheet.png", 105, 103, 48);
 		this.game.load.image("dpad right button", "assets/rightbtn.png");
-		this.game.load.spritesheet("dpad up", "assets/upcircuit_spritesheet.png", 147, 73, 48);
-		this.game.load.spritesheet("action closed", "assets/actionclosed_spritesheet.png", 180, 48, 18);
-		this.game.load.spritesheet("action open", "assets/actionopen_spritesheet.png", 226, 85, 35);
+		this.game.load.spritesheet("dpad up", "assets/upcircuit_spritesheet.png", 147, 75, 48);
+		this.game.load.spritesheet("action closed", "assets/actionclosed_spritesheet.png", 220, 71, 22);
+		this.game.load.spritesheet("action open", "assets/actionopen_spritesheet.png", 226, 85, 22);
 		this.game.load.spritesheet("shake", "assets/shake_spritesheet.png", 703, 502, 4);
 		this.game.load.image("motors", "assets/motors.png");
 		this.game.load.spritesheet("standing", "assets/standing_spritesheet.png", 118, 190, 10);
-		this.game.load.spritesheet("jump", "assets/jump_spritesheet.png", 125, 216, 30);
+		this.game.load.spritesheet("jump", "assets/jump_spritesheet.png", 125, 216, 21);
 		this.game.load.spritesheet("punch", "assets/punching_spritesheet.png", 140, 190, 30);
 	};
 
@@ -99,7 +99,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.group2 = this.game.add.group();
 		group1.add(this.group2);
 
-		this.closed = new Phaser.Sprite(this.game, 534, 241, "action closed");
+		this.closed = new Phaser.Sprite(this.game, 487, 238, "action closed");
 		this.closed.smoothed = false;
 		this.closed.inputEnabled = true;
 		this.closed.events.onInputDown.add(play);
