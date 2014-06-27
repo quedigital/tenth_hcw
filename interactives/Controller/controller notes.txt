@@ -30,5 +30,6 @@ CB> Let me know what you think of the shaking.  I did it with code because it se
 
 sprites
 -jumping (125, 216, 31)
+-walk (137, 207, 8)
 
 
