@@ -10,6 +10,8 @@ requirejs.config({
 });
 
 require(["Phaser", "utils"], function (Phaser, utils) {
+	var DEBUG = false;
+	
 	var GameState = function (game) {
 		GameState.RESOLUTION = 30;
 	};
@@ -18,7 +20,6 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	GameState.prototype.preload = function () {
 		this.game.load.image("etched", "assets/etched_silicon.png");
 		this.game.load.image("unetched", "assets/unetched_silicon.png");
-		this.game.load.image("blank", "assets/blank.png");
 		this.game.load.image("negative base", "assets/chip_negative.png");
 		this.game.load.image("laser", "assets/laser_off.png");
 		this.game.load.image("laserbeam", "assets/laserbeam.png");
@@ -27,6 +28,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.load.image("finished", "assets/finished_chip.png");
 		this.game.load.image("empty progress", "assets/progress_empty.png");
 		this.game.load.image("complete progress", "assets/progress_complete.png");
+		this.game.load.image("restart button", "assets/startover_upbtn.png");
+		this.game.load.image("restart button down", "assets/startover_hitbtn.png");
 	};
 
 	// Setup the example
@@ -90,13 +93,29 @@ require(["Phaser", "utils"], function (Phaser, utils) {
     					];
     					
     	this.resetBurnProgress();
+
+		var btn = this.game.add.sprite(this.game.world.centerX, 100, "restart button");
+		btn.anchor.set(.5, .5);
+		btn.inputEnabled = true;
+		btn.events.onInputDown.add(this.showDownState, this);
+		btn.events.onInputUp.add(this.startOver, this);
+		this.startButton = btn;
+		this.startButton.alpha = 0;
     	
-		this.game.time.advancedTiming = true;
-		this.fpsText = this.game.add.text(
-			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
-		);
+		if (DEBUG) {
+			this.game.time.advancedTiming = true;
+			this.fpsText = this.game.add.text(
+				970, 20, '', { font: '12px Arial', fill: '#ffffff' }
+			);
+		}
 		
-		this.completeText = this.game.add.text(20, 20, "", { font: "12px Arial", fill: "#ffffff" });
+		this.completeText = this.game.add.text(this.game.world.centerX, 620, "Well Done!", { font: "bold italic 36px Arial", fill: "#d0e044" });
+		this.completeText.anchor.set(.5, .5);
+		this.completeText.alpha = 0;
+		
+		this.instructions = this.game.add.text(35, 20, "", { font: "bold 24px Arial", fill: "#d0e044" });
+		this.instructions.align = "center";
+		this.instructions.setText("Use your mouse or touch\nto guide the laser.");
 		
 		this.laserOff = true;
 		
@@ -126,14 +145,17 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.showProgress(percent);
 		
 //		if (percent > .1 && !this.complete) {
-		if (percent == 1 && !this.complete) {
+		if (percent > .97 && !this.complete) {
 			this.showComplete();
 			this.complete = true;
 		}
 	}
 	
 	GameState.prototype.showProgress = function (percent) {
-		this.completeText.setText(Math.round(percent * 100) + "%");
+		if (DEBUG) {
+			this.completeText.setText(Math.round(percent * 100) + "%");
+			this.completeText.alpha = 1;
+		}
 		
 		var w = this.progress0.width * percent;
 		
@@ -148,7 +170,14 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		game.add.tween(this.laser).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.progress0).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
 		game.add.tween(this.progress1).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-		game.add.tween(this.finished).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true);
+		game.add.tween(this.finished).to( { alpha: 1 }, 1000, Phaser.Easing.Linear.None, true)
+			.to( { y: 300 }, 1000, Phaser.Easing.Cubic.EaseInOut, true);
+		
+		game.add.tween(this.completeText).to({ alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 1000);
+		
+		game.add.tween(this.instructions).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 2500);
+		
+		game.add.tween(this.startButton).to({ alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 2500);
 	}
 	
 	GameState.prototype.getBurnProgress = function () {
@@ -164,8 +193,9 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		return complete / total;
 	}
 	
+	// TODO: make this snap
 	GameState.prototype.isOnSegment = function (pt) {
-		var THRESHOLD = 5;
+		var THRESHOLD = 15;
 		
 		var min_d, closest_segment, segment_index;
 		for (var i = 0; i < this.segments.length; i += 2) {
@@ -244,7 +274,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 
 	// The update() method is called every frame
 	GameState.prototype.update = function () {
-		if (this.game.time.fps !== 0) {
+		if (DEBUG && this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
 		
@@ -299,6 +329,14 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			this.emitter.on = false;
 		}
 	};
+
+	GameState.prototype.showDownState = function () {
+		this.startButton.loadTexture("restart button down");
+	}
+	
+	GameState.prototype.startOver = function () {
+		this.game.state.start("game", true, true);		
+	}
 	
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
 	game.state.add('game', GameState, true);

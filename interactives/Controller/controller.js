@@ -9,6 +9,8 @@ requirejs.config({
 });
 
 require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, MultiSprite) {
+	var DEBUG = false;
+	
 	var GameState = function (game) {
 	};
 
@@ -149,16 +151,23 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 															]);
 		this.character.playAnim("standing");
 		this.game.add.existing(this.character);
+
+		this.instructions = this.game.add.text(this.game.world.centerX, 20, "", { font: "bold 24px Arial", fill: "#d0e044" });
+		this.instructions.anchor.set(.5, .5);
+		this.instructions.align = "center";
+		this.instructions.setText("Try out the buttons on this controller to see what's happening behind the scenes.");
 		
-		this.game.time.advancedTiming = true;
-		this.fpsText = this.game.add.text(
-			970, 20, '', { font: '12px Arial', fill: '#ffffff' }
-		);
+		if (DEBUG) {
+			this.game.time.advancedTiming = true;
+			this.fpsText = this.game.add.text(
+				970, 20, '', { font: '12px Arial', fill: '#ffffff' }
+			);
+		}
 	};
 	
 	// The update() method is called every frame
 	GameState.prototype.update = function () {
-		if (this.game.time.fps !== 0) {
+		if (DEBUG && this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
 		

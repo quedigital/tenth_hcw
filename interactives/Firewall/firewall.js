@@ -336,7 +336,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 	}
 	
 	GameOver.prototype.startOver = function () {
-		this.game.state.start("game", true, true, { beginGame: true });		
+		this.game.state.start("game", true, true);
 	}
 
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, "game");
