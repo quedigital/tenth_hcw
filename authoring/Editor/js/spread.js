@@ -1,4 +1,4 @@
-define(["gridder"], function (gridder) {
+define(["gridder"], function () {
 	ko.bindingHandlers.getVariableProperties = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// This will be called when the binding is first applied to an element
@@ -51,7 +51,7 @@ define(["gridder"], function (gridder) {
 							},
 						}
 					};
-	
+			
 		var firebase = new Firebase("https://howcomputerswork.firebaseio.com/contents/0");
 		self.spread = KnockoutFire.observable(firebase, schema);
 	
@@ -62,7 +62,9 @@ define(["gridder"], function (gridder) {
 		}
 	}
 
-	function LayoutModel (index) {
+	function LayoutModel (controller, index) {
+		this.controller = controller;
+		
 		var self = this;
 	
 		var schema = {
@@ -84,32 +86,42 @@ define(["gridder"], function (gridder) {
 		self.viewSpread = function (index) {
 			var firebase = new Firebase("https://howcomputerswork.firebaseio.com/layouts/" + index);
 			// set the spread observable to the new firebase data
+			// TODO: this adds an unnecessary layer of indirection to spread
 			self.spread(KnockoutFire.observable(firebase, schema));
-		}	
+		}
+		
+		self.getSpreadStyle = function () {
+			if (self && self.controller && self.controller.getSpreadStyle) {
+				return self.controller.getSpreadStyle();
+			}
+			return self.controller.getSpreadStyle;
+		}
 	}
 
 	var Spread = function (id) {
 		// TODO: get index from id
-		this.cm = new ContentModel(0);
-		ko.applyBindings(this.cm, $("#contentModel")[0]);
+		this.content = new ContentModel(0);
 
-		this.lm = new LayoutModel(0);
-		ko.applyBindings(this.lm, $("#layoutModel")[0]);
+		this.layout = new LayoutModel(this, 0);
 		
-		// create our gridder element
-		this.grid = new gridder.Gridder($(".grid"));
+		window.spread = this;
 	}
 
 	Spread.prototype = {};
 	Spread.prototype.constructor = Spread;
 	
 	Spread.prototype.resizeLayoutPane = function () {
-		this.grid.reformat();
+		$(".grid").trigger("reformat");
 	}
 	
 	Spread.prototype.viewSpread = function (index) {
-		this.cm.viewSpread(index);
-		this.lm.viewSpread(index);
+		this.content.viewSpread(index);
+		this.layout.viewSpread(index);
+	}
+	
+	Spread.prototype.initialize = function () {
+		ko.applyBindings(this.content, $("#contentModel")[0]);
+		ko.applyBindings(this.layout, $("#layoutModel")[0]);
 	}
 
 	return Spread;

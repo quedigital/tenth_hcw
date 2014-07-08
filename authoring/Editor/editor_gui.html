@@ -69,17 +69,6 @@
 								</div>
 							</div>
 						</div>
-						<div class="col span_1_of_5">
-							<label for="inputType">Type</label>
-							<select data-bind="options: ['grid', 'fixed'], value: type"></select>
-						</div>
-						<div data-bind="if: type()==='fixed'">
-							<label for="inputBackground">Background</label>
-							<input data-bind="value: background" type="text" id="inputBackground">
-							<div class="thumbnail">
-								<img data-bind="attr: { src: background }"/>
-							</div>
-						</div>
 					</div>
 				</div>
 			
@@ -138,13 +127,13 @@
 			<div data-bind="with: spread">
 				<label for="inputSpreadID">ID</label>
 				<input data-bind="value: id" type="text" id="inputSpreadID">
-				<label for="inputStyle">Type</label>
-				<select data-bind="options: ['fixed','grid'], value: style"></select>
-		
-				<div class="grid" data-bind="foreach: hints">
-					<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, gridThing: width"></div>
+				<label for="inputSpreadStyle">Style</label>
+				<span data-bind="text: style"></span>
+				<div data-bind="if: style()==='grid'">
+					<div class="grid" data-bind="gridThing: hints, foreach: hints">
+						<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width"></div>
+					</div>
 				</div>
-
 				<table class="properties" data-bind="foreach: hints">
 					<tbody data-bind="attr: { 'data-id': id }">
 						<tr>

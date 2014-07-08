@@ -1,17 +1,27 @@
 define([], function () {
+	var MARGIN = 10;
+	
 	ko.bindingHandlers.gridThing = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var g = new Gridder(element);
+		},
+		
+		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+		}
+	}
+	
+	ko.bindingHandlers.cellThing = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			$(element).trigger("init", element);
+			var cell = new GridCell(element, valueAccessor);
 			
-			// when the observable changes, trigger a resize (it doesn't happen automatically when the observable isn't a custom binding)
 			valueAccessor().subscribe(function (newValue) {
 				var grid = $(element).parent(".grid");
 				grid.trigger("reformat");
 			});
 		},
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			// reformat the grid and save a reference to our viewModel for future updates (ie, resizing)
-			$(element).trigger("reformat", [element, bindingContext]);
+			var grid = $(element).parent(".grid");
+			grid.trigger("reformat");
 		}
 	};
 
@@ -42,117 +52,52 @@ define([], function () {
 		}
 	};
 	
-	function onClick (event) {
-		console.log($(event.target).attr("name"));
-	}
-	
-	var Gridder = function (elem) {		
-		this.elem = elem;
+	var GridCell = function (elem, valueAccessor) {
+		this.el = $(elem);
 		
-		this.elem.on("reformat", $.proxy(this.reformat, this));
-		this.elem.on("init", $.proxy(this.initializeCell, this));
-		
-		this.bindingContexts = {};
-		
-		window.test = this;
-		
-		this.reformat();
-	}
+		cell = $(elem);
+		var me = this;
 
-	Gridder.prototype = {};
-	Gridder.prototype.constructor = Gridder;
-	
-	Gridder.prototype.initializeCell = function (event, cell) {
-		cell = $(cell);
-		var me = this;
+		var ROW_WIDTH = cell.parent().width();
 		
-		if (!cell.find(".inset").length) {
-			var inset = $("<div>").addClass("inset");
-			inset.attr("data-id", cell.data("id"));
-			$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
-			if (cell.data("image")) {
-				$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
-				$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
-				$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
-				$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
-				$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
-				$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
-			}
-			
-			cell.append(inset);
-			
-			inset.resizable( { grid: 10, maxWidth: this.ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
-			
-			cell.click(setSelected);
-		}
-	}
-	
-	Gridder.prototype.reformat = function (event, element, bindingContext) {
-		var x = 0;
-		var y = 0;
+		this.valueAccessor = valueAccessor;
 		
-		this.ROW_WIDTH = this.elem.parent().width();
-		this.ROW_HEIGHT = 75;
-		this.MARGIN = 10;
-		
-		var me = this;
-		
-		if (bindingContext) {
-			var id = $(element).data("id");
-			me.bindingContexts[id] = bindingContext;
+		var inset = $("<div>").addClass("inset");
+		inset.attr("data-id", cell.data("id"));
+		$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
+		if (cell.data("image")) {
+			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
 		}
 		
-		this.elem.find("div.cell").each(function (index) {
-			var cell = $(this);
-			
-			var inset = cell.find(".inset");
-			if (inset) {
-				inset.resizable( { maxWidth: me.ROW_WIDTH } );
-			}
-			
-//			var width = cell.data("width");
-			var width = cell.attr("data-width");
-			if (width) {
-				width = parseFloat(width);
-				var cell_width = width * me.ROW_WIDTH;
-				var cell_height = me.ROW_HEIGHT;
-				var inset = cell.find(".inset");
-				inset.width(cell_width - me.MARGIN).height(cell_height - me.MARGIN);
-				if (x + width > 1) {
-					x = 0;
-					y += 1;
-				}
-				var xx = x * me.ROW_WIDTH;
-				var yy = y * me.ROW_HEIGHT;
-				x += width;
-				if (x + width > 1) {
-					x = 0;
-					y += 1;
-				}
-				cell.width(cell_width).height(me.ROW_HEIGHT).css( { left: xx, top: yy } );
-			}
-		});
+		cell.append(inset);
 		
-		this.elem.height(y * me.ROW_HEIGHT).width(me.ROW_WIDTH);
+		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
+		
+		cell.click(setSelected);
 	}
 	
+	GridCell.prototype = {};
+	GridCell.prototype.constructor = GridCell;
+
 	// reformat during cell resize
-	Gridder.prototype.onResize = function (event, ui) {
-		var w = ui.element.width() + this.MARGIN;
-		var percent = w / this.ROW_WIDTH;
+	GridCell.prototype.onResize = function (event, ui) {
+		var w = ui.element.width() + MARGIN;
+		var ROW_WIDTH = this.el.parent().width();
+		var percent = w / ROW_WIDTH;
 		// round to nearest 10%
 		percent = Math.round(percent * 10) / 10;
 		var cell = ui.element.parent(".cell");
 		cell.data("width", percent);
 
-		// using the Knockout bindingContext (previously stored in reformat) to update the width
-		var id = cell.data("id");
-		var bindingContext = this.bindingContexts[id];
-		if (bindingContext) {
-			bindingContext.$data.width(percent);
-		}
+		var value = this.valueAccessor();
+		value(percent);
 		
-		this.reformat();
+		cell.parent(".grid").trigger("reformat");
 	}
 	
 	function setSelected (event) {
@@ -166,6 +111,60 @@ define([], function () {
 		$("table.properties tbody[data-id != " + id + "]").hide();
 		
 		return true;
+	}
+	
+	var Gridder = function (elem) {		
+		this.elem = $(elem);
+
+		this.elem.on("reformat", $.proxy(this.reformat, this));		
+		
+		window.grid = this;
+	}
+
+	Gridder.prototype = {};
+	Gridder.prototype.constructor = Gridder;
+	
+	Gridder.prototype.reformat = function (event, element) {
+		var x = 0;
+		var y = 0;
+		
+		var ROW_WIDTH = this.elem.parent().width();
+		this.ROW_HEIGHT = 75;
+		
+		var me = this;
+		
+		this.elem.find("div.cell").each(function (index) {
+			var cell = $(this);
+			
+			var inset = cell.find(".inset");
+			if (inset) {
+				inset.resizable( { maxWidth: ROW_WIDTH } );
+			}
+			
+//			var width = cell.data("width");
+			var width = cell.attr("data-width");
+			if (width) {
+				width = parseFloat(width);
+				var cell_width = width * ROW_WIDTH;
+				var cell_height = me.ROW_HEIGHT;
+				var inset = cell.find(".inset");
+				inset.width(cell_width - MARGIN).height(cell_height - MARGIN);
+				if (x + width > 1) {
+					x = 0;
+					y += 1;
+				}
+				var xx = x * ROW_WIDTH;
+				var yy = y * me.ROW_HEIGHT;
+				x += width;
+				if (x + width > 1) {
+					x = 0;
+					y += 1;
+				}
+				cell.width(cell_width).height(me.ROW_HEIGHT).css( { left: xx, top: yy } );
+			}
+		});
+		
+		this.elem.height(y * me.ROW_HEIGHT).width(ROW_WIDTH);
 	}
 	
 	return {
