@@ -6,14 +6,50 @@ html, body {
 	box-sizing: border-box;
 }
 
+label {
+	font-weight: bold;
+}
+
+select {
+	font-size: 14px;
+	border: 0;
+}
+
+input {
+	font-size: 14px;
+	width: 100%;
+	margin: 0;
+	padding-right: 10px;
+}
+
 #toc {
 	width: 250px;
 	
-	.id {
-	}
-	
-	.title {
-		font-style: italic;
+	padding: 0;
+
+	#spreadModel {
+		table {
+			border-spacing: 0;
+			border-collapse: collapse;
+			
+			tr {
+				border: 1px solid #99e;
+				font-size: 12px;
+				
+				td.id {
+					padding: 0 1em 0 .5em;
+				}
+				
+				td.title {
+					padding-right: .5em;
+				}
+			}
+			
+			tr:hover {
+				background-color: #aae;
+				cursor: pointer;
+			}
+		}
 	}
 }
 
@@ -26,24 +62,37 @@ html, body {
 		padding: 10px;
 	}
 	
-	.header-background {
-		background-color: #eee;
-	}
-	
-	label {
-		font-weight: bold;
-	}
-	
-	select {
-		font-size: 14px;
-		border: 0;
-	}
-	
-	input {
-		font-size: 14px;
+	.spread-header {
+		display: table;
 		width: 100%;
-		margin: 0;
-		padding-right: 10px;
+		
+		div {
+			vertical-align: top;
+		}
+		
+		header {
+			display: table-row;
+			
+			div {
+				display: table-cell;
+			}
+			
+			div:first-child {
+				width: 8em;
+			}
+		}
+		
+		.row {
+			display: table-row;
+			
+			div {
+				display: table-cell;
+			}
+			
+			div:first-child {
+				padding-right: 1em;
+			}
+		}
 	}
 	
 	#lblInputTitle {
@@ -75,8 +124,6 @@ html, body {
 }
 
 #layout {
-	width: 750px;
-	
 	.grid {
 		position: relative;
 		margin: 1em auto;
@@ -101,6 +148,43 @@ html, body {
 			
 			&.selected .inset {
 				background-color: yellow;
+			}
+		}
+	}
+	
+	.fixer {
+		margin-top: 1em;
+		position: relative;
+		
+		img {
+			width: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		
+		.bounds {
+			position: absolute;
+			border: 2px dotted blue;
+			
+			.cell-id {
+				font-family: Courier;
+				margin-left: .5em;
+				color: blue;
+			}
+			
+			.styling {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				
+				input {
+					width: 100%;
+				}
+			}
+			
+			&:hover {
+				background-color: rgba(255, 255, 255, .5);
 			}
 		}
 	}

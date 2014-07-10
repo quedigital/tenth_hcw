@@ -13,7 +13,8 @@ require(["Spread"], function (Spread) {
 
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
-						east__onresize: function () { spread.resizeLayoutPane(); }
+						east__onresize: function () { spread.resizeLayoutPane(); },
+						east__size: "40%"
 					});
 
 	var spread = new Spread("10_1");
@@ -38,6 +39,7 @@ require(["Spread"], function (Spread) {
 	ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);	
 });
 
+// TODO: getVariableProperties doesn't work when updating values (yes, I think it does; well, not now it doesn't)
 // TODO: load published pages from json
 // TODO: "glossary" style button
 // TODO: handle glossary terms (ie, bold) within text
@@ -58,13 +60,12 @@ require(["Spread"], function (Spread) {
 // DONE: trigger cell resize when width is updated (ala checkbox subscribe method)
 // DONE: set image placement checkboxes on load
 // DONE: what if content and layout indices don't line up sometimes? [switched to id's]
-// DONE: getVariableProperties doesn't work when updating values (yes, I think it does)
 // DONE: steps nicely set off in panels or wells
 // DONE: textarea sized to fit
 // DONE: custom fields for grid or fixed layouts (using knockout if binding)
 // DONE: variable properties nicely formatted in a grid or table
 // DONE: navbar for spread and layout info
 // DONE: put "grid / fixed" field in content or layout – NOT BOTH
-// BUG (obviated): "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!)
+// BUG_FIXED: "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!) [valueAllowUnset seemed to do the trick]
 // DONE: image placement as a 9-box selectable grid widget
 // TODONT: move all image references to layout (nah)

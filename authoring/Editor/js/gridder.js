@@ -107,6 +107,8 @@ define([], function () {
 		
 		$(event.currentTarget).addClass("selected");
 		
+		$("table.properties").show();
+		
 		$("table.properties tbody[data-id = " + id + "]").show();
 		$("table.properties tbody[data-id != " + id + "]").hide();
 		
@@ -118,7 +120,7 @@ define([], function () {
 
 		this.elem.on("reformat", $.proxy(this.reformat, this));		
 		
-		window.grid = this;
+		$("table.properties").hide();
 	}
 
 	Gridder.prototype = {};

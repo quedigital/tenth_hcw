@@ -1,20 +1,42 @@
-define(["gridder"], function () {
+define(["gridder", "fixer"], function () {
 	ko.bindingHandlers.getVariableProperties = {
-		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// This will be called when the binding is first applied to an element
 			// Set up any initial state, event handlers, etc. here
+			var value = valueAccessor();
+			var valueUnwrapped = ko.unwrap(value);
+			
+			var field;
+			
+			for (var key in valueUnwrapped) {
+				if (key != "firebase") {
+					var value = valueUnwrapped[key];
+					var a = $("<span>").text(key);
+					var b = $("<input>").attr("value", value);
+					var c = $("<td>").append(a);
+					var d = $("<td>").append(b);
+					$(element).append($("<tr>").append(c).append(d));
+					
+					// TODO: this doesn't work to make these properties updateable
+					field = b;
+//					ko.applyBindingsToNode(b, { value: "marginLeft" });					
+				} else {
+					ko.applyBindingsToNode(field, { value: valueUnwrapped[key] });
+				}
+			}
 		},
-		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		
+		updateX: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// This will be called once when the binding is first applied to an element,
 			// and again whenever the associated observable changes value.
 			// Update the DOM element based on the supplied values here.
 			var value = valueAccessor();
 			var valueUnwrapped = ko.unwrap(value);
-		
+			
 			for (var key in valueUnwrapped) {
 				if (key != "firebase") {
 					var value = valueUnwrapped[key];
-					var a = $("<input>").attr("value", key);
+					var a = $("<span>").text(key);
 					var b = $("<input>").attr("value", value);
 					var c = $("<td>").append(a);
 					var d = $("<td>").append(b);
@@ -40,7 +62,6 @@ define(["gridder"], function () {
 						"chapter": true,
 						"title": true,
 						"type": true,
-						"background": true,
 						"cells": {
 							"$cell": {
 								id: true,
@@ -70,12 +91,14 @@ define(["gridder"], function () {
 		var schema = {
 						"id": true,
 						"style": true,
+						"background": true,
 						"hints": {
 							"$hint": {
 								"id": true,
 								"image": true,
 								"width": true,
-								"imageCSS": true
+								"styling": true,
+								"bounds": true,
 							}
 						}
 					};
@@ -112,6 +135,7 @@ define(["gridder"], function () {
 	
 	Spread.prototype.resizeLayoutPane = function () {
 		$(".grid").trigger("reformat");
+		$(".fixer").trigger("resize_layout");
 	}
 	
 	Spread.prototype.viewSpread = function (index) {

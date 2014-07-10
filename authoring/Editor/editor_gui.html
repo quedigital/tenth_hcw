@@ -37,40 +37,33 @@
 <body>
 	<div id="toc" class="ui-layout-west">
 		<div id="spreadModel">
-			<ul data-bind="foreach: spreads">
-				<li data-bind="click: function () { $parent.showSpread($index()) }">
-					<span class="id" data-bind="text: id"></span>
-					<span class="title" data-bind="text: title"></span>
-				</li>
-			</div>
+			<table>
+				<tbody data-bind="foreach: spreads">
+					<tr data-bind="click: function () { $parent.showSpread($index()) }">
+						<td class="id" data-bind="text: id"></td>
+						<td class="title" data-bind="text: title"></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<div id="content" class="ui-layout-center">
 		<div id="contentModel">
 			<div data-bind="with: spread">
-				<div class="header-background">
-					<div class="header spaced section group">
-						<div class="col span_1_of_5">
-							<div class="col span_1_of_5">
-								<label for="inputSpreadID">ID</label>
-							</div>
-							<div class="col span_4_of_5">
-								<input data-bind="value: id" type="text" id="inputSpreadID">
-							</div>
+				<section class="spread-header">
+					<header>
+						<div>ID</div>
+						<div>Title</div>
+					</header>
+					<div class="row">
+						<div>
+							<input data-bind="value: id"></input>
 						</div>
-						<div class="col span_3_of_5">
-							<div class="section group">
-								<div class="col span_1_of_5">
-									<label id="lblInputTitle" for="inputTitle">Title</label>
-								</div>
-								<div class="col span_4_of_5">
-									<!--<input data-bind="value: title" type="text" id="inputTitle">-->
-									<textarea data-bind="autosize: title"></textarea>
-								</div>
-							</div>
+						<div>
+							<textarea data-bind="autosize: title"></textarea>
 						</div>
 					</div>
-				</div>
+				</section>
 			
 				<div id="cells">
 					<div data-bind="foreach: cells">
@@ -125,34 +118,31 @@
 	<div id="layout" class="ui-layout-east">
 		<div id="layoutModel">
 			<div data-bind="with: spread">
-				<label for="inputSpreadID">ID</label>
-				<input data-bind="value: id" type="text" id="inputSpreadID">
 				<label for="inputSpreadStyle">Style</label>
-				<span data-bind="text: style"></span>
+				<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
+				
 				<div data-bind="if: style()==='grid'">
 					<div class="grid" data-bind="gridThing: hints, foreach: hints">
-						<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width"></div>
+						<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
+						</div>
 					</div>
 				</div>
-				<table class="properties" data-bind="foreach: hints">
-					<tbody data-bind="attr: { 'data-id': id }">
-						<tr>
-							<td>id</td>
-							<td><input data-bind="value: id" type="text"/></td>
-						</tr>
-						<tr>
-							<td>width</td>
-							<td><input data-bind="value: width" type="number"/></td>
-						</tr>
-						<tr>
-							<td>image pos</td>
-							<td><input data-bind="value: image" type="text"/></td>
-							
-						</tr>
-					</tbody>
-					<tbody data-bind="getVariableProperties: imageCSS, attr: { 'data-id': id }">
-					</tbody>
-				</table>
+				
+				<div data-bind="if: style()==='fixed'">
+					<label for="inputID">Background Image</label>
+					<input data-bind="value: background" type="text"></input>
+					<div class="fixer" data-bind="fixedThing: hints">
+						<div data-bind="foreach: hints">
+							<div class="bounds" data-bind="boundsThing: bounds">
+								<span class="cell-id" data-bind="text: id"></span>
+								<div class="styling" data-bind="if: styling">
+									<input data-bind="value: styling"></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>
