@@ -95,12 +95,12 @@
 								</div>
 							</div>
 							<div class="step-text" data-bind="if: type() === 'step'">
-								<textarea data-bind="autosize: text"></textarea>
+								<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 							</div>
 							<div class="callout-text" data-bind="if: type() === 'callout'">
 								<label for="inputTitle">Title</label>
 								<input id="inputTitle" data-bind="value: title" type="text">
-								<textarea data-bind="autosize: text"></textarea>
+								<div class="editable-text" contenteditable="true" data-bind="text: text"></div>
 							</div>
 							<div class="section group">
 								<div class="col span_2_of_4">
@@ -150,18 +150,25 @@
 					</div>
 				</div>
 
-				<table class="properties" data-bind="foreach: hints">
-					<tbody data-bind="attr: { 'data-id': id }">
-						<tr>
-							<td>id</td>
-							<td><span data-bind="text: id"></span></td>
-						</tr>
-						<tr data-bind="if: $root.getCellType(id())==='callout'">
-							<td>theme</td>
-							<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
-						</tr>
-					</tbody>
-				</table>
+				<div id="cell-property-table">
+					<h4>Cell Properties:</h4>
+					<table class="properties" data-bind="foreach: hints">
+						<tbody data-bind="attr: { 'data-id': id }">
+							<tr>
+								<td>id</td>
+								<td><span data-bind="text: id"></span></td>
+							</tr>
+							<tr data-bind="if: $parent.style()==='fixed'">
+								<td>anchor</td>
+								<td><select data-bind="options: ['LT','right bottom','right','left','RT','R','RB','LB','L','BL'], value: anchor"></select></td>
+							</tr>
+							<tr data-bind="if: $root.getCellType(id())==='callout'">
+								<td>theme</td>
+								<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 								
 			</div>
 		</div>

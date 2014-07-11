@@ -22,6 +22,13 @@ input {
 	padding-right: 10px;
 }
 
+.editable-text {
+	background-color: white;
+	border: 1px solid black;
+	padding: .25em .25em 1em .25em;
+	font-size: 18px;
+}
+
 #toc {
 	width: 250px;
 	
@@ -127,6 +134,11 @@ input {
 		width: 100%;
 		font-size: 18px;
 	}
+	
+	span.glossary {
+		font-weight: bold;
+		color: blue;
+	}
 }
 
 #layout {
@@ -204,6 +216,15 @@ input {
 			&.selected {
 				background-color: yellow;
 			}
+		}
+	}
+	
+	#cell-property-table {
+		border: 2px solid #aaa;
+		
+		h4 {
+			margin: .5em 0 0 0;
+			text-align: center;
 		}
 	}
 }

@@ -9,7 +9,7 @@ requirejs.config({
 	},
 });
 
-require(["Spread"], function (SpreadController) {
+require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
@@ -20,13 +20,46 @@ require(["Spread"], function (SpreadController) {
 	// TODO: make this open the given spread by id
 	var spread = new SpreadController("10_1");
 	spread.initialize();
+	
+	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
+	$("#content").bind('keydown', 'alt+meta+h', onUnGlossaryKey);
+	
+	function unwrap (who) {
+		var pa= who.parentNode;
+		while(who.firstChild){
+			pa.insertBefore(who.firstChild, who);
+		}
+	}
+	
+	function onUnGlossaryKey (event) {
+		var range = document.getSelection();
+		if (range.baseNode.parentNode && range.baseNode.parentNode.className === "glossary") {
+			unwrap(range.baseNode.parentNode);
+		}
+	}
+	
+	// NOTE: only recent browsers
+	function onGlossaryKey (event) {
+		if (document.getSelection) {
+			var node = document.getSelection();
+			if (node.baseNode.className === "glossary") {
+				unwrap(node.baseNode);
+			} else if (node.baseNode.parentNode && node.baseNode.parentNode.className === "glossary") {
+				unwrap(node.baseNode.parentNode);
+			} else {
+				var range = node.getRangeAt(0);
+				var glossary = $("<span class=\"glossary\">");
+				range.surroundContents(glossary[0]);
+			}
+		}
+					
+		return false;
+	}
 });
 
-// TODO: fixed layout anchor point UI
-// TODO: load published pages from json
 // TODO: "glossary" style button
-// TODO: handle glossary terms (ie, bold) within text
-// TODO: add class name to callouts
+// TODO: standardize anchor values
+// TODO: load published pages from json
 // TODO: button to add step and/or layout hint
 // TODO: button to jump from content to its relevant layout hint
 // TODO: collapsible columns
@@ -54,3 +87,6 @@ require(["Spread"], function (SpreadController) {
 // TODONT: move all image references to layout (nah)
 // IGNORE: getVariableProperties doesn't work when updating values (yes, I think it does; well, not now it doesn't; obviated)
 // DONE: ability to add extra properties [generic "styling" text area]
+// DONE: fixed layout anchor point UI [in properties table]
+// DONE: handle glossary terms (ie, bold) within text
+// DONE: add class name to callouts [theme field]

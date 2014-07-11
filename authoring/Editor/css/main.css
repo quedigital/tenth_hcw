@@ -255,123 +255,136 @@ input {
 }
 
 /* line 25, ../sass/_editor.scss */
+.editable-text {
+  background-color: white;
+  border: 1px solid black;
+  padding: .25em .25em 1em .25em;
+  font-size: 18px;
+}
+
+/* line 32, ../sass/_editor.scss */
 #toc {
   width: 250px;
   padding: 0;
 }
-/* line 31, ../sass/_editor.scss */
+/* line 38, ../sass/_editor.scss */
 #toc #spreadModel table {
   border-spacing: 0;
   border-collapse: collapse;
 }
-/* line 35, ../sass/_editor.scss */
+/* line 42, ../sass/_editor.scss */
 #toc #spreadModel table tr {
   border: 1px solid #99e;
   font-size: 12px;
 }
-/* line 39, ../sass/_editor.scss */
+/* line 46, ../sass/_editor.scss */
 #toc #spreadModel table tr td.id {
   padding: 0 1em 0 .5em;
 }
-/* line 43, ../sass/_editor.scss */
+/* line 50, ../sass/_editor.scss */
 #toc #spreadModel table tr td.title {
   padding-right: .5em;
 }
-/* line 48, ../sass/_editor.scss */
+/* line 55, ../sass/_editor.scss */
 #toc #spreadModel table tr:hover {
   background-color: #aae;
   cursor: pointer;
 }
 
-/* line 57, ../sass/_editor.scss */
+/* line 64, ../sass/_editor.scss */
 #content .header {
   max-width: 800px;
 }
-/* line 61, ../sass/_editor.scss */
+/* line 68, ../sass/_editor.scss */
 #content .spaced {
   padding: 10px;
 }
-/* line 65, ../sass/_editor.scss */
+/* line 72, ../sass/_editor.scss */
 #content .spread-header {
   display: table;
   width: 100%;
 }
-/* line 69, ../sass/_editor.scss */
+/* line 76, ../sass/_editor.scss */
 #content .spread-header div {
   vertical-align: top;
 }
-/* line 73, ../sass/_editor.scss */
+/* line 80, ../sass/_editor.scss */
 #content .spread-header header {
   display: table-row;
 }
-/* line 76, ../sass/_editor.scss */
+/* line 83, ../sass/_editor.scss */
 #content .spread-header header div {
   display: table-cell;
 }
-/* line 80, ../sass/_editor.scss */
+/* line 87, ../sass/_editor.scss */
 #content .spread-header header div:first-child {
   width: 8em;
 }
-/* line 85, ../sass/_editor.scss */
+/* line 92, ../sass/_editor.scss */
 #content .spread-header .row {
   display: table-row;
 }
-/* line 88, ../sass/_editor.scss */
+/* line 95, ../sass/_editor.scss */
 #content .spread-header .row div {
   display: table-cell;
 }
-/* line 92, ../sass/_editor.scss */
+/* line 99, ../sass/_editor.scss */
 #content .spread-header .row div:first-child {
   padding-right: 1em;
 }
-/* line 98, ../sass/_editor.scss */
+/* line 105, ../sass/_editor.scss */
 #content #lblInputTitle {
   text-align: right;
   display: inline-block;
   width: 100%;
 }
-/* line 104, ../sass/_editor.scss */
+/* line 111, ../sass/_editor.scss */
 #content .control {
   display: inline-block;
 }
-/* line 108, ../sass/_editor.scss */
+/* line 115, ../sass/_editor.scss */
 #content #cell:nth-child(even) {
   background-color: #eef;
 }
-/* line 112, ../sass/_editor.scss */
+/* line 119, ../sass/_editor.scss */
 #content #cell:nth-child(odd) {
   background-color: #cce;
 }
-/* line 116, ../sass/_editor.scss */
+/* line 123, ../sass/_editor.scss */
 #content .step-text {
   margin-top: 10px;
 }
-/* line 121, ../sass/_editor.scss */
+/* line 128, ../sass/_editor.scss */
 #content .callout-text #inputTitle {
   margin-bottom: 1em;
 }
-/* line 126, ../sass/_editor.scss */
+/* line 133, ../sass/_editor.scss */
 #content textarea {
   width: 100%;
   font-size: 18px;
 }
+/* line 138, ../sass/_editor.scss */
+#content span.glossary {
+  font-weight: bold;
+  color: blue;
+}
 
-/* line 133, ../sass/_editor.scss */
+/* line 145, ../sass/_editor.scss */
 #layout .grid {
   position: relative;
   margin: 1em auto 0 auto;
 }
-/* line 137, ../sass/_editor.scss */
+/* line 149, ../sass/_editor.scss */
 #layout .grid .cell {
   display: block;
   position: absolute;
 }
-/* line 141, ../sass/_editor.scss */
+/* line 153, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
   background-color: orange;
 }
-/* line 145, ../sass/_editor.scss */
+/* line 157, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -380,61 +393,70 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 154, ../sass/_editor.scss */
+/* line 166, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 162, ../sass/_editor.scss */
+/* line 174, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 168, ../sass/_editor.scss */
+/* line 180, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 172, ../sass/_editor.scss */
+/* line 184, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
   top: 0;
   left: 0;
 }
-/* line 179, ../sass/_editor.scss */
+/* line 191, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 183, ../sass/_editor.scss */
+/* line 195, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 189, ../sass/_editor.scss */
+/* line 201, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 192, ../sass/_editor.scss */
+/* line 204, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 200, ../sass/_editor.scss */
+/* line 212, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 204, ../sass/_editor.scss */
+/* line 216, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: yellow;
 }
+/* line 222, ../sass/_editor.scss */
+#layout #cell-property-table {
+  border: 2px solid #aaa;
+}
+/* line 225, ../sass/_editor.scss */
+#layout #cell-property-table h4 {
+  margin: .5em 0 0 0;
+  text-align: center;
+}
 
-/* line 211, ../sass/_editor.scss */
+/* line 232, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   height: 250px;
@@ -443,12 +465,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 220, ../sass/_editor.scss */
+/* line 241, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 225, ../sass/_editor.scss */
+/* line 246, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
@@ -456,15 +478,15 @@ table.properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 235, ../sass/_editor.scss */
+/* line 256, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 238, ../sass/_editor.scss */
+/* line 259, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 242, ../sass/_editor.scss */
+/* line 263, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -472,18 +494,18 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 249, ../sass/_editor.scss */
+/* line 270, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 258, ../sass/_editor.scss */
+/* line 279, ../sass/_editor.scss */
 .grid .inset .id-label {
   text-align: center;
   display: block;
   font-family: Courier;
 }
-/* line 264, ../sass/_editor.scss */
+/* line 285, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -491,32 +513,32 @@ table.properties td input:focus {
   width: 12px;
   height: 12px;
 }
-/* line 272, ../sass/_editor.scss */
+/* line 293, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 277, ../sass/_editor.scss */
+/* line 298, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 282, ../sass/_editor.scss */
+/* line 303, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 287, ../sass/_editor.scss */
+/* line 308, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 292, ../sass/_editor.scss */
+/* line 313, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 297, ../sass/_editor.scss */
+/* line 318, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;

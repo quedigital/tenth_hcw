@@ -1,4 +1,17 @@
 define(["gridder", "fixer"], function () {
+	ko.bindingHandlers.editableText = {
+		init: function (element, valueAccessor) {
+			$(element).on('blur', function() {
+				var observable = valueAccessor();
+				observable( $(this).html() );
+			});
+		},
+		update: function (element, valueAccessor) {
+			var value = ko.utils.unwrapObservable(valueAccessor());
+			$(element).html(value);
+		}
+	};
+
 	ko.bindingHandlers.getVariableProperties = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			// This will be called when the binding is first applied to an element
@@ -55,28 +68,6 @@ define(["gridder", "fixer"], function () {
 	ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);	
 
 	/* Content Model */
-	
-	var ContentModel2 = {
-		content: ko.observable(null)
-	}
-	
-	var firebase2 = new Firebase("https://howcomputerswork.firebaseio.com/contents/0");
-	var schema2 = {
-						"id": true,
-						"chapter": true,
-						"title": true,
-						"type": true,
-						"cells": {
-							"$cell": {
-								id: true,
-								text: true,
-								type: true,
-								image: true,
-								number: true,
-								title: true,
-							},
-						}
-					};
 	
 	function ContentModel (index) {
 		var self = this;
@@ -139,6 +130,7 @@ define(["gridder", "fixer"], function () {
 								"width": true,
 								"styling": true,
 								"bounds": true,
+								"anchor": true,
 								"theme": true,
 							}
 						}
@@ -149,15 +141,6 @@ define(["gridder", "fixer"], function () {
 			// set the spread observable to the new firebase data
 			self.layout(KnockoutFire.observable(firebase, schema));
 		}
-		
-		/*
-		self.getSpreadStyle = function () {
-			if (self && self.controller && self.controller.getSpreadStyle) {
-				return self.controller.getSpreadStyle();
-			}
-			return self.controller.getSpreadStyle;
-		}
-		*/
 		
 		// TODO: try to get the cell type of the content for this id
 		self.getCellType = function (id) {
@@ -188,13 +171,6 @@ define(["gridder", "fixer"], function () {
 	
 	SpreadController.prototype.viewSpread = function (index) {
 		this.content.viewContentForSpread(index);
-
-/*
-		ContentModel2.content({
-			firebase1: KnockoutFire.observable(firebase2, schema2)
-		});
-*/
-	
 		this.layout.viewLayoutForSpread(index);
 	}
 	

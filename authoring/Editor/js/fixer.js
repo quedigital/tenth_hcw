@@ -40,7 +40,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		
 		imagesLoaded(this.img, $.proxy(this.onImageLoaded, this));
 		
-		$("table.properties").hide();
+		$("#cell-property-table").hide();
 	}
 
 	FixedLayout.prototype = {};
@@ -162,7 +162,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		
 		$(event.currentTarget).addClass("selected");
 		
-		$("table.properties").show();
+		$("#cell-property-table").show();
 		
 		$("table.properties tbody[data-id = " + id + "]").show();
 		$("table.properties tbody[data-id != " + id + "]").hide();
