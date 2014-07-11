@@ -1,9 +1,11 @@
 define([], function () {
 	var MARGIN = 10;
 	
+	var currentLayout;
+	
 	ko.bindingHandlers.gridThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var g = new Gridder(element);
+			currentLayout = new Gridder(element);
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -12,16 +14,13 @@ define([], function () {
 	
 	ko.bindingHandlers.cellThing = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var cell = new GridCell(element, valueAccessor);
-			
-			valueAccessor().subscribe(function (newValue) {
-				var grid = $(element).parent(".grid");
-				grid.trigger("reformat");
-			});
+			if (currentLayout)
+				currentLayout.addNewGridCell(element, valueAccessor);
 		},
+		
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var grid = $(element).parent(".grid");
-			grid.trigger("reformat");
+			if (currentLayout)
+				currentLayout.reformat();
 		}
 	};
 
@@ -52,70 +51,11 @@ define([], function () {
 		}
 	};
 	
-	var GridCell = function (elem, valueAccessor) {
-		this.el = $(elem);
-		
-		cell = $(elem);
-		var me = this;
+	// Gridder
 
-		var ROW_WIDTH = cell.parent().width();
+	var Gridder = function (elem) {
+		this.cells = [];
 		
-		this.valueAccessor = valueAccessor;
-		
-		var inset = $("<div>").addClass("inset");
-		inset.attr("data-id", cell.data("id"));
-		$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
-		if (cell.data("image")) {
-			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
-			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
-		}
-		
-		cell.append(inset);
-		
-		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
-		
-		cell.click(setSelected);
-	}
-	
-	GridCell.prototype = {};
-	GridCell.prototype.constructor = GridCell;
-
-	// reformat during cell resize
-	GridCell.prototype.onResize = function (event, ui) {
-		var w = ui.element.width() + MARGIN;
-		var ROW_WIDTH = this.el.parent().width();
-		var percent = w / ROW_WIDTH;
-		// round to nearest 10%
-		percent = Math.round(percent * 10) / 10;
-		var cell = ui.element.parent(".cell");
-		cell.data("width", percent);
-
-		var value = this.valueAccessor();
-		value(percent);
-		
-		cell.parent(".grid").trigger("reformat");
-	}
-	
-	function setSelected (event) {
-		var id = $(event.currentTarget).data("id");
-		
-		$(".cell.selected").removeClass("selected");
-		
-		$(event.currentTarget).addClass("selected");
-		
-		$("table.properties").show();
-		
-		$("table.properties tbody[data-id = " + id + "]").show();
-		$("table.properties tbody[data-id != " + id + "]").hide();
-		
-		return true;
-	}
-	
-	var Gridder = function (elem) {		
 		this.elem = $(elem);
 
 		this.elem.on("reformat", $.proxy(this.reformat, this));		
@@ -126,6 +66,18 @@ define([], function () {
 	Gridder.prototype = {};
 	Gridder.prototype.constructor = Gridder;
 	
+	Gridder.prototype.addNewGridCell = function (element, valueAccessor) {
+		var cell = new GridCell(element, valueAccessor);
+		
+		this.cells.push(cell);
+		
+		var elem = this.elem;
+		
+		valueAccessor().subscribe(function (newValue) {
+			elem.trigger("reformat");
+		});		
+	}
+	
 	Gridder.prototype.reformat = function (event, element) {
 		var x = 0;
 		var y = 0;
@@ -135,15 +87,14 @@ define([], function () {
 		
 		var me = this;
 		
-		this.elem.find("div.cell").each(function (index) {
-			var cell = $(this);
+		for (var i = 0; i < this.cells.length; i++) {
+			var cell = this.cells[i].el;
 			
 			var inset = cell.find(".inset");
 			if (inset) {
 				inset.resizable( { maxWidth: ROW_WIDTH } );
 			}
 			
-//			var width = cell.data("width");
 			var width = cell.attr("data-width");
 			if (width) {
 				width = parseFloat(width);
@@ -164,12 +115,80 @@ define([], function () {
 				}
 				cell.width(cell_width).height(me.ROW_HEIGHT).css( { left: xx, top: yy } );
 			}
-		});
-		
+		}
+				
 		this.elem.height(y * me.ROW_HEIGHT).width(ROW_WIDTH);
 	}
 	
-	return {
-		Gridder: Gridder
+	// GridCell
+	
+	var GridCell = function (elem, valueAccessor) {
+		this.el = $(elem);
+		
+		cell = $(elem);
+		var me = this;
+
+		var ROW_WIDTH = cell.parent().width();
+		
+		this.valueAccessor = valueAccessor;
+		
+		var inset = $("<div>").addClass("inset");
+		inset.attr("data-id", cell.data("id"));
+
+		var ta = $("<textarea>").attr("data-bind", "autosize: styling");		
+		ta.appendTo(inset);
+		
+		$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
+		
+		if (cell.data("image")) {
+			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
+		}
+		
+		cell.append(inset);		
+		
+		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
+		
+		cell.click(setSelected);
 	}
+	
+	GridCell.prototype = {};
+	GridCell.prototype.constructor = GridCell;
+
+	// reformat during cell resize
+	GridCell.prototype.onResize = function (event, ui) {
+		var w = ui.element.width() + MARGIN;
+		var ROW_WIDTH = this.el.parent().width();
+		var percent = w / ROW_WIDTH;
+		// round to nearest 10%
+		percent = Math.round(percent * 10) / 10;
+		
+		var cell = $(this.el);
+		cell.data("width", percent);
+
+		var value = this.valueAccessor();
+		value(percent);
+		
+		// NOTE: this is a bit of kludge, but the cell.parent(".grid").trigger("reformat") wasn't working too well
+		currentLayout.reformat();
+	}
+	
+	function setSelected (event) {
+		var id = $(event.currentTarget).data("id");
+		
+		$(".cell.selected").removeClass("selected");
+		
+		$(event.currentTarget).addClass("selected");
+		
+		$("table.properties").show();
+		
+		$("table.properties tbody[data-id = " + id + "]").show();
+		$("table.properties tbody[data-id != " + id + "]").hide();
+		
+		return true;
+	}	
 });

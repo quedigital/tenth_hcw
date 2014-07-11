@@ -49,7 +49,7 @@
 	</div>
 	<div id="content" class="ui-layout-center">
 		<div id="contentModel">
-			<div data-bind="with: spread">
+			<div data-bind="with: content">
 				<section class="spread-header">
 					<header>
 						<div>ID</div>
@@ -74,7 +74,7 @@
 										<label>Cell Type</label>
 									</div>
 									<div>
-										<select data-bind="options: ['step','image'], value: type"></select>
+										<select data-bind="options: ['step','image', 'callout'], value: type"></select>
 									</div>
 								</div>
 								<div class="control">
@@ -97,6 +97,11 @@
 							<div class="step-text" data-bind="if: type() === 'step'">
 								<textarea data-bind="autosize: text"></textarea>
 							</div>
+							<div class="callout-text" data-bind="if: type() === 'callout'">
+								<label for="inputTitle">Title</label>
+								<input id="inputTitle" data-bind="value: title" type="text">
+								<textarea data-bind="autosize: text"></textarea>
+							</div>
 							<div class="section group">
 								<div class="col span_2_of_4">
 									<label for="inputID">Image</label>
@@ -117,13 +122,15 @@
 	
 	<div id="layout" class="ui-layout-east">
 		<div id="layoutModel">
-			<div data-bind="with: spread">
-				<label for="inputSpreadStyle">Style</label>
+			<div data-bind="with: layout">
+				<label for="inputSpreadStyle">Layout Style</label>
 				<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
 				
 				<div data-bind="if: style()==='grid'">
-					<div class="grid" data-bind="gridThing: hints, foreach: hints">
-						<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
+					<div class="grid" data-bind="gridThing: hints">
+						<div data-bind="foreach: hints">
+							<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
+							</div>
 						</div>
 					</div>
 				</div>
@@ -136,13 +143,26 @@
 							<div class="bounds" data-bind="boundsThing: bounds">
 								<span class="cell-id" data-bind="text: id"></span>
 								<div class="styling" data-bind="if: styling">
-									<input data-bind="value: styling"></span>
+									<textarea data-bind="autosize: styling"></textarea>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
+
+				<table class="properties" data-bind="foreach: hints">
+					<tbody data-bind="attr: { 'data-id': id }">
+						<tr>
+							<td>id</td>
+							<td><span data-bind="text: id"></span></td>
+						</tr>
+						<tr data-bind="if: $root.getCellType(id())==='callout'">
+							<td>theme</td>
+							<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
+						</tr>
+					</tbody>
+				</table>
+								
 			</div>
 		</div>
 	</div>

@@ -9,7 +9,7 @@ requirejs.config({
 	},
 });
 
-require(["Spread"], function (Spread) {
+require(["Spread"], function (SpreadController) {
 
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
@@ -17,33 +17,16 @@ require(["Spread"], function (Spread) {
 						east__size: "40%"
 					});
 
-	var spread = new Spread("10_1");
+	// TODO: make this open the given spread by id
+	var spread = new SpreadController("10_1");
 	spread.initialize();
-
-	var firebase = new Firebase("https://howcomputerswork.firebaseio.com/contents");
-	function SpreadListModel () {
-		 var self = this;
-		 self.spreads = KnockoutFire.observable(firebase, {
-			"$spread": {
-				"id": true,
-				"chapter": true,
-				"title": true,
-			}
-		})
-	
-		self.showSpread = function (index) {
-			spread.viewSpread(index);
-		}
-	}
-
-	ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);	
 });
 
-// TODO: getVariableProperties doesn't work when updating values (yes, I think it does; well, not now it doesn't)
+// TODO: fixed layout anchor point UI
 // TODO: load published pages from json
 // TODO: "glossary" style button
 // TODO: handle glossary terms (ie, bold) within text
-// TODO: ability to add extra properties
+// TODO: add class name to callouts
 // TODO: button to add step and/or layout hint
 // TODO: button to jump from content to its relevant layout hint
 // TODO: collapsible columns
@@ -69,3 +52,5 @@ require(["Spread"], function (Spread) {
 // BUG_FIXED: "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!) [valueAllowUnset seemed to do the trick]
 // DONE: image placement as a 9-box selectable grid widget
 // TODONT: move all image references to layout (nah)
+// IGNORE: getVariableProperties doesn't work when updating values (yes, I think it does; well, not now it doesn't; obviated)
+// DONE: ability to add extra properties [generic "styling" text area]

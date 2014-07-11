@@ -116,6 +116,12 @@ input {
 	.step-text {
 		margin-top: 10px;
 	}
+	
+	.callout-text {
+		#inputTitle {
+			margin-bottom: 1em;
+		}
+	}
 		
 	textarea {
 		width: 100%;
@@ -126,7 +132,7 @@ input {
 #layout {
 	.grid {
 		position: relative;
-		margin: 1em auto;
+		margin: 1em auto 0 auto;
 		
 		.cell {
 			display: block;
@@ -144,6 +150,13 @@ input {
 					background-color: #ccc;
 					height: 100%;
 				}
+				
+				textarea {
+					width: 100%;
+					bottom: 0;
+					position: absolute;
+					background-color: rgba(255, 255, 255, .5);
+				}
 			}
 			
 			&.selected .inset {
@@ -153,12 +166,12 @@ input {
 	}
 	
 	.fixer {
-		margin-top: 1em;
+		margin: 1em 0 1em 0;
 		position: relative;
 		
 		img {
 			width: 100%;
-			position: absolute;
+			position: relative;
 			top: 0;
 			left: 0;
 		}
@@ -174,17 +187,22 @@ input {
 			}
 			
 			.styling {
-				position: absolute;
-				bottom: 0;
 				width: 100%;
 				
-				input {
+				textarea {
 					width: 100%;
+					position: absolute;
+					bottom: 0;
+					background-color: rgba(255, 255, 255, .5);
 				}
 			}
 			
 			&:hover {
 				background-color: rgba(255, 255, 255, .5);
+			}
+			
+			&.selected {
+				background-color: yellow;
 			}
 		}
 	}
@@ -209,6 +227,7 @@ table.properties {
 	width: 100%;
 	border-spacing: 0;
 	border-collapse: separate;
+	margin-top: .5em;
 		
 	tr {
 	}
@@ -239,7 +258,7 @@ table.properties {
 		.id-label {
 			text-align: center;
 			display: block;
-			line-height: 65px;
+			font-family: Courier;
 		}
 		
 		input {

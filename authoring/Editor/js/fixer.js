@@ -16,7 +16,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	ko.bindingHandlers.boundsThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			if (currentLayout)
-				currentLayout.addNewBoundsElement(element, valueAccessor);
+				currentLayout.addNewBoundsElement(element, valueAccessor, bindingContext);
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -29,7 +29,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	var FixedLayout = function (elem) {
 		this.elem = $(elem);
 		
-		this.elem.on("update", $.proxy(this.update, this));
+		this.elem.on("update", $.proxy(this.onUpdate, this));
 		this.elem.on("resize_layout", $.proxy(this.onResize, this));
 		
 		this.backgroundSet = false;
@@ -37,13 +37,16 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		
 		this.img = $("<img>");
 		this.elem.prepend(this.img);
-		imagesLoaded(this.img, $.proxy(this.onImageLoaded, this));		
+		
+		imagesLoaded(this.img, $.proxy(this.onImageLoaded, this));
+		
+		$("table.properties").hide();
 	}
 
 	FixedLayout.prototype = {};
 	FixedLayout.prototype.constructor = FixedLayout;
 	
-	FixedLayout.prototype.update = function (event, data) {
+	FixedLayout.prototype.onUpdate = function (event, data) {
 		if (!this.backgroundSet && data.background()) {
 			this.img.attr("src", data.background());
 			
@@ -52,8 +55,6 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	}
 	
 	FixedLayout.prototype.onImageLoaded = function () {
-		this.scale = this.getScale();
-		
 		this.scaleBounds();
 	}
 	
@@ -66,13 +67,15 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		return this.currentSize.width / this.originalSize.width;
 	}
 	
-	FixedLayout.prototype.addNewBoundsElement = function (element, valueAccessor) {
-		var b = new BoundsElement(element, valueAccessor);
+	FixedLayout.prototype.addNewBoundsElement = function (element, valueAccessor, bindingContext) {
+		var b = new BoundsElement(element, valueAccessor, bindingContext);
 		
 		this.bounds.push(b);
 	}
 	
 	FixedLayout.prototype.scaleBounds = function () {
+		this.scale = this.getScale();
+		
 		for (var i = 0; i < this.bounds.length; i++) {
 			var b = this.bounds[i];
 			b.scaleTo(this.scale);
@@ -87,11 +90,15 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	
 	/* BoundsElement */
 	
-	var BoundsElement = function (elem, valueAccessor) {		
+	var BoundsElement = function (elem, valueAccessor, bindingContext) {		
 		this.elem = $(elem);
+		
+		this.elem.data("id", bindingContext.$data.id());
+		
 		this.valueAccessor = valueAccessor;
 		
-		this.elem.on("update", $.proxy(this.update, this));
+		this.elem.on("update", $.proxy(this.onUpdate, this));
+		this.elem.click(setSelected);
 		
 		this.elem.resizable({ stop: $.proxy(this.onResizeStop, this) });
 		this.elem.draggable({ stop: $.proxy(this.onDragStop, this) });
@@ -102,12 +109,14 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	BoundsElement.prototype = {};
 	BoundsElement.prototype.constructor = BoundsElement;
 	
-	BoundsElement.prototype.update = function (event, data) {
+	BoundsElement.prototype.onUpdate = function (event, data) {
 		var rect = data.bounds();
 		
 		this.rect = { left: rect[0], top: rect[1], width: rect[2], height: rect[3] };
 		
 		this.scaleTo(this.scale);
+		
+		currentLayout.scaleBounds();
 	}
 	
 	BoundsElement.prototype.scaleTo = function (scale) {
@@ -145,5 +154,20 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		
 		value(newRect);
 	}
+	
+	function setSelected (event) {
+		var id = $(event.currentTarget).data("id");
+		
+		$(".bounds.selected").removeClass("selected");
+		
+		$(event.currentTarget).addClass("selected");
+		
+		$("table.properties").show();
+		
+		$("table.properties tbody[data-id = " + id + "]").show();
+		$("table.properties tbody[data-id != " + id + "]").hide();
+		
+		return true;
+	}	
 	
 });
