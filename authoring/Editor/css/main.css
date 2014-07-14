@@ -292,107 +292,112 @@ input {
 }
 
 /* line 63, ../sass/_editor.scss */
+.ui-layout-north, .ui-layout-east {
+  padding: 0 !important;
+}
+
+/* line 67, ../sass/_editor.scss */
 #content {
   padding: 0 !important;
 }
-/* line 66, ../sass/_editor.scss */
-#content .ui-layout-north {
+/* line 70, ../sass/_editor.scss */
+#content .ui-layout-south {
   padding: 0 !important;
 }
-/* line 70, ../sass/_editor.scss */
+/* line 74, ../sass/_editor.scss */
 #content .header {
   max-width: 800px;
 }
-/* line 74, ../sass/_editor.scss */
+/* line 78, ../sass/_editor.scss */
 #content .spaced {
   padding: 10px;
 }
-/* line 78, ../sass/_editor.scss */
+/* line 82, ../sass/_editor.scss */
 #content .spread-header {
   display: table;
   width: 100%;
 }
-/* line 82, ../sass/_editor.scss */
+/* line 86, ../sass/_editor.scss */
 #content .spread-header div {
   vertical-align: top;
 }
-/* line 86, ../sass/_editor.scss */
+/* line 90, ../sass/_editor.scss */
 #content .spread-header header {
   display: table-row;
 }
-/* line 89, ../sass/_editor.scss */
+/* line 93, ../sass/_editor.scss */
 #content .spread-header header div {
   display: table-cell;
 }
-/* line 93, ../sass/_editor.scss */
+/* line 97, ../sass/_editor.scss */
 #content .spread-header header div:first-child {
   width: 8em;
 }
-/* line 98, ../sass/_editor.scss */
+/* line 102, ../sass/_editor.scss */
 #content .spread-header .row {
   display: table-row;
 }
-/* line 101, ../sass/_editor.scss */
+/* line 105, ../sass/_editor.scss */
 #content .spread-header .row div {
   display: table-cell;
 }
-/* line 105, ../sass/_editor.scss */
+/* line 109, ../sass/_editor.scss */
 #content .spread-header .row div:first-child {
   padding-right: 1em;
 }
-/* line 111, ../sass/_editor.scss */
+/* line 115, ../sass/_editor.scss */
 #content #lblInputTitle {
   text-align: right;
   display: inline-block;
   width: 100%;
 }
-/* line 117, ../sass/_editor.scss */
+/* line 121, ../sass/_editor.scss */
 #content .control {
   display: inline-block;
 }
-/* line 121, ../sass/_editor.scss */
+/* line 125, ../sass/_editor.scss */
 #content #cell:nth-child(even) {
   background-color: #eef;
 }
-/* line 125, ../sass/_editor.scss */
+/* line 129, ../sass/_editor.scss */
 #content #cell:nth-child(odd) {
   background-color: #cce;
 }
-/* line 129, ../sass/_editor.scss */
+/* line 133, ../sass/_editor.scss */
 #content .step-text {
   margin-top: 10px;
 }
-/* line 134, ../sass/_editor.scss */
+/* line 138, ../sass/_editor.scss */
 #content .callout-text #inputTitle {
   margin-bottom: 1em;
 }
-/* line 139, ../sass/_editor.scss */
+/* line 143, ../sass/_editor.scss */
 #content textarea {
   width: 100%;
   font-size: 18px;
 }
-/* line 144, ../sass/_editor.scss */
+/* line 148, ../sass/_editor.scss */
 #content span.glossary {
   font-weight: bold;
   color: blue;
 }
 
-/* line 151, ../sass/_editor.scss */
+/* line 155, ../sass/_editor.scss */
 #layout .grid {
   position: relative;
   margin: 1em auto 0 auto;
 }
-/* line 155, ../sass/_editor.scss */
+/* line 159, ../sass/_editor.scss */
 #layout .grid .cell {
   display: block;
   position: absolute;
 }
-/* line 159, ../sass/_editor.scss */
+/* line 163, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
   background-color: orange;
 }
-/* line 163, ../sass/_editor.scss */
+/* line 167, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -401,70 +406,70 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 172, ../sass/_editor.scss */
+/* line 176, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 180, ../sass/_editor.scss */
+/* line 184, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 186, ../sass/_editor.scss */
+/* line 190, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 190, ../sass/_editor.scss */
+/* line 194, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
   top: 0;
   left: 0;
 }
-/* line 197, ../sass/_editor.scss */
+/* line 201, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 201, ../sass/_editor.scss */
+/* line 205, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 207, ../sass/_editor.scss */
+/* line 211, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 210, ../sass/_editor.scss */
+/* line 214, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 218, ../sass/_editor.scss */
+/* line 222, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 222, ../sass/_editor.scss */
+/* line 226, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: yellow;
 }
-/* line 228, ../sass/_editor.scss */
+/* line 232, ../sass/_editor.scss */
 #layout #cell-property-table {
-  border: 2px solid #aaa;
+  display: none;
 }
-/* line 231, ../sass/_editor.scss */
-#layout #cell-property-table h4 {
+/* line 237, ../sass/_editor.scss */
+#layout #propertyPane h4 {
   margin: .5em 0 0 0;
   text-align: center;
 }
 
-/* line 238, ../sass/_editor.scss */
+/* line 244, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   height: 250px;
@@ -473,12 +478,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 247, ../sass/_editor.scss */
+/* line 253, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 252, ../sass/_editor.scss */
+/* line 258, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
@@ -486,15 +491,15 @@ table.properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 262, ../sass/_editor.scss */
+/* line 268, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 265, ../sass/_editor.scss */
+/* line 271, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 269, ../sass/_editor.scss */
+/* line 275, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -502,18 +507,18 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 276, ../sass/_editor.scss */
+/* line 282, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 285, ../sass/_editor.scss */
+/* line 291, ../sass/_editor.scss */
 .grid .inset .id-label {
   text-align: center;
   display: block;
   font-family: Courier;
 }
-/* line 291, ../sass/_editor.scss */
+/* line 297, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -521,56 +526,33 @@ table.properties td input:focus {
   width: 12px;
   height: 12px;
 }
-/* line 299, ../sass/_editor.scss */
+/* line 305, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 304, ../sass/_editor.scss */
+/* line 310, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 309, ../sass/_editor.scss */
+/* line 315, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 314, ../sass/_editor.scss */
+/* line 320, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 319, ../sass/_editor.scss */
+/* line 325, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 324, ../sass/_editor.scss */
+/* line 330, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
-}
-
-/* Allow Font Awesome Icons in lieu of jQuery UI and only apply when using a FA icon */
-/* line 332, ../sass/_editor.scss */
-.ui-icon[class*=" fa-"] {
-  /* Remove the jQuery UI Icon */
-  background: none repeat scroll 0 0 transparent;
-  /* Remove the jQuery UI Text Indent */
-  text-indent: 0;
-  /* Bump it up - jQuery UI is -8px */
-  margin-top: -0.5em;
-}
-
-/* Allow use of icon-large to be properly aligned */
-/* line 342, ../sass/_editor.scss */
-.ui-icon.icon-large {
-  margin-top: -0.75em;
-}
-
-/* line 346, ../sass/_editor.scss */
-.ui-button-icon-only .ui-icon[class*=" fa-"] {
-  /* Bump it - jQuery UI is -8px */
-  margin-left: -7px;
 }

@@ -13,15 +13,15 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
 						east__onresize: function () { spread.resizeLayoutPane(); },
-						east__size: "40%"
+						east__size: "40%",
 					});
 					
-	$("button").button().click(onGlossaryKey);
+	$("#glossary-button").button().click(onGlossaryKey);
+	$("#new-content-button").button();
+	$("#other-button").button();
 	
-	layoutSettings_Inner = {
-			applyDefaultStyles:	true,
-		};
-	var layout = $(".ui-layout-center").layout(layoutSettings_Inner);
+	$(".ui-layout-center").layout({ applyDefaultStyles: true });
+	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
 	// TODO: make this open the given spread by id
 	var spread = new SpreadController("10_1");
@@ -31,26 +31,19 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	
 	// NOTE: only recent browsers
 	function onGlossaryKey (event) {
-		if (document.getSelection) {
+		if (document.getSelection && document.getSelection().baseNode) {
 			var node = document.getSelection();
 			
 			var base = $(node.baseNode);
 			
-			var div;
-			if (base.hasClass("editable-text")) {
-				div = $(node.baseNode);
-			} else {
-				var p = base.parent();
-				while (p) {
-					if (p.hasClass("editable-text")) {
-						div = p;
-						break;
-					} else {
-						p = p.parent();
-					}
-				}
+			var div = $(node.baseNode);
+			while (div) {
+				if (div.hasClass("editable-text"))
+					break;
+				else
+					div = div.parent();
 			}
-			
+						
 			var glossary = $(node.baseNode).parent("span");
 			
 			if (glossary.length) {
@@ -71,6 +64,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	}
 });
 
+// TODO: put marginLeft (for grid layout) into the property panel
 // TODO: button to add step and/or layout hint
 // TODO: standardize anchor values
 // TODO: load published pages from json

@@ -183,6 +183,7 @@ define(["gridder", "fixer"], function () {
 	SpreadController.prototype.initialize = function () {
 		ko.applyBindings(this.content, $("#contentModel")[0]);
 		ko.applyBindings(this.layout, $("#layoutModel")[0]);
+		ko.applyBindings(this.layout, $("#propertyPane")[0]);
 	}
 	
 	SpreadController.prototype.getCellType = function (id) {

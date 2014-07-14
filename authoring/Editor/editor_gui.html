@@ -51,6 +51,7 @@
 		<div class="ui-layout-north">
 			<button id="glossary-button"><span class="fa fa-book fa-2x"></span></button>
 		</div>
+		
 		<div class="ui-layout-center">
 			<div id="contentModel">
 				<div data-bind="with: content">
@@ -123,60 +124,72 @@
 				</div>
 				</div>
 		</div>
+		
+		<div class="ui-layout-south">
+			<button id="new-content-button"><span class="fa fa-plus-square fa-2x"></span></button>
+		</div>		
 	</div>
 	
 	<div id="layout" class="ui-layout-east">
-		<div id="layoutModel">
-			<div data-bind="with: layout">
-				<label for="inputSpreadStyle">Layout Style</label>
-				<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
+		<div class="ui-layout-center">
+			<div id="layoutModel">
+				<div data-bind="with: layout">
+					<label for="inputSpreadStyle">Layout Style</label>
+					<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
 				
-				<div data-bind="if: style()==='grid'">
-					<div class="grid" data-bind="gridThing: hints">
-						<div data-bind="foreach: hints">
-							<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
-							</div>
-						</div>
-					</div>
-				</div>
-				
-				<div data-bind="if: style()==='fixed'">
-					<label for="inputID">Background Image</label>
-					<input data-bind="value: background" type="text"></input>
-					<div class="fixer" data-bind="fixedThing: hints">
-						<div data-bind="foreach: hints">
-							<div class="bounds" data-bind="boundsThing: bounds">
-								<span class="cell-id" data-bind="text: id"></span>
-								<div class="styling" data-bind="if: styling">
-									<textarea data-bind="autosize: styling"></textarea>
+					<div data-bind="if: style()==='grid'">
+						<div class="grid" data-bind="gridThing: hints">
+							<div data-bind="foreach: hints">
+								<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				
+					<div data-bind="if: style()==='fixed'">
+						<label for="inputID">Background Image</label>
+						<input data-bind="value: background" type="text"></input>
+						<div class="fixer" data-bind="fixedThing: hints">
+							<div data-bind="foreach: hints">
+								<div class="bounds" data-bind="boundsThing: bounds">
+									<span class="cell-id" data-bind="text: id"></span>
+									<div class="styling" data-bind="if: styling">
+										<textarea data-bind="autosize: styling"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-				<div id="cell-property-table">
-					<h4>Cell Properties:</h4>
-					<table class="properties" data-bind="foreach: hints">
-						<tbody data-bind="attr: { 'data-id': id }">
-							<tr>
-								<td>id</td>
-								<td><span data-bind="text: id"></span></td>
-							</tr>
-							<tr data-bind="if: $parent.style()==='fixed'">
-								<td>anchor</td>
-								<td><select data-bind="options: ['LT','right bottom','right','left','RT','R','RB','LB','L','BL'], value: anchor"></select></td>
-							</tr>
-							<tr data-bind="if: $root.getCellType(id())==='callout'">
-								<td>theme</td>
-								<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
-							</tr>
-						</tbody>
-					</table>
 				</div>
-								
 			</div>
 		</div>
+
+		<div class="ui-layout-south">
+			<div id="propertyPane">
+				<h4>Cell Properties:</h4>
+				<div data-bind="with: layout">
+					<div id="cell-property-table">
+						<table class="properties" data-bind="foreach: hints">
+							<tbody data-bind="attr: { 'data-id': id }">
+								<tr>
+									<td>id</td>
+									<td><span data-bind="text: id"></span></td>
+								</tr>
+								<tr data-bind="if: $parent.style()==='fixed'">
+									<td>anchor</td>
+									<td><select data-bind="options: ['LT','right bottom','right','left','RT','R','RB','LB','L','BL'], value: anchor"></select></td>
+								</tr>
+								<tr data-bind="if: $root.getCellType(id())==='callout'">
+									<td>theme</td>
+									<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</div>
 </body>
 
