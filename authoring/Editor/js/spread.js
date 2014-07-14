@@ -5,6 +5,12 @@ define(["gridder", "fixer"], function () {
 				var observable = valueAccessor();
 				observable( $(this).html() );
 			});
+			
+			$(element).on("bob", function () {
+				console.log("writing");
+				var observable = valueAccessor();
+				observable( $(this).html() );
+			});
 		},
 		update: function (element, valueAccessor) {
 			var value = ko.utils.unwrapObservable(valueAccessor());
