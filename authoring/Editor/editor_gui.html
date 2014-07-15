@@ -79,7 +79,7 @@
 							<div class="cell spaced">
 								<div class="cell-left">
 									<div class="squaredOne">
-										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }"/>
+										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }, event: { change: $root.onSelectCell }"/>
 										<label data-bind="attr: { for: 'cell-check' + $index() }"></label>
 									</div>
 								</div>

@@ -28,6 +28,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
         }
     });
     
+    // KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
     var selectedNode, selectedRange;
     var button = $("#top-toolbar .w2ui-button");
     button.on("mousedown", function () {
@@ -42,22 +43,23 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
     $('#bottom-toolbar').w2toolbar({
         name: 'bottom-toolbar',
         items: [
-            { type: 'button',  id: 'item3',  caption: 'Add', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
+            { type: 'button',  id: 'add',  caption: 'Add', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
             { type: 'break', id: 'break0' },
             { text: 'Delete', id: "delete", icon: 'fa fa-trash-o', count: 0 },
         ],
         onClick: function (event) {
             console.log('Target: '+ event.target, event);
-            console.log(document.getSelection());
         }
     });
-    	
+    
 	$(".ui-layout-center").layout({ applyDefaultStyles: true });
 	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
 	// TODO: make this open the given spread by id
 	var spread = new SpreadController("10_1");
 	spread.initialize();
+	
+	$(spread).on("selection", onContentCellSelected);
 	
 	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
 
@@ -94,6 +96,10 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 		}
 					
 		return false;
+	}
+	
+	function onContentCellSelected (event, params) {
+		w2ui['bottom-toolbar'].set('delete', { count: params.selected.length });
 	}
 });
 

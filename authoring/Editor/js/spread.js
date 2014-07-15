@@ -75,7 +75,9 @@ define(["gridder", "fixer"], function () {
 
 	/* Content Model */
 	
-	function ContentModel (index) {
+	function ContentModel (controller, index) {
+		this.controller = controller;
+		
 		var self = this;
 		
 		self.content = ko.observable(null);
@@ -111,6 +113,11 @@ define(["gridder", "fixer"], function () {
 					return cell.type();
 				}
 			}
+		}
+		
+		self.onSelectCell = function (data, event) {
+			var selected = $(".cell-check:checked");
+			self.controller.onSelectionChange(selected);
 		}
 		
 		self.viewContentForSpread(0);
@@ -160,7 +167,7 @@ define(["gridder", "fixer"], function () {
 	
 	var SpreadController = function (id) {
 		// TODO: get index from id
-		this.content = new ContentModel(0);
+		this.content = new ContentModel(this, 0);
 
 		this.layout = new LayoutModel(this, 0);
 		
@@ -188,6 +195,10 @@ define(["gridder", "fixer"], function () {
 	
 	SpreadController.prototype.getCellType = function (id) {
 		return this.content.getCellType(id);
+	}
+	
+	SpreadController.prototype.onSelectionChange = function (selected) {
+		$(this).trigger("selection", { selected: selected } );
 	}
 
 	return SpreadController;
