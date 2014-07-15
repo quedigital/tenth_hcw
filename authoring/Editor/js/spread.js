@@ -17,6 +17,19 @@ define(["gridder", "fixer"], function () {
 			$(element).html(value);
 		}
 	};
+	
+	ko.bindingHandlers.sidebarItem = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var text = bindingContext.$data.id() + " " + bindingContext.$data.title()
+			w2ui.sidebar.add([
+				{ id: bindingContext.$index(), text: text, icon: 'fa fa-list-alt' },
+			]);
+		},
+		update: function (element, valueAccessor) {
+//			console.log("sidebar update");
+//			console.log(element);
+		}
+	};
 
 	ko.bindingHandlers.getVariableProperties = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -70,8 +83,10 @@ define(["gridder", "fixer"], function () {
 			spread.viewSpread(index);
 		}
 	}
+	
+	var spreadList = new SpreadListModel();
 
-	ko.applyBindings(new SpreadListModel(), $("#spreadModel")[0]);	
+	ko.applyBindings(spreadList, $("#spreadModel")[0]);
 
 	/* Content Model */
 	

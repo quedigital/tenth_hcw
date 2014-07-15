@@ -20,6 +20,8 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
         name: 'top-toolbar',
         items: [
             { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Hint for item 3' },
+            { type: 'break', id: 'break0' },
+            { type: 'button', caption: 'Another Button', icon: 'fa fa-bars' },
         ],
         onClick: function (event) {
         	if (event.target === "glossary") {
@@ -51,6 +53,37 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
             console.log('Target: '+ event.target, event);
         }
     });
+    
+    $("#toc").w2sidebar({
+    	name: "sidebar",
+    	onClick: function (event) {
+			spread.viewSpread(event.target);
+		}
+    });
+    /*
+	$('#toc').w2sidebar({
+        name: 'sidebar',
+        nodes: [ 
+            { id: 'level-1', text: 'Level 1', img: 'icon-folder', expanded: true, group: true,
+              nodes: [ { id: 'level-1-1', text: 'Level 1.1', icon: 'fa-home' },
+                       { id: 'level-1-2', text: 'Level 1.2', icon: 'fa-star' },
+                       { id: 'level-1-3', text: 'Level 1.3', icon: 'fa-star-empty' }
+                     ]
+            },
+            { id: 'level-2', text: 'Level 2', img: 'icon-folder', expanded: true, group: true,
+              nodes: [ { id: 'level-2-1', text: 'Level 2.1', img: 'icon-folder', count: 3,
+                           nodes: [
+                           { id: 'level-2-1-1', text: 'Level 2.1.1', icon: 'fa-star-empty' },
+                           { id: 'level-2-1-2', text: 'Level 2.1.2', icon: 'fa-star-empty', count: 67 },
+                           { id: 'level-2-1-3', text: 'Level 2.1.3', icon: 'fa-star-empty' }
+                       ]},
+                       { id: 'level-2-2', text: 'Level 2.2', icon: 'fa-star-empty' },
+                       { id: 'level-2-3', text: 'Level 2.3', icon: 'fa-star-empty' }
+                     ]
+            }
+        ]
+    });
+    */
     
 	$(".ui-layout-center").layout({ applyDefaultStyles: true });
 	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });

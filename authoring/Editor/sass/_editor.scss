@@ -35,6 +35,7 @@ input {
 	padding: 0;
 
 	#spreadModel {
+		display: none;
 		table {
 			border-spacing: 0;
 			border-collapse: collapse;
@@ -60,7 +61,7 @@ input {
 	}
 }
 
-.ui-layout-north, .ui-layout-east {
+.ui-layout-north, .ui-layout-east, .ui-layout-west {
 	padding: 0 !important;
 }
 
@@ -160,7 +161,12 @@ input {
 	}
 
 	.step-text {
-		margin-top: 10px;
+		margin: 10px 10px 0 0;
+		
+		div.editable-text {
+			border: 2px solid #88a;
+			border-radius: 10px;
+		}
 	}
 	
 	.callout-text {
@@ -440,4 +446,8 @@ table.properties {
 			box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 		}
 	}
+}
+
+.w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
+	white-space: normal !important;
 }

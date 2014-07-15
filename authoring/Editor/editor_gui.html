@@ -40,6 +40,7 @@
 
 <body>
 	<div id="toc" class="ui-layout-west">
+	<!--
 		<div id="spreadModel">
 			<table>
 				<tbody data-bind="foreach: spreads">
@@ -49,6 +50,12 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+	-->
+	</div>
+	<div id="spreadModel">
+		<div data-bind="foreach: spreads">
+			<div data-bind="sidebarItem: id"></div>
 		</div>
 	</div>
 	<div id="content" class="ui-layout-center">
