@@ -19,6 +19,8 @@
 
 	<link href="css/font-awesome.min.css" rel="stylesheet"/>
 
+	<link rel="stylesheet" type="text/css" href="http://w2ui.com/src/w2ui-1.4.min.css" />
+
 	<script src="js/jquery-1.11.0.min.js"></script>
 	<script src="js/jquery-ui-1.10.4.min.js"></script>
 	<script src="js/jquery.layout-latest.min.js"></script>
@@ -30,6 +32,8 @@
 	<script src="js/knockout-3.1.0.js"></script>
 	
 	<script src="js/knockoutfire.js"></script>
+
+	<script type="text/javascript" src="http://w2ui.com/src/w2ui-1.4.min.js"></script>
 		
 	<script data-main="editor" src="js/require.js"></script>
 </head>
@@ -49,7 +53,7 @@
 	</div>
 	<div id="content" class="ui-layout-center">
 		<div class="ui-layout-north">
-			<button id="glossary-button"><span class="fa fa-book fa-2x"></span></button>
+			<div id="top-toolbar" style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>			
 		</div>
 		
 		<div class="ui-layout-center">
@@ -72,49 +76,57 @@
 			
 					<div id="cells">
 						<div data-bind="foreach: cells">
-							<div id="cell" class="spaced">
-								<div class="header section group">
-									<div class="control">
-										<div>
-											<label>Cell Type</label>
-										</div>
-										<div>
-											<select data-bind="options: ['step','image', 'callout'], value: type"></select>
-										</div>
-									</div>
-									<div class="control">
-										<div>
-											<label for="inputNumber">Number</label>
-										</div>
-										<div>
-											<input id="inputNumber" data-bind="value: number" type="number">
-										</div>
-									</div>
-									<div class="control">
-										<div>
-											<label for="inputID">ID</label>
-										</div>
-										<div>
-											<input id="inputID" data-bind="value: id" type="text">
-										</div>
+							<div class="cell spaced">
+								<div class="cell-left">
+									<div class="squaredOne">
+										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }"/>
+										<label data-bind="attr: { for: 'cell-check' + $index() }"></label>
 									</div>
 								</div>
-								<div class="step-text" data-bind="if: type() === 'step'">
-									<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
-								</div>
-								<div class="callout-text" data-bind="if: type() === 'callout'">
-									<label for="inputTitle">Title</label>
-									<input id="inputTitle" data-bind="value: title" type="text">
-									<div class="editable-text" contenteditable="true" data-bind="text: text"></div>
-								</div>
-								<div class="section group">
-									<div class="col span_2_of_4">
-										<label for="inputID">Image</label>
-										<input data-bind="value: image" type="text"></input>
+								<div class="cell-right">
+									<div class="header section group">
+										<div class="control">
+											<div>
+												<label>Cell Type</label>
+											</div>
+											<div>
+												<select data-bind="options: ['step','image', 'callout'], value: type"></select>
+											</div>
+										</div>
+										<div class="control">
+											<div>
+												<label for="inputNumber">Number</label>
+											</div>
+											<div>
+												<input id="inputNumber" data-bind="value: number" type="number">
+											</div>
+										</div>
+										<div class="control">
+											<div>
+												<label for="inputID">ID</label>
+											</div>
+											<div>
+												<input id="inputID" data-bind="value: id" type="text">
+											</div>
+										</div>
 									</div>
-									<div class="col span_2_of_4">
-										<div class="thumbnail" data-bind="visible: image">
-											<img data-bind="attr: { src: image }"/>
+									<div class="step-text" data-bind="if: type() === 'step'">
+										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
+									</div>
+									<div class="callout-text" data-bind="if: type() === 'callout'">
+										<label for="inputTitle">Title</label>
+										<input id="inputTitle" data-bind="value: title" type="text">
+										<div class="editable-text" contenteditable="true" data-bind="text: text"></div>
+									</div>
+									<div class="section group">
+										<div class="col span_2_of_4">
+											<label for="inputID">Image</label>
+											<input data-bind="value: image" type="text"></input>
+										</div>
+										<div class="col span_2_of_4">
+											<div class="thumbnail" data-bind="visible: image">
+												<img data-bind="attr: { src: image }"/>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -126,7 +138,7 @@
 		</div>
 		
 		<div class="ui-layout-south">
-			<button id="new-content-button"><span class="fa fa-plus-square fa-2x"></span></button>
+			<div id="bottom-toolbar" style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>
 		</div>		
 	</div>
 	
@@ -165,7 +177,7 @@
 			</div>
 		</div>
 
-		<div class="ui-layout-south">
+		<div class="ui-layout-east">
 			<div id="propertyPane">
 				<h4>Cell Properties:</h4>
 				<div data-bind="with: layout">

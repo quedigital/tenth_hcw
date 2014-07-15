@@ -16,10 +16,42 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 						east__size: "40%",
 					});
 					
-	$("#glossary-button").button().click(onGlossaryKey);
-	$("#new-content-button").button();
-	$("#other-button").button();
-	
+    $('#top-toolbar').w2toolbar({
+        name: 'top-toolbar',
+        items: [
+            { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Hint for item 3' },
+        ],
+        onClick: function (event) {
+        	if (event.target === "glossary") {
+        		onGlossaryKey(null, selectedNode, selectedRange);
+        	}
+        }
+    });
+    
+    var selectedNode, selectedRange;
+    var button = $("#top-toolbar .w2ui-button");
+    button.on("mousedown", function () {
+    		if (document.getSelection().type === "Range") {
+				selectedNode = document.getSelection().baseNode;
+				selectedRange = document.getSelection().getRangeAt(0);
+			} else {
+				selectedNode = selectedRange = undefined;
+			}
+		});
+    
+    $('#bottom-toolbar').w2toolbar({
+        name: 'bottom-toolbar',
+        items: [
+            { type: 'button',  id: 'item3',  caption: 'Add', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
+            { type: 'break', id: 'break0' },
+            { text: 'Delete', id: "delete", icon: 'fa fa-trash-o', count: 0 },
+        ],
+        onClick: function (event) {
+            console.log('Target: '+ event.target, event);
+            console.log(document.getSelection());
+        }
+    });
+    	
 	$(".ui-layout-center").layout({ applyDefaultStyles: true });
 	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
@@ -28,15 +60,17 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	spread.initialize();
 	
 	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
-	
-	// NOTE: only recent browsers
-	function onGlossaryKey (event) {
-		if (document.getSelection && document.getSelection().baseNode) {
-			var node = document.getSelection();
+
+	function onGlossaryKey (event, selectedNode, selectedRange) {
+		if (!selectedNode) {
+			selectedNode = document.getSelection().type === "Range" && document.getSelection().baseNode;
+			selectedRange = document.getSelection().type === "Range" && document.getSelection().getRangeAt(0);
+		}
+		
+		if (selectedNode) {
+			var node = selectedNode;
 			
-			var base = $(node.baseNode);
-			
-			var div = $(node.baseNode);
+			var div = $(selectedNode);
 			while (div) {
 				if (div.hasClass("editable-text"))
 					break;
@@ -44,15 +78,14 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 					div = div.parent();
 			}
 						
-			var glossary = $(node.baseNode).parent("span");
+			var glossary = $(selectedNode).parent("span");
 			
 			if (glossary.length) {
 				var t = document.createTextNode(glossary.text());
 				glossary.replaceWith(t);
 			} else {
-				var range = node.getRangeAt(0);
 				var glossary = $("<span class=\"glossary\">");
-				range.surroundContents(glossary[0]);
+				selectedRange.surroundContents(glossary[0]);
 				div.html(div.html());
 			}
 
@@ -64,6 +97,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	}
 });
 
+// TODO: show currently selected spread
 // TODO: put marginLeft (for grid layout) into the property panel
 // TODO: button to add step and/or layout hint
 // TODO: standardize anchor values
