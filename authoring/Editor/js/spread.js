@@ -22,12 +22,12 @@ define(["gridder", "fixer"], function () {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var text = bindingContext.$data.id() + " " + bindingContext.$data.title()
 			w2ui.sidebar.add([
-				{ id: bindingContext.$index(), text: text, icon: 'fa fa-list-alt' },
+				{ id: bindingContext.$data.id(), text: text, icon: 'fa fa-list-alt' },
 			]);
 		},
 		update: function (element, valueAccessor) {
-//			console.log("sidebar update");
-//			console.log(element);
+			// TODO: this wasn't called for deleting??
+			console.log("sidebar update");
 		}
 	};
 
@@ -101,7 +101,6 @@ define(["gridder", "fixer"], function () {
 						"id": true,
 						"chapter": true,
 						"title": true,
-						"type": true,
 						"cells": {
 							"$cell": {
 								id: true,
@@ -133,6 +132,16 @@ define(["gridder", "fixer"], function () {
 		self.onSelectCell = function (data, event) {
 			var selected = $(".cell-check:checked");
 			self.controller.onSelectionChange(selected);
+		}
+		
+		self.addNew = function (id, title) {
+			// NOTE: this is a little kludgy; we should add it after the currently selected spread, I think
+			self.content().firebase.parent().child(id).set( { id: id, title: title });
+		}
+		
+		self.removeByID = function (id) {
+			console.log("removing id " + id);
+			self.content().firebase.parent().child(id).remove();
 		}
 		
 		self.viewContentForSpread(0);
@@ -214,6 +223,14 @@ define(["gridder", "fixer"], function () {
 	
 	SpreadController.prototype.onSelectionChange = function (selected) {
 		$(this).trigger("selection", { selected: selected } );
+	}
+	
+	SpreadController.prototype.addNewContent = function (id, title) {
+		this.content.addNew(id, title);
+	}
+	
+	SpreadController.prototype.removeByID = function (id) {
+		this.content.removeByID(id);
 	}
 
 	return SpreadController;

@@ -39,20 +39,28 @@
 </head>
 
 <body>
-	<div id="toc" class="ui-layout-west">
-	<!--
-		<div id="spreadModel">
-			<table>
-				<tbody data-bind="foreach: spreads">
-					<tr data-bind="click: function () { $parent.showSpread($index()) }">
-						<td class="id" data-bind="text: id"></td>
-						<td class="title" data-bind="text: title"></td>
-					</tr>
-				</tbody>
-			</table>
+	<div id="leftmost" class="ui-layout-west">
+		<div id="toc" class="ui-layout-center">
 		</div>
-	-->
+		<div id="leftbottombar" class="ui-layout-south">
+			<div id="bottom-sidebar" style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>
+			
+			<div id="dialog-form" title="Add Spread">
+				<form>
+					<fieldset>
+						<label for="name">ID</label>
+						<input type="text" name="id" id="id" class="text ui-widget-content ui-corner-all">
+						<label for="title">Title</label>
+						<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
+
+						<!-- Allow form submission with keyboard without duplicating the dialog button -->
+						<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+					</fieldset>
+				</form>
+			</div>			
+		</div>		
 	</div>
+	<!-- this model lives below but is actually used for the west layout div -->
 	<div id="spreadModel">
 		<div data-bind="foreach: spreads">
 			<div data-bind="sidebarItem: id"></div>

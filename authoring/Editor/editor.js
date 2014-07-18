@@ -60,32 +60,72 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 			spread.viewSpread(event.target);
 		}
     });
-    /*
-	$('#toc').w2sidebar({
-        name: 'sidebar',
-        nodes: [ 
-            { id: 'level-1', text: 'Level 1', img: 'icon-folder', expanded: true, group: true,
-              nodes: [ { id: 'level-1-1', text: 'Level 1.1', icon: 'fa-home' },
-                       { id: 'level-1-2', text: 'Level 1.2', icon: 'fa-star' },
-                       { id: 'level-1-3', text: 'Level 1.3', icon: 'fa-star-empty' }
-                     ]
-            },
-            { id: 'level-2', text: 'Level 2', img: 'icon-folder', expanded: true, group: true,
-              nodes: [ { id: 'level-2-1', text: 'Level 2.1', img: 'icon-folder', count: 3,
-                           nodes: [
-                           { id: 'level-2-1-1', text: 'Level 2.1.1', icon: 'fa-star-empty' },
-                           { id: 'level-2-1-2', text: 'Level 2.1.2', icon: 'fa-star-empty', count: 67 },
-                           { id: 'level-2-1-3', text: 'Level 2.1.3', icon: 'fa-star-empty' }
-                       ]},
-                       { id: 'level-2-2', text: 'Level 2.2', icon: 'fa-star-empty' },
-                       { id: 'level-2-3', text: 'Level 2.3', icon: 'fa-star-empty' }
-                     ]
-            }
-        ]
-    });
-    */
     
-	$(".ui-layout-center").layout({ applyDefaultStyles: true });
+    $('#bottom-sidebar').w2toolbar({
+        name: 'bottom-sidebar',
+        items: [
+            { type: 'button',  id: 'add', icon: 'fa fa-plus-square', hint: "Add new spread" },
+            { type: 'break', id: 'break0' },
+            { type: "button", id: "delete", icon: "fa fa-minus-square", hint: "Delete selected spread" },
+            { type: 'break', id: 'break1' },
+        ],
+        onClick: function (event) {
+        	switch (event.target) {
+        		case "add":
+        			dialog.dialog("open");
+        			break;
+        		case "delete":
+        			spread.removeByID(w2ui['sidebar'].selected);
+        			break;
+        	}
+        }
+    });
+    
+    var dialog;
+    
+	dialog = $( "#dialog-form" ).dialog({
+		autoOpen: false,
+		height: 300,
+		width: 350,
+		modal: true,
+		buttons: {
+			"Add": addSpread,
+			"Cancel": function() {
+				dialog.dialog("close");
+			}
+		},
+		close: function() {
+			$(".ui-state-error").removeClass( "ui-state-error");
+		}
+	});
+	
+	function checkfield (f) {
+		 if (f.val().length == 0) {
+		 	f.addClass("ui-state-error");
+		 	return false;
+		 }
+		 return true;
+	}
+	
+	function addSpread () {
+		var valid = true;
+		
+		var id = $("#dialog-form #id");
+		var title = $("#dialog-form #title");
+		
+		valid = valid && checkfield(id) && checkfield(title);
+		
+		if (valid) {
+			dialog.dialog("close");
+			
+			spread.addNewContent(id.val(), title.val());
+		}
+		
+		return false;
+	}
+    
+    $("#leftmost").layout({ applyDefaultStyles: true });
+	$("#content").layout({ applyDefaultStyles: true });
 	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
 	// TODO: make this open the given spread by id
@@ -136,9 +176,12 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	}
 });
 
-// TODO: show currently selected spread
+// TODO: update sidebar when spread gets deleted
+// TODO: rename editor.js spread instance to something like Editor
+// TODO: also add/delete layout when spread gets added/deleted
+// TODO: sidebar with chapter groupings
+// TODO: different sidebar icons for each spread type
 // TODO: put marginLeft (for grid layout) into the property panel
-// TODO: button to add step and/or layout hint
 // TODO: standardize anchor values
 // TODO: load published pages from json
 // TODO: button to jump from content to its relevant layout hint
@@ -171,3 +214,5 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 // DONE: handle glossary terms (ie, bold) within text
 // DONE: add class name to callouts [theme field]
 // DONE: "glossary" style button
+// DONE: show currently selected spread
+// DONE: sidebar add and delete spreads

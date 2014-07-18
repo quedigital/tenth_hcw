@@ -29,36 +29,18 @@ input {
 	font-size: 18px;
 }
 
+#leftmost {
+	padding: 0 !important;
+}
+
 #toc {
 	width: 250px;
 	
-	padding: 0;
+	padding: 0 !important;
+}
 
-	#spreadModel {
-		display: none;
-		table {
-			border-spacing: 0;
-			border-collapse: collapse;
-			
-			tr {
-				border: 1px solid #99e;
-				font-size: 12px;
-				
-				td.id {
-					padding: 0 1em 0 .5em;
-				}
-				
-				td.title {
-					padding-right: .5em;
-				}
-			}
-			
-			tr:hover {
-				background-color: #aae;
-				cursor: pointer;
-			}
-		}
-	}
+#leftbottombar {
+	padding: 0 !important;
 }
 
 .ui-layout-north, .ui-layout-east, .ui-layout-west {
