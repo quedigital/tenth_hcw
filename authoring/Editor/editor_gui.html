@@ -203,6 +203,10 @@
 									<td>id</td>
 									<td><span data-bind="text: id"></span></td>
 								</tr>
+								<tr data-bind="if: $parent.style()==='grid'">
+									<td>top margin</td>
+									<td><input data-bind="value: marginTop" type="number"></input></td>
+								</tr>
 								<tr data-bind="if: $parent.style()==='fixed'">
 									<td>anchor</td>
 									<td><select data-bind="options: ['LT','right bottom','right','left','RT','R','RB','LB','L','BL'], value: anchor"></select></td>
@@ -210,6 +214,10 @@
 								<tr data-bind="if: $root.getCellType(id())==='callout'">
 									<td>theme</td>
 									<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>
+								</tr>
+								<tr data-bind="if: $root.getCellType(id())==='callout'">
+									<td>background color</td>
+									<td><input data-bind="value: backgroundColor" type="text"></input></td>
 								</tr>
 							</tbody>
 						</table>

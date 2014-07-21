@@ -135,8 +135,10 @@ define([], function () {
 		var inset = $("<div>").addClass("inset");
 		inset.attr("data-id", cell.data("id"));
 
-		var ta = $("<textarea>").attr("data-bind", "autosize: styling");		
+		/*
+		var ta = $("<textarea>").attr("data-bind", "autosize: styling");
 		ta.appendTo(inset);
+		*/
 		
 		$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
 		

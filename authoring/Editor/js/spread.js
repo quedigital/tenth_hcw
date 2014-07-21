@@ -188,6 +188,8 @@ define(["gridder", "fixer"], function () {
 								"bounds": true,
 								"anchor": true,
 								"theme": true,
+								"backgroundColor": true,
+								"marginTop": true,
 							}
 						}
 					};
