@@ -18,6 +18,13 @@ define(["gridder", "fixer"], function () {
 		}
 	};
 	
+	ko.bindingHandlers.firebaseRef = {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var firebaseRef = viewModel.firebase.name();
+			$(element).data("firebaseRef", firebaseRef);
+		}
+	};
+	
 	ko.bindingHandlers.sidebarItem = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var text = bindingContext.$data.id() + " " + bindingContext.$data.title();
@@ -139,6 +146,21 @@ define(["gridder", "fixer"], function () {
 		self.removeByID = function (id) {
 			console.log("removing id " + id);
 			self.content().firebase.parent().child(id).remove();
+		}
+		
+		self.addNewCell = function () {
+			self.content().firebase.child("cells").push( { type: "step", id: "New" } );
+		}
+		
+		self.removeCellFromFirebaseByFirebaseRef = function (firebaseRef) {
+			var cell = self.content().firebase.child("cells/" + firebaseRef);
+			self.content().firebase.child("cells/" + firebaseRef).remove();
+		}
+		
+		self.removeCellFromKnockoutByFirebaseRef = function (firebaseRef) {
+			self.content()().cells.remove(function (cell) {
+				return cell().firebase.name() === firebaseRef;
+			});
 		}
 		
 		self.viewContentForSpread(0);

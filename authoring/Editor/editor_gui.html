@@ -71,7 +71,7 @@
 			<div id="top-toolbar" style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>			
 		</div>
 		
-		<div class="ui-layout-center">
+		<div class="ui-layout-center" id="content-cells">
 			<div id="contentModel">
 				<div data-bind="with: content">
 					<section class="spread-header">
@@ -91,7 +91,7 @@
 			
 					<div id="cells">
 						<div data-bind="foreach: cells">
-							<div class="cell spaced">
+							<div class="cell spaced" data-bind="firebaseRef: id">
 								<div class="cell-left">
 									<div class="squaredOne">
 										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }, event: { change: $root.onSelectCell }"/>
@@ -108,7 +108,7 @@
 												<select data-bind="options: ['step','image', 'callout'], value: type"></select>
 											</div>
 										</div>
-										<div class="control">
+										<div class="control" data-bind="visible: type() === 'step'">
 											<div>
 												<label for="inputNumber">Number</label>
 											</div>

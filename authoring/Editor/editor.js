@@ -10,13 +10,15 @@ requirejs.config({
 });
 
 require(["Spread", "jquery.hotkeys"], function (Spread) {
+
 	/* Editor */
-	
 	var Editor = function (id) {
 		// TODO: get index from id
 		this.content = new Spread.ContentModel(this, 0);
 
 		this.layout = new Spread.LayoutModel(this, 0);
+		
+		this.selectedCells = [];
 		
 		window.spread = this;
 	}
@@ -46,15 +48,42 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	
 	Editor.prototype.onSelectionChange = function (selected) {
 		$(this).trigger("selection", { selected: selected } );
+		
+		this.selectedCells = selected;
 	}
 	
-	Editor.prototype.addNewContent = function (id, title) {
+	Editor.prototype.addNewSpread = function (id, title) {
 		this.content.addNew(id, title);
 	}
 	
-	Editor.prototype.removeByID = function (id) {
+	Editor.prototype.removeSpreadByID = function (id) {
 		this.content.removeByID(id);
 	}
+	
+	Editor.prototype.addCell = function () {
+		this.content.addNewCell();
+		
+		var d = $("#content-cells");
+		d.scrollTop(d.prop("scrollHeight"));
+	}
+	
+	Editor.prototype.deleteSelectedCells = function () {
+		var me = this;
+		
+		$.each(this.selectedCells, function (index, item) {
+				var cell = $(item).parents(".cell");
+				var firebaseRef = cell.data("firebaseRef");
+				
+				// NOTE: I think we have to remove from both simultaneously or else Knockout re-populates Firebase
+				me.content.removeCellFromKnockoutByFirebaseRef(firebaseRef);
+				me.content.removeCellFromFirebaseByFirebaseRef(firebaseRef);
+			});
+			
+		var selected = $(".cell-check:checked");
+		this.onSelectionChange(selected);			
+	}
+	
+	// INITIALIZE THE UI
 
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
@@ -96,7 +125,14 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
             { text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0 },
         ],
         onClick: function (event) {
-            console.log('Target: '+ event.target, event);
+        	switch (event.target) {
+        		case "add":
+        			editor.addCell();
+        			break;
+        		case "delete":
+        			editor.deleteSelectedCells();
+        			break;
+        	}
         }
     });
     
@@ -121,7 +157,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
         			dialog.dialog("open");
         			break;
         		case "delete":
-        			editor.removeByID(w2ui['sidebar'].selected);
+        			editor.removeSpreadByID(w2ui['sidebar'].selected);
         			break;
         	}
         }
@@ -164,7 +200,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		if (valid) {
 			dialog.dialog("close");
 			
-			editor.addNewContent(id.val(), title.val());
+			editor.addNewSpread(id.val(), title.val());
 		}
 		
 		return false;
@@ -222,7 +258,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}	
 });
 
-// TODO: ability to add step and/or layout hint
+// TODO: ability to add layout hint
 // TODO: update sidebar list when spread gets deleted
 // TODO: also add/delete layout when spread gets added/deleted
 // TODO: sidebar with chapter groupings
@@ -263,3 +299,4 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: show currently selected spread
 // DONE: sidebar add and delete spreads
 // DONE: rename editor.js spread instance to something like Editor
+// DONE: ability to add step
