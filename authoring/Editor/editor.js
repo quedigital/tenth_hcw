@@ -9,10 +9,56 @@ requirejs.config({
 	},
 });
 
-require(["Spread", "jquery.hotkeys"], function (SpreadController) {
+require(["Spread", "jquery.hotkeys"], function (Spread) {
+	/* Editor */
+	
+	var Editor = function (id) {
+		// TODO: get index from id
+		this.content = new Spread.ContentModel(this, 0);
+
+		this.layout = new Spread.LayoutModel(this, 0);
+		
+		window.spread = this;
+	}
+
+	Editor.prototype = {};
+	Editor.prototype.constructor = Editor;
+	
+	Editor.prototype.resizeLayoutPane = function () {
+		$(".grid").trigger("reformat");
+		$(".fixer").trigger("resize_layout");
+	}
+	
+	Editor.prototype.viewSpread = function (index) {
+		this.content.viewContentForSpread(index);
+		this.layout.viewLayoutForSpread(index);
+	}
+	
+	Editor.prototype.initialize = function () {
+		ko.applyBindings(this.content, $("#contentModel")[0]);
+		ko.applyBindings(this.layout, $("#layoutModel")[0]);
+		ko.applyBindings(this.layout, $("#propertyPane")[0]);
+	}
+	
+	Editor.prototype.getCellType = function (id) {
+		return this.content.getCellType(id);
+	}
+	
+	Editor.prototype.onSelectionChange = function (selected) {
+		$(this).trigger("selection", { selected: selected } );
+	}
+	
+	Editor.prototype.addNewContent = function (id, title) {
+		this.content.addNew(id, title);
+	}
+	
+	Editor.prototype.removeByID = function (id) {
+		this.content.removeByID(id);
+	}
+
 	$("body").layout({ applyDefaultStyles: true,
 						livePaneResizing: true,
-						east__onresize: function () { spread.resizeLayoutPane(); },
+						east__onresize: function () { editor.resizeLayoutPane(); },
 						east__size: "40%",
 					});
 					
@@ -45,9 +91,9 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
     $('#bottom-toolbar').w2toolbar({
         name: 'bottom-toolbar',
         items: [
-            { type: 'button',  id: 'add',  caption: 'Add', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
+            { type: 'button',  id: 'add',  caption: 'Add Cell', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
             { type: 'break', id: 'break0' },
-            { text: 'Delete', id: "delete", icon: 'fa fa-trash-o', count: 0 },
+            { text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0 },
         ],
         onClick: function (event) {
             console.log('Target: '+ event.target, event);
@@ -57,7 +103,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
     $("#toc").w2sidebar({
     	name: "sidebar",
     	onClick: function (event) {
-			spread.viewSpread(event.target);
+			editor.viewSpread(event.node.routeData.index);
 		}
     });
     
@@ -75,7 +121,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
         			dialog.dialog("open");
         			break;
         		case "delete":
-        			spread.removeByID(w2ui['sidebar'].selected);
+        			editor.removeByID(w2ui['sidebar'].selected);
         			break;
         	}
         }
@@ -118,7 +164,7 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 		if (valid) {
 			dialog.dialog("close");
 			
-			spread.addNewContent(id.val(), title.val());
+			editor.addNewContent(id.val(), title.val());
 		}
 		
 		return false;
@@ -129,10 +175,10 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
 	// TODO: make this open the given spread by id
-	var spread = new SpreadController("10_1");
-	spread.initialize();
+	var editor = new Editor("10_1");
+	editor.initialize();
 	
-	$(spread).on("selection", onContentCellSelected);
+	$(editor).on("selection", onContentCellSelected);
 	
 	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
 
@@ -173,11 +219,11 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 	
 	function onContentCellSelected (event, params) {
 		w2ui['bottom-toolbar'].set('delete', { count: params.selected.length });
-	}
+	}	
 });
 
-// TODO: update sidebar when spread gets deleted
-// TODO: rename editor.js spread instance to something like Editor
+// TODO: ability to add step and/or layout hint
+// TODO: update sidebar list when spread gets deleted
 // TODO: also add/delete layout when spread gets added/deleted
 // TODO: sidebar with chapter groupings
 // TODO: different sidebar icons for each spread type
@@ -216,3 +262,4 @@ require(["Spread", "jquery.hotkeys"], function (SpreadController) {
 // DONE: "glossary" style button
 // DONE: show currently selected spread
 // DONE: sidebar add and delete spreads
+// DONE: rename editor.js spread instance to something like Editor

@@ -20,9 +20,10 @@ define(["gridder", "fixer"], function () {
 	
 	ko.bindingHandlers.sidebarItem = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var text = bindingContext.$data.id() + " " + bindingContext.$data.title()
+			var text = bindingContext.$data.id() + " " + bindingContext.$data.title();
+			var index = bindingContext.$index();
 			w2ui.sidebar.add([
-				{ id: bindingContext.$data.id(), text: text, icon: 'fa fa-list-alt' },
+				{ id: bindingContext.$data.id(), routeData: { index: index }, text: text, icon: 'fa fa-list-alt' },
 			]);
 		},
 		update: function (element, valueAccessor) {
@@ -78,10 +79,6 @@ define(["gridder", "fixer"], function () {
 				"title": true,
 			}
 		})
-	
-		self.showSpread = function (index) {
-			spread.viewSpread(index);
-		}
 	}
 	
 	var spreadList = new SpreadListModel();
@@ -186,52 +183,6 @@ define(["gridder", "fixer"], function () {
 		
 		self.viewLayoutForSpread(0);
 	}
-
-	/* Spread */
 	
-	var SpreadController = function (id) {
-		// TODO: get index from id
-		this.content = new ContentModel(this, 0);
-
-		this.layout = new LayoutModel(this, 0);
-		
-		window.spread = this;
-	}
-
-	SpreadController.prototype = {};
-	SpreadController.prototype.constructor = SpreadController;
-	
-	SpreadController.prototype.resizeLayoutPane = function () {
-		$(".grid").trigger("reformat");
-		$(".fixer").trigger("resize_layout");
-	}
-	
-	SpreadController.prototype.viewSpread = function (index) {
-		this.content.viewContentForSpread(index);
-		this.layout.viewLayoutForSpread(index);
-	}
-	
-	SpreadController.prototype.initialize = function () {
-		ko.applyBindings(this.content, $("#contentModel")[0]);
-		ko.applyBindings(this.layout, $("#layoutModel")[0]);
-		ko.applyBindings(this.layout, $("#propertyPane")[0]);
-	}
-	
-	SpreadController.prototype.getCellType = function (id) {
-		return this.content.getCellType(id);
-	}
-	
-	SpreadController.prototype.onSelectionChange = function (selected) {
-		$(this).trigger("selection", { selected: selected } );
-	}
-	
-	SpreadController.prototype.addNewContent = function (id, title) {
-		this.content.addNew(id, title);
-	}
-	
-	SpreadController.prototype.removeByID = function (id) {
-		this.content.removeByID(id);
-	}
-
-	return SpreadController;
+	return { ContentModel: ContentModel, LayoutModel: LayoutModel };
 });
