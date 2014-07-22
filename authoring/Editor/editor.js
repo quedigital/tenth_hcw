@@ -65,6 +65,8 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		
 		var d = $("#content-cells");
 		d.scrollTop(d.prop("scrollHeight"));
+		
+		this.synchronizeCellsAndHints();
 	}
 	
 	Editor.prototype.deleteSelectedCells = function () {
@@ -80,7 +82,32 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 			});
 			
 		var selected = $(".cell-check:checked");
-		this.onSelectionChange(selected);			
+		this.onSelectionChange(selected);
+		
+		this.synchronizeCellsAndHints();
+	}
+	
+	// add a layout hint for every new cell
+	// and remove hints with no corresponding cells
+	Editor.prototype.synchronizeCellsAndHints = function () {
+		var cell_ids = this.content.getIDs();
+		var hint_ids = this.layout.getIDs();
+		
+		var me = this;
+		
+		if (cell_ids.length > hint_ids.length) {
+			$.each(cell_ids, function (index, item) {
+				if ($.inArray(item, hint_ids) == -1) {
+					me.layout.addNewHint(item);
+				}
+			});
+		} else if (hint_ids.length > cell_ids.length) {
+			$.each(hint_ids, function (index, item) {
+				if ($.inArray(item, cell_ids) == -1) {
+					me.layout.removeHintByID(item);
+				}
+			});
+		}
 	}
 	
 	// INITIALIZE THE UI
@@ -258,19 +285,17 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}	
 });
 
-// TODO: ability to add layout hint
+// TODO: re-order cells
 // TODO: update sidebar list when spread gets deleted
-// TODO: also add/delete layout when spread gets added/deleted
-// TODO: sidebar with chapter groupings
-// TODO: different sidebar icons for each spread type
-// TODO: put marginLeft (for grid layout) into the property panel
-// TODO: standardize anchor values
+// TODO: also add/delete corresponding layout when spread gets added/deleted
 // TODO: load published pages from json
 // TODO: button to jump from content to its relevant layout hint
-// TODO: collapsible columns
-// TODO: template the sections
 // TODO: image uploading (Firebase server?)
 // TODO: backup and undo capability
+// TODO: sidebar with chapter groupings
+// TODO: different sidebar icons for each spread type
+// TODO: collapsible columns
+// TODO: template the sections
 
 // DONE: add a handle for the resizable
 // DONE: view one spread at a time, selectable from list
@@ -300,3 +325,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: sidebar add and delete spreads
 // DONE: rename editor.js spread instance to something like Editor
 // DONE: ability to add step
+// DONE: put marginLeft (for grid layout) into the property panel
+// DONE: standardize anchor values
+// DONE: make sure new cell id's are unique (using max id + 1)
+// DONE: when adding/deleting cells, sync layout hints

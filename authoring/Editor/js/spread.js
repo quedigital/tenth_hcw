@@ -100,6 +100,8 @@ define(["gridder", "fixer"], function () {
 		var self = this;
 		
 		self.content = ko.observable(null);
+		
+		var defaults = { id: "New", type: "step" };
 	
 		var schema = {
 						"id": true,
@@ -144,12 +146,14 @@ define(["gridder", "fixer"], function () {
 		}
 		
 		self.removeByID = function (id) {
-			console.log("removing id " + id);
 			self.content().firebase.parent().child(id).remove();
 		}
 		
 		self.addNewCell = function () {
-			self.content().firebase.child("cells").push( { type: "step", id: "New" } );
+			var obj = $.extend({}, defaults);
+			obj.id = self.getUniqueID();
+			
+			self.content().firebase.child("cells").push(obj);
 		}
 		
 		self.removeCellFromFirebaseByFirebaseRef = function (firebaseRef) {
@@ -161,6 +165,27 @@ define(["gridder", "fixer"], function () {
 			self.content()().cells.remove(function (cell) {
 				return cell().firebase.name() === firebaseRef;
 			});
+		}
+		
+		self.getIDs = function () {
+			var ids = [];
+			var cells = self.content()().cells();
+			$.each(cells, function (index, item) {
+				ids.push(item().id());
+			});
+			return ids;
+		}
+		
+		// return one higher than the highest numeric id so far
+		self.getUniqueID = function () {
+			var ids = self.getIDs();
+			var max = 0;
+			$.each(ids, function (index, item) {
+				if (item > max) {
+					max = item;
+				}
+			});
+			return max + 1;
 		}
 		
 		self.viewContentForSpread(0);
@@ -200,11 +225,43 @@ define(["gridder", "fixer"], function () {
 			self.layout(KnockoutFire.observable(firebase, schema));
 		}
 		
-		// TODO: try to get the cell type of the content for this id
 		self.getCellType = function (id) {
 			return this.controller.getCellType(id);
 		}
+
+		self.getIDs = function () {
+			var ids = [];
+			var hints = self.layout()().hints();
+			$.each(hints, function (index, item) {
+				ids.push(item().id());
+			});
+			return ids;
+		}
 		
+		self.addNewHint = function (id) {
+			var style = self.layout()().style();
+			var defaults = {};
+			switch (style) {
+				case "grid":
+					defaults = { id: id, width: 1,  };
+					break;
+				case "fixed":
+					defaults = { id: id, bounds: [10, 10, 100, 100], anchor: "TL" };
+					break;
+			}
+			self.layout().firebase.child("hints").push(defaults);
+		}
+		
+		self.removeHintByID = function (id) {
+			var hints = self.layout()().hints();
+			$.each(hints, function (index, item) {
+				if (item().id() == id) {
+					item().firebase.remove();
+					return false;
+				}
+			});
+		}
+
 		self.viewLayoutForSpread(0);
 	}
 	
