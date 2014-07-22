@@ -1,4 +1,28 @@
 define(["gridder", "fixer"], function () {
+	// NOTE: Gah, I couldn't get these sorting options to stick from event.js; hence these horrible workarounds
+	var callbacks = {
+		onSortStart: function () { console.log("no"); },
+		onSortUpdate: function () { console.log("nope nope nope"); }
+	};
+	
+	var kludgyOnSortStart = function (event, ui) {
+		callbacks.onSortStart(event, ui);
+	}
+	
+	// NOTE: for some reason, these settings wouldn't stick if placed in editor.js
+	ko.bindingHandlers.sortable.options = {
+											placeholder: "sortable-placeholder",
+											opacity: .7,
+											cursor: "move",
+											axis: "y",
+											tolerance: "pointer",
+											start: kludgyOnSortStart
+	};
+
+	ko.bindingHandlers.sortable.afterMove = function (arg, event, ui) {
+												callbacks.onSortUpdate(event, ui);
+											};
+											
 	ko.bindingHandlers.editableText = {
 		init: function (element, valueAccessor) {
 			$(element).on('blur', function() {
@@ -188,6 +212,18 @@ define(["gridder", "fixer"], function () {
 			return max + 1;
 		}
 		
+		self.getDisplayOrder = function () {
+			var c = $("#cells .cell");
+			return c.map(function (index, element) { return $(element).data("id"); }).toArray();
+		}
+		
+		self.setSortOrder = function (ids) {
+			$.each(ids, function (index, id) {
+				var ref = self.content().firebase.child("cells/" + id);
+				ref.setPriority(index);
+			});
+		}
+				
 		self.viewContentForSpread(0);
 	}
 
@@ -265,5 +301,5 @@ define(["gridder", "fixer"], function () {
 		self.viewLayoutForSpread(0);
 	}
 	
-	return { ContentModel: ContentModel, LayoutModel: LayoutModel };
+	return { ContentModel: ContentModel, LayoutModel: LayoutModel, callbacks: callbacks }
 });

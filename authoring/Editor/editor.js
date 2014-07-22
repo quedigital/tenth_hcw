@@ -15,12 +15,14 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	var Editor = function (id) {
 		// TODO: get index from id
 		this.content = new Spread.ContentModel(this, 0);
+		
+		// this is a kludge; I couldn't get knockout-sortable to accept my options in editor.js
+		Spread.callbacks.onSortStart = $.proxy(this.onSortableStart, this);
+		Spread.callbacks.onSortUpdate = $.proxy(this.onSortableUpdate, this);
 
 		this.layout = new Spread.LayoutModel(this, 0);
 		
 		this.selectedCells = [];
-		
-		window.spread = this;
 	}
 
 	Editor.prototype = {};
@@ -39,7 +41,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	Editor.prototype.initialize = function () {
 		ko.applyBindings(this.content, $("#contentModel")[0]);
 		ko.applyBindings(this.layout, $("#layoutModel")[0]);
-		ko.applyBindings(this.layout, $("#propertyPane")[0]);
+		ko.applyBindings(this.layout, $("#propertyPane")[0]);		
 	}
 	
 	Editor.prototype.getCellType = function (id) {
@@ -47,7 +49,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}
 	
 	Editor.prototype.onSelectionChange = function (selected) {
-		$(this).trigger("selection", { selected: selected } );
+		w2ui['bottom-toolbar'].set('delete', { count: selected.length });
 		
 		this.selectedCells = selected;
 	}
@@ -108,6 +110,30 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 				}
 			});
 		}
+	}
+	
+	Editor.prototype.onSortableStart = function (event, ui) {
+		$("#bound-cells").addClass("sorting");
+		// to make things easier to see when reordering
+		var helper = $(ui.helper);
+		helper.addClass("shorter");
+	}
+	
+	Editor.prototype.onSortableUpdate = function (event, ui) {
+		$("#bound-cells").removeClass("sorting");
+		
+		// scroll to the one we just dropped
+		// NOTE: this math doesn't seem quite infallible
+		var t = ui.item.offset().top;
+		var d = $("#content-cells");
+		d.scrollTop(t - ui.item.height() * .5);
+		
+		var cells = $("#cells .cell");
+		var order = cells.map(function (index, element) {
+			return $(element).data("firebaseRef");
+		}).toArray();
+
+		this.content.setSortOrder(order);
 	}
 	
 	// INITIALIZE THE UI
@@ -240,9 +266,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	// TODO: make this open the given spread by id
 	var editor = new Editor("10_1");
 	editor.initialize();
-	
-	$(editor).on("selection", onContentCellSelected);
-	
+
 	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
 
 	function onGlossaryKey (event, selectedNode, selectedRange) {
@@ -278,14 +302,10 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		}
 					
 		return false;
-	}
-	
-	function onContentCellSelected (event, params) {
-		w2ui['bottom-toolbar'].set('delete', { count: params.selected.length });
 	}	
 });
 
-// TODO: re-order cells
+// TODO: when updating hint id's, update the data("id") as well
 // TODO: update sidebar list when spread gets deleted
 // TODO: also add/delete corresponding layout when spread gets added/deleted
 // TODO: load published pages from json
@@ -329,3 +349,4 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: standardize anchor values
 // DONE: make sure new cell id's are unique (using max id + 1)
 // DONE: when adding/deleting cells, sync layout hints
+// DONE: re-order cells
