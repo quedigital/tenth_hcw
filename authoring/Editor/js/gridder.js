@@ -23,7 +23,7 @@ define([], function () {
 				currentLayout.reformat();
 		}
 	};
-
+	
 	ko.bindingHandlers.checkbox = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var value = valueAccessor()();
@@ -140,7 +140,7 @@ define([], function () {
 		ta.appendTo(inset);
 		*/
 		
-		$("<span>").addClass("id-label").text(cell.data("id")).appendTo(inset);
+		$("<span>").addClass("id-label").attr("data-bind", "text: id").appendTo(inset);
 		
 		if (cell.data("image")) {
 			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
@@ -180,7 +180,9 @@ define([], function () {
 	}
 	
 	function setSelected (event) {
-		var id = $(event.currentTarget).data("id");
+//		var id = $(event.currentTarget).data("id");
+		// NOTE: I switched to using a span tag to hold the id because the attribute data-id wasn't being updated by knockout		
+		var id = $(event.currentTarget).find(".tag").text();
 		
 		$(".cell.selected").removeClass("selected");
 		

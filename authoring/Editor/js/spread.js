@@ -2,21 +2,28 @@ define(["gridder", "fixer"], function () {
 	// NOTE: Gah, I couldn't get these sorting options to stick from event.js; hence these horrible workarounds
 	var callbacks = {
 		onSortStart: function () { console.log("no"); },
-		onSortUpdate: function () { console.log("nope nope nope"); }
+		onSortUpdate: function () { console.log("nope nope nope"); },
+		onSortStop: function () { console.log("no way"); },
 	};
 	
 	var kludgyOnSortStart = function (event, ui) {
 		callbacks.onSortStart(event, ui);
 	}
+
+	var kludgyOnSortStop = function (event, ui) {
+		callbacks.onSortStop(event, ui);
+	}
 	
 	// NOTE: for some reason, these settings wouldn't stick if placed in editor.js
 	ko.bindingHandlers.sortable.options = {
 											placeholder: "sortable-placeholder",
+											handle: ".cell-left",
 											opacity: .7,
 											cursor: "move",
 											axis: "y",
 											tolerance: "pointer",
-											start: kludgyOnSortStart
+											start: kludgyOnSortStart,
+											stop: kludgyOnSortStop,
 	};
 
 	ko.bindingHandlers.sortable.afterMove = function (arg, event, ui) {

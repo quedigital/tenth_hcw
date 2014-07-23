@@ -156,8 +156,8 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	}
 	
 	function setSelected (event) {
-		var id = $(event.currentTarget).data("id");
-		
+		var id = $(event.currentTarget).find(".cell-id").text();
+
 		$(".bounds.selected").removeClass("selected");
 		
 		$(event.currentTarget).addClass("selected");

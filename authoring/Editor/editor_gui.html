@@ -170,6 +170,7 @@
 						<div class="grid" data-bind="gridThing: hints">
 							<div data-bind="foreach: hints">
 								<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
+									<span class="invisible tag" data-bind="text: id"></span>
 								</div>
 							</div>
 						</div>

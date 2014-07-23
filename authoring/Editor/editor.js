@@ -19,6 +19,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		// this is a kludge; I couldn't get knockout-sortable to accept my options in editor.js
 		Spread.callbacks.onSortStart = $.proxy(this.onSortableStart, this);
 		Spread.callbacks.onSortUpdate = $.proxy(this.onSortableUpdate, this);
+		Spread.callbacks.onSortStop = $.proxy(this.onSortableStop, this);
 
 		this.layout = new Spread.LayoutModel(this, 0);
 		
@@ -134,6 +135,11 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		}).toArray();
 
 		this.content.setSortOrder(order);
+	}
+
+	Editor.prototype.onSortableStop = function (event, ui) {
+		$("#bound-cells").removeClass("sorting");
+		$(".shorter").removeClass("shorter");
 	}
 	
 	// INITIALIZE THE UI
@@ -305,8 +311,8 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}	
 });
 
-// TODO: when updating hint id's, update the data("id") as well
-// TODO: update sidebar list when spread gets deleted
+// TODO: when updating hint id's via textbox, update the necessary data("id") as well
+// TODO: update sidebar list when a spread gets deleted
 // TODO: also add/delete corresponding layout when spread gets added/deleted
 // TODO: load published pages from json
 // TODO: button to jump from content to its relevant layout hint
