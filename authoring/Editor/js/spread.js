@@ -60,13 +60,15 @@ define(["gridder", "fixer"], function () {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var text = bindingContext.$data.id() + " " + bindingContext.$data.title();
 			var index = bindingContext.$index();
-			w2ui.sidebar.add([
-				{ id: bindingContext.$data.id(), routeData: { index: index }, text: text, icon: 'fa fa-list-alt' },
-			]);
+			
+			// this catches changes to spread id and title (but not additions or deletions)
+			valueAccessor().subscribe(function (changes) {
+				spreadList.rebuildSidebarMenu();
+			});
 		},
+		
+		// this catches additions but not changes or deletions
 		update: function (element, valueAccessor) {
-			// TODO: this wasn't called for deleting??
-			console.log("sidebar update");
 		}
 	};
 
@@ -116,7 +118,31 @@ define(["gridder", "fixer"], function () {
 				"chapter": true,
 				"title": true,
 			}
-		})
+		});
+		
+		// NOTE: this catches additions and deletions but not text changes
+		self.spreads.subscribe(function (changes) {
+			self.rebuildSidebarMenu();			
+		});
+		
+		self.rebuildSidebarMenu = function () {
+			self.removeAllMenuItems();
+			
+			var sidebar = w2ui["toc_sidebar"];
+			for (var i = 0; i < self.spreads().length; i++) {
+				var s = self.spreads()[i]();
+				var text = s.id() + " " + s.title();
+				var index = s.firebase.name();
+				sidebar.add([ { id: index, text: text, routeData: { index: index }, icon: "fa fa-list-alt" } ]);
+			}
+		}
+		
+		self.removeAllMenuItems = function () {
+			var sidebar = w2ui["toc_sidebar"];
+			var nd = []; 
+			for (var i in sidebar.nodes) nd.push(sidebar.nodes[i].id);
+			sidebar.remove.apply(sidebar, nd);
+		}
 	}
 	
 	var spreadList = new SpreadListModel();

@@ -196,7 +196,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
     });
     
     $("#toc").w2sidebar({
-    	name: "sidebar",
+    	name: "toc_sidebar",
     	onClick: function (event) {
 			editor.viewSpread(event.node.routeData.index);
 		}
@@ -216,7 +216,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
         			dialog.dialog("open");
         			break;
         		case "delete":
-        			editor.removeSpreadByID(w2ui['sidebar'].selected);
+					editor.removeSpreadByID(w2ui['toc_sidebar'].selected);
         			break;
         	}
         }
@@ -224,7 +224,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
     
     var dialog;
     
-	dialog = $( "#dialog-form" ).dialog({
+	dialog = $("#dialog-form").dialog({
 		autoOpen: false,
 		height: 300,
 		width: 350,
@@ -236,6 +236,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 			}
 		},
 		close: function() {
+			$("#dialog-form").find("form")[0].reset()
 			$(".ui-state-error").removeClass( "ui-state-error");
 		}
 	});
@@ -257,9 +258,9 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		valid = valid && checkfield(id) && checkfield(title);
 		
 		if (valid) {
-			dialog.dialog("close");
-			
 			editor.addNewSpread(id.val(), title.val());
+			
+			dialog.dialog("close");
 		}
 		
 		return false;
@@ -311,8 +312,6 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}	
 });
 
-// TODO: when updating hint id's via textbox, update the necessary data("id") as well
-// TODO: update sidebar list when a spread gets deleted
 // TODO: also add/delete corresponding layout when spread gets added/deleted
 // TODO: load published pages from json
 // TODO: button to jump from content to its relevant layout hint
@@ -356,3 +355,5 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: make sure new cell id's are unique (using max id + 1)
 // DONE: when adding/deleting cells, sync layout hints
 // DONE: re-order cells
+// DONE: when updating hint id's via textbox, update the necessary data("id") as well
+// DONE: update sidebar list when a spread gets deleted (and added and modified)
