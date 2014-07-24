@@ -63,7 +63,7 @@ define(["gridder", "fixer"], function () {
 			
 			// this catches changes to spread id and title (but not additions or deletions)
 			valueAccessor().subscribe(function (changes) {
-				spreadList.rebuildSidebarMenu();
+				spreadList.rebuildSidebarMenuText();
 			});
 		},
 		
@@ -136,6 +136,21 @@ define(["gridder", "fixer"], function () {
 				sidebar.add([ { id: index, text: text, routeData: { index: index }, icon: "fa fa-list-alt" } ]);
 			}
 		}
+
+		// rebuild only the text
+		self.rebuildSidebarMenuText = function () {
+			var sidebar = w2ui["toc_sidebar"];
+			for (var i = 0; i < self.spreads().length; i++) {
+				var s = self.spreads()[i]();
+				var text = s.id() + " " + s.title();
+				var index = s.firebase.name();
+				sidebar.nodes[i].id = index;
+				sidebar.nodes[i].text = text;
+				sidebar.nodes[i].routeData = { index: index };
+				sidebar.nodes[i].icon = "fa fa-list-alt";
+			}
+			sidebar.refresh();
+		}
 		
 		self.removeAllMenuItems = function () {
 			var sidebar = w2ui["toc_sidebar"];
@@ -199,11 +214,19 @@ define(["gridder", "fixer"], function () {
 		}
 		
 		self.addNew = function (id, title) {
-			self.content().firebase.parent().child(id).set( { id: id, title: title });
+			self.content().firebase.parent().child(id).set( { id: id, title: title, cells: [] });
 		}
 		
 		self.removeByID = function (id) {
+			// this worked to disable knockout, but we'd have to reapply bindings, I think
+//			var element = $("#contentModel")[0];
+//			ko.cleanNode(element);
+			// remove from Firebase
 			self.content().firebase.parent().child(id).remove();
+			
+			// NOTE: temporarily disable Knockout so the data isn't auto-repopulated (kludgy?)
+			var dummy = function () { return { chapter: "", number: "", title: "", id: "", cells: function () { return []; } } };
+			self.content(dummy);
 		}
 		
 		self.addNewCell = function () {
@@ -332,10 +355,11 @@ define(["gridder", "fixer"], function () {
 		}
 		
 		self.addNew = function (id, title) {
-			self.layout().firebase.parent().child(id).set( { id: id });
+			self.layout().firebase.parent().child(id).set( { id: id, style: "grid", hints: [] });
 		}		
 
 		self.removeByID = function (id) {
+			self.layout().firebase.parent().child(id).child("hints").remove();
 			self.layout().firebase.parent().child(id).remove();
 		}		
 

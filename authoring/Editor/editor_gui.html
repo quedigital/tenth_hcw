@@ -40,6 +40,18 @@
 	<script data-main="editor" src="js/require.js"></script>
 </head>
 
+<script>
+	function doSubmit (event) {
+		var buttons = $('#dialog-form').dialog('option', 'buttons');
+		try {
+			buttons['Add']();
+		} catch (e) {
+			console.log(e.toString());
+		}
+		event.preventDefault();
+	}
+</script>
+
 <body>
 	<div id="leftmost" class="ui-layout-west">
 		<div id="toc" class="ui-layout-center">
@@ -48,6 +60,7 @@
 			<div id="bottom-sidebar" style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>
 			
 			<div id="dialog-form" title="Add Spread">
+				<p class="validateTips">All form fields are required.</p>
 				<form>
 					<fieldset>
 						<label for="name">ID</label>
@@ -56,7 +69,7 @@
 						<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
 
 						<!-- Allow form submission with keyboard without duplicating the dialog button -->
-						<input type="submit" tabindex="-1" onclick="var buttons = $('#dialog-form').dialog('option', 'buttons'); buttons['Add'](); event.preventDefault();" style="position: absolute; top: -1000px">
+						<input type="submit" tabindex="-1" onclick="doSubmit(event)" style="position: absolute; top: -1000px">
 					</fieldset>
 				</form>
 			</div>			

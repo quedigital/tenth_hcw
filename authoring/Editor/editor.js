@@ -218,6 +218,8 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
         			dialog.dialog("open");
         			break;
         		case "delete":
+        			editor.viewSpread(0);
+        			
 					editor.removeSpreadByID(w2ui['toc_sidebar'].selected);
         			break;
         	}
@@ -239,23 +241,42 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		},
 		close: function() {
 			$("#dialog-form").find("form")[0].reset()
-			$(".ui-state-error").removeClass( "ui-state-error");
+			$(".ui-state-error").removeClass("ui-state-error");
+			$(".checking").removeClass("checking");
 		}
 	});
 	
 	function checkfield (f) {
-		 if (f.val().length == 0) {
-		 	f.addClass("ui-state-error");
-		 	return false;
-		 }
-		 return true;
+		if (f.val().length == 0) {
+			f.addClass("ui-state-error");
+			return false;
+		}
+		return true;
+	}
+	
+	function updateTips (t) {
+		var tips = $(".validateTips");
+		tips.text(t).addClass("ui-state-highlight");
+		
+		setTimeout(function() {
+				tips.removeClass("ui-state-highlight", 1500);
+			}, 500 );      		
 	}
 	
 	function addSpread () {
+		$(".validateTips").addClass("checking");
+		
 		var valid = true;
 		
 		var id = $("#dialog-form #id");
 		var title = $("#dialog-form #title");
+		
+		var invalid = /[\.\#\$\[\]]/;
+		if (invalid.test(id.val())) {
+			id.addClass("ui-state-error");
+			updateTips("ID cannot contain . # $ [ or ]");
+			valid = false;
+		}
 		
 		valid = valid && checkfield(id) && checkfield(title);
 		
@@ -311,7 +332,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		}
 					
 		return false;
-	}	
+	}
 });
 
 // TODO: export to json
