@@ -163,6 +163,7 @@ define(["gridder", "fixer"], function () {
 		var schema = {
 						"id": true,
 						"chapter": true,
+						"number": true,
 						"title": true,
 						"cells": {
 							"$cell": {
@@ -198,7 +199,6 @@ define(["gridder", "fixer"], function () {
 		}
 		
 		self.addNew = function (id, title) {
-			// NOTE: this is a little kludgy; we should add it after the currently selected spread, I think
 			self.content().firebase.parent().child(id).set( { id: id, title: title });
 		}
 		
@@ -330,6 +330,14 @@ define(["gridder", "fixer"], function () {
 				}
 			});
 		}
+		
+		self.addNew = function (id, title) {
+			self.layout().firebase.parent().child(id).set( { id: id });
+		}		
+
+		self.removeByID = function (id) {
+			self.layout().firebase.parent().child(id).remove();
+		}		
 
 		self.viewLayoutForSpread(0);
 	}

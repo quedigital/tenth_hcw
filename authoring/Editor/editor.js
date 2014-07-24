@@ -57,10 +57,12 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	
 	Editor.prototype.addNewSpread = function (id, title) {
 		this.content.addNew(id, title);
+		this.layout.addNew(id);
 	}
 	
 	Editor.prototype.removeSpreadByID = function (id) {
 		this.content.removeByID(id);
+		this.layout.removeByID(id);
 	}
 	
 	Editor.prototype.addCell = function () {
@@ -231,7 +233,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		modal: true,
 		buttons: {
 			"Add": addSpread,
-			"Cancel": function() {
+			"Cancel": function () {
 				dialog.dialog("close");
 			}
 		},
@@ -312,7 +314,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}	
 });
 
-// TODO: also add/delete corresponding layout when spread gets added/deleted
+// TODO: export to json
 // TODO: load published pages from json
 // TODO: button to jump from content to its relevant layout hint
 // TODO: image uploading (Firebase server?)
@@ -357,3 +359,4 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: re-order cells
 // DONE: when updating hint id's via textbox, update the necessary data("id") as well
 // DONE: update sidebar list when a spread gets deleted (and added and modified)
+// DONE: also add/delete corresponding layout when spread gets added/deleted

@@ -91,8 +91,8 @@ input {
 	
 	.spread-header {
 		display: table;
+		border-spacing: 10px;
 		width: 100%;
-		padding: 5px 10px;
 		background-color: #115;
 		color: white;
 		
@@ -110,6 +110,14 @@ input {
 			div:first-child {
 				width: 8em;
 			}
+			
+			div:nth-child(2) {
+				width: 4em;
+			}
+			
+			div:nth-child(3) {
+				width: 6em;
+			}
 		}
 		
 		.row {
@@ -117,11 +125,7 @@ input {
 			
 			div {
 				display: table-cell;
-			}
-			
-			div:first-child {
-				padding-right: 1em;
-			}
+			}			
 		}
 	}
 	
@@ -140,12 +144,14 @@ input {
 		display: table-row;
 		
 		.cell-left {
-			width: 45px;
+			min-width: 45px;
 			display: table-cell;
 		}
 		
 		.cell-right {
 			display: table-cell;
+			padding-left: 10px;
+			width: 100%;
 		}
 	}
 	

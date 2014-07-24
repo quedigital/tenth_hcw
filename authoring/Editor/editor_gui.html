@@ -56,7 +56,7 @@
 						<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
 
 						<!-- Allow form submission with keyboard without duplicating the dialog button -->
-						<input type="submit" tabindex="-1" onclick="var buttons = $('#dialog-form').dialog('option', 'buttons'); buttons['Add'](); event.preventDefault()" style="position: absolute; top: -1000px">
+						<input type="submit" tabindex="-1" onclick="var buttons = $('#dialog-form').dialog('option', 'buttons'); buttons['Add'](); event.preventDefault();" style="position: absolute; top: -1000px">
 					</fieldset>
 				</form>
 			</div>			
@@ -80,11 +80,19 @@
 					<section class="spread-header">
 						<header>
 							<div>ID</div>
+							<div>Chapter</div>
+							<div>Number</div>
 							<div>Title</div>
 						</header>
 						<div class="row">
 							<div>
 								<input data-bind="value: id"></input>
+							</div>
+							<div>
+								<input data-bind="value: chapter"></input>
+							</div>
+							<div>
+								<input data-bind="value: number"></input>
 							</div>
 							<div>
 								<textarea data-bind="autosize: title"></textarea>
