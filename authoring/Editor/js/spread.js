@@ -112,7 +112,7 @@ define(["gridder", "fixer"], function () {
 		
 		var firebase = new Firebase("https://howcomputerswork.firebaseio.com/contents");
 	
-		 self.spreads = KnockoutFire.observable(firebase, {
+		self.spreads = KnockoutFire.observable(firebase, {
 			"$spread": {
 				"id": true,
 				"chapter": true,
@@ -277,6 +277,21 @@ define(["gridder", "fixer"], function () {
 			$.each(ids, function (index, id) {
 				var ref = self.content().firebase.child("cells/" + id);
 				ref.setPriority(index);
+			});
+		}
+		
+		self.getData = function (callback) {
+			var firebaseRef = self.content().firebase.root();
+			firebaseRef.once('value', function (dataSnapshot) {
+				var data = dataSnapshot.exportVal();
+				callback(data);
+			});
+		}
+		
+		self.setData = function (data) {
+			var firebaseRef = self.content().firebase.root();
+			firebaseRef.set(data, function (error) {
+				console.log(error);
 			});
 		}
 				

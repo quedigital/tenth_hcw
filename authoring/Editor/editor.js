@@ -24,6 +24,10 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		this.layout = new Spread.LayoutModel(this, 0);
 		
 		this.selectedCells = [];
+		
+		this.snapshots = [];
+		
+		this.firebase = undefined;
 	}
 
 	Editor.prototype = {};
@@ -144,6 +148,87 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		$(".shorter").removeClass("shorter");
 	}
 	
+	function download (content, filename, contentType) {
+		if (!contentType) contentType = 'application/octet-stream';
+		var a = document.createElement('a');
+		var blob = new Blob([content], { 'type': contentType });
+		a.href = window.URL.createObjectURL(blob);
+		a.download = filename;
+		a.click();
+	}
+	
+	Editor.prototype.onExport = function (data) {
+		var json = $.toJSON(data);
+		download(json, "export.json");
+	}
+	
+	Editor.prototype.exportAll = function () {
+		this.content.getData($.proxy(this.onExport, this));
+	}
+	
+	Editor.prototype.trackChanges = function (firebaseUrl) {
+		this.firebase = new Firebase(firebaseUrl);
+		this.firebase.on("value", $.proxy(this.onValueChange, this));
+	}
+	
+	Editor.prototype.getLastSnapshot = function () {
+		return this.snapshots.length ? this.snapshots[this.snapshots.length - 1].data : undefined;
+	}
+	
+	Editor.prototype.onValueChange = function (dataSnapshot) {
+		var lastSnapshot = this.getLastSnapshot();
+		
+		var prevVer = $.toJSON(lastSnapshot);
+		var newVer = $.toJSON(dataSnapshot.exportVal());
+		
+		if (prevVer != newVer) {
+			var toolbar = w2ui["top-toolbar"];
+			var menu = toolbar.get("version_history");
+			
+			var s = compareDifferences(prevVer, newVer);
+		
+			var snapshot = { date: new Date(), data: dataSnapshot.exportVal(), diff: s };
+			this.snapshots.push(snapshot);
+		
+			menu.items.unshift( { text: 'Snapshot', id: "rewind", routeData: this.snapshots.length - 1, icon: 'fa fa-camera' } );
+			w2ui["top-toolbar"].set("version_history", { count: this.snapshots.length });
+		} else {
+			// ignoring change since it's the same as the last snapshot (as when going back to an older version)
+		}
+	}
+	
+	Editor.prototype.refreshVersionHistoryMenu = function () {
+		var toolbar = w2ui["top-toolbar"];
+		var menu = toolbar.get("version_history");
+		for (var i = 0; i < menu.items.length; i++) {
+			var item = menu.items[i];
+			var snapshot = this.snapshots[item.routeData];
+			var text = snapshot.diff + " (" + moment(snapshot.date).fromNow() + ")";
+			item.text = text;
+		}
+	}
+	
+	Editor.prototype.rewindToVersion = function (index) {
+		if (index >= 0 && index < this.snapshots.length) {
+			var data = this.snapshots[index].data;
+			
+			// turn value tracking off temporarily so we don't count this as a new version
+			this.firebase.off("value");
+			
+			var me = this;
+			
+			this.firebase.set(data, function (error) {
+				if (error) {
+					console.log("error setting firebase data");
+					console.log(error);
+				}
+				
+				// turn value tracking back on
+				me.firebase.on("value", $.proxy(me.onValueChange, me));
+			});
+		}
+	}
+	
 	// INITIALIZE THE UI
 
 	$("body").layout({ applyDefaultStyles: true,
@@ -157,11 +242,29 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
         items: [
             { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Hint for item 3' },
             { type: 'break', id: 'break0' },
-            { type: 'button', caption: 'Another Button', icon: 'fa fa-bars' },
+
+            { type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0,
+            	items: [
+				]
+			},
+                        
+            { type: 'break', id: 'break1' },
+            { type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out' },
         ],
         onClick: function (event) {
-        	if (event.target === "glossary") {
-        		onGlossaryKey(null, selectedNode, selectedRange);
+        	switch (event.target) {
+        		case "glossary":
+					onGlossaryKey(null, selectedNode, selectedRange);
+        			break;
+        		case "version_history":
+        			editor.refreshVersionHistoryMenu();
+        			break;
+        		case "version_history:rewind":
+        			editor.rewindToVersion(event.subItem.routeData);
+        			break;
+        		case "export":
+        			editor.exportAll();
+        			break;
         	}
         }
     });
@@ -296,6 +399,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	// TODO: make this open the given spread by id
 	var editor = new Editor("10_1");
 	editor.initialize();
+	editor.trackChanges("https://howcomputerswork.firebaseio.com/");
 
 	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
 
@@ -333,13 +437,33 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 					
 		return false;
 	}
+	
+	function compareDifferences (one, two) {
+		var out = "";
+		
+		if (one && two) {
+			var dmp = new diff_match_patch();
+			var diffs = dmp.diff_main(one, two);
+			for (var i = 0; i < diffs.length; i++) {
+				var d = diffs[i];
+				if (d[0] == 1) {
+					// insertion
+					out += "<span style='color: green'>" + d[1] + "</span>";
+				} else if (d[0] == -1) {
+					// deletion
+					out += "<span style='color: red'>" + d[1] + "</span>";
+				}
+			}
+		}
+		
+		return out;
+	}
 });
 
-// TODO: export to json
 // TODO: load published pages from json
+// TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
 // TODO: button to jump from content to its relevant layout hint
 // TODO: image uploading (Firebase server?)
-// TODO: backup and undo capability
 // TODO: sidebar with chapter groupings
 // TODO: different sidebar icons for each spread type
 // TODO: collapsible columns
@@ -381,3 +505,5 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 // DONE: when updating hint id's via textbox, update the necessary data("id") as well
 // DONE: update sidebar list when a spread gets deleted (and added and modified)
 // DONE: also add/delete corresponding layout when spread gets added/deleted
+// DONE: export to json (server side process that will let us download the json output -- not necessary!)
+// DONE: backup and undo capability
