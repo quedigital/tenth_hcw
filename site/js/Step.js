@@ -1,4 +1,7 @@
 define(["jquery", "jqueryui"], function ($) {
+	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
+	var LEFT_MARGIN = 15;
+	
 	// number, text, image, anchor
 	Step = function (options) {
 		// TODO: Handlebars or Mustache (or even Backbone)?
@@ -56,14 +59,22 @@ define(["jquery", "jqueryui"], function ($) {
 	}
 	
 	function opposite (anchor) {
-		var opp = anchor.split(" ");
-		if (opp[0] == "left") opp[0] = "right";
-		else if (opp[0] == "right") opp[0] = "left";
-		if (opp[1] == "top") opp[1] = "bottom";
-		else if (opp[1] == "bottom") opp[1] = "top";
-		return opp;
+		switch (anchor) {
+			case "BR":
+				return "TL";
+			case "BL":
+				return "TR";
+			case "TL":
+				return "BR";
+			case "L":
+				return "R";
+			case "TR":
+				return "BL";
+			case "R":
+				return "L";
+		}
 	}
-	
+		
 	function reflow (elem) {
 		// NOTE: this hack forces a reflow so we can get the text height properly
 		elem.hide().show(0);
@@ -74,24 +85,35 @@ define(["jquery", "jqueryui"], function ($) {
 	Step.prototype.position = function (expand) {
 		var pos;
 
+		var anchor = "";
+		
 		switch (this.anchor) {
-			case "right bottom":
+			case "BR":
+				anchor = "right bottom";
 				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top + this.bounds.height };
 				break;
-			case "left bottom":
+			case "BL":
+				anchor = "left bottom";
 				pos = { x: this.bounds.left, y: this.bounds.top + this.bounds.height };
 				break;
-			case "left top":
-			case "left":
+			case "TL":
+				anchor = "left top";
 				pos = { x: this.bounds.left, y: this.bounds.top };
 				break;
-			case "right top":
-			case "right":
+			case "L":
+				anchor = "left";
+				pos = { x: this.bounds.left, y: this.bounds.top };
+				break;
+			case "TR":
+				anchor = "right top";
+				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top };
+				break;
+			case "R":
+				anchor = "right";
 				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top };
 				break;
 		}
 
-		var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
 		var fs = DEFAULT_FONT_SIZE;
 		
 		var scrollLeft = this.elem.parent().scrollLeft();
@@ -114,8 +136,7 @@ define(["jquery", "jqueryui"], function ($) {
 			}
 			
 			var at = "left+" + Math.floor(pos.x - scrollLeft) + "px top+" + Math.floor(pos.y) + "px";
-			this.elem.position( { my: this.anchor, at: at, of: this.elem.parent(), collision: "none" } );
-			
+			this.elem.position( { my: anchor, at: at, of: this.elem.parent(), collision: "none" } );			
 		} else {
 			var offscreen = this.elem.clone();
 			offscreen.css("opacity", "0");
@@ -139,49 +160,48 @@ define(["jquery", "jqueryui"], function ($) {
 			
 			moveHighlightTo(x, y, w, this.elem.height());
 			
+			var direction = opposite(this.anchor);
+			var goLeft = false, goUp = false;
+			if (direction.indexOf("L") != -1) goLeft = true;
+			if (direction.indexOf("T") != -1) goUp = true;
+			
 			for (var tries = 0; tries < 100; tries++) {
+				atWidth = false, atHeight = false;
+				
 //				if (x >= 0 && y >= 0 && y + h <= container_h) break;
 			
-				var direction = opposite(this.anchor);
-			
-				switch (direction[0]) {
-					case "left":
-						// if we're already hitting the edge, shrink us
-						if (x > JUMP) x -= JUMP;
-						else {
-							x = 0;
-							atWidth = true;
-						}
-						w = this.bounds.left + this.bounds.width - x;
-						break;
-					case "right":
-						// expand to the right until we're not over the bottom
-						if (x + w + JUMP < container_w) {
-							w += JUMP;							
-						} else {
-							w = container_w - x;
-							atWidth = true;
-						}
-						break;
+				if (goLeft) {
+					// if we're already hitting the edge, shrink us
+					if (x > LEFT_MARGIN + JUMP) x -= JUMP;
+					else {
+						x = LEFT_MARGIN;
+						atWidth = true;
+					}
+					w = this.bounds.left + this.bounds.width - x;
+				} else {
+					// expand to the right until we're not over the bottom
+					if (x + w + JUMP < container_w) {
+						w += JUMP;							
+					} else {
+						w = container_w - x;
+						atWidth = true;
+					}
 				}
-		
-				switch (direction[1]) {
-					case "top":
-						y = this.bounds.top + this.bounds.height - h;
+				
+				if (goUp) {
+					y = this.bounds.top + this.bounds.height - h;
+					if (y < MARGIN)
 						atHeight = true;
-						break;
-					case "bottom":
-						break;
 				}
 			
 				// try reducing font
 				if (atWidth && atHeight) {
-					if (fs > 8) {
+					if (fs > 10) {
 						fs -= .5;
 						offscreen.find(".textblock").css("font-size", fs + "px");
 					}
 				}
-			
+				
 				offscreen.css("left", x).css("top", y);
 				offscreen.css("width", w);
 				
@@ -200,7 +220,6 @@ define(["jquery", "jqueryui"], function ($) {
 			if (fs != DEFAULT_FONT_SIZE) {
 				this.elem.find(".textblock").css("font-size", fs + "px");
 			}
-
 			
 			animateHighlightTo(x, y, w, h);
 			

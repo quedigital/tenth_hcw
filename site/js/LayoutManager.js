@@ -3,8 +3,9 @@ define(["jquery",
 		"GridLayout",
 		"FixedLayout",
 		"Step",
+		"Utils"
 		],
-									function ($, imagesLoaded, GridLayout, FixedLayout, Step) {
+									function ($, imagesLoaded, GridLayout, FixedLayout, Step, Utils) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -14,26 +15,11 @@ define(["jquery",
 	LayoutManager.prototype = Object.create({});
 	LayoutManager.prototype.constructor = LayoutManager;
 	
-	function findData (id, data) {
-		/*
-		var found = $.grep(data, function (elem) {
-			return elem.id == id;
-		});
-		*/
-
-		var found = $.map(data, function (elem) {
-			return (elem.id == id) ? elem : null;
-		});
-		
-		if (found.length) return found[0];
-		else return undefined;
-	}
-
 	LayoutManager.prototype.process = function (layouts, contents) {
 		var scope = this;
 		
 		$.each(layouts, function (index, layout) {
-			var spread = findData(layout.id, contents);
+			var spread = Utils.findByID(layout.id, contents);
 			if (spread) {
 				var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(scope.dom);
 				
@@ -45,11 +31,14 @@ define(["jquery",
 					case "grid":
 						layoutDOM.addClass("grid");
 						
-						for (var i = 0; i < spread.cells.length; i++) {
+						var cells = $.map(spread.cells, function (el) { return el });
+						for (var i = 0; i < cells.length; i++) {
+							var cell = cells[i];
 							var cellDOM = $("<div>").addClass("cell");
 							layoutDOM.append(cellDOM);
 							
-							var cell = spread.cells[i];
+							cellDOM.attr("data-id", cell.id);
+							
 							switch (cell.type) {
 								case "step":
 									var step = new Step( { number: cell.number, text: cell.text, image: cell.image } );
@@ -69,7 +58,8 @@ define(["jquery",
 						}
 						
 						imagesLoaded(spreadDOM, function () {
-							var grid = new GridLayout(layoutDOM, ".cell", layout.hints, spread);
+							var hints = $.map(layout.hints, function (el) { return el });
+							var grid = new GridLayout(layoutDOM, layoutDOM.find(".cell"), hints, spread);
 						});
 				
 						break;

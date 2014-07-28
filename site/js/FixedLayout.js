@@ -3,12 +3,13 @@ define(["jquery",
 		"Step",
 		"make-callout",
 		"auto-size-text",
+		"Utils",
 		"debug",
-		], function ($, imagesLoaded, Step, makeCallout, autoSizeText, debug) {
-	FixedLayout = function (container, layout, data) {
+		], function ($, imagesLoaded, Step, makeCallout, autoSizeText, Utils, debug) {
+	FixedLayout = function (container, layout, content) {
 		this.container = container;
 		this.layout = layout;
-		this.data = data;
+		this.content = content;
 //		var div = $("<div>").attr("background-url", layout.background).css({ width: 200, height: 200, backgroundSize: "cover" });
 //		$(container).append(div);
 		var img = $("<img>").addClass("background").attr("src", layout.background);
@@ -27,16 +28,6 @@ define(["jquery",
 	FixedLayout.prototype = Object.create(null);
 	FixedLayout.prototype.constructor = FixedLayout;
 	
-	FixedLayout.prototype.getData = function (id) {
-		for (var i = 0; i < this.data.cells.length; i++) {
-			if (this.data.cells[i].id == id) {
-				return this.data.cells[i];
-			}
-		}
-		
-		return undefined;
-	}
-	
 	FixedLayout.prototype.positionCells = function () {
 		var img = this.container.find(".background");
 		
@@ -46,32 +37,40 @@ define(["jquery",
 		this.originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
 		
 		this.scale = this.currentSize.width / this.originalSize.width;
+
+		var hints = $.map(this.layout.hints, function (el) { return el });
 		
-		for (var i = 0; i < this.layout.hints.length; i++) {
-			var hint = this.layout.hints[i];
+		for (var i = 0; i < hints.length; i++) {
+			var hint = hints[i];
+			var cell = Utils.findByID(hint.id, this.content.cells);
 			
-			var data = this.getData(hint.cell_id);
+			if (!cell) {
+				debug("Couldn't find cell for hint " + hint.id);
+				break;
+			}
 			
-			switch (data.type) {
+			switch (cell.type) {
 				case "step":
 					var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
 			
-					var step = new Step( { number: data.number, text: data.text, anchor: hint.anchor, bounds: rect } );
+					var step = new Step( { number: cell.number, text: cell.text, anchor: hint.anchor, bounds: rect } );
 			
 					this.container.append(step.elem);
 
 					step.setPosition(rect.left, rect.top);
-								
+					
 //					step.mouseenter(function () { console.log("enter"); });
 					step.elem.hover($.proxy(step.onHover, step));
 					
 					break;
 				case "callout":
-					var callout = makeCallout(data.title, data.text, data.image, 1);//this.scale);
+					var callout = makeCallout(cell.title, cell.text, cell.image, 1);//this.scale);
 					
 					var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
-			
-					callout.css(hint.styling);
+					
+					if (hint.backgroundColor) {
+						callout.css("backgroundColor", hint.backgroundColor);
+					}
 			
 //					callout.find(".textblock").css( { width: rect.width, height: rect.height } );
 					callout.find(".textblock").css( { width: rect.width } );

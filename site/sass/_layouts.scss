@@ -1,0 +1,258 @@
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html, body {
+	background-color: #ffe;
+	font-family: sans-serif;
+}
+
+html, body, p, h1 {
+	margin: 0;
+	padding: 0;
+}
+
+.centered {
+	max-width: 1120px;
+	margin: 0 auto;
+	background-color: white;
+}
+
+.layout {
+	padding: 1em 0;
+	border-top: 2em solid black;
+}
+
+#container {
+	background-color: #dd9;
+}
+
+.spread {
+	position: relative;
+	
+	h1 {
+		padding: 0 .25em;
+	}
+}
+
+.step {
+	padding-left: 2.75em;
+}
+
+.spread.fixed {
+	overflow-x: auto;
+	overflow-y: hidden;
+	/* to account for scroll bar:*/
+	padding-bottom: 15px;
+	
+	h1 {
+		position: absolute;
+	}
+	
+	.step {
+		position: absolute;
+		cursor: pointer;
+		
+		.textblock {
+			overflow: hidden;
+		}
+
+		&:hover .textblock {
+		}
+		
+		&.overflow:not(.selected):after {
+			content: "";
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			right: -10px;
+			bottom: -20px;
+			background-image: url(../images/plus.png);
+			background-size: contain;
+			-webkit-transition: opacity .25s;
+			opacity: .5;
+		}
+		
+		&.overflow.selected:after {
+			content: "";
+			opacity: 0;
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			right: -10px;
+			bottom: -20px;
+			background-image: url(../images/plus.png);
+			background-size: contain;
+			-webkit-transition: opacity .25s;
+		}
+	}
+	
+	.step.animated {
+		-webkit-transition: left .5s, top .5s;/*, width .25s;*/
+	}
+	
+	.highlight {
+		pointer-events: none;
+		z-index: 1;
+	}
+	
+	.highlight.highlighted {
+		background-color: rgba(255, 255, 255, 0);
+		display: block;
+		position: absolute;
+		left: -15px;
+		top: -15px;
+		border-radius: 15px;
+		box-shadow: 0 10px 15px rgba(0,0,0,.3), 0 0 30px rgba(0,0,0,.3) inset;
+		
+		&.animated {
+			background-color: rgba(255, 255, 255, .9);
+			-webkit-transition: left .5s, top .5s, width .5s, height .5s, background-color 1.0s;
+		}
+	}
+}
+
+.spread.grid {
+	.step {
+		position: relative;
+	}
+}
+
+div.callout {
+	position: absolute;
+	border: 2px solid black;
+	background-color: white;
+	cursor: pointer;
+	
+	div.h2 {
+		display: block;
+		font-weight: bold;
+		padding: 0 .25em;
+		height: 24px;
+		line-height: 24px;
+		border-bottom: 2px solid black;
+		text-align: left;
+	}
+	
+	.textblock {
+		padding: .5em 1em 0 1em;
+	}
+	
+	img {
+		display: block;
+		margin: 0 auto;
+		padding: 10px;
+	}
+}
+
+div.cell {
+/*
+	border: 2px solid black;
+	border-radius: 15px;
+*/
+	margin: 15px 5px;
+	padding: 1em;
+	width: 49%;
+	overflow: hidden;
+}
+
+.diamond {
+	display: inline-block;
+	color: white;
+	font-weight: bold;
+	font-family: Futura;
+	font-size: 1.5em;
+	text-align: center;
+	width: 25px;
+	height: 25px;
+	/*
+	position: relative;
+	margin-left: -38px;
+	margin-right: 13px;
+	top: 8px;
+	*/
+	position: absolute;
+	left: 5px;
+	
+	&:before {
+		content: "";
+		background-color: red;
+		display: block;
+		width: 100%;
+		height: 100%;
+		-webkit-transform: rotate(45deg);
+	}
+	
+	span {
+		position: absolute;
+		top: -5px;
+		left: 0;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+.block {
+	display: inline-block;
+	color: white;
+	font-weight: bold;
+	font-family: Futura;
+	font-size: 1.4em;
+	text-align: center;
+	width: 28px;
+	height: 28px;
+	margin: 0;
+	padding: 0;
+	/*
+	position: relative;
+	margin-left: -38px;
+	margin-right: 10px;
+	*/
+	position: absolute;
+	left: 5px;
+	top: -8px;
+	
+	&:before {
+		content: "";
+		background-color: black;
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+
+	span {
+		position: absolute;
+		top: -1px;
+		left: 0;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+span.glossary {
+	font-weight: bold;
+}
+
+.spacer {
+	width: 0;
+}
+
+.clear-left {
+	float: left;
+	clear: left;
+	
+	&.image {
+		margin-right: 20px;
+		margin-top: 20px;
+	}
+}
+
+.clear-right {
+	float: right;
+	clear: right;
+	
+	&.image {
+	}
+}

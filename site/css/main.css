@@ -1,0 +1,496 @@
+/*
+@import "compass/css3";
+@import "compass/typography";
+@import "compass/css3/user-interface";
+*/
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+/* line 9, ../sass/_initializr.scss */
+html,
+button,
+input,
+select,
+textarea {
+  color: #222;
+}
+
+/* line 13, ../sass/_initializr.scss */
+body {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/* line 18, ../sass/_initializr.scss */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 23, ../sass/_initializr.scss */
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 28, ../sass/_initializr.scss */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/* line 37, ../sass/_initializr.scss */
+img {
+  vertical-align: middle;
+}
+
+/* line 41, ../sass/_initializr.scss */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 47, ../sass/_initializr.scss */
+textarea {
+  resize: vertical;
+}
+
+/* line 51, ../sass/_initializr.scss */
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/* line 96, ../sass/_initializr.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+/* line 103, ../sass/_initializr.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+/* line 110, ../sass/_initializr.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 115, ../sass/_initializr.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 127, ../sass/_initializr.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 136, ../sass/_initializr.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 141, ../sass/_initializr.scss */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+/* line 146, ../sass/_initializr.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 150, ../sass/_initializr.scss */
+.clearfix {
+  *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+@media print {
+  /* line 159, ../sass/_initializr.scss */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* line 167, ../sass/_initializr.scss */
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  /* line 171, ../sass/_initializr.scss */
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* line 175, ../sass/_initializr.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  /* line 185, ../sass/_initializr.scss */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  /* line 190, ../sass/_initializr.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* line 195, ../sass/_initializr.scss */
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */
+  }
+
+  /* line 200, ../sass/_initializr.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* line 204, ../sass/_initializr.scss */
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+}
+
+  /* line 214, ../sass/_initializr.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* line 220, ../sass/_initializr.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+/* line 1, ../sass/_layouts.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 7, ../sass/_layouts.scss */
+html, body {
+  background-color: #ffe;
+  font-family: sans-serif;
+}
+
+/* line 12, ../sass/_layouts.scss */
+html, body, p, h1 {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 17, ../sass/_layouts.scss */
+.centered {
+  max-width: 1120px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+/* line 23, ../sass/_layouts.scss */
+.layout {
+  padding: 1em 0;
+  border-top: 2em solid black;
+}
+
+/* line 28, ../sass/_layouts.scss */
+#container {
+  background-color: #dd9;
+}
+
+/* line 32, ../sass/_layouts.scss */
+.spread {
+  position: relative;
+}
+/* line 35, ../sass/_layouts.scss */
+.spread h1 {
+  padding: 0 .25em;
+}
+
+/* line 40, ../sass/_layouts.scss */
+.step {
+  padding-left: 2.75em;
+}
+
+/* line 44, ../sass/_layouts.scss */
+.spread.fixed {
+  overflow-x: auto;
+  overflow-y: hidden;
+  /* to account for scroll bar:*/
+  padding-bottom: 15px;
+}
+/* line 50, ../sass/_layouts.scss */
+.spread.fixed h1 {
+  position: absolute;
+}
+/* line 54, ../sass/_layouts.scss */
+.spread.fixed .step {
+  position: absolute;
+  cursor: pointer;
+}
+/* line 58, ../sass/_layouts.scss */
+.spread.fixed .step .textblock {
+  overflow: hidden;
+}
+/* line 65, ../sass/_layouts.scss */
+.spread.fixed .step.overflow:not(.selected):after {
+  content: "";
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  background-image: url(../images/plus.png);
+  background-size: contain;
+  -webkit-transition: opacity .25s;
+  opacity: .5;
+}
+/* line 78, ../sass/_layouts.scss */
+.spread.fixed .step.overflow.selected:after {
+  content: "";
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: -10px;
+  bottom: -20px;
+  background-image: url(../images/plus.png);
+  background-size: contain;
+  -webkit-transition: opacity .25s;
+}
+/* line 92, ../sass/_layouts.scss */
+.spread.fixed .step.animated {
+  -webkit-transition: left .5s, top .5s;
+  /*, width .25s;*/
+}
+/* line 96, ../sass/_layouts.scss */
+.spread.fixed .highlight {
+  pointer-events: none;
+  z-index: 1;
+}
+/* line 101, ../sass/_layouts.scss */
+.spread.fixed .highlight.highlighted {
+  background-color: rgba(255, 255, 255, 0);
+  display: block;
+  position: absolute;
+  left: -15px;
+  top: -15px;
+  border-radius: 15px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 0, 0, 0.3) inset;
+}
+/* line 110, ../sass/_layouts.scss */
+.spread.fixed .highlight.highlighted.animated {
+  background-color: rgba(255, 255, 255, 0.9);
+  -webkit-transition: left .5s, top .5s, width .5s, height .5s, background-color 1.0s;
+}
+
+/* line 118, ../sass/_layouts.scss */
+.spread.grid .step {
+  position: relative;
+}
+
+/* line 123, ../sass/_layouts.scss */
+div.callout {
+  position: absolute;
+  border: 2px solid black;
+  background-color: white;
+  cursor: pointer;
+}
+/* line 129, ../sass/_layouts.scss */
+div.callout div.h2 {
+  display: block;
+  font-weight: bold;
+  padding: 0 .25em;
+  height: 24px;
+  line-height: 24px;
+  border-bottom: 2px solid black;
+  text-align: left;
+}
+/* line 139, ../sass/_layouts.scss */
+div.callout .textblock {
+  padding: .5em 1em 0 1em;
+}
+/* line 143, ../sass/_layouts.scss */
+div.callout img {
+  display: block;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* line 150, ../sass/_layouts.scss */
+div.cell {
+  /*
+  	border: 2px solid black;
+  	border-radius: 15px;
+  */
+  margin: 15px 5px;
+  padding: 1em;
+  width: 49%;
+  overflow: hidden;
+}
+
+/* line 161, ../sass/_layouts.scss */
+.diamond {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  font-family: Futura;
+  font-size: 1.5em;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  /*
+  position: relative;
+  margin-left: -38px;
+  margin-right: 13px;
+  top: 8px;
+  */
+  position: absolute;
+  left: 5px;
+}
+/* line 179, ../sass/_layouts.scss */
+.diamond:before {
+  content: "";
+  background-color: red;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: rotate(45deg);
+}
+/* line 188, ../sass/_layouts.scss */
+.diamond span {
+  position: absolute;
+  top: -5px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* line 197, ../sass/_layouts.scss */
+.block {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  font-family: Futura;
+  font-size: 1.4em;
+  text-align: center;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  /*
+  position: relative;
+  margin-left: -38px;
+  margin-right: 10px;
+  */
+  position: absolute;
+  left: 5px;
+  top: -8px;
+}
+/* line 217, ../sass/_layouts.scss */
+.block:before {
+  content: "";
+  background-color: black;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* line 225, ../sass/_layouts.scss */
+.block span {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+/* line 234, ../sass/_layouts.scss */
+span.glossary {
+  font-weight: bold;
+}
+
+/* line 238, ../sass/_layouts.scss */
+.spacer {
+  width: 0;
+}
+
+/* line 242, ../sass/_layouts.scss */
+.clear-left {
+  float: left;
+  clear: left;
+}
+/* line 246, ../sass/_layouts.scss */
+.clear-left.image {
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+/* line 252, ../sass/_layouts.scss */
+.clear-right {
+  float: right;
+  clear: right;
+}
