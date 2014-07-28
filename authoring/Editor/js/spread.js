@@ -233,7 +233,7 @@ define(["gridder", "fixer"], function () {
 			var obj = $.extend({}, defaults);
 			obj.id = self.getUniqueID();
 			
-			self.content().firebase.child("cells").push(obj);
+			self.content().firebase.child("cells/" + obj.id).set(obj);
 		}
 		
 		self.removeCellFromFirebaseByFirebaseRef = function (firebaseRef) {
@@ -344,7 +344,7 @@ define(["gridder", "fixer"], function () {
 			});
 			return ids;
 		}
-		
+
 		self.addNewHint = function (id) {
 			var style = self.layout()().style();
 			var defaults = {};
@@ -356,7 +356,7 @@ define(["gridder", "fixer"], function () {
 					defaults = { id: id, bounds: [10, 10, 100, 100], anchor: "TL" };
 					break;
 			}
-			self.layout().firebase.child("hints").push(defaults);
+			self.layout().firebase.child("hints/" + id).set(defaults);
 		}
 		
 		self.removeHintByID = function (id) {

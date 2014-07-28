@@ -460,6 +460,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 	}
 });
 
+// TODO: use human-readable cell names
 // TODO: load published pages from json
 // TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
 // TODO: button to jump from content to its relevant layout hint
