@@ -2,3 +2,5 @@
 *.scssc
 .sass-cache
 .sass-cache/*
+**/.sass-cache
+**/.sass-cache/*
