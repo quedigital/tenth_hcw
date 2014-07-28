@@ -1,0 +1,58 @@
+// TODO: make sure expanded captions always fit on Fixed Layouts
+// TODO: come up with navigation option for Fixed Layout
+// TODO: make Callout titles fit on one line (iPad)
+// TODO: make callouts open with mouse over (desktop)
+// TODO: animate fading away of expanded box on Fixed Layout
+
+// TODO: decide whether to load from json or from processed HTML/Javascript
+
+// TODO: come up with exterior framework / navigation / spread loading
+
+// TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
+// TODO: button to jump from content to its relevant layout hint
+// TODO: image uploading (Firebase server?)
+// TODO: sidebar with chapter groupings
+// TODO: different sidebar icons for each spread type
+// TODO: collapsible columns
+// TODO: template the sections
+
+// DONE: add a handle for the resizable
+// DONE: view one spread at a time, selectable from list
+// DONE: don't hard-code variable "cm"
+// DONE: only show placement checkboxes for cells that have an associated image
+// DONE: save the new width to the database
+// DONE: add checkboxes for image position
+// DONE: trigger cell resize when width is updated (ala checkbox subscribe method)
+// DONE: set image placement checkboxes on load
+// DONE: what if content and layout indices don't line up sometimes? [switched to id's]
+// DONE: steps nicely set off in panels or wells
+// DONE: textarea sized to fit
+// DONE: custom fields for grid or fixed layouts (using knockout if binding)
+// DONE: variable properties nicely formatted in a grid or table
+// DONE: navbar for spread and layout info
+// DONE: put "grid / fixed" field in content or layout – NOT BOTH
+// BUG_FIXED: "grid / fixed" select keeps resetting, upon page reload, to the first option?! (first on the content side, now on the layout side... strange!) [valueAllowUnset seemed to do the trick]
+// DONE: image placement as a 9-box selectable grid widget
+// TODONT: move all image references to layout (nah)
+// IGNORE: getVariableProperties doesn't work when updating values (yes, I think it does; well, not now it doesn't; obviated)
+// DONE: ability to add extra properties [generic "styling" text area]
+// DONE: fixed layout anchor point UI [in properties table]
+// DONE: handle glossary terms (ie, bold) within text
+// DONE: add class name to callouts [theme field]
+// DONE: "glossary" style button
+// DONE: show currently selected spread
+// DONE: sidebar add and delete spreads
+// DONE: rename editor.js spread instance to something like Editor
+// DONE: ability to add step
+// DONE: put marginLeft (for grid layout) into the property panel
+// DONE: standardize anchor values
+// DONE: make sure new cell id's are unique (using max id + 1)
+// DONE: when adding/deleting cells, sync layout hints
+// DONE: re-order cells
+// DONE: when updating hint id's via textbox, update the necessary data("id") as well
+// DONE: update sidebar list when a spread gets deleted (and added and modified)
+// DONE: also add/delete corresponding layout when spread gets added/deleted
+// DONE: export to json (server side process that will let us download the json output -- not necessary!)
+// DONE: backup and undo capability
+// DONE: use human-readable cell names
+// DONE: load published pages from json
