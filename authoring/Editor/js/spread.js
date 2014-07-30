@@ -104,6 +104,26 @@ define(["gridder", "fixer"], function () {
 			$(element).autosize();
 		}
 	};
+	
+	ko.bindingHandlers.cloudinary = {
+		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var id = bindingContext.$root.getID();
+			$(element).append(
+				$.cloudinary.unsigned_upload_tag("asset_upload", { cloud_name: 'hcw10', folder: id })
+					.bind('cloudinarydone', function (e, data) {
+						var observable = valueAccessor();
+						observable(data.result.secure_url);
+					})
+					.bind('cloudinaryfail', function (e, data)  {
+						console.log("failed");
+						console.log(e);
+						console.log(data);
+					})
+			);
+		},
+		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		}
+	};
 
 	/* SpreadListModel */
 	
@@ -294,6 +314,10 @@ define(["gridder", "fixer"], function () {
 				console.log(error);
 			});
 		}
+		
+		self.getID = function () {
+			return self.content()().id();
+		}
 				
 		self.viewContentForSpread(0);
 	}
@@ -376,7 +400,11 @@ define(["gridder", "fixer"], function () {
 		self.removeByID = function (id) {
 			self.layout().firebase.parent().child(id).child("hints").remove();
 			self.layout().firebase.parent().child(id).remove();
-		}		
+		}
+		
+		self.getID = function () {
+			return self.layout()().id();
+		}			
 
 		self.viewLayoutForSpread(0);
 	}

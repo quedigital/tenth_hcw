@@ -1,6 +1,6 @@
 define(["jquery", "jqueryui"], function ($) {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
-	var LEFT_MARGIN = 15;
+	var SIDE_MARGIN = 15;
 	
 	// number, text, image, anchor
 	Step = function (options) {
@@ -172,18 +172,18 @@ define(["jquery", "jqueryui"], function ($) {
 			
 				if (goLeft) {
 					// if we're already hitting the edge, shrink us
-					if (x > LEFT_MARGIN + JUMP) x -= JUMP;
+					if (x > SIDE_MARGIN + JUMP) x -= JUMP;
 					else {
-						x = LEFT_MARGIN;
+						x = SIDE_MARGIN;
 						atWidth = true;
 					}
 					w = this.bounds.left + this.bounds.width - x;
 				} else {
 					// expand to the right until we're not over the bottom
-					if (x + w + JUMP < container_w) {
+					if (x + w + JUMP < container_w - SIDE_MARGIN) {
 						w += JUMP;							
 					} else {
-						w = container_w - x;
+						w = container_w - x - SIDE_MARGIN;
 						atWidth = true;
 					}
 				}
@@ -233,7 +233,8 @@ define(["jquery", "jqueryui"], function ($) {
 		y -= 20;
 		h += 40;
 				
-		$(".highlighted").width(w).height(h).css( { left: x, top: y } );
+		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
+		$(".highlighted").css("transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
 	function animateHighlightTo (x, y, w, h) {
@@ -244,31 +245,48 @@ define(["jquery", "jqueryui"], function ($) {
 		y -= 20;
 		h += 40;
 				
-		$(".highlighted").width(w).height(h).css( { left: x, top: y } );
+		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
+		$(".highlighted").css("transform", "translate3d(" + x + "px," + y + "px,0)");
+	}
+	
+	Step.prototype.expand = function () {
+		this.elem.css("zIndex", 2);
+		
+		this.elem.addClass("animated selected");
+		
+		$(".highlight").addClass("highlighted");
+		
+		this.position(true);
+		
+		this.isExpanded = true;
+	}
+	
+	Step.prototype.unexpand = function () {
+		$(".step.selected").removeClass("selected");
+		
+		$(".highlighted").removeClass("highlighted");// animated");
+		
+		this.elem.css("zIndex", "auto");
+		
+		this.position(false);
+		
+		this.isExpanded = false;
+	}
+	
+	Step.prototype.onTouch = function (event) {
+		console.log("step ontouch");
+		
+		if (this.isExpanded) this.unexpand();
+		else this.expand();
 	}
 	
 	Step.prototype.onHover = function (event) {
 		switch (event.type) {
 			case "mouseenter":
-				this.elem.css("zIndex", 2);
-				
-				this.elem.addClass("animated selected");
-				
-				$(".highlight").addClass("highlighted");
-				
-				this.position(true);
-				
+				this.expand();				
 				break;
-				
 			case "mouseleave":
-				$(".step.selected").removeClass("selected");
-				
-				$(".highlighted").removeClass("highlighted animated");
-				
-				this.elem.css("zIndex", "auto");
-				
-				this.position(false);
-		
+				this.unexpand();
 				break;
 		}
 	}

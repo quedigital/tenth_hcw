@@ -54,6 +54,7 @@ html, body, p, h1 {
 	.step {
 		position: absolute;
 		cursor: pointer;
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
 		
 		.textblock {
 			overflow: hidden;
@@ -69,9 +70,9 @@ html, body, p, h1 {
 			position: absolute;
 			right: -10px;
 			bottom: -20px;
-			background-image: url(../images/plus.png);
+			background-image: url(images/plus.png);
 			background-size: contain;
-			-webkit-transition: opacity .25s;
+			transition: opacity .25s;
 			opacity: .5;
 		}
 		
@@ -83,34 +84,48 @@ html, body, p, h1 {
 			position: absolute;
 			right: -10px;
 			bottom: -20px;
-			background-image: url(../images/plus.png);
+			background-image: url(images/plus.png);
 			background-size: contain;
-			-webkit-transition: opacity .25s;
+			transition: opacity .25s;
 		}
-	}
-	
-	.step.animated {
-		-webkit-transition: left .5s, top .5s;/*, width .25s;*/
+		
+		/*
+		&.animated {
+			-webkit-transition: left .5s, top .5s;
+			transition: transform .5s ease;
+		}
+		*/
 	}
 	
 	.highlight {
 		pointer-events: none;
 		z-index: 1;
-	}
-	
-	.highlight.highlighted {
-		background-color: rgba(255, 255, 255, 0);
-		display: block;
 		position: absolute;
-		left: -15px;
-		top: -15px;
+		background-color: rgba(255, 255, 255, 0);
 		border-radius: 15px;
-		box-shadow: 0 10px 15px rgba(0,0,0,.3), 0 0 30px rgba(0,0,0,.3) inset;
+		display: block;
+		left: 0;
+		top: 0;
+
+		transition: transform .5s ease, width .5s ease, height .5s ease, background-color 1.0s ease;
 		
-		&.animated {
+		&.highlighted {
 			background-color: rgba(255, 255, 255, .9);
-			-webkit-transition: left .5s, top .5s, width .5s, height .5s, background-color 1.0s;
+			/*
+			left: -15px;
+			top: -15px;
+			*/
+			box-shadow: 0 10px 15px rgba(0,0,0,.3), 0 0 30px rgba(0,0,0,.3) inset;
+			
+/*			transition: transform .5s ease;*/
 		}
+		
+		/*
+		&.animated {
+			-webkit-transition: left .5s, top .5s, width .5s, height .5s, background-color 1.0s;
+			transition: transform .5s ease, width .5s ease, height .5s ease, background-color 1.0s ease;
+		}
+		*/		
 	}
 }
 
@@ -125,6 +140,7 @@ div.callout {
 	border: 2px solid black;
 	background-color: white;
 	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	
 	div.h2 {
 		display: block;

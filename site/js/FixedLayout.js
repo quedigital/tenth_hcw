@@ -59,8 +59,8 @@ define(["jquery",
 
 					step.setPosition(rect.left, rect.top);
 					
-//					step.mouseenter(function () { console.log("enter"); });
 					step.elem.hover($.proxy(step.onHover, step));
+					step.elem.on("touchend", $.proxy(step.onTouch, step));
 					
 					break;
 				case "callout":
@@ -87,8 +87,8 @@ define(["jquery",
 							break;
 					}
 					
-					// reveal when clicked
-					callout.click($.proxy(callout.reveal, callout, hint.anchor));
+					callout.on("touchend", $.proxy(callout.onTouch, callout, hint.anchor));
+					callout.hover($.proxy(callout.onHover, callout, hint.anchor));
 					
 					break;
 			}

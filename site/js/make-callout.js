@@ -28,22 +28,36 @@ define(["jquery"], function ($) {
 		
 		callout.append(block_body);
 		
-		callout.reveal = reveal;
-		callout.anchor = anchor;
+		callout.expand = expand;
+		callout.setAnchor = setAnchor;
+		
+		callout.onHover = function (anchorPoint, event) { callout.expand(anchorPoint, event); };
+		callout.onTouch = function (anchorPoint, event) { callout.expand(anchorPoint, event); };
 		
 		return callout;
 	}
 	
-	function reveal (anchor) {
-		var block = this.find(".block-body");		
-		var baseY = this.offset().top + this.outerHeight();
+	// NOTE: we seem to get both a hover and a touch event simultaneously on the first iPad touch, so ignore the second one if it comes too quickly
+	function expand (anchorPoint, event) {
+		console.log("callout.expand");
+		console.log(event);
 		
-		block.toggle( { easing: "swing", step: $.proxy(this.anchor, this, anchor, baseY) } );
+		var t = new Date().getTime();
+		console.log(t);
+		
+		if (this.lastExpand == undefined || t - this.lastExpand > 200) {
+			var block = this.find(".block-body");		
+			var baseY = this.offset().top + this.outerHeight();
+		
+			block.toggle( { easing: "swing", step: $.proxy(this.setAnchor, this, anchorPoint, baseY) } );
+			
+			this.lastExpand = t;
+		}
 	}
-
-	function anchor (anchor, baseY) {
+	
+	function setAnchor (anchorPoint, baseY) {
 		// keep the bottom in the same place
-		switch (anchor) {
+		switch (anchorPoint) {
 			case "BL":
 				var newY = baseY - this.outerHeight();
 				this.offset({ top: newY });

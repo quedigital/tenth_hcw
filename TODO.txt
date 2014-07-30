@@ -1,20 +1,23 @@
-// TODO: make sure expanded captions always fit on Fixed Layouts
-// TODO: come up with navigation option for Fixed Layout
+
+
+// TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
+// TODO: come up with navigation option (ie, arrows) for Fixed Layout
 // TODO: make Callout titles fit on one line (iPad)
-// TODO: make callouts open with mouse over (desktop)
-// TODO: animate fading away of expanded box on Fixed Layout
-
-// TODO: decide whether to load from json or from processed HTML/Javascript
-
-// TODO: come up with exterior framework / navigation / spread loading
+// TODO: images can be zoomed on desktop (mousewheel? double-click?)
 
 // TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
 // TODO: button to jump from content to its relevant layout hint
-// TODO: image uploading (Firebase server?)
 // TODO: sidebar with chapter groupings
 // TODO: different sidebar icons for each spread type
 // TODO: collapsible columns
 // TODO: template the sections
+
+// UI DESIGN: leave pinch-zooming enabled?
+// UI DESIGN: come up with exterior framework / navigation / spread loading
+// UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
+//            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
+// UI DESIGN: or use SVG for most non-raster images? (IE9+)
+// CODE DESIGN: decide whether to load from json or from processed HTML/Javascript
 
 // DONE: add a handle for the resizable
 // DONE: view one spread at a time, selectable from list
@@ -56,3 +59,10 @@
 // DONE: backup and undo capability
 // DONE: use human-readable cell names
 // DONE: load published pages from json
+// DONE: make callouts open with mouse over (desktop)
+// DONE: animate fading away of expanded box on Fixed Layout
+// DONE: tap doesn't show highlight on fixed layout (iPad)
+// DONE: remove 300ms click delay (iPad) –> use touchend not click
+// DONE: tap to toggle highlights (iPad)
+// DONE: image uploading (Firebase server?) with resizing? [using Cloudinary]
+// DONE: fix https/http warning between Cloudinary and Firebase

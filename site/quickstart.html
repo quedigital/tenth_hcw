@@ -1,0 +1,57 @@
+<html>
+	<head>
+		<script src='js/jquery-1.11.0.min.js' type='text/javascript'></script>
+		<script src='js/jquery.ui.widget.js' type='text/javascript'></script>
+		<script src='js/jquery.iframe-transport.js' type='text/javascript'></script>
+		<script src='js/jquery.fileupload.js' type='text/javascript'></script>
+		<script src='js/jquery.cloudinary.js' type='text/javascript'></script>
+	</head>
+	
+	<body>
+		<form class="upload_form">
+		</form>
+	<!--
+		<input class="upload_field" value="Upload"></input>
+	-->
+		<div class="thumbnails">
+		</div>
+		
+		<img src="images/Test.png"/>
+		<img src="images/Test.svg"/>
+	</body>
+		
+	<script>
+		$(function () {
+		//*
+			$('.upload_form').append(
+				$.cloudinary.unsigned_upload_tag("asset_upload", { cloud_name: 'hcw10', folder: 'chapter 1' })
+					.bind('cloudinarydone', function (e, data) {
+						console.log(data);
+						console.log("got " + data.result.public_id);
+						console.log("and " + data.result.url);
+						$('.thumbnails').append($.cloudinary.image(data.result.url, 
+							{ format: 'jpg', width: 150, height: 100, cloud_name: "hcw10",
+							crop: 'thumb' }))
+						})
+					.bind('cloudinaryprogress', function (e, data) { 
+						$('.progress_bar').css('width', 
+							Math.round((data.loaded * 100.0) / data.total) + '%');
+						})
+				);
+			//*/
+			
+//			$(".upload_field").unsigned_cloudinary_upload("asset_upload", {}, { cloud_name: "hcw10" });
+			
+			var options = { cloud_name: 'hcw10', protocol: "http://" };
+			
+//			var r = $.cloudinary.image("v1406666750/page162.jpg", options)
+			
+//			$("body").append(r);
+			
+//			console.log(r);
+			
+			console.log("here");
+		});
+  	</script>
+	
+</html>
