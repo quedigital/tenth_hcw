@@ -9,14 +9,12 @@ requirejs.config({
 	},
 });
 
-require(["jquery", "LayoutManager", "fastclick.min"], function ($, LayoutManager, FastClick) {
+require(["jquery", "LayoutManager"], function ($, LayoutManager) {
 	$.getJSON("export.json", null, onData);
 
 	var layout = new LayoutManager("#container");
 	
 	function onData (data, status, jqXHR) {
 		layout.process(data.layouts, data.contents);
-		
-//		FastClick.attach(document.body);
 	}
 });

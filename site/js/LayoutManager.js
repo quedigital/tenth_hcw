@@ -3,9 +3,10 @@ define(["jquery",
 		"GridLayout",
 		"FixedLayout",
 		"Step",
+		"Callout",
 		"Utils"
 		],
-									function ($, imagesLoaded, GridLayout, FixedLayout, Step, Utils) {
+									function ($, imagesLoaded, GridLayout, FixedLayout, Step, Callout, Utils) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -53,6 +54,11 @@ define(["jquery",
 //										div.css("background-size", "contain");
 										cellDOM.append(div);
 									}
+									break;
+								case "callout":
+									var callout = new Callout( { title: cell.title, text: cell.text } );
+									cellDOM.append(callout.elem);
+									
 									break;
 							}
 						}

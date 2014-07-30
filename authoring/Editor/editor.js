@@ -59,8 +59,8 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		this.selectedCells = selected;
 	}
 	
-	Editor.prototype.addNewSpread = function (id, title) {
-		this.content.addNew(id, title);
+	Editor.prototype.addNewSpread = function (id, title, chapter, number) {
+		this.content.addNew(id, title, chapter, number);
 		this.layout.addNew(id);
 	}
 	
@@ -240,19 +240,23 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
     $('#top-toolbar').w2toolbar({
         name: 'top-toolbar',
         items: [
-            { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Hint for item 3' },
+            { type: 'button',  id: 'linebreaks',  caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
+            { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
             { type: 'break', id: 'break0' },
 
-            { type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0,
+            { type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
             	items: [
 				]
 			},
                         
             { type: 'break', id: 'break1' },
-            { type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out' },
+            { type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out', hint: "Save the current book data to a file" },
         ],
         onClick: function (event) {
         	switch (event.target) {
+        		case "linebreaks":
+        			onRemoveLinebreaks();
+        			break;
         		case "glossary":
 					onGlossaryKey(null, selectedNode, selectedRange);
         			break;
@@ -270,9 +274,10 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
     });
     
     // KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
-    var selectedNode, selectedRange;
+    var activeElement, selectedNode, selectedRange;
     var button = $("#top-toolbar .w2ui-button");
     button.on("mousedown", function () {
+    		activeElement = document.activeElement;
     		if (document.getSelection().type === "Range") {
 				selectedNode = document.getSelection().baseNode;
 				selectedRange = document.getSelection().getRangeAt(0);
@@ -333,7 +338,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
     
 	dialog = $("#dialog-form").dialog({
 		autoOpen: false,
-		height: 300,
+		height: 400,
 		width: 350,
 		modal: true,
 		buttons: {
@@ -371,20 +376,26 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		
 		var valid = true;
 		
-		var id = $("#dialog-form #id");
+		var chapter = $("#dialog-form #chapter");
+		var number = $("#dialog-form #number");
 		var title = $("#dialog-form #title");
 		
 		var invalid = /[\.\#\$\[\]]/;
-		if (invalid.test(id.val())) {
-			id.addClass("ui-state-error");
-			updateTips("ID cannot contain . # $ [ or ]");
+		if (invalid.test(chapter.val())) {
+			chapter.addClass("ui-state-error");
+			updateTips("Chapter field cannot contain . # $ [ or ]");
+			valid = false;
+		} else if (invalid.test(number.val())) {
+			number.addClass("ui-state-error");
+			updateTips("Number field cannot contain . # $ [ or ]");
 			valid = false;
 		}
 		
-		valid = valid && checkfield(id) && checkfield(title);
+		valid = valid && checkfield(chapter) && checkfield(number) && checkfield(title);
 		
 		if (valid) {
-			editor.addNewSpread(id.val(), title.val());
+			var id = chapter.val() + "_" + number.val();
+			editor.addNewSpread(id, title.val(), chapter.val(), number.val());
 			
 			dialog.dialog("close");
 		}
@@ -413,7 +424,7 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 			var node = selectedNode;
 			
 			var div = $(selectedNode);
-			while (div) {
+			while (div && div.length) {
 				if (div.hasClass("editable-text"))
 					break;
 				else
@@ -436,6 +447,17 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 		}
 					
 		return false;
+	}
+	
+	function onRemoveLinebreaks () {
+		if (activeElement) {
+			var el = $(activeElement);
+			if (el.hasClass("editable-text")) {
+				el.find("p").replaceWith(function () { return $(this).contents(); });
+				el.html(el.html().trim());
+				el.trigger("blur");
+			}
+		}
 	}
 	
 	function compareDifferences (one, two) {

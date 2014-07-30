@@ -233,8 +233,8 @@ define(["gridder", "fixer"], function () {
 			self.controller.onSelectionChange(selected);
 		}
 		
-		self.addNew = function (id, title) {
-			self.content().firebase.parent().child(id).set( { id: id, title: title, cells: [] });
+		self.addNew = function (id, title, chapter, number) {
+			self.content().firebase.parent().child(id).set( { id: id, title: title, chapter: chapter, number: number, cells: [] });
 		}
 		
 		self.removeByID = function (id) {

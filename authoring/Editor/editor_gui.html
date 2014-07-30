@@ -73,8 +73,10 @@
 				<p class="validateTips">All form fields are required.</p>
 				<form>
 					<fieldset>
-						<label for="name">ID</label>
-						<input type="text" name="id" id="id" class="text ui-widget-content ui-corner-all">
+						<label for="name">Chapter</label>
+						<input type="text" name="chapter" id="chapter" class="text ui-widget-content ui-corner-all">
+						<label for="name">Number</label>
+						<input type="text" name="number" id="number" class="text ui-widget-content ui-corner-all">
 						<label for="title">Title</label>
 						<input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all">
 
@@ -165,7 +167,7 @@
 									<div class="callout-text" data-bind="if: type() === 'callout'">
 										<label for="inputTitle">Title</label>
 										<input id="inputTitle" data-bind="value: title" type="text">
-										<div class="editable-text" contenteditable="true" data-bind="text: text"></div>
+										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 									</div>
 									<div class="section group">
 										<div class="col span_2_of_4">
