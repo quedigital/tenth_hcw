@@ -1,15 +1,19 @@
 define(["jquery",
 		"imagesloaded.pkgd.min",
 		"Step",
+		"Callout",
 		"make-callout",
 		"auto-size-text",
 		"Utils",
 		"debug",
-		], function ($, imagesLoaded, Step, makeCallout, autoSizeText, Utils, debug) {
+		], function ($, imagesLoaded, Step, Callout, makeCallout, autoSizeText, Utils, debug) {
 	FixedLayout = function (container, layout, content) {
 		this.container = container;
 		this.layout = layout;
 		this.content = content;
+
+		this.container.addClass("fixed");
+
 //		var div = $("<div>").attr("background-url", layout.background).css({ width: 200, height: 200, backgroundSize: "cover" });
 //		$(container).append(div);
 		var img = $("<img>").addClass("background").attr("src", layout.background);
@@ -64,31 +68,20 @@ define(["jquery",
 					
 					break;
 				case "callout":
-					var callout = makeCallout(cell.title, cell.text, cell.image, 1);//this.scale);
-					
 					var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
 					
-					if (hint.backgroundColor) {
-						callout.css("backgroundColor", hint.backgroundColor);
-					}
-			
-//					callout.find(".textblock").css( { width: rect.width, height: rect.height } );
-					callout.find(".textblock").css( { width: rect.width } );
-					callout.find(".h2").css("width", rect.width);
-			
-					this.container.append(callout);
+					var callout = new Callout( { 	title: cell.title,
+													text: cell.text,
+													image: cell.image,
+													backgroundColor: hint.backgroundColor,
+													shrinkable: true
+												} );
+												
+					this.container.append(callout.elem);
 					
-					// set initial position
-					switch (hint.anchor) {
-						case "BL":
-							var h = callout.outerHeight();
-							var y = rect.top + rect.height - h;
-							callout.css( { left: rect.left, top: y });
-							break;
-					}
+					callout.setSize(rect.width, rect.height);
 					
-					callout.on("touchend", $.proxy(callout.onTouch, callout, hint.anchor));
-					callout.hover($.proxy(callout.onHover, callout, hint.anchor));
+					callout.setPosition(hint.anchor, rect);
 					
 					break;
 			}

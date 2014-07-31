@@ -234,7 +234,7 @@ define(["jquery", "jqueryui"], function ($) {
 		h += 40;
 				
 		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
-		$(".highlighted").css("transform", "translate3d(" + x + "px," + y + "px,0)");
+		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
 	function animateHighlightTo (x, y, w, h) {
@@ -246,7 +246,7 @@ define(["jquery", "jqueryui"], function ($) {
 		h += 40;
 				
 		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
-		$(".highlighted").css("transform", "translate3d(" + x + "px," + y + "px,0)");
+		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
 	Step.prototype.expand = function () {

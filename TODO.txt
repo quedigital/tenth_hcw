@@ -1,7 +1,9 @@
 
 
+// TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
+
+// TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
 // TODO: make a "fixed layout" widget that can be on a spread with other elements?
-// TODO: refactor the callouts so the same one is used for fixed and grid layouts?
 
 // TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
 // TODO: come up with navigation option (ie, arrows) for Fixed Layout
@@ -69,3 +71,4 @@
 // DONE: tap to toggle highlights (iPad)
 // DONE: image uploading (Firebase server?) with resizing? [using Cloudinary]
 // DONE: fix https/http warning between Cloudinary and Firebase
+// DONE: refactor the callouts so the same one is used for fixed and grid layouts?

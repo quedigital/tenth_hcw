@@ -6,10 +6,14 @@ requirejs.config({
 	},
 	
 	shim: {
-	},
+			"jqueryui": {
+				export: "$" ,
+				deps: ['jquery']
+			}
+		}
 });
 
-require(["jquery", "LayoutManager"], function ($, LayoutManager) {
+require(["jquery", "LayoutManager", "jqueryui"], function ($, LayoutManager) {
 	$.getJSON("export.json", null, onData);
 
 	var layout = new LayoutManager("#container");

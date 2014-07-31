@@ -1,23 +1,71 @@
-define(["jquery", "Utils", "debug"], function ($, Utils, debug) {
-	GridLayout = function (container, items, hints, content) {
-		var MARGIN = 10;
+define(["jquery", "Utils", "imagesloaded.pkgd.min", "debug"], function ($, Utils, imagesLoaded, debug) {
+	var MARGIN = 10;
+	
+	GridLayout = function (container, layout, content) {
+		this.container = container;
+		this.layout = layout;
+		this.content = content;
 		
-		var $container = $(container);
-		var $items = $(items);
+		this.container.addClass("grid");
 		
-		var n = 0, x = 0, maxY = 0;
+		this.buildCells();
 		
-		var y = $(container).find("h1").outerHeight();
+		imagesLoaded(this.container, $.proxy(this.positionCells, this));
+	}
+	
+	GridLayout.prototype = Object.create(null);
+	GridLayout.prototype.constructor = GridLayout;
+	
+	GridLayout.prototype.buildCells = function () {
+		var cells = $.map(this.content.cells, function (el) { return el });
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var cellDOM = $("<div>").addClass("cell");
+			this.container.append(cellDOM);
+			
+			cellDOM.attr("data-id", cell.id);
+			
+			switch (cell.type) {
+				case "step":
+					var step = new Step( { number: cell.number, text: cell.text, image: cell.image } );
+					cellDOM.append(step.elem);
+					
+					break;
+				case "image":
+					if (cell.image) {
+						var img = $("<img>").attr("src", cell.image);
+						var div = $("<div>").addClass("image").append(img);
+						cellDOM.append(div);
+					}
+					break;
+				case "callout":
+					var callout = new Callout( { title: cell.title, text: cell.text } );
+					cellDOM.append(callout.elem);
+					
+					break;
+			}
+		}
+	}
+	
+	GridLayout.prototype.positionCells = function () {
+		var hints = $.map(this.layout.hints, function (el) { return el });
+		
+		var x = 0, maxY = 0;
+		
+		var y = this.container.find("h1").outerHeight();
 				
 		for (var i = 0; i < hints.length; i++) {
 			var hint = hints[i];
 			
 			var id = hint.id;
-			var cell = Utils.findByID(id, content.cells);
+			
+			var cell = Utils.findByID(id, this.content.cells);
+			
 			if (cell) {
 				switch (cell.type) {
 					case "step":
-						var elem = $items.eq(n);
+						var elem = this.container.find(".cell[data-id=" + id + "]");
 						elem.css("position", "absolute");
 						var w = hint.width * 100 + "%";
 						elem.css({ left: x, top: y, width: w });
@@ -55,20 +103,20 @@ define(["jquery", "Utils", "debug"], function ($, Utils, debug) {
 						}
 			
 						x += elem.outerWidth();
-						if (x >= $container.width()) {
+						if (x >= this.container.width()) {
 							x = 0;
 							y += elem.outerHeight();
 						}
+						
 						if (y + elem.outerHeight() > maxY)
 							maxY = y + elem.outerHeight();
-						n++;
 					
 						break;
 				
 					case "image":
 						// centered image
 						// TODO: handle narrow images differently
-						var elem = $items.eq(n);
+						var elem = this.container.find(".cell[data-id=" + id + "]");
 						elem.css("position", "absolute");
 						// account for the element's padding and margin
 						var paddT = elem.innerWidth() - elem.width();
@@ -81,37 +129,31 @@ define(["jquery", "Utils", "debug"], function ($, Utils, debug) {
 						y += elem.outerHeight();
 						x = 0;
 						maxY = y;
-						n++;
 					
 						break;
 						
 					case "callout":
-						var elem = $items.eq(n);
+						var elem = this.container.find(".cell[data-id=" + id + "]");
 						
 						elem.css("position", "absolute");
 						var w = hint.width * 100 + "%";
 						elem.css({ left: x, top: y, width: w });
 
 						x += elem.outerWidth();
-						if (x >= $container.width()) {
+						if (x >= this.container.width()) {
 							x = 0;
-							console.log("outer = " + elem.outerHeight());
 							y += elem.outerHeight();
 						}
 						if (y + elem.outerHeight() > maxY)
 							maxY = y + elem.outerHeight();
-						n++;
 					
 						break;
 				}
 			}
 		}
 		
-		$container.height(maxY);
+		this.container.height(maxY);
 	}
-	
-	GridLayout.prototype = Object.create(null);
-	GridLayout.prototype.constructor = GridLayout;
 	
 	return GridLayout;
 });
