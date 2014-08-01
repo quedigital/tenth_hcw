@@ -47,6 +47,9 @@ define(["jquery",
 		for (var i = 0; i < hints.length; i++) {
 			var hint = hints[i];
 			var cell = Utils.findByID(hint.id, this.content.cells);
+			var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
+			
+			var options = $.extend({ rect: rect }, cell, hint);
 			
 			if (!cell) {
 				debug("Couldn't find cell for hint " + hint.id);
@@ -55,9 +58,7 @@ define(["jquery",
 			
 			switch (cell.type) {
 				case "step":
-					var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
-			
-					var step = new Step( { number: cell.number, text: cell.text, anchor: hint.anchor, bounds: rect } );
+					var step = new Step(options);
 			
 					this.container.append(step.elem);
 
@@ -68,14 +69,9 @@ define(["jquery",
 					
 					break;
 				case "callout":
-					var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
+					options.shrinkable = true;
 					
-					var callout = new Callout( { 	title: cell.title,
-													text: cell.text,
-													image: cell.image,
-													backgroundColor: hint.backgroundColor,
-													shrinkable: true
-												} );
+					var callout = new Callout(options);
 												
 					this.container.append(callout.elem);
 					

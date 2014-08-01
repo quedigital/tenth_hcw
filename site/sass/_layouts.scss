@@ -142,6 +142,7 @@ div.callout {
 	padding: 0;
 	margin: 0;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	transition: top .5s ease, height 1s ease;
 	
 	h2 {
 		display: block;
@@ -155,16 +156,23 @@ div.callout {
 		text-align: left;
 	}
 	
-	p {
-		padding: .75em .5em .75em .5em;
-		font-size: 14px;
-		line-height: 1.5em;
-	}
+	.interior {
+		p {
+			padding: .75em .5em .75em .5em;
+			font-size: 14px;
+			line-height: 1.5em;
+		}
 	
-	img {
-		display: block;
-		margin: 0 auto;
-		padding: 10px;
+		img {
+			display: block;
+			margin: 0 auto;
+			padding: 10px;
+		}
+	}
+}
+
+div.callout.factoid {
+	.interior {
 	}
 }
 

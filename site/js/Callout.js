@@ -4,10 +4,18 @@ define(["jquery", "jqueryui"], function ($) {
 	Callout = function (options) {
 		this.elem = $("<div>").addClass("callout");
 		
+		if (options.theme) {
+			this.elem.addClass(options.theme);
+		}
+		
 		$("<h2>").text(options.title)
 			.appendTo(this.elem);
 		
 		var interior = $("<div>").addClass("interior").appendTo(this.elem);
+		
+		if (options.backgroundColor) {
+			interior.css("backgroundColor", options.backgroundColor);
+		}
 		
 		$("<p>").html(options.text).appendTo(interior);
 		

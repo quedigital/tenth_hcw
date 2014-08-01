@@ -27,14 +27,13 @@ define(["jquery", "jqueryui"], function ($) {
 		
 		this.number = options.number;
 		this.anchor = options.anchor;
-		this.bounds = options.bounds;
+		this.rect = options.rect;
 		
 		d.appendTo(this.elem);
 		
-		if (this.bounds) {
-			//this.elem.find(".textblock").css( { width: this.bounds.width, height: this.bounds.height } ).addClass("resizeable");
+		if (this.rect) {
 			this.elem.find(".textblock").addClass("resizeable").css("font-size", "12px");
-			this.elem.css( { width: this.bounds.width } );//, height: this.bounds.height } );
+			this.elem.css( { width: this.rect.width } );
 		}		
 	}
 	
@@ -90,27 +89,27 @@ define(["jquery", "jqueryui"], function ($) {
 		switch (this.anchor) {
 			case "BR":
 				anchor = "right bottom";
-				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top + this.bounds.height };
+				pos = { x: this.rect.left + this.rect.width, y: this.rect.top + this.rect.height };
 				break;
 			case "BL":
 				anchor = "left bottom";
-				pos = { x: this.bounds.left, y: this.bounds.top + this.bounds.height };
+				pos = { x: this.rect.left, y: this.rect.top + this.rect.height };
 				break;
 			case "TL":
 				anchor = "left top";
-				pos = { x: this.bounds.left, y: this.bounds.top };
+				pos = { x: this.rect.left, y: this.rect.top };
 				break;
 			case "L":
 				anchor = "left";
-				pos = { x: this.bounds.left, y: this.bounds.top };
+				pos = { x: this.rect.left, y: this.rect.top };
 				break;
 			case "TR":
 				anchor = "right top";
-				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top };
+				pos = { x: this.rect.left + this.rect.width, y: this.rect.top };
 				break;
 			case "R":
 				anchor = "right";
-				pos = { x: this.bounds.left + this.bounds.width, y: this.bounds.top };
+				pos = { x: this.rect.left + this.rect.width, y: this.rect.top };
 				break;
 		}
 
@@ -122,11 +121,11 @@ define(["jquery", "jqueryui"], function ($) {
 		if (!expand) {
 			var t = this.elem.find(".textblock");
 			t.css("font-size", "12px");
-			this.elem.height("auto");//this.bounds.height);
-			t.height("auto");//this.bounds.height);
-			this.elem.css("width", this.bounds.width);
-			if (t.height() > this.bounds.height) {
-				t.height(this.bounds.height);
+			this.elem.height("auto");
+			t.height("auto");
+			this.elem.css("width", this.rect.width);
+			if (t.height() > this.rect.height) {
+				t.height(this.rect.height);
 			}
 			
 			if (t.height() < t[0].scrollHeight) {
@@ -177,7 +176,7 @@ define(["jquery", "jqueryui"], function ($) {
 						x = SIDE_MARGIN;
 						atWidth = true;
 					}
-					w = this.bounds.left + this.bounds.width - x;
+					w = this.rect.left + this.rect.width - x;
 				} else {
 					// expand to the right until we're not over the bottom
 					if (x + w + JUMP < container_w - SIDE_MARGIN) {
@@ -189,7 +188,7 @@ define(["jquery", "jqueryui"], function ($) {
 				}
 				
 				if (goUp) {
-					y = this.bounds.top + this.bounds.height - h;
+					y = this.rect.top + this.rect.height - h;
 					if (y < MARGIN)
 						atHeight = true;
 				}

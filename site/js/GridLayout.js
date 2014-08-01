@@ -28,7 +28,7 @@ define(["jquery", "Utils", "imagesloaded.pkgd.min", "debug"], function ($, Utils
 			
 			switch (cell.type) {
 				case "step":
-					var step = new Step( { number: cell.number, text: cell.text, image: cell.image } );
+					var step = new Step(cell);
 					cellDOM.append(step.elem);
 					
 					break;
@@ -40,7 +40,7 @@ define(["jquery", "Utils", "imagesloaded.pkgd.min", "debug"], function ($, Utils
 					}
 					break;
 				case "callout":
-					var callout = new Callout( { title: cell.title, text: cell.text } );
+					var callout = new Callout(cell);
 					cellDOM.append(callout.elem);
 					
 					break;

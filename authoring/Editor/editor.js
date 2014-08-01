@@ -9,7 +9,7 @@ requirejs.config({
 	},
 });
 
-require(["Spread", "jquery.hotkeys"], function (Spread) {
+require(["spread", "jquery.hotkeys"], function (Spread) {
 
 	/* Editor */
 	var Editor = function (id) {
@@ -454,7 +454,12 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 			var el = $(activeElement);
 			if (el.hasClass("editable-text")) {
 				el.find("p").replaceWith(function () { return $(this).contents(); });
-				el.html(el.html().trim());
+				var html = el.html().trim();
+				console.log(html);
+				console.log(html.indexOf("\r"));
+				console.log(html.indexOf("\n"));
+				html = html.replace(/(\r\n|\n|\r)/gm, " ");
+				el.html(html);
 				el.trigger("blur");
 			}
 		}
@@ -470,10 +475,10 @@ require(["Spread", "jquery.hotkeys"], function (Spread) {
 				var d = diffs[i];
 				if (d[0] == 1) {
 					// insertion
-					out += "<span style='color: green'>" + d[1] + "</span>";
+					out += "<span style='color: green'>" + d[1].substr(0, 32) + "</span>";
 				} else if (d[0] == -1) {
 					// deletion
-					out += "<span style='color: red'>" + d[1] + "</span>";
+					out += "<span style='color: red'>" + d[1].substr(0, 32) + "</span>";
 				}
 			}
 		}

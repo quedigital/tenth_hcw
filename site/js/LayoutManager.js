@@ -1,9 +1,4 @@
-define(["jquery",
-		"GridLayout",
-		"FixedLayout",
-		"Utils"
-		],
-									function ($, GridLayout, FixedLayout, Utils) {
+define(["jquery", "GridLayout", "FixedLayout", "Utils"], function ($, GridLayout, FixedLayout, Utils) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);

@@ -15,7 +15,7 @@ define([], function () {
 	ko.bindingHandlers.cellThing = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			if (currentLayout)
-				currentLayout.addNewGridCell(element, valueAccessor);
+				currentLayout.addNewGridCell(element, valueAccessor, bindingContext);
 		},
 		
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -54,6 +54,8 @@ define([], function () {
 	// Gridder
 
 	var Gridder = function (elem) {
+		this.ROW_HEIGHT = 75;
+		
 		this.cells = [];
 		
 		this.elem = $(elem);
@@ -66,8 +68,8 @@ define([], function () {
 	Gridder.prototype = {};
 	Gridder.prototype.constructor = Gridder;
 	
-	Gridder.prototype.addNewGridCell = function (element, valueAccessor) {
-		var cell = new GridCell(element, valueAccessor);
+	Gridder.prototype.addNewGridCell = function (element, valueAccessor, bindingContext) {
+		var cell = new GridCell(this, element, valueAccessor, bindingContext);
 		
 		this.cells.push(cell);
 		
@@ -78,51 +80,145 @@ define([], function () {
 		});		
 	}
 	
+	function reserveSpace (map, x, y, w, h) {
+		for (var i = 0; i < w; i++) {
+			map[y * 10 + x + i] = "*";
+		}
+	}
+	
+	function findSpace (map, w, h) {
+		var MAX_ROWS = 25;
+		
+		for (var row = 0; row < MAX_ROWS; row++) {
+			for (var col = 0; col <= 10 - w; col++) {
+				var blocked = false;
+				for (var i = 0; i < w; i++) {
+					if (map[row * 10 + col + i] == "*") {
+						blocked = true;
+						break;
+					}
+				}
+				if (!blocked) {
+					return { x: col, y: row };
+				}
+			}
+		}
+		
+		return undefined;
+	}
+	
 	Gridder.prototype.reformat = function (event, element) {
 		var x = 0;
 		var y = 0;
+		var max_y = 0;
 		
 		var ROW_WIDTH = this.elem.parent().width();
-		this.ROW_HEIGHT = 75;
 		
-		var me = this;
+		var map = [];
 		
+		// first pass = position absolute positioned cells
 		for (var i = 0; i < this.cells.length; i++) {
-			var cell = this.cells[i].el;
+			var cell = this.cells[i];
+			var cellDOM = this.cells[i].el;
 			
-			var inset = cell.find(".inset");
+			var inset = cellDOM.find(".inset");
 			if (inset) {
 				inset.resizable( { maxWidth: ROW_WIDTH } );
 			}
 			
-			var width = cell.attr("data-width");
+			var height = 1;
+			
+			var width = cell.bindingContext.$data.width();
 			if (width) {
-				width = parseFloat(width);
-				var cell_width = width * ROW_WIDTH;
-				var cell_height = me.ROW_HEIGHT;
-				var inset = cell.find(".inset");
-				inset.width(cell_width - MARGIN).height(cell_height - MARGIN);
-				if (x + width > 1) {
-					x = 0;
-					y += 1;
+				var cell_width = parseFloat(width) * ROW_WIDTH;
+				
+				inset.width(cell_width - MARGIN).height(this.ROW_HEIGHT - MARGIN);
+				cellDOM.width(cell_width).height(this.ROW_HEIGHT)			
+			}
+			
+			var x = parseInt(cell.bindingContext.$data.col());
+			var y = parseInt(cell.bindingContext.$data.row());
+			
+			if (!isNaN(x)) {
+				var cell_x = x / 10 * ROW_WIDTH;
+				cellDOM.css( { left: cell_x } );
+			}
+			
+			if (!isNaN(y)) {
+				var cell_y = y * this.ROW_HEIGHT;
+				cellDOM.css( { top: cell_y } );
+				
+				if (y > max_y) max_y = y;
+			}
+			
+			if (!isNaN(x) && !isNaN(y)) {
+				reserveSpace(map, x, y, width * 10, height);
+			}
+		}
+		
+		// second pass = fit the other cells in
+		for (var i = 0; i < this.cells.length; i++) {
+			var cell = this.cells[i];
+			var cellDOM = this.cells[i].el;
+			
+			var x = parseInt(cell.bindingContext.$data.col());
+			var y = parseInt(cell.bindingContext.$data.row());
+			
+			// TODO: can you specify a row OR a col (ie, not both)?
+			
+			if (isNaN(x) || isNaN(y)) {
+				var height = 1;
+			
+				var width = cell.bindingContext.$data.width();
+			
+				var spot = findSpace(map, width * 10, height);
+				
+				if (spot) {
+					var xx = spot.x / 10 * ROW_WIDTH;
+					var yy = spot.y * this.ROW_HEIGHT;
+			
+					cellDOM.css( { left: xx, top: yy } );
+				
+					reserveSpace(map, spot.x, spot.y, width * 10, height);
+					
+					if (spot.y > max_y) max_y = spot.y;
 				}
-				var xx = x * ROW_WIDTH;
-				var yy = y * me.ROW_HEIGHT;
-				x += width;
-				if (x + width > 1) {
-					x = 0;
-					y += 1;
-				}
-				cell.width(cell_width).height(me.ROW_HEIGHT).css( { left: xx, top: yy } );
 			}
 		}
 				
-		this.elem.height(y * me.ROW_HEIGHT).width(ROW_WIDTH);
+		this.elem.height((max_y + 1) * this.ROW_HEIGHT).width(ROW_WIDTH);
+	}
+	
+	Gridder.prototype.findCellByElem = function (elem) {
+		var ar = $.map(this.cells, function (obj, index) {
+			if (obj.el[0] == elem[0]) return obj;
+			else return null;
+		});
+		
+		return ar;
+	}
+	
+	Gridder.prototype.onCellMoved = function (event, ui) {
+		var pos = ui.position;
+		
+		// convert pos to 10% increments
+		var ROW_WIDTH = this.elem.parent().width();
+		var col = ui.position.left / ROW_WIDTH;
+		col = Math.round(col * 10);
+		var row = ui.position.top / this.ROW_HEIGHT;
+		row = Math.round(row);
+		
+		var ar = this.findCellByElem(ui.helper);
+		if (ar.length) {
+			var cell = ar[0];
+			cell.setRowCol(row, col);
+		}
 	}
 	
 	// GridCell
 	
-	var GridCell = function (elem, valueAccessor) {
+	var GridCell = function (grid, elem, valueAccessor, bindingContext) {
+		this.grid = grid;
 		this.el = $(elem);
 		
 		cell = $(elem);
@@ -131,6 +227,7 @@ define([], function () {
 		var ROW_WIDTH = cell.parent().width();
 		
 		this.valueAccessor = valueAccessor;
+		this.bindingContext = bindingContext;
 		
 		var inset = $("<div>").addClass("inset");
 		inset.attr("data-id", cell.data("id"));
@@ -155,6 +252,12 @@ define([], function () {
 		
 		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
 		
+		cell.draggable( {
+							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],
+							stack: ".cell",
+							stop: $.proxy(this.grid.onCellMoved, this.grid)
+						} );
+		
 		cell.click(setSelected);
 	}
 	
@@ -176,7 +279,13 @@ define([], function () {
 		value(percent);
 		
 		// NOTE: this is a bit of kludge, but the cell.parent(".grid").trigger("reformat") wasn't working too well
-		currentLayout.reformat();
+		//currentLayout.reformat();
+		this.grid.reformat();
+	}
+	
+	GridCell.prototype.setRowCol = function (row, col) {
+		this.bindingContext.$data.row(row);
+		this.bindingContext.$data.col(col);
 	}
 	
 	function setSelected (event) {

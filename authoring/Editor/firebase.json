@@ -1,0 +1,9 @@
+{
+  "firebase": "authoring",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

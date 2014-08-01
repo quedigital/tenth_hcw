@@ -1,5 +1,7 @@
 
 
+// TODO: sort spread list by chapter and number
+
 // TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
 
 // TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)

@@ -276,13 +276,23 @@ define(["gridder", "fixer"], function () {
 			return ids;
 		}
 		
-		// return one higher than the highest numeric id so far
+		self.getFirebaseKeys = function () {
+			var keys = [];
+			var cells = self.content()().cells();
+			$.each(cells, function (index, item) {
+				keys.push(item().firebase.name());
+			});
+			return keys;
+		}
+		
+		// return one higher than the highest numeric id so far, but use the firebase key not the content id!
 		self.getUniqueID = function () {
-			var ids = self.getIDs();
+			var ids = self.getFirebaseKeys();
 			var max = 0;
 			$.each(ids, function (index, item) {
-				if (item > max) {
-					max = item;
+				var n = parseInt(item);
+				if (n > max) {
+					max = n;
 				}
 			});
 			return max + 1;
@@ -346,6 +356,8 @@ define(["gridder", "fixer"], function () {
 								"theme": true,
 								"backgroundColor": true,
 								"marginTop": true,
+								"row": true,
+								"col": true,
 							}
 						}
 					};

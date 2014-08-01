@@ -453,8 +453,9 @@ input {
 #layout .grid .cell .inset {
   position: absolute;
   background-color: orange;
+  border: 1px solid white;
 }
-/* line 219, ../sass/_editor.scss */
+/* line 220, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -463,73 +464,72 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 228, ../sass/_editor.scss */
+/* line 229, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 236, ../sass/_editor.scss */
+/* line 237, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 242, ../sass/_editor.scss */
+/* line 243, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 246, ../sass/_editor.scss */
+/* line 247, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
   top: 0;
   left: 0;
 }
-/* line 253, ../sass/_editor.scss */
+/* line 254, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 257, ../sass/_editor.scss */
+/* line 258, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 263, ../sass/_editor.scss */
+/* line 264, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 266, ../sass/_editor.scss */
+/* line 267, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 274, ../sass/_editor.scss */
+/* line 275, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 278, ../sass/_editor.scss */
+/* line 279, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: yellow;
 }
-/* line 284, ../sass/_editor.scss */
+/* line 285, ../sass/_editor.scss */
 #layout #cell-property-table {
   display: none;
 }
-/* line 289, ../sass/_editor.scss */
+/* line 290, ../sass/_editor.scss */
 #layout #propertyPane h4 {
   margin: .5em 0 0 0;
   text-align: center;
 }
 
-/* line 296, ../sass/_editor.scss */
+/* line 297, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
-  height: 250px;
   border: 2px solid #66a;
   border-radius: 10px;
   background-color: #339;
