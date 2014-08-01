@@ -358,6 +358,7 @@ define(["gridder", "fixer"], function () {
 								"marginTop": true,
 								"row": true,
 								"col": true,
+								"nonblocking": true,
 							}
 						}
 					};

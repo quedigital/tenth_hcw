@@ -1,5 +1,8 @@
 
 
+// TODO: refactor the grid layout code so it's in one place (a new Common directory?)
+// TODO: make the "player" show the new-style grid layouts correctly
+
 // TODO: sort spread list by chapter and number
 
 // TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)

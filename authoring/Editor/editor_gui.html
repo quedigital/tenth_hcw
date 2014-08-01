@@ -260,6 +260,10 @@
 									<td>top margin</td>
 									<td><input data-bind="value: marginTop" type="number"></input></td>
 								</tr>
+								<tr>
+									<td>non-blocking</td>
+									<td><input type="checkbox" data-bind="checked: nonblocking" /></td>
+								</tr>
 							</tbody>
 							<tbody data-bind="attr: { 'data-id': id }, if: $parent.style()==='fixed'">
 								<tr>
