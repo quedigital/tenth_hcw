@@ -131,11 +131,14 @@ define(["gridder", "fixer"], function () {
 		var self = this;
 		
 		var firebase = new Firebase("https://howcomputerswork.firebaseio.com/contents");
+		
+		self.spreadArray = [];
 	
 		self.spreads = KnockoutFire.observable(firebase, {
 			"$spread": {
 				"id": true,
 				"chapter": true,
+				"number": true,
 				"title": true,
 			}
 		});
@@ -148,27 +151,54 @@ define(["gridder", "fixer"], function () {
 		self.rebuildSidebarMenu = function () {
 			self.removeAllMenuItems();
 			
+			self.loadSpreadArrayFromFirebase();
+						
 			var sidebar = w2ui["toc_sidebar"];
+			
+			$.each(self.spreadArray, function (index, element) {
+				var text = element.id + " " + element.title;
+				sidebar.add([ { id: element.index, text: text, routeData: { index: element.index }, icon: "fa fa-list-alt" } ]);
+			});
+		}
+		
+		self.loadSpreadArrayFromFirebase = function () {
+			self.spreadArray = [];
+			
 			for (var i = 0; i < self.spreads().length; i++) {
 				var s = self.spreads()[i]();
-				var text = s.id() + " " + s.title();
-				var index = s.firebase.name();
-				sidebar.add([ { id: index, text: text, routeData: { index: index }, icon: "fa fa-list-alt" } ]);
+				var spread = { id: s.id(), chapter: s.chapter(), number: s.number(), title: s.title(), index: s.firebase.name() };
+				self.spreadArray.push(spread);
 			}
+			
+			self.spreadArray.sort(function (a, b) {
+				var cha = parseInt(a.chapter), chb = parseInt(b.chapter);
+				var numa = parseInt(a.number), numb = parseInt(b.number);
+				
+				if (cha < chb) return -1;
+				else if (cha > chb) return 1;
+				else {
+					if (numa < numb) return -1;
+					else if (numa > numb) return 1;
+					else return 0;
+				}
+			});
 		}
 
 		// rebuild only the text
 		self.rebuildSidebarMenuText = function () {
+			self.loadSpreadArrayFromFirebase();
+			
 			var sidebar = w2ui["toc_sidebar"];
-			for (var i = 0; i < self.spreads().length; i++) {
-				var s = self.spreads()[i]();
-				var text = s.id() + " " + s.title();
-				var index = s.firebase.name();
-				sidebar.nodes[i].id = index;
+			
+			for (var i = 0; i < self.spreadArray.length; i++) {
+				var s = self.spreadArray[i];
+				var text = s.id + " " + s.title;
+				sidebar.nodes[i].id = s.index;
 				sidebar.nodes[i].text = text;
-				sidebar.nodes[i].routeData = { index: index };
+				sidebar.nodes[i].routeData = { index: s.index };
 				sidebar.nodes[i].icon = "fa fa-list-alt";
 			}
+			
 			sidebar.refresh();
 		}
 		

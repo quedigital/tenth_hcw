@@ -1,9 +1,8 @@
 
 
-// TODO: refactor the grid layout code so it's in one place (a new Common directory?)
-// TODO: make the "player" show the new-style grid layouts correctly
+// TODO: min-size for grid cells? (so the callouts in images don't get too small)
 
-// TODO: sort spread list by chapter and number
+// TODO: refactor the grid layout code so it's in one place (a new Common directory?)
 
 // TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
 
@@ -77,3 +76,5 @@
 // DONE: image uploading (Firebase server?) with resizing? [using Cloudinary]
 // DONE: fix https/http warning between Cloudinary and Firebase
 // DONE: refactor the callouts so the same one is used for fixed and grid layouts?
+// DONE: make the "player" show the new-style grid layouts correctly
+// DONE: sort spread list by chapter and number
