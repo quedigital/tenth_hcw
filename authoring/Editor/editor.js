@@ -1,15 +1,19 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
+	/*
 		"jquery": "jquery-1.11.0.min",
 		"jqueryui": "jquery-ui-1.10.4.custom",
+	*/
+		"domReady": "../../../common/js/domReady",
+		"Helpers": "../../../common/js/Helpers"
 	},
 	
 	shim: {
 	},
 });
 
-require(["spread", "jquery.hotkeys"], function (Spread) {
+require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 
 	/* Editor */
 	var Editor = function (id) {
@@ -229,131 +233,6 @@ require(["spread", "jquery.hotkeys"], function (Spread) {
 		}
 	}
 	
-	// INITIALIZE THE UI
-
-	$("body").layout({ applyDefaultStyles: true,
-						livePaneResizing: true,
-						east__onresize: function () { editor.resizeLayoutPane(); },
-						east__size: "40%",
-					});
-					
-    $('#top-toolbar').w2toolbar({
-        name: 'top-toolbar',
-        items: [
-            { type: 'button',  id: 'linebreaks',  caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
-            { type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
-            { type: 'break', id: 'break0' },
-
-            { type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
-            	items: [
-				]
-			},
-                        
-            { type: 'break', id: 'break1' },
-            { type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out', hint: "Save the current book data to a file" },
-        ],
-        onClick: function (event) {
-        	switch (event.target) {
-        		case "linebreaks":
-        			onRemoveLinebreaks();
-        			break;
-        		case "glossary":
-					onGlossaryKey(null, selectedNode, selectedRange);
-        			break;
-        		case "version_history":
-        			editor.refreshVersionHistoryMenu();
-        			break;
-        		case "version_history:rewind":
-        			editor.rewindToVersion(event.subItem.routeData);
-        			break;
-        		case "export":
-        			editor.exportAll();
-        			break;
-        	}
-        }
-    });
-    
-    // KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
-    var activeElement, selectedNode, selectedRange;
-    var button = $("#top-toolbar .w2ui-button");
-    button.on("mousedown", function () {
-    		activeElement = document.activeElement;
-    		if (document.getSelection().type === "Range") {
-				selectedNode = document.getSelection().baseNode;
-				selectedRange = document.getSelection().getRangeAt(0);
-			} else {
-				selectedNode = selectedRange = undefined;
-			}
-		});
-    
-    $('#bottom-toolbar').w2toolbar({
-        name: 'bottom-toolbar',
-        items: [
-            { type: 'button',  id: 'add',  caption: 'Add Cell', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
-            { type: 'break', id: 'break0' },
-            { text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0 },
-        ],
-        onClick: function (event) {
-        	switch (event.target) {
-        		case "add":
-        			editor.addCell();
-        			break;
-        		case "delete":
-        			editor.deleteSelectedCells();
-        			break;
-        	}
-        }
-    });
-    
-    $("#toc").w2sidebar({
-    	name: "toc_sidebar",
-    	onClick: function (event) {
-			editor.viewSpread(event.node.routeData.index);
-		}
-    });
-    
-    $('#bottom-sidebar').w2toolbar({
-        name: 'bottom-sidebar',
-        items: [
-            { type: 'button',  id: 'add', icon: 'fa fa-plus-square', hint: "Add new spread" },
-            { type: 'break', id: 'break0' },
-            { type: "button", id: "delete", icon: "fa fa-minus-square", hint: "Delete selected spread" },
-            { type: 'break', id: 'break1' },
-        ],
-        onClick: function (event) {
-        	switch (event.target) {
-        		case "add":
-        			dialog.dialog("open");
-        			break;
-        		case "delete":
-        			editor.viewSpread(0);
-        			
-					editor.removeSpreadByID(w2ui['toc_sidebar'].selected);
-        			break;
-        	}
-        }
-    });
-    
-    var dialog;
-    
-	dialog = $("#dialog-form").dialog({
-		autoOpen: false,
-		height: 400,
-		width: 350,
-		modal: true,
-		buttons: {
-			"Add": addSpread,
-			"Cancel": function () {
-				dialog.dialog("close");
-			}
-		},
-		close: function() {
-			$("#dialog-form").find("form")[0].reset()
-			$(".ui-state-error").removeClass("ui-state-error");
-			$(".checking").removeClass("checking");
-		}
-	});
-	
 	function checkfield (f) {
 		if (f.val().length == 0) {
 			f.addClass("ui-state-error");
@@ -403,17 +282,6 @@ require(["spread", "jquery.hotkeys"], function (Spread) {
 		return false;
 	}
     
-    $("#leftmost").layout({ applyDefaultStyles: true });
-	$("#content").layout({ applyDefaultStyles: true });
-	$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
-
-	// TODO: make this open the given spread by id
-	var editor = new Editor("10_1");
-	editor.initialize();
-	editor.trackChanges("https://howcomputerswork.firebaseio.com/");
-
-	$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
-
 	function onGlossaryKey (event, selectedNode, selectedRange) {
 		if (!selectedNode) {
 			selectedNode = document.getSelection().type === "Range" && document.getSelection().baseNode;
@@ -485,4 +353,144 @@ require(["spread", "jquery.hotkeys"], function (Spread) {
 		
 		return out;
 	}
+	
+	function initializeUI () {
+		$("body").layout({ applyDefaultStyles: true,
+							livePaneResizing: true,
+							east__onresize: function () { editor.resizeLayoutPane(); },
+							east__size: "40%",
+						});
+					
+		$('#top-toolbar').w2toolbar({
+			name: 'top-toolbar',
+			items: [
+				{ type: 'button',  id: 'linebreaks',  caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
+				{ type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
+				{ type: 'break', id: 'break0' },
+
+				{ type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
+					items: [
+					]
+				},
+						
+				{ type: 'break', id: 'break1' },
+				{ type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out', hint: "Save the current book data to a file" },
+			],
+			onClick: function (event) {
+				switch (event.target) {
+					case "linebreaks":
+						onRemoveLinebreaks();
+						break;
+					case "glossary":
+						onGlossaryKey(null, selectedNode, selectedRange);
+						break;
+					case "version_history":
+						editor.refreshVersionHistoryMenu();
+						break;
+					case "version_history:rewind":
+						editor.rewindToVersion(event.subItem.routeData);
+						break;
+					case "export":
+						editor.exportAll();
+						break;
+				}
+			}
+		});
+	
+		// KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
+		var activeElement, selectedNode, selectedRange;
+		var button = $("#top-toolbar .w2ui-button");
+		button.on("mousedown", function () {
+				activeElement = document.activeElement;
+				if (document.getSelection().type === "Range") {
+					selectedNode = document.getSelection().baseNode;
+					selectedRange = document.getSelection().getRangeAt(0);
+				} else {
+					selectedNode = selectedRange = undefined;
+				}
+			});
+	
+		$('#bottom-toolbar').w2toolbar({
+			name: 'bottom-toolbar',
+			items: [
+				{ type: 'button',  id: 'add',  caption: 'Add Cell', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
+				{ type: 'break', id: 'break0' },
+				{ text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0 },
+			],
+			onClick: function (event) {
+				switch (event.target) {
+					case "add":
+						editor.addCell();
+						break;
+					case "delete":
+						editor.deleteSelectedCells();
+						break;
+				}
+			}
+		});
+	
+		$("#toc").w2sidebar({
+			name: "toc_sidebar",
+			onClick: function (event) {
+				editor.viewSpread(event.node.routeData.index);
+			}
+		});
+	
+		$('#bottom-sidebar').w2toolbar({
+			name: 'bottom-sidebar',
+			items: [
+				{ type: 'button',  id: 'add', icon: 'fa fa-plus-square', hint: "Add new spread" },
+				{ type: 'break', id: 'break0' },
+				{ type: "button", id: "delete", icon: "fa fa-minus-square", hint: "Delete selected spread" },
+				{ type: 'break', id: 'break1' },
+			],
+			onClick: function (event) {
+				switch (event.target) {
+					case "add":
+						dialog.dialog("open");
+						break;
+					case "delete":
+						editor.viewSpread(0);
+					
+						editor.removeSpreadByID(w2ui['toc_sidebar'].selected);
+						break;
+				}
+			}
+		});
+    
+		var dialog;
+	
+		dialog = $("#dialog-form").dialog({
+			autoOpen: false,
+			height: 400,
+			width: 350,
+			modal: true,
+			buttons: {
+				"Add": addSpread,
+				"Cancel": function () {
+					dialog.dialog("close");
+				}
+			},
+			close: function() {
+				$("#dialog-form").find("form")[0].reset()
+				$(".ui-state-error").removeClass("ui-state-error");
+				$(".checking").removeClass("checking");
+			}
+		});
+	
+		$("#leftmost").layout({ applyDefaultStyles: true });
+		$("#content").layout({ applyDefaultStyles: true });
+		$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
+
+		// TODO: make this open the given spread by id
+		var editor = new Editor("10_1");
+		editor.initialize();
+		editor.trackChanges("https://howcomputerswork.firebaseio.com/");
+
+		$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
+	}
+	
+	domReady(function () {
+		initializeUI();
+	});
 });

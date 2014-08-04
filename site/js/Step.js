@@ -1,4 +1,4 @@
-define(["jquery", "jqueryui"], function ($) {
+define([], function () {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
 	var SIDE_MARGIN = 15;
 	

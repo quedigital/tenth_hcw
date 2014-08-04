@@ -1,4 +1,4 @@
-define(["jquery", "jqueryui"], function ($) {
+define([], function () {
 
 	// title, text, image
 	Callout = function (options) {

@@ -155,10 +155,12 @@ define(["gridder", "fixer"], function () {
 						
 			var sidebar = w2ui["toc_sidebar"];
 			
-			$.each(self.spreadArray, function (index, element) {
-				var text = element.id + " " + element.title;
-				sidebar.add([ { id: element.index, text: text, routeData: { index: element.index }, icon: "fa fa-list-alt" } ]);
-			});
+			if (sidebar) {
+				$.each(self.spreadArray, function (index, element) {
+					var text = element.id + " " + element.title;
+					sidebar.add([ { id: element.index, text: text, routeData: { index: element.index }, icon: "fa fa-list-alt" } ]);
+				});
+			}
 		}
 		
 		self.loadSpreadArrayFromFirebase = function () {
@@ -204,9 +206,11 @@ define(["gridder", "fixer"], function () {
 		
 		self.removeAllMenuItems = function () {
 			var sidebar = w2ui["toc_sidebar"];
-			var nd = []; 
-			for (var i in sidebar.nodes) nd.push(sidebar.nodes[i].id);
-			sidebar.remove.apply(sidebar, nd);
+			var nd = [];
+			if (sidebar) {
+				for (var i in sidebar.nodes) nd.push(sidebar.nodes[i].id);
+				sidebar.remove.apply(sidebar, nd);
+			}
 		}
 	}
 	

@@ -2,7 +2,8 @@ requirejs.config({
 	baseUrl: "js",
 	paths: {
 		"jquery": "jquery-1.11.0",
-		"jqueryui": "jquery-ui-1.10.4.custom.min"
+		"jqueryui": "jquery-ui-1.10.4.custom.min",
+		"Helpers": "../../common/js/Helpers",
 	},
 	
 	shim: {

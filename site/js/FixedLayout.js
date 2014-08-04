@@ -1,12 +1,11 @@
-define(["jquery",
-		"imagesloaded.pkgd.min",
+define(["imagesloaded.pkgd.min",
 		"Step",
 		"Callout",
 		"make-callout",
 		"auto-size-text",
-		"Utils",
+		"Helpers",
 		"debug",
-		], function ($, imagesLoaded, Step, Callout, makeCallout, autoSizeText, Utils, debug) {
+		], function (imagesLoaded, Step, Callout, makeCallout, autoSizeText, Helpers, debug) {
 	FixedLayout = function (container, layout, content) {
 		this.container = container;
 		this.layout = layout;
@@ -46,7 +45,7 @@ define(["jquery",
 		
 		for (var i = 0; i < hints.length; i++) {
 			var hint = hints[i];
-			var cell = Utils.findByID(hint.id, this.content.cells);
+			var cell = Helpers.findByID(hint.id, this.content.cells);
 			var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
 			
 			var options = $.extend({ rect: rect }, cell, hint);

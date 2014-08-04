@@ -1,4 +1,4 @@
-define([], function () {
+define(["Helpers"], function (Helpers) {
 	var MARGIN = 10;
 	
 	var currentLayout;
@@ -80,33 +80,6 @@ define([], function () {
 		});		
 	}
 	
-	function reserveSpace (map, x, y, w, h) {
-		for (var i = 0; i < w; i++) {
-			map[y * 10 + x + i] = "*";
-		}
-	}
-	
-	function findSpace (map, w, h) {
-		var MAX_ROWS = 25;
-		
-		for (var row = 0; row < MAX_ROWS; row++) {
-			for (var col = 0; col <= 10 - w; col++) {
-				var blocked = false;
-				for (var i = 0; i < w; i++) {
-					if (map[row * 10 + col + i] == "*") {
-						blocked = true;
-						break;
-					}
-				}
-				if (!blocked) {
-					return { x: col, y: row };
-				}
-			}
-		}
-		
-		return undefined;
-	}
-	
 	Gridder.prototype.reformat = function (event, element) {
 		var x = 0;
 		var y = 0;
@@ -152,7 +125,7 @@ define([], function () {
 			}
 			
 			if (!isNaN(x) && !isNaN(y)) {
-				reserveSpace(map, x, y, width * 10, height);
+				Helpers.reserveSpace(map, x, y, width * 10, height);
 			}
 		}
 		
@@ -171,7 +144,7 @@ define([], function () {
 			
 				var width = cell.bindingContext.$data.width();
 			
-				var spot = findSpace(map, width * 10, height);
+				var spot = Helpers.findSpace(map, width * 10, height);
 				
 				if (spot) {
 					var xx = spot.x / 10 * ROW_WIDTH;
@@ -179,7 +152,7 @@ define([], function () {
 			
 					cellDOM.css( { left: xx, top: yy } );
 				
-					reserveSpace(map, spot.x, spot.y, width * 10, height);
+					Helpers.reserveSpace(map, spot.x, spot.y, width * 10, height);
 					
 					if (spot.y > max_y) max_y = spot.y;
 				}

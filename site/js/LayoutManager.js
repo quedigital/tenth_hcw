@@ -1,4 +1,4 @@
-define(["jquery", "GridLayout", "FixedLayout", "Utils"], function ($, GridLayout, FixedLayout, Utils) {
+define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayout, Helpers) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -12,7 +12,7 @@ define(["jquery", "GridLayout", "FixedLayout", "Utils"], function ($, GridLayout
 		var scope = this;
 		
 		$.each(layouts, function (index, layout) {
-			var content = Utils.findByID(layout.id, contents);
+			var content = Helpers.findByID(layout.id, contents);
 			if (content) {
 				var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(scope.dom);
 				
