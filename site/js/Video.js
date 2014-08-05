@@ -8,6 +8,8 @@ define([], function () {
 		video.append(src);
 		
 		this.elem.append(video);
+		
+		video.on("loadeddata", function () { $(window).trigger("reflow"); });
 	}
 	
 	Video.prototype = Object.create(null);

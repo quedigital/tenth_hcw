@@ -1,6 +1,6 @@
 
 
-// TODO: background color for each spread
+// TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: change % of width for images accompanying text
 
@@ -92,3 +92,4 @@
 // DONE: "interactive" cell type
 // DONE: "publish spread" checkbox
 // DONE: video widget
+// DONE: background color for each spread
