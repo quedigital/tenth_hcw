@@ -1,4 +1,4 @@
-define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive"], function (Helpers, imagesLoaded, debug) {
+define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], function (Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content) {
@@ -52,6 +52,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive"], function (H
 				case "interactive":
 					var interactive = new Interactive(cell);
 					cellDOM.append(interactive.elem);
+					break;
+				case "video":
+					var video = new Video(cell);
+					cellDOM.append(video.elem);
 					break;
 			}
 		}
@@ -176,6 +180,9 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive"], function (H
 						var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
 						var h = rect.height;
 						elem.height(h);
+						break;
+					
+					case "video":
 						break;
 				}
 				

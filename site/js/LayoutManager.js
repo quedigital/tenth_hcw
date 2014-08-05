@@ -16,24 +16,26 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 		this.contents = contents;
 		
 		$.each(layouts, function (index, layout) {
-			var content = Helpers.findByID(layout.id, contents);
-			if (content) {
-				var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
+			if (layout.publish) {
+				var content = Helpers.findByID(layout.id, contents);
+				if (content) {
+					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
 				
-				var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
+					var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
 				
-				layoutDOM.append("<h1>" + content.title);
+					layoutDOM.append("<h1>" + content.title);
 				
-				switch (layout.style) {
-					case "grid":
-						var grid = new GridLayout(layoutDOM, layout, content);
-						me.layoutArray.push(grid);
-						break;
+					switch (layout.style) {
+						case "grid":
+							var grid = new GridLayout(layoutDOM, layout, content);
+							me.layoutArray.push(grid);
+							break;
 					
-					case "fixed":
-						var fixed = new FixedLayout(layoutDOM, layout, content);
-						me.layoutArray.push(fixed);
-						break;
+						case "fixed":
+							var fixed = new FixedLayout(layoutDOM, layout, content);
+							me.layoutArray.push(fixed);
+							break;
+					}
 				}
 			}
 		});

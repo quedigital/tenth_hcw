@@ -1,6 +1,10 @@
 
 
+// TODO: video widget
+
 // TODO: background color for each spread
+
+// TODO: change % of width for images accompanying text
 
 // TODO: rename content.image to content.url
 // TODO: rename layout.image to layout.imagePosition
@@ -88,3 +92,4 @@
 // DONE: layouts for cells with images should have position checkboxes
 // DONE: load json from Cloudinary
 // DONE: "interactive" cell type
+// DONE: "publish spread" checkbox

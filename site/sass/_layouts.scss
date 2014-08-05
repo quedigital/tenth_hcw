@@ -158,6 +158,11 @@ html, body, p, h1 {
 			transform: scale(1.0);
 		}
 	}
+	
+	.video video {
+		display: block;
+		margin: 0 auto;
+	}
 }
 
 div.callout {

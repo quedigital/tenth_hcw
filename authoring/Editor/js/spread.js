@@ -391,6 +391,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 						"id": true,
 						"style": true,
 						"background": true,
+						"publish": true,
 						"hints": {
 							"$hint": {
 								"id": true,

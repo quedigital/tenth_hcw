@@ -11,6 +11,7 @@
 	<link href="css/main.css" rel="stylesheet"/>
 
 	<link href="css/col.css" rel="stylesheet"/>
+	<link href="css/2cols.css" rel="stylesheet"/>
 	<link href="css/3cols.css" rel="stylesheet"/>
 	<link href="css/4cols.css" rel="stylesheet"/>
 	<link href="css/5cols.css" rel="stylesheet"/>
@@ -141,7 +142,7 @@
 												<label>Cell Type</label>
 											</div>
 											<div>
-												<select data-bind="options: ['step','image', 'callout', 'interactive'], value: type"></select>
+												<select data-bind="options: ['step','image', 'callout', 'interactive', 'video'], value: type"></select>
 											</div>
 										</div>
 										<div class="control" data-bind="visible: type() === 'step'">
@@ -172,6 +173,12 @@
 									<div id="interactive_group" class="section group" data-bind="if: type()==='interactive'">
 										<div class="col span_1_of_1">
 											<label for="inputURL">Relative Path to Interactive</label>
+											<input id="inputURL" data-bind="value: image" type="text"/>
+										</div>
+									</div>
+									<div id="video_group" class="section group" data-bind="if: type()==='video'">
+										<div class="col span_1_of_1">
+											<label for="inputURL">Video</label>
 											<input id="inputURL" data-bind="value: image" type="text"/>
 										</div>
 									</div>
@@ -206,8 +213,16 @@
 		<div class="ui-layout-center">
 			<div id="layoutModel">
 				<div data-bind="with: layout">
-					<label for="inputSpreadStyle">Layout Style</label>
-					<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
+					<div class="section group">
+						<div class="col span_1_of_2">
+							<label for="inputSpreadStyle">Layout Style</label>
+							<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
+						</div>
+						<div class="col span_1_of_2">					
+							<label for="inputPublish">Publish?</label>
+							<input type="checkbox" class="not-full-width" data-bind="checked: publish" />
+						</div>
+					</div>
 				
 					<div data-bind="if: style()==='grid'">
 						<div class="grid" data-bind="gridThing: hints">

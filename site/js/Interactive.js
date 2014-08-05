@@ -1,4 +1,4 @@
-define([""], function () {
+define([], function () {
 
 	Interactive = function (options) {
 		this.elem = $("<div>").addClass("interactive");
