@@ -170,15 +170,17 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		download(json, "export.json");
 
 		/*
-		$("testing data").unsigned_cloudinary_upload("asset_upload", { cloud_name: "hcw10" })
-			.bind("cloudinarydone", function (e, data) {
-				console.log("DONE!");
-			})
-			.bind("cloudinaryfail", function (e, data) {
-				console.log("ERROR!");
-				console.log(e);
-				console.log(data);
-			});
+		$("#uploadOutput").append(
+			$.cloudinary.unsigned_upload_tag("data_upload", { cloud_name: 'hcw10', public_id: "export.json" })
+				.bind('cloudinarydone', function (e, data) {
+					console.log("DONE!");
+				})
+				.bind('cloudinaryfail', function (e, data)  {
+					console.log("failed");
+					console.log(e);
+					console.log(data);
+				})
+		);
 		*/
 	}
 	

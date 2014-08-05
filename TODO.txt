@@ -1,7 +1,5 @@
 
 
-// TODO: video widget
-
 // TODO: background color for each spread
 
 // TODO: change % of width for images accompanying text
@@ -93,3 +91,4 @@
 // DONE: load json from Cloudinary
 // DONE: "interactive" cell type
 // DONE: "publish spread" checkbox
+// DONE: video widget

@@ -11,6 +11,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 		
 		this.container.addClass("grid");
 		
+		if (this.layout.background) {
+			this.container.css("background", this.layout.background);
+		}
+		
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));

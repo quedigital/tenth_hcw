@@ -223,6 +223,12 @@
 							<input type="checkbox" class="not-full-width" data-bind="checked: publish" />
 						</div>
 					</div>
+					<div class="section group" data-bind="if: style()==='grid'">
+						<div class="col span_1_of_1">
+							<label for="inputID">Background Color</label>
+							<input data-bind="value: background" type="text"></input>
+						</div>
+					</div>
 				
 					<div data-bind="if: style()==='grid'">
 						<div class="grid" data-bind="gridThing: hints">

@@ -15,8 +15,8 @@ requirejs.config({
 });
 
 require(["jquery", "LayoutManager"], function ($, LayoutManager) {
-	$.getJSON("export.json", null, onData);
-//	$.getJSON("https://res.cloudinary.com/hcw10/raw/upload/data_file.json", null, onData);
+//	$.getJSON("export.json", null, onData);
+	$.getJSON("https://res.cloudinary.com/hcw10/raw/upload/export.json", null, onData);
 
 	var layout = new LayoutManager("#container");
 	
