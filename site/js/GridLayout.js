@@ -1,8 +1,11 @@
-define(["Helpers", "imagesloaded.pkgd.min", "debug"], function (Helpers, imagesLoaded, debug) {
+define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive"], function (Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content) {
 		this.container = container;
+		
+		this.container.data("grid", this);
+		
 		this.layout = layout;
 		this.content = content;
 		
@@ -15,6 +18,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug"], function (Helpers, imagesL
 	
 	GridLayout.prototype = Object.create(null);
 	GridLayout.prototype.constructor = GridLayout;
+	
+	GridLayout.prototype.reflow = function () {
+		this.positionCells();
+	}
 	
 	GridLayout.prototype.buildCells = function () {
 		var cells = $.map(this.content.cells, function (el) { return el });
@@ -30,7 +37,6 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug"], function (Helpers, imagesL
 				case "step":
 					var step = new Step(cell);
 					cellDOM.append(step.elem);
-					
 					break;
 				case "image":
 					if (cell.image) {
@@ -42,7 +48,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug"], function (Helpers, imagesL
 				case "callout":
 					var callout = new Callout(cell);
 					cellDOM.append(callout.elem);
-					
+					break;
+				case "interactive":
+					var interactive = new Interactive(cell);
+					cellDOM.append(interactive.elem);
 					break;
 			}
 		}
@@ -161,6 +170,12 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug"], function (Helpers, imagesL
 						elem.css({ left: x, top: y, width: "auto" });
 						*/
 					
+						break;
+						
+					case "interactive":
+						var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
+						var h = rect.height;
+						elem.height(h);
 						break;
 				}
 				

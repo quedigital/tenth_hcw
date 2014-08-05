@@ -2,19 +2,23 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
-		this.layout = undefined;
+		
+		this.layoutArray = [];
 	}
 	
 	LayoutManager.prototype = Object.create({});
 	LayoutManager.prototype.constructor = LayoutManager;
 	
 	LayoutManager.prototype.process = function (layouts, contents) {
-		var scope = this;
+		var me = this;
+		
+		this.layouts = layouts;
+		this.contents = contents;
 		
 		$.each(layouts, function (index, layout) {
 			var content = Helpers.findByID(layout.id, contents);
 			if (content) {
-				var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(scope.dom);
+				var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
 				
 				var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
 				
@@ -23,17 +27,24 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 				switch (layout.style) {
 					case "grid":
 						var grid = new GridLayout(layoutDOM, layout, content);
-				
+						me.layoutArray.push(grid);
 						break;
 					
 					case "fixed":
 						var fixed = new FixedLayout(layoutDOM, layout, content);
-				
+						me.layoutArray.push(fixed);
 						break;
 				}
 			}
 		});
+	}
+	
+	LayoutManager.prototype.reflow = function () {
+		console.log("reflow");
 		
+		$.each(this.layoutArray, function (index, element) {
+			this.reflow();
+		});
 	}
 
 	return LayoutManager;

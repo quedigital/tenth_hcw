@@ -212,7 +212,12 @@ define(["Helpers"], function (Helpers) {
 		
 		$("<span>").addClass("id-label").attr("data-bind", "text: id").appendTo(inset);
 		
-		if (cell.data("image")) {
+		var id = bindingContext.$data.id();
+		var image = bindingContext.$root.getCellData(id, "image");
+		
+		var type = bindingContext.$root.getCellType(id);
+		
+		if (type == "step" && image) {
 			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "TR").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "BR").attr("data-bind", "checkbox: image").appendTo(inset);

@@ -141,7 +141,7 @@
 												<label>Cell Type</label>
 											</div>
 											<div>
-												<select data-bind="options: ['step','image', 'callout'], value: type"></select>
+												<select data-bind="options: ['step','image', 'callout', 'interactive'], value: type"></select>
 											</div>
 										</div>
 										<div class="control" data-bind="visible: type() === 'step'">
@@ -166,18 +166,26 @@
 									</div>
 									<div class="callout-text" data-bind="if: type() === 'callout'">
 										<label for="inputTitle">Title</label>
-										<input id="inputTitle" data-bind="value: title" type="text">
+										<input id="inputTitle" data-bind="value: title" type="text"/>
 										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 									</div>
-									<div class="section group">
-										<div class="col span_2_of_4">
-											<label for="inputID">Image</label>
-											<input data-bind="value: image" type="text"></input>
-											<div class="upload_div" data-bind="cloudinary: image"></div>
+									<div id="interactive_group" class="section group" data-bind="if: type()==='interactive'">
+										<div class="col span_1_of_1">
+											<label for="inputURL">Relative Path to Interactive</label>
+											<input id="inputURL" data-bind="value: image" type="text"/>
 										</div>
-										<div class="col span_2_of_4">
-											<div class="thumbnail" data-bind="visible: image">
-												<img data-bind="attr: { src: image }"/>
+									</div>
+									<div id="image_group" class="section group">
+										<div data-bind="if:type()=='step' || type()=='callout' || type()=='image'">
+											<div class="col span_2_of_4">
+												<label for="inputID">Image</label>
+												<input data-bind="value: image" type="text"></input>
+												<div class="upload_div" data-bind="cloudinary: image"></div>
+											</div>
+											<div class="col span_2_of_4">
+												<div class="thumbnail" data-bind="visible: image">
+													<img data-bind="attr: { src: image }"/>
+												</div>
 											</div>
 										</div>
 									</div>

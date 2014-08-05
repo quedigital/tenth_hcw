@@ -133,6 +133,31 @@ html, body, p, h1 {
 	.step {
 		position: relative;
 	}
+	
+	.interactive {
+		width: 1024px;
+		height: 768px;
+		margin: 0 auto;
+		
+		.try-me {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		
+		.contents {
+			margin: 0 auto;
+		
+			transform: scale(.5);
+			transform-origin: 50% 0;
+			
+			-webkit-transition: transform .5s ease;
+		}
+		
+		.contents.expanded {
+			transform: scale(1.0);
+		}
+	}
 }
 
 div.callout {

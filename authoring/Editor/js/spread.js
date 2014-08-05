@@ -1,4 +1,4 @@
-define(["gridder", "fixer"], function () {
+define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 	// NOTE: Gah, I couldn't get these sorting options to stick from event.js; hence these horrible workarounds
 	var callbacks = {
 		onSortStart: function () { console.log("no"); },
@@ -262,6 +262,18 @@ define(["gridder", "fixer"], function () {
 			}
 		}
 		
+		self.getCellData = function (id, field) {
+			// convert cells from Firebase to an array
+			var cells = $.map(this.content()().cells(), function (el) { return el() } )
+			for (var i = 0; i < cells.length; i++) {
+				var cell_id = cells[i].id();
+				if (cell_id == id) {
+					return cells[i][field]();
+				}
+			}
+			return undefined;
+		}
+		
 		self.onSelectCell = function (data, event) {
 			var selected = $(".cell-check:checked");
 			self.controller.onSelectionChange(selected);
@@ -405,6 +417,10 @@ define(["gridder", "fixer"], function () {
 		
 		self.getCellType = function (id) {
 			return this.controller.getCellType(id);
+		}
+		
+		self.getCellData = function (id, field) {
+			return this.controller.getCellData(id, field);
 		}
 
 		self.getIDs = function () {

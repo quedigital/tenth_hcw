@@ -57,6 +57,10 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		return this.content.getCellType(id);
 	}
 	
+	Editor.prototype.getCellData = function (id, field) {
+		return this.content.getCellData(id, field);
+	}
+	
 	Editor.prototype.onSelectionChange = function (selected) {
 		w2ui['bottom-toolbar'].set('delete', { count: selected.length });
 		
@@ -164,6 +168,18 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	Editor.prototype.onExport = function (data) {
 		var json = $.toJSON(data);
 		download(json, "export.json");
+
+		/*
+		$("testing data").unsigned_cloudinary_upload("asset_upload", { cloud_name: "hcw10" })
+			.bind("cloudinarydone", function (e, data) {
+				console.log("DONE!");
+			})
+			.bind("cloudinaryfail", function (e, data) {
+				console.log("ERROR!");
+				console.log(e);
+				console.log(data);
+			});
+		*/
 	}
 	
 	Editor.prototype.exportAll = function () {
@@ -487,7 +503,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		editor.initialize();
 		editor.trackChanges("https://howcomputerswork.firebaseio.com/");
 
-		$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);
+		$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);		
 	}
 	
 	domReady(function () {

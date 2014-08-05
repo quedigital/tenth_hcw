@@ -8,6 +8,15 @@ define([], function () {
 		else return undefined;
 	}
 
+	function findByIDFunc (id, array) {
+		var found = $.map(array, function (elem) {
+			return (elem.id() == id) ? elem : null;
+		});
+		
+		if (found.length) return found[0];
+		else return undefined;
+	}
+
 	function reserveSpace (map, x, y, w, h, id) {
 		for (var i = 0; i < w; i++) {
 			map[y * 10 + x + i] = (id == undefined) ? "*" : id;

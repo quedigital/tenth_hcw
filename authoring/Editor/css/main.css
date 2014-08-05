@@ -452,10 +452,12 @@ input {
 /* line 215, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
+  left: 0;
+  top: 0;
   background-color: orange;
   border: 1px solid white;
 }
-/* line 220, ../sass/_editor.scss */
+/* line 222, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -464,70 +466,70 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 229, ../sass/_editor.scss */
+/* line 231, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 237, ../sass/_editor.scss */
+/* line 239, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 243, ../sass/_editor.scss */
+/* line 245, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 247, ../sass/_editor.scss */
+/* line 249, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
   top: 0;
   left: 0;
 }
-/* line 254, ../sass/_editor.scss */
+/* line 256, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 258, ../sass/_editor.scss */
+/* line 260, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 264, ../sass/_editor.scss */
+/* line 266, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 267, ../sass/_editor.scss */
+/* line 269, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 275, ../sass/_editor.scss */
+/* line 277, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 279, ../sass/_editor.scss */
+/* line 281, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: yellow;
 }
-/* line 285, ../sass/_editor.scss */
+/* line 287, ../sass/_editor.scss */
 #layout #cell-property-table {
   display: none;
 }
-/* line 290, ../sass/_editor.scss */
+/* line 292, ../sass/_editor.scss */
 #layout #propertyPane h4 {
   margin: .5em 0 0 0;
   text-align: center;
 }
 
-/* line 297, ../sass/_editor.scss */
+/* line 299, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   border: 2px solid #66a;
@@ -535,12 +537,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 305, ../sass/_editor.scss */
+/* line 307, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 310, ../sass/_editor.scss */
+/* line 312, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
@@ -548,15 +550,15 @@ table.properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 320, ../sass/_editor.scss */
+/* line 322, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 323, ../sass/_editor.scss */
+/* line 325, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 327, ../sass/_editor.scss */
+/* line 329, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -564,18 +566,18 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 334, ../sass/_editor.scss */
+/* line 336, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 343, ../sass/_editor.scss */
+/* line 345, ../sass/_editor.scss */
 .grid .inset .id-label {
   text-align: center;
   display: block;
   font-family: Courier;
 }
-/* line 349, ../sass/_editor.scss */
+/* line 351, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -583,39 +585,39 @@ table.properties td input:focus {
   width: 12px;
   height: 12px;
 }
-/* line 357, ../sass/_editor.scss */
+/* line 359, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 362, ../sass/_editor.scss */
+/* line 364, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 367, ../sass/_editor.scss */
+/* line 369, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 372, ../sass/_editor.scss */
+/* line 374, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 377, ../sass/_editor.scss */
+/* line 379, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 382, ../sass/_editor.scss */
+/* line 384, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
 
 /* SQUARED ONE */
-/* line 390, ../sass/_editor.scss */
+/* line 392, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -632,18 +634,18 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 407, ../sass/_editor.scss */
+/* line 409, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 411, ../sass/_editor.scss */
+/* line 413, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 417, ../sass/_editor.scss */
+/* line 419, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -661,13 +663,13 @@ table.properties td input:focus {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 436, ../sass/_editor.scss */
+/* line 438, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 442, ../sass/_editor.scss */
+/* line 444, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -689,23 +691,23 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 468, ../sass/_editor.scss */
+/* line 470, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 473, ../sass/_editor.scss */
+/* line 475, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 479, ../sass/_editor.scss */
+/* line 481, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 484, ../sass/_editor.scss */
+/* line 486, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
