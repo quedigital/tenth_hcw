@@ -13,11 +13,13 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 		var me = this;
 		
 		this.layouts = layouts;
-		this.contents = contents;
+		this.contents = Helpers.objectToArray(contents);
+
+		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
-		$.each(layouts, function (index, layout) {
+		$.each(this.contents, function (index, content) {
+			var layout = Helpers.findByID(content.id, me.layouts);
 			if (layout.publish) {
-				var content = Helpers.findByID(layout.id, contents);
 				if (content) {
 					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
 				

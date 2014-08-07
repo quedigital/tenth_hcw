@@ -172,18 +172,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 				self.spreadArray.push(spread);
 			}
 			
-			self.spreadArray.sort(function (a, b) {
-				var cha = parseInt(a.chapter), chb = parseInt(b.chapter);
-				var numa = parseInt(a.number), numb = parseInt(b.number);
-				
-				if (cha < chb) return -1;
-				else if (cha > chb) return 1;
-				else {
-					if (numa < numb) return -1;
-					else if (numa > numb) return 1;
-					else return 0;
-				}
-			});
+			self.spreadArray.sort(Helpers.sortByChapterAndNumber);
 		}
 
 		// rebuild only the text
@@ -299,7 +288,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			var obj = $.extend({}, defaults);
 			obj.id = self.getUniqueID();
 			
-			self.content().firebase.child("cells/" + obj.id).set(obj);
+			self.content().firebase.child("cells/" + obj.id).setWithPriority(obj, obj.id);
 		}
 		
 		self.removeCellFromFirebaseByFirebaseRef = function (firebaseRef) {

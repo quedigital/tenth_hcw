@@ -44,10 +44,29 @@ define([], function () {
 		return undefined;
 	}
 	
+	function sortByChapterAndNumber (a, b) {
+		var cha = parseInt(a.chapter), chb = parseInt(b.chapter);
+		var numa = parseInt(a.number), numb = parseInt(b.number);
+	
+		if (cha < chb) return -1;
+		else if (cha > chb) return 1;
+		else {
+			if (numa < numb) return -1;
+			else if (numa > numb) return 1;
+			else return 0;
+		}
+	}
+	
+	function objectToArray (obj) {
+		return $.map(obj, function (el) { return el });
+	}
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
-		findSpace: findSpace
+		findSpace: findSpace,
+		sortByChapterAndNumber: sortByChapterAndNumber,
+		objectToArray: objectToArray
 	};
 	
 	return Helpers;

@@ -1,12 +1,15 @@
 
 
-// TODO: save images to AWS S3?
-
 // TODO: position step images
 // TODO: size step images
+// TODO: change % of width for images accompanying text
+
+// TODO: spread pane doesn't always load
+
+// TODO: save images to AWS S3?
+
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
-// TODO: change % of width for images accompanying text
 
 // TODO: rename content.image to content.url
 // TODO: rename layout.image to layout.imagePosition
@@ -98,3 +101,4 @@
 // DONE: find a way to make Amazon AWS bucket items public via Javascript
 // TODONT: export json to Cloudinary [used Amazon via Google instead]
 // DONE: layout.notes (for ToDo's, etc.)
+// DONE: make publish order match editor order

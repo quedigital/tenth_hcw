@@ -355,6 +355,7 @@ table.properties {
 	.inset {
 		.id-label {
 			text-align: center;
+			line-height: 65px;
 			display: block;
 			font-family: Courier;
 		}
@@ -371,6 +372,11 @@ table.properties {
 			top: 0;
 			left: 0;
 		}
+
+		input[name='T'] {
+			top: 0;
+			left: calc(50% - 6px);
+		}
 		
 		input[name='TR'] {
 			top: 0;
@@ -385,6 +391,11 @@ table.properties {
 		input[name='BR'] {
 			bottom: 0;
 			right: 0;
+		}
+
+		input[name='B'] {
+			bottom: 0;
+			left: calc(50% - 6px);
 		}
 		
 		input[name='BL'] {
