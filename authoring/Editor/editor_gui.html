@@ -6,6 +6,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
+	<meta name="google-signin-clientid" content="1027815512406-2c9gkcqhkv35aei88gbqm1pj3eefd8gm.apps.googleusercontent.com" />
+	<meta name="google-signin-scope" content="profile" />
+<!--	<meta name="google-signin-scope" content="https://www.googleapis.com/auth/plus.login" />-->
+<!--	<meta name="google-signin-requestvisibleactions" content="http://schema.org/AddAction" />-->
+	<meta name="google-signin-cookiepolicy" content="single_host_origin" />
+
 	<title>Editor GUI</title>
 
 	<link href="css/main.css" rel="stylesheet"/>
@@ -47,7 +53,9 @@
 	<script src='js/jquery.iframe-transport.js' type='text/javascript'></script>
 	<script src='js/jquery.fileupload.js' type='text/javascript'></script>
 	<script src='js/jquery.cloudinary.js' type='text/javascript'></script>
-			
+
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.0.11.min.js"></script>
+
 	<script data-main="editor" src="js/require.js"></script>
 </head>
 
@@ -316,6 +324,16 @@
 			</div>
 		</div>		
 	</div>
+	
+	<!-- Google sign in code -->
+	<script type="text/javascript">
+		(function() {
+			var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+			po.src = 'https://apis.google.com/js/client:plusone.js?onload=render';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		})();
+	</script>
+    	
 </body>
 
 </html>

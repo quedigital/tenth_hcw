@@ -93,3 +93,4 @@
 // DONE: "publish spread" checkbox
 // DONE: video widget
 // DONE: background color for each spread
+// DONE: find a way to make Amazon AWS bucket items public via Javascript
