@@ -47,7 +47,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 	// Setup the example
 	GameState.prototype.create = function () {
 		// Set stage background color
-		this.game.stage.backgroundColor = 0x4488cc;
+		this.game.stage.backgroundColor = 0xedfafe;
 
 		this.game.add.sprite(325, 200, "router");
 		
@@ -124,7 +124,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.numBlocked = 0;
 		this.numMissed = 0;
 				
-		this.instructions = this.game.add.text(380, 675, "", { font: "bold 24px Arial", fill: "#fff0cf" });
+		this.instructions = this.game.add.text(380, 675, "", { font: "bold 24px Arial", fill: "#4C7C64" });
 		this.instructions.align = "center";
 		this.instructions.setText("Be the firewall.  Use your mouse or touch to\npick out the suspicious packets. Don't let them in!");
 
