@@ -29,7 +29,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.game.load.spritesheet("standing", "assets/standing_spritesheet.png", 118, 190, 10);
 		this.game.load.spritesheet("jump", "assets/jump_spritesheet.png", 125, 216, 21);
 		this.game.load.spritesheet("punch", "assets/punching_spritesheet.png", 140, 190, 30);
-		this.game.load.spritesheet("walk", "assets/walk_spritesheet.png", 137, 207, 8);
+		this.game.load.spritesheet("walk", "assets/walk_spritesheet.png", 137, 207, 34);
 		this.game.load.image("tv", "assets/TV.png");
 	};
 
@@ -53,7 +53,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	
 	// Setup the example
 	GameState.prototype.create = function () {
-		this.game.stage.backgroundColor = 0x4488cc;
+		this.game.stage.backgroundColor = 0xFFFFFF;
 
 		var tv = new Phaser.Sprite(this.game, this.game.world.centerX, 220, "tv");
 		tv.anchor.set(.5, .5);
@@ -160,7 +160,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.character.playAnim("standing");
 		this.game.add.existing(this.character);
 
-		this.instructions = this.game.add.text(this.game.world.centerX, 30, "", { font: "bold 24px Arial", fill: "#d0e044" });
+		this.instructions = this.game.add.text(this.game.world.centerX, 30, "", { font: "bold 24px Arial", fill: "#4D5B60" });
 		this.instructions.anchor.set(.5, .5);
 		this.instructions.align = "center";
 		this.instructions.setText("Try out the buttons on this controller to see what's happening behind the scenes.");
