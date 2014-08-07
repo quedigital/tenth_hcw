@@ -716,3 +716,8 @@ table.properties td input:focus {
 #dialog-form .ui-state-error {
   padding: .3em;
 }
+
+/* line 495, ../sass/_editor.scss */
+#dialog-message {
+  display: none;
+}

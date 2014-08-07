@@ -169,24 +169,15 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	
 	Editor.prototype.onExport = function (data) {
 		var json = $.toJSON(data);
-//		download(json, "export.json");
+		
+		// To save it to the download directory:
+		// download(json, "export.json");
 
 		var bucket = new AWS.S3({
 			params: { Bucket: 'HCW10' },
 			credentials: credentials,
 			region: region
 		});
-
-		/* test to see if listing the bucket still works
-		var request = bucket.listObjects();
-		request.on('success', function(response) {
-			console.log("data: " + JSON.stringify(response.data));
-		});
-		request.on('error', function(response) {
-			console.log("error: " + response.message + " (" + response.code + ")");
-		});
-		request.send();
-		*/
 
 		var params = { Key: 'export.json', Body: json, ACL: 'public-read' };
 
@@ -195,21 +186,14 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				console.log("S3 error");
 				console.log(err);
 				console.log(data);
-				console.log(this.httpResponse.body.toString());
+				$("#dialog-message .text-message").text(err);
+				$("#dialog-message").dialog( { title: "Publish Error" } ).dialog("open");
 			} else {
 				console.log("file put successful");
+				$("#dialog-message .text-message").text("Published.");
+				$("#dialog-message").dialog( { title: "Publish" } ).dialog("open");
 			}
 		});
-
-/*
-		var bucket = new AWS.S3( { params: { Bucket: 'HCW10', ACL: 'public-read', credentials: credentials } } );
-		var params = { Key: 'export.json', Body: json };
-		bucket.putObject(params, function (err, data) {
-			console.log("S3 error");
-			console.log(err);
-			console.log(data);
-		});
-*/
 	}
 	
 	Editor.prototype.exportAll = function () {
@@ -296,7 +280,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			}, 500 );      		
 	}
 	
-	function addSpread () {
+	function addSpread (editor, dialog) {
 		$(".validateTips").addClass("checking");
 		
 		var valid = true;
@@ -399,6 +383,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		
 		return out;
 	}
+
+	var activeElement, selectedNode, selectedRange;
 	
 	function initializeUI () {
 		$("body").layout({ applyDefaultStyles: true,
@@ -421,7 +407,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				},
 						
 				{ type: 'break', id: 'break1' },
-				{ type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out', hint: "Save the current book data to a file" },
+				{ type: 'button', id: "export", caption: 'Publish', icon: 'fa fa-book', hint: "Save the current book data to a file" },
 			],
 			onClick: function (event) {
 				switch (event.target) {
@@ -429,7 +415,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 						var additionalParams = {
 							'callback': signinCallback,				
 						};
-			
+
 						gapi.auth.signIn(additionalParams);
 						
 						break;
@@ -482,15 +468,18 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 					}
 				});
 				
-				/*
-				var bucket = new AWS.S3( { params: { Bucket: 'HCW10', ACL: 'public-read' }, credentials: credentials } );
-				var params = { Key: 'test.txt', Body: "This is a test." };
-				bucket.putObject(params, function (err, data) {
-					console.log("S3 error");
-					console.log(err);
-					console.log(data);
+				gapi.client.load('plus','v1', function() {
+					var request = gapi.client.plus.people.get({
+						'userId': 'me'
+					});
+					
+					request.execute(function(resp) {
+						console.log('Retrieved profile for:' + resp.displayName);
+						var toolbar = w2ui["top-toolbar"];
+						toolbar.set("signin", { caption: resp.displayName } );
+					});
 				});
-				*/
+				
 			} else {
 				// Update the app to reflect a signed out user
 				// Possible error values:
@@ -502,7 +491,6 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		}
 			
 		// KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
-		var activeElement, selectedNode, selectedRange;
 		var button = $("#top-toolbar .w2ui-button");
 		button.on("mousedown", function () {
 				activeElement = document.activeElement;
@@ -570,7 +558,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			width: 350,
 			modal: true,
 			buttons: {
-				"Add": addSpread,
+				"Add": function () { addSpread(editor, dialog); },
 				"Cancel": function () {
 					dialog.dialog("close");
 				}
@@ -581,6 +569,16 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				$(".checking").removeClass("checking");
 			}
 		});
+		
+		$("#dialog-message").dialog({
+			autoOpen: false,
+			modal: true,
+			buttons: {
+				Ok: function () {
+					$(this).dialog( "close" );
+				}
+			}
+		});		
 	
 		$("#leftmost").layout({ applyDefaultStyles: true });
 		$("#content").layout({ applyDefaultStyles: true });
