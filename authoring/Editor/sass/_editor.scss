@@ -298,6 +298,13 @@ input {
 			text-align: center;
 		}
 	}
+	
+	.notes-group {
+		textarea {
+			display: block;
+			width: 100%;
+		}
+	}
 }
 
 .thumbnail {
@@ -490,4 +497,8 @@ table.properties {
     .ui-state-error {
     	padding: .3em;
     }
+}
+
+#dialog-message {
+	display: none;
 }

@@ -14,6 +14,8 @@ requirejs.config({
 });
 
 require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
+	var credentials;
+	var region = 'us-east-1'
 
 	/* Editor */
 	var Editor = function (id) {
@@ -167,21 +169,31 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	
 	Editor.prototype.onExport = function (data) {
 		var json = $.toJSON(data);
-		download(json, "export.json");
+		
+		// To save it to the download directory:
+		// download(json, "export.json");
 
-		/*
-		$("#uploadOutput").append(
-			$.cloudinary.unsigned_upload_tag("data_upload", { cloud_name: 'hcw10', public_id: "export.json" })
-				.bind('cloudinarydone', function (e, data) {
-					console.log("DONE!");
-				})
-				.bind('cloudinaryfail', function (e, data)  {
-					console.log("failed");
-					console.log(e);
-					console.log(data);
-				})
-		);
-		*/
+		var bucket = new AWS.S3({
+			params: { Bucket: 'HCW10' },
+			credentials: credentials,
+			region: region
+		});
+
+		var params = { Key: 'export.json', Body: json, ACL: 'public-read' };
+
+		bucket.putObject(params, function (err, data) {
+			if (err) {
+				console.log("S3 error");
+				console.log(err);
+				console.log(data);
+				$("#dialog-message .text-message").text(err);
+				$("#dialog-message").dialog( { title: "Publish Error" } ).dialog("open");
+			} else {
+				console.log("file put successful");
+				$("#dialog-message .text-message").text("Published.");
+				$("#dialog-message").dialog( { title: "Publish" } ).dialog("open");
+			}
+		});
 	}
 	
 	Editor.prototype.exportAll = function () {
@@ -268,7 +280,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			}, 500 );      		
 	}
 	
-	function addSpread () {
+	function addSpread (editor, dialog) {
 		$(".validateTips").addClass("checking");
 		
 		var valid = true;
@@ -371,6 +383,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		
 		return out;
 	}
+
+	var activeElement, selectedNode, selectedRange;
 	
 	function initializeUI () {
 		$("body").layout({ applyDefaultStyles: true,
@@ -382,8 +396,9 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		$('#top-toolbar').w2toolbar({
 			name: 'top-toolbar',
 			items: [
-				{ type: 'button',  id: 'linebreaks',  caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
-				{ type: 'button',  id: 'glossary',  caption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
+				{ type: 'button', id: 'signin', caption: 'Sign In', icon: 'fa fa-sign-in', hint: 'Log in via Google' },
+				{ type: 'button', id: 'linebreaks', caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
+				{ type: 'button', id: 'glossary',  aption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
 				{ type: 'break', id: 'break0' },
 
 				{ type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
@@ -392,10 +407,18 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				},
 						
 				{ type: 'break', id: 'break1' },
-				{ type: 'button', id: "export", caption: 'Export', icon: 'fa fa-sign-out', hint: "Save the current book data to a file" },
+				{ type: 'button', id: "export", caption: 'Publish', icon: 'fa fa-book', hint: "Save the current book data to a file" },
 			],
 			onClick: function (event) {
 				switch (event.target) {
+					case "signin":
+						var additionalParams = {
+							'callback': signinCallback,				
+						};
+
+						gapi.auth.signIn(additionalParams);
+						
+						break;
 					case "linebreaks":
 						onRemoveLinebreaks();
 						break;
@@ -414,9 +437,60 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				}
 			}
 		});
-	
+
+		function signinCallback (authResult) {
+			if (authResult['status']['signed_in']) {
+				// Update the app to reflect a signed in user
+				// Hide the sign-in button now that the user is authorized, for example:
+				console.log("signed in to google");
+				
+				/*
+				AWS.config.credentials = new AWS.WebIdentityCredentials({
+					RoleArn: 'arn:aws:iam::961571864643:role/Editors',
+					ProviderId: null,
+				});
+				
+				AWS.config.credentials.params.WebIdentityToken = authResult.id_token;
+				*/
+
+				var arn = 'arn:aws:iam::961571864643:role/Editors'
+				credentials = new AWS.WebIdentityCredentials({
+					RoleArn: arn
+				});
+
+				credentials.params.WebIdentityToken = authResult.id_token;
+				credentials.refresh(function (err) {
+					if (err) {
+						console.log("Error logging into application");
+						console.log(err);
+					} else {
+						console.log("Logged into application");
+					}
+				});
+				
+				gapi.client.load('plus','v1', function() {
+					var request = gapi.client.plus.people.get({
+						'userId': 'me'
+					});
+					
+					request.execute(function(resp) {
+						console.log('Retrieved profile for:' + resp.displayName);
+						var toolbar = w2ui["top-toolbar"];
+						toolbar.set("signin", { caption: resp.displayName } );
+					});
+				});
+				
+			} else {
+				// Update the app to reflect a signed out user
+				// Possible error values:
+				//   "user_signed_out" - User is signed-out
+				//   "access_denied" - User denied access to your app
+				//   "immediate_failed" - Could not automatically log in the user
+				console.log('Sign-in state: ' + authResult['error']);
+			}
+		}
+			
 		// KLUDGE: grab the selected node during mouseDown since it's not there during the toolbar button's click event
-		var activeElement, selectedNode, selectedRange;
 		var button = $("#top-toolbar .w2ui-button");
 		button.on("mousedown", function () {
 				activeElement = document.activeElement;
@@ -484,7 +558,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			width: 350,
 			modal: true,
 			buttons: {
-				"Add": addSpread,
+				"Add": function () { addSpread(editor, dialog); },
 				"Cancel": function () {
 					dialog.dialog("close");
 				}
@@ -495,6 +569,16 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				$(".checking").removeClass("checking");
 			}
 		});
+		
+		$("#dialog-message").dialog({
+			autoOpen: false,
+			modal: true,
+			buttons: {
+				Ok: function () {
+					$(this).dialog( "close" );
+				}
+			}
+		});		
 	
 		$("#leftmost").layout({ applyDefaultStyles: true });
 		$("#content").layout({ applyDefaultStyles: true });
