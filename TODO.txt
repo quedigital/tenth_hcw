@@ -1,8 +1,9 @@
 
 
+// TODO: save images to AWS S3?
+
 // TODO: position step images
 // TODO: size step images
-// TODO: layout.notes (for ToDo's, etc.)
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: change % of width for images accompanying text
@@ -96,4 +97,4 @@
 // DONE: background color for each spread
 // DONE: find a way to make Amazon AWS bucket items public via Javascript
 // TODONT: export json to Cloudinary [used Amazon via Google instead]
-
+// DONE: layout.notes (for ToDo's, etc.)

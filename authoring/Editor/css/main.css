@@ -533,8 +533,13 @@ input {
   margin: .5em 0 0 0;
   text-align: center;
 }
-
 /* line 303, ../sass/_editor.scss */
+#layout .notes-group textarea {
+  display: block;
+  width: 100%;
+}
+
+/* line 310, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   border: 2px solid #66a;
@@ -542,12 +547,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 311, ../sass/_editor.scss */
+/* line 318, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 316, ../sass/_editor.scss */
+/* line 323, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
@@ -555,15 +560,15 @@ table.properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 326, ../sass/_editor.scss */
+/* line 333, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 329, ../sass/_editor.scss */
+/* line 336, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 333, ../sass/_editor.scss */
+/* line 340, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -571,18 +576,18 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 340, ../sass/_editor.scss */
+/* line 347, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 349, ../sass/_editor.scss */
+/* line 356, ../sass/_editor.scss */
 .grid .inset .id-label {
   text-align: center;
   display: block;
   font-family: Courier;
 }
-/* line 355, ../sass/_editor.scss */
+/* line 362, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -590,39 +595,39 @@ table.properties td input:focus {
   width: 12px;
   height: 12px;
 }
-/* line 363, ../sass/_editor.scss */
+/* line 370, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 368, ../sass/_editor.scss */
+/* line 375, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 373, ../sass/_editor.scss */
+/* line 380, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 378, ../sass/_editor.scss */
+/* line 385, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 383, ../sass/_editor.scss */
+/* line 390, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 388, ../sass/_editor.scss */
+/* line 395, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
 
 /* SQUARED ONE */
-/* line 396, ../sass/_editor.scss */
+/* line 403, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -639,18 +644,18 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 413, ../sass/_editor.scss */
+/* line 420, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 417, ../sass/_editor.scss */
+/* line 424, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 423, ../sass/_editor.scss */
+/* line 430, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -668,13 +673,13 @@ table.properties td input:focus {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 442, ../sass/_editor.scss */
+/* line 449, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 448, ../sass/_editor.scss */
+/* line 455, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -696,28 +701,28 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 474, ../sass/_editor.scss */
+/* line 481, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 479, ../sass/_editor.scss */
+/* line 486, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 485, ../sass/_editor.scss */
+/* line 492, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 490, ../sass/_editor.scss */
+/* line 497, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
 
-/* line 495, ../sass/_editor.scss */
+/* line 502, ../sass/_editor.scss */
 #dialog-message {
   display: none;
 }
