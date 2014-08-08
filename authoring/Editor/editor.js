@@ -52,7 +52,16 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	Editor.prototype.initialize = function () {
 		ko.applyBindings(this.content, $("#contentModel")[0]);
 		ko.applyBindings(this.layout, $("#layoutModel")[0]);
-		ko.applyBindings(this.layout, $("#propertyPane")[0]);		
+		// TODO: is it valid to applyBindings to the same object twice?!
+		ko.applyBindings(this.layout, $("#propertyPane")[0]);
+		
+		// listen for changes from the gridder object:
+		$("#layoutModel").on("order_change", $.proxy(this.onCellOrderChange, this));
+	}
+	
+	Editor.prototype.onCellOrderChange = function (event, ids) {
+		console.log("changing order to " + ids);
+		this.content.setSortOrder(ids);
 	}
 	
 	Editor.prototype.getCellType = function (id) {

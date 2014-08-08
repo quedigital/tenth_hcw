@@ -289,7 +289,36 @@ define(["Helpers"], function (Helpers) {
 			cell.setRowCol(row, col);
 		}
 		
-		console.log("ON CELL MOVED: rejigger content order");
+		this.setContentOrderToLayoutOrder();
+	}
+	
+	Gridder.prototype.setContentOrderToLayoutOrder = function () {
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		var ar = [];
+		
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i].el;
+			var col = c.position().left / ROW_WIDTH;
+			col = Math.round(col * 10);
+			var row = c.position().top / this.ROW_HEIGHT;
+			row = Math.round(row);
+			ar.push( { id: this.cells[i].getID(), row: row, col: col } );
+		}
+		
+		ar.sort(function (a, b) {
+			if (a.row > b.row)
+				return 1;
+			else if (a.row == b.row && a.col > b.col) {
+				return 1;
+			} else {
+				return -1;
+			}
+		});
+		
+		var ids = $.map(ar, function (el) { return el.id });
+		
+		this.elem.trigger("order_change", [ids]);
 	}
 	
 	// GridCell
@@ -352,6 +381,10 @@ define(["Helpers"], function (Helpers) {
 	GridCell.prototype = {};
 	GridCell.prototype.constructor = GridCell;
 
+	GridCell.prototype.getID = function () {
+		return this.bindingContext.$data.id();
+	}
+	
 	// reformat during cell resize
 	GridCell.prototype.onResize = function (event, ui) {
 		var w = ui.element.width() + MARGIN;

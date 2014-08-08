@@ -361,11 +361,32 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			return c.map(function (index, element) { return $(element).data("id"); }).toArray();
 		}
 		
+		// kind of clunky because of the way (I think) you have to retrieve firebase children
 		self.setSortOrder = function (ids) {
-			$.each(ids, function (index, id) {
-				var ref = self.content().firebase.child("cells/" + id);
-				ref.setPriority(index);
+			var ref = self.content().firebase.child("cells");
+			ref.once("value", function (snapshot) {
+				self.setPriorityByID(snapshot.val(), ids);
 			});
+		}
+		
+		self.setPriorityByID = function (val, ids) {
+			for (var i = 0; i < ids.length; i++) {
+				var id = ids[i];
+				var ref = self.getCellByID(id, val);
+				if (ref) {
+					ref.setPriority(i);
+				}
+			}
+		}
+		
+		self.getCellByID = function (id, cells_in_firebase_order) {
+			for (var i = 0; i < cells_in_firebase_order.length; i++) {
+				var cell = cells_in_firebase_order[i];
+				if (cell.id == id) {
+					return self.content().firebase.child("cells/" + i);
+				}
+			}
+			return undefined;
 		}
 		
 		self.getData = function (callback) {

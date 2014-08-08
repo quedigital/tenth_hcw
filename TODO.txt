@@ -1,5 +1,7 @@
 
 
+// TODO: abandon the idea of leaving grid cell's row and column sometimes blank?  (ie, fill them in all the time)
+
 // TODO: match content order with layout order
 
 // TODO: clicking on layout hint scrolls to corresponding content cell
