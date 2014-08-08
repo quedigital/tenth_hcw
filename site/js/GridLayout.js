@@ -143,6 +143,34 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 						}
 						img.width(image_w);
 						switch (hint.image) {
+							case "TL":
+								img.addClass("clear-left");
+								break;
+							case "T":
+								img.addClass("top");
+								img.prependTo(img.parent());
+								break;
+							case "TR":
+								img.addClass("clear-right");
+								break;
+							case "R":
+								var step = elem.find(".step");
+								img.addClass("clear-right");
+								img.insertBefore(step);
+								step.css("margin-right", img.outerWidth() + MARGIN);
+								break;
+							case "BR":
+								// try to position the image at the bottom, knowing the text will reflow and throw us off
+								var h1 = elem.find(".span-text").height();
+								var h2 = img.height();
+								var h = h1 * .6;
+								$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem.find(".step"));
+								img.addClass("clear-right");
+								break;
+							case "B":
+								img.addClass("bottom");
+								img.appendTo(img.parent());
+								break;
 							case "BL":
 								// try to position the image at the bottom, knowing the text will reflow and throw us off
 								var h1 = elem.find(".span-text").height();
@@ -151,20 +179,11 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 								$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem.find(".step"));
 								img.addClass("clear-left");						
 								break;
-							case "TR":
-								img.addClass("clear-right");
-								break;
 							case "L":
 								var step = elem.find(".step");
 								img.addClass("clear-left");
 								img.insertBefore(step);
 								step.css("margin-left", img.outerWidth() + MARGIN);
-								break;
-							case "R":
-								var step = elem.find(".step");
-								img.addClass("clear-right");
-								img.insertBefore(step);
-								step.css("margin-right", img.outerWidth() + MARGIN);
 								break;
 						}
 					

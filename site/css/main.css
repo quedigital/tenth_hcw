@@ -438,8 +438,31 @@ div.cell {
   width: 49%;
   overflow: hidden;
 }
+/* line 220, ../sass/_layouts.scss */
+div.cell .top {
+  margin: 0 auto;
+}
+/* line 224, ../sass/_layouts.scss */
+div.cell .bottom {
+  margin: 0 auto;
+}
+/* line 228, ../sass/_layouts.scss */
+div.cell .clear-left {
+  float: left;
+  clear: left;
+}
+/* line 232, ../sass/_layouts.scss */
+div.cell .clear-left.image {
+  margin-right: 20px;
+  margin-top: 20px;
+}
+/* line 238, ../sass/_layouts.scss */
+div.cell .clear-right {
+  float: right;
+  clear: right;
+}
 
-/* line 221, ../sass/_layouts.scss */
+/* line 247, ../sass/_layouts.scss */
 .diamond {
   display: inline-block;
   color: white;
@@ -458,7 +481,7 @@ div.cell {
   position: absolute;
   left: 5px;
 }
-/* line 239, ../sass/_layouts.scss */
+/* line 265, ../sass/_layouts.scss */
 .diamond:before {
   content: "";
   background-color: red;
@@ -467,7 +490,7 @@ div.cell {
   height: 100%;
   -webkit-transform: rotate(45deg);
 }
-/* line 248, ../sass/_layouts.scss */
+/* line 274, ../sass/_layouts.scss */
 .diamond span {
   position: absolute;
   top: -5px;
@@ -476,7 +499,7 @@ div.cell {
   text-align: center;
 }
 
-/* line 257, ../sass/_layouts.scss */
+/* line 283, ../sass/_layouts.scss */
 .block {
   display: inline-block;
   color: white;
@@ -497,7 +520,7 @@ div.cell {
   left: 5px;
   top: -8px;
 }
-/* line 277, ../sass/_layouts.scss */
+/* line 303, ../sass/_layouts.scss */
 .block:before {
   content: "";
   background-color: black;
@@ -505,7 +528,7 @@ div.cell {
   width: 100%;
   height: 100%;
 }
-/* line 285, ../sass/_layouts.scss */
+/* line 311, ../sass/_layouts.scss */
 .block span {
   position: absolute;
   top: -1px;
@@ -514,29 +537,12 @@ div.cell {
   text-align: center;
 }
 
-/* line 294, ../sass/_layouts.scss */
+/* line 320, ../sass/_layouts.scss */
 span.glossary {
   font-weight: bold;
 }
 
-/* line 298, ../sass/_layouts.scss */
+/* line 324, ../sass/_layouts.scss */
 .spacer {
   width: 0;
-}
-
-/* line 302, ../sass/_layouts.scss */
-.clear-left {
-  float: left;
-  clear: left;
-}
-/* line 306, ../sass/_layouts.scss */
-.clear-left.image {
-  margin-right: 20px;
-  margin-top: 20px;
-}
-
-/* line 312, ../sass/_layouts.scss */
-.clear-right {
-  float: right;
-  clear: right;
 }

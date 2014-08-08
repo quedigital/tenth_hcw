@@ -216,6 +216,32 @@ div.cell {
 	padding: 1em;
 	width: 49%;
 	overflow: hidden;
+
+	.top {
+		margin: 0 auto;
+	}
+	
+	.bottom {
+		margin: 0 auto;
+	}
+		
+	.clear-left {
+		float: left;
+		clear: left;
+	
+		&.image {
+			margin-right: 20px;
+			margin-top: 20px;
+		}
+	}
+
+	.clear-right {
+		float: right;
+		clear: right;
+	
+		&.image {
+		}
+	}	
 }
 
 .diamond {
@@ -297,22 +323,4 @@ span.glossary {
 
 .spacer {
 	width: 0;
-}
-
-.clear-left {
-	float: left;
-	clear: left;
-	
-	&.image {
-		margin-right: 20px;
-		margin-top: 20px;
-	}
-}
-
-.clear-right {
-	float: right;
-	clear: right;
-	
-	&.image {
-	}
 }

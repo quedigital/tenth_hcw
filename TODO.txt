@@ -2,8 +2,6 @@
 
 // TODO: size step images (so they're not huge by default?)
 
-// TODO: position step images
-
 // TODO: match content order with layout order
 // TODO: layout boxes aren't allowed to overlap
 
@@ -109,3 +107,4 @@
 // DONE: steps allowed without numbers
 // DONE: change text color
 // DONE: change % of width for images accompanying text
+// DONE: position step images
