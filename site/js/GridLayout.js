@@ -96,6 +96,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 				Helpers.reserveSpace(map, col, row, hint.width * 10, 1, hint.id);
 			}
 		}
+
+		if (this.layout.id == "8_2") {
+			console.log("here");
+		}		
 		
 		// next: put the reflowable cells in
 		for (var i = 0; i < hints.length; i++) {
@@ -112,6 +116,8 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 		var row_heights = [];
 		
 		var last_id = undefined;
+		
+		console.log(this.layout.id);
 		
 		// now go through the map and place the cells
 		for (var i = 0; i < map.length; i++) {

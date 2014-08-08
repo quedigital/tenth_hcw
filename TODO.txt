@@ -1,9 +1,11 @@
 
 
-// TODO: size step images (so they're not huge by default?)
-
 // TODO: match content order with layout order
-// TODO: layout boxes aren't allowed to overlap
+
+// TODO: clicking on layout hint scrolls to corresponding content cell
+
+// TODO: size cell images (so they're not huge by default?)
+
 
 // TODO: spread pane doesn't always load
 
@@ -30,7 +32,6 @@
 // TODO: images can be zoomed on desktop (mousewheel? double-click?)
 
 // TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
-// TODO: button to jump from content to its relevant layout hint
 // TODO: sidebar with chapter groupings
 // TODO: different sidebar icons for each spread type
 // TODO: collapsible columns
@@ -108,3 +109,4 @@
 // DONE: change text color
 // DONE: change % of width for images accompanying text
 // DONE: position step images
+// DONE: layout boxes aren't allowed to overlap [might not be the most robust solution]

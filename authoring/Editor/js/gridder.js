@@ -125,6 +125,9 @@ define(["Helpers"], function (Helpers) {
 			}
 			
 			if (!isNaN(x) && !isNaN(y)) {
+				cell.col_temp = x;
+				cell.row_temp = y;
+				
 				Helpers.reserveSpace(map, x, y, width * 10, height);
 			}
 		}
@@ -147,6 +150,9 @@ define(["Helpers"], function (Helpers) {
 				var spot = Helpers.findSpace(map, width * 10, height);
 				
 				if (spot) {
+					cell.col_temp = spot.x;
+					cell.row_temp = spot.y;
+					
 					var xx = spot.x / 10 * ROW_WIDTH;
 					var yy = spot.y * this.ROW_HEIGHT;
 			
@@ -171,6 +177,102 @@ define(["Helpers"], function (Helpers) {
 		return ar;
 	}
 	
+	Gridder.prototype.onCellMoving = function (event, ui) {
+		// 1: move all cells after this one (in the revised order) down
+		// 2: and pack everything back in
+		
+		var pos = ui.position;
+		
+		// convert pos to 10% increments
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		var col = ui.position.left / ROW_WIDTH;
+		col = Math.round(col * 10);
+		
+		var row = ui.position.top / this.ROW_HEIGHT;
+		row = Math.round(row);
+		
+		var ar = this.findCellByElem(ui.helper);
+		if (ar.length) {
+			var cell = ar[0];
+			
+			cell.row_temp = row;
+			cell.col_temp = col;
+			
+			this.pushCellsDownAfter(cell, row, col);
+			this.repackCells();
+		}
+	}
+	
+	Gridder.prototype.pushCellsDownAfter = function (cell, row, col) {
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c != cell) {
+				if (!c.moved && ((c.row_temp >= row) || (c.row_temp == row && c.col_temp >= col))) {
+					c.row_temp++;
+					
+					var xx = c.col_temp / 10 * ROW_WIDTH;
+					var yy = c.row_temp * this.ROW_HEIGHT;
+					
+					var cellDOM = c.el;
+			
+					cellDOM.css( { left: xx, top: yy } );
+					
+					c.moved = true;
+				}			
+			}
+		}
+	}
+	
+	// just eliminate blank rows
+	Gridder.prototype.repackCells = function () {
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		// find the highest used row
+		var max_row;
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c.row_temp > max_row || max_row == undefined) {
+				max_row = c.row_temp;
+			}
+		}
+		
+		// check for rows without any cells in them
+		for (var i = 0; i < max_row; i++) {
+			var emptyRow = true;
+			for (var j = 0; j < this.cells.length; j++) {
+				var c = this.cells[j];
+				if (c.row_temp == i) {
+					emptyRow = false;
+				}
+			}
+			// move anybody above this row down
+			if (emptyRow) {
+				for (var j = 0; j < this.cells.length; j++) {
+					var c = this.cells[j];
+					if (c.row_temp >= i) {
+						c.row_temp--;
+						
+						var xx = c.col_temp / 10 * ROW_WIDTH;
+						var yy = c.row_temp * this.ROW_HEIGHT;
+					
+						var cellDOM = c.el;
+			
+						cellDOM.css( { left: xx, top: yy } );
+					}
+				}
+			}
+		}
+		
+		// get them ready for another test
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			c.moved = false;
+		}
+	}
+	
 	Gridder.prototype.onCellMoved = function (event, ui) {
 		var pos = ui.position;
 		
@@ -186,6 +288,8 @@ define(["Helpers"], function (Helpers) {
 			var cell = ar[0];
 			cell.setRowCol(row, col);
 		}
+		
+		console.log("ON CELL MOVED: rejigger content order");
 	}
 	
 	// GridCell
@@ -238,6 +342,7 @@ define(["Helpers"], function (Helpers) {
 		cell.draggable( {
 							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],
 							stack: ".cell",
+							drag: $.proxy(this.grid.onCellMoving, this.grid),
 							stop: $.proxy(this.grid.onCellMoved, this.grid)
 						} );
 		
