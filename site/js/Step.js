@@ -9,9 +9,11 @@ define([], function () {
 		
 		this.elem.data("step", this);
 		
-		$("<span>").addClass(options.number == 1 ? "diamond" : "block")
-			.append("<span>" + options.number)
-			.appendTo(this.elem);
+		if (options.number != undefined) {
+			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
+				.append("<span>" + options.number)
+				.appendTo(this.elem);
+		}
 		
 		// TODO: use a div with a background-image to allow for easier scaling?
 		if (options.image) {

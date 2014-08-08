@@ -124,6 +124,29 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 		}
 	};
+	
+	ko.bindingHandlers.slider = {
+		init: function (element, valueAccessor, allBindingsAccessor) {
+			ko.utils.registerEventHandler(element, "slidechange", function (event, ui) {
+				var observable = valueAccessor();
+				observable(ui.value);
+			});
+			// NOTE: not sure if this is required (I'm not doing it anywhere else)
+			ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+				$(element).slider("destroy");
+			});
+			ko.utils.registerEventHandler(element, "slide", function (event, ui) {
+				var observable = valueAccessor();
+				observable(ui.value);
+			});
+		},
+		update: function (element, valueAccessor, allBindingsAccessor) {
+			var value = ko.utils.unwrapObservable(valueAccessor());
+			if (isNaN(value)) value = 0;
+			$(element).slider("value", value);
+
+		}
+	};
 
 	/* SpreadListModel */
 	
@@ -380,6 +403,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 						"id": true,
 						"style": true,
 						"background": true,
+						"textcolor": true,
 						"publish": true,
 						"notes": true,
 						"hints": {
@@ -396,6 +420,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 								"row": true,
 								"col": true,
 								"nonblocking": true,
+								"imageWidth": true,
 							}
 						}
 					};

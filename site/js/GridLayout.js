@@ -15,6 +15,10 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 			this.container.css("background", this.layout.background);
 		}
 		
+		if (this.layout.textcolor) {
+			this.container.css("color", this.layout.textcolor);
+		}
+		
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
@@ -132,6 +136,12 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 				switch (cell.type) {
 					case "step":
 						var img = elem.find(".image");
+						img.find("img").css("width", "100%");
+						var image_w = "50%";
+						if (!isNaN(hint.imageWidth)) {
+							image_w = Math.max(.1, Math.min(.9, hint.imageWidth)) * 100 + "%"
+						}
+						img.width(image_w);
 						switch (hint.image) {
 							case "BL":
 								// try to position the image at the bottom, knowing the text will reflow and throw us off

@@ -1,15 +1,19 @@
 
 
+// TODO: size step images (so they're not huge by default?)
+
 // TODO: position step images
-// TODO: size step images
-// TODO: change % of width for images accompanying text
+
+// TODO: match content order with layout order
+// TODO: layout boxes aren't allowed to overlap
 
 // TODO: spread pane doesn't always load
 
 // TODO: save images to AWS S3?
 
-// TODO: find a better way to handle video sizing (ie, not knowing the size right away)
+// TODO: refactor spread.js
 
+// TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: rename content.image to content.url
 // TODO: rename layout.image to layout.imagePosition
@@ -102,3 +106,6 @@
 // TODONT: export json to Cloudinary [used Amazon via Google instead]
 // DONE: layout.notes (for ToDo's, etc.)
 // DONE: make publish order match editor order
+// DONE: steps allowed without numbers
+// DONE: change text color
+// DONE: change % of width for images accompanying text

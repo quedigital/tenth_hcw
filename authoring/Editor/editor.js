@@ -167,12 +167,9 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		a.click();
 	}
 	
-	Editor.prototype.onExport = function (data) {
+	Editor.prototype.onPublish = function (data) {
 		var json = $.toJSON(data);
 		
-		// To save it to the download directory:
-		// download(json, "export.json");
-
 		var bucket = new AWS.S3({
 			params: { Bucket: 'HCW10' },
 			credentials: credentials,
@@ -194,6 +191,17 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				$("#dialog-message").dialog( { title: "Publish" } ).dialog("open");
 			}
 		});
+	}
+	
+	Editor.prototype.publishAll = function () {
+		this.content.getData($.proxy(this.onPublish, this));
+	}
+	
+	Editor.prototype.onExport = function (data) {
+		var json = $.toJSON(data);
+		
+		// To save it to the download directory:
+		download(json, "export.json");
 	}
 	
 	Editor.prototype.exportAll = function () {
@@ -407,7 +415,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				},
 						
 				{ type: 'break', id: 'break1' },
-				{ type: 'button', id: "export", caption: 'Publish', icon: 'fa fa-book', hint: "Save the current book data to a file" },
+				{ type: 'button', id: "publish", caption: 'Publish', icon: 'fa fa-book', hint: "Output to the cloud" },
+				{ type: 'button', id: "export", caption: 'Export', icon: 'fa fa-external-link-square', hint: "Save the current book data to a file" },
 			],
 			onClick: function (event) {
 				switch (event.target) {
@@ -430,6 +439,9 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 						break;
 					case "version_history:rewind":
 						editor.rewindToVersion(event.subItem.routeData);
+						break;
+					case "publish":
+						editor.publishAll();
 						break;
 					case "export":
 						editor.exportAll();

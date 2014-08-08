@@ -226,11 +226,14 @@ define(["Helpers"], function (Helpers) {
 			$("<input type='checkbox'>").attr("name", "BL").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
+			$("<div class='slider'></div>").attr("data-bind", "slider: imageWidth").appendTo(inset);
 		}
 		
 		cell.append(inset);		
 		
 		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
+		
+		inset.find(".slider").slider( { min: .1, max: .9, step: .1 } );
 		
 		cell.draggable( {
 							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],

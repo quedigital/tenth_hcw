@@ -232,15 +232,21 @@
 							<label for="inputSpreadStyle">Layout Style</label>
 							<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
 						</div>
-						<div class="col span_1_of_2">					
-							<label for="inputPublish">Publish?</label>
-							<input type="checkbox" class="not-full-width" data-bind="checked: publish" />
+						<div class="col span_1_of_2">
+							<div class="small-right">				
+								<label for="inputPublish">Publish?</label>
+								<input type="checkbox" class="not-full-width" data-bind="checked: publish" />
+							</div>
 						</div>
 					</div>
 					<div class="section group" data-bind="if: style()==='grid'">
-						<div class="col span_1_of_1">
+						<div class="col span_1_of_2">
 							<label for="inputID">Background Color</label>
 							<input data-bind="value: background" type="text"></input>
+						</div>
+						<div class="col span_1_of_2">
+							<label for="inputID">Text Color</label>
+							<input data-bind="value: textcolor" type="text"></input>
 						</div>
 					</div>
 				
@@ -297,6 +303,10 @@
 								<tr>
 									<td>width</td>
 									<td><input data-bind="value: width" type="number"></input></td>
+								</tr>
+								<tr>
+									<td>image width</td>
+									<td><input data-bind="value: imageWidth" type="number"></input></td>
 								</tr>
 								<tr>
 									<td>row</td>
