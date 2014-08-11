@@ -343,7 +343,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			return keys;
 		}
 		
-		// return one higher than the highest numeric id so far, but use the firebase key not the content id!
+		// return one higher than the highest numeric id so far, but use the firebase key not the content id (because the content id can be alpha)
 		self.getUniqueID = function () {
 			var ids = self.getFirebaseKeys();
 			var max = 0;
@@ -382,7 +382,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		self.getCellByID = function (id, cells_in_firebase_order) {
 			for (var i = 0; i < cells_in_firebase_order.length; i++) {
 				var cell = cells_in_firebase_order[i];
-				if (cell.id == id) {
+				if (cell && cell.id == id) {
 					return self.content().firebase.child("cells/" + i);
 				}
 			}
@@ -468,13 +468,22 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			});
 			return ids;
 		}
+		
+		self.getFirebaseKeys = function () {
+			var keys = [];
+			var hints = self.layout()().hints();
+			$.each(hints, function (index, item) {
+				keys.push(item().firebase.name());
+			});
+			return keys;
+		}		
 
 		self.addNewHint = function (id) {
 			var style = self.layout()().style();
 			var defaults = {};
 			switch (style) {
 				case "grid":
-					defaults = { id: id, width: 1,  };
+					defaults = { id: id, width: 1 };
 					break;
 				case "fixed":
 					defaults = { id: id, bounds: [10, 10, 100, 100], anchor: "TL" };

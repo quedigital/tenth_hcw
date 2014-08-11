@@ -104,6 +104,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				var cell = $(item).parents(".cell");
 				var firebaseRef = cell.data("firebaseRef");
 				
+				console.log("delete " + firebaseRef);
+				
 				// NOTE: I think we have to remove from both simultaneously or else Knockout re-populates Firebase
 				me.content.removeCellFromKnockoutByFirebaseRef(firebaseRef);
 				me.content.removeCellFromFirebaseByFirebaseRef(firebaseRef);
@@ -118,8 +120,11 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	// add a layout hint for every new cell
 	// and remove hints with no corresponding cells
 	Editor.prototype.synchronizeCellsAndHints = function () {
+		console.log("sync");
+		
 		var cell_ids = this.content.getIDs();
 		var hint_ids = this.layout.getIDs();
+		var hint_keys = this.layout.getFirebaseKeys();
 		
 		var me = this;
 		

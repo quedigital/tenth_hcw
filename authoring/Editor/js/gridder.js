@@ -1,11 +1,9 @@
 define(["Helpers"], function (Helpers) {
 	var MARGIN = 10;
 	
-	var currentLayout;
-	
 	ko.bindingHandlers.gridThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			currentLayout = new Gridder(element);
+			$(element).data("grid", new Gridder(element));
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -13,19 +11,28 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	ko.bindingHandlers.cellThing = {
-		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			if (currentLayout)
-				currentLayout.addNewGridCell(element, valueAccessor, bindingContext);
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var grid = $(element).parents(".grid").data("grid");
+			if (grid) {
+				grid.addNewGridCell(element, valueAccessor, bindingContext);
+			}
+			
+			ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+				//$(element).slider("destroy");
+				console.log("dispose");
+			});
 		},
 		
-		update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			if (currentLayout)
-				currentLayout.reformat();
+		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var grid = $(element).parents(".grid").data("grid");
+			if (grid) {
+				grid.reformat();
+			}
 		}
 	};
 	
 	ko.bindingHandlers.checkbox = {
-		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var value = valueAccessor()();
 			if (value) {
 				var checkbox = $(element);
@@ -69,15 +76,31 @@ define(["Helpers"], function (Helpers) {
 	Gridder.prototype.constructor = Gridder;
 	
 	Gridder.prototype.addNewGridCell = function (element, valueAccessor, bindingContext) {
+		var y = this.getNextOpenRow();
+		
 		var cell = new GridCell(this, element, valueAccessor, bindingContext);
+
+		if (cell.y == undefined) {
+			cell.setRowCol(y, 0);
+		}
 		
 		this.cells.push(cell);
 		
 		var elem = this.elem;
 		
-		valueAccessor().subscribe(function (newValue) {
-			elem.trigger("reformat");
-		});		
+//		this.reformatSubscription = valueAccessor().subscribe(function (newValue) {
+//			elem.trigger("reformat");
+//		});		
+	}
+	
+	Gridder.prototype.getNextOpenRow = function () {
+		var max_y = 0;
+		for (var i = 0; i < this.cells.length; i++) {
+			if (this.cells[i].y > max_y) {
+				max_y = this.cells[i].y;
+			}
+		}
+		return max_y + 1;
 	}
 	
 	Gridder.prototype.reformat = function (event, element) {
@@ -109,8 +132,10 @@ define(["Helpers"], function (Helpers) {
 				cellDOM.width(cell_width).height(this.ROW_HEIGHT)			
 			}
 			
-			var x = parseInt(cell.bindingContext.$data.col());
-			var y = parseInt(cell.bindingContext.$data.row());
+			//var x = parseInt(cell.bindingContext.$data.col());
+			//var y = parseInt(cell.bindingContext.$data.row());
+			var x = cell.x;
+			var y = cell.y;
 			
 			if (!isNaN(x)) {
 				var cell_x = x / 10 * ROW_WIDTH;
@@ -129,20 +154,8 @@ define(["Helpers"], function (Helpers) {
 				cell.row_temp = y;
 				
 				Helpers.reserveSpace(map, x, y, width * 10, height);
-			}
-		}
-		
-		// second pass = fit the other cells in
-		for (var i = 0; i < this.cells.length; i++) {
-			var cell = this.cells[i];
-			var cellDOM = this.cells[i].el;
-			
-			var x = parseInt(cell.bindingContext.$data.col());
-			var y = parseInt(cell.bindingContext.$data.row());
-			
-			// TODO: can you specify a row OR a col (ie, not both)?
-			
-			if (isNaN(x) || isNaN(y)) {
+			} else {
+				// find a spot for this unspecified-location cell
 				var height = 1;
 			
 				var width = cell.bindingContext.$data.width();
@@ -161,6 +174,13 @@ define(["Helpers"], function (Helpers) {
 					Helpers.reserveSpace(map, spot.x, spot.y, width * 10, height);
 					
 					if (spot.y > max_y) max_y = spot.y;
+					
+					// NOTE: this a kludge; otherwise, when a hint gets deleted, it gets put back because we're adding a row and column here
+					//  so checking for an id is an attempt to see if this is a valid record ("dispose" might be the better path to try)
+					if (cell.bindingContext.$data.id()) {
+						cell.bindingContext.$data.col(spot.x);
+						cell.bindingContext.$data.row(spot.y);
+					}
 				}
 			}
 		}
@@ -175,6 +195,14 @@ define(["Helpers"], function (Helpers) {
 		});
 		
 		return ar;
+	}
+	
+	Gridder.prototype.onCellStartMove = function (event, ui) {
+		var ar = this.findCellByElem(ui.helper);
+		if (ar.length) {
+			var cell = ar[0];
+			cell.old_y = cell.y;
+		}		
 	}
 	
 	Gridder.prototype.onCellMoving = function (event, ui) {
@@ -196,11 +224,43 @@ define(["Helpers"], function (Helpers) {
 		if (ar.length) {
 			var cell = ar[0];
 			
-			cell.row_temp = row;
-			cell.col_temp = col;
+			cell.x = col;
+			cell.y = row;
 			
-			this.pushCellsDownAfter(cell, row, col);
-			this.repackCells();
+			cell.moved = true;
+			
+			var overlap = this.isCellOverlap(cell);
+			if (overlap) {
+				this.pushCellsDownAfter(cell, row, col);
+			}
+			
+			this.repackCells(cell.y);
+		}
+	}
+	
+	function doCellsOverlap (cell1, cell2, compareY) {
+		if (compareY == undefined || compareY == true) {
+			if (cell1.y != cell2.y) return false;
+		}
+		
+		var x1 = cell1.x * 10, x2 = x1 + cell1.width * 100;
+		var y1 = cell2.x * 10, y2 = y1 + cell2.width * 100;
+		return (x1 < y2 && y1 < x2);
+	}
+	
+	Gridder.prototype.isCellOverlap = function (cell) {
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c != cell) {
+				if (doCellsOverlap(cell, c)) return true;
+			}
+		}
+		return false;
+	}
+	
+	Gridder.prototype.cellOverlapsRow = function (row) {
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
 		}
 	}
 	
@@ -209,63 +269,93 @@ define(["Helpers"], function (Helpers) {
 		
 		for (var i = 0; i < this.cells.length; i++) {
 			var c = this.cells[i];
-			if (c != cell) {
-				if (!c.moved && ((c.row_temp >= row) || (c.row_temp == row && c.col_temp >= col))) {
-					c.row_temp++;
-					
-					var xx = c.col_temp / 10 * ROW_WIDTH;
-					var yy = c.row_temp * this.ROW_HEIGHT;
-					
-					var cellDOM = c.el;
-			
-					cellDOM.css( { left: xx, top: yy } );
-					
-					c.moved = true;
-				}			
+			if (c != cell && !c.moved && c.y >= row) {
+				c.y++;
+				
+				var xx = c.x / 10 * ROW_WIDTH;
+				var yy = c.y * this.ROW_HEIGHT;
+				
+				var cellDOM = c.el;
+		
+				cellDOM.css( { left: xx, top: yy } );
+				
+				c.moved = true;
 			}
 		}
 	}
 	
-	// just eliminate blank rows
-	Gridder.prototype.repackCells = function () {
+	Gridder.prototype.getCellsOnRow = function (row) {
+		var els = [];
+		for (var i = 0; i < this.cells.length; i++) {
+			if (this.cells[i].y == row) els.push(this.cells[i]);
+		}
+		return els;
+	}
+	
+	Gridder.prototype.cellCanFitOnRow = function (c, row) {
+		for (var i = 0; i < this.cells.length; i++) {
+			var cell = this.cells[i];
+			if (cell != c && cell.y == row) {
+				if (doCellsOverlap(cell, c, false)) return false;
+			}
+		}
+		return true;
+	}
+	
+	Gridder.prototype.rowCanMoveDown = function (els, row) {
+		var newRow;
+		
+		for (newRow = 0; newRow < row; newRow++) {
+			var canFit = true;
+			for (var i = 0; i < els.length; i++) {
+				var el = els[i];
+				if (!this.cellCanFitOnRow(el, newRow)) {
+					canFit = false;
+					break;
+				}
+			}
+			if (canFit)
+				return newRow;
+		}
+		
+		return -1;
+	}
+	
+	Gridder.prototype.moveRowTo = function (els, newRow) {
+		var yy = newRow * this.ROW_HEIGHT;
+			
+		for (var i = 0; i < els.length; i++) {
+			els[i].y = newRow;
+			
+			var cellDOM = els[i].el;
+	
+			cellDOM.css( { top: yy } );
+		}
+	}
+	
+	// check to see if whole rows can be moved down
+	Gridder.prototype.repackCells = function (notRow) {
 		var ROW_WIDTH = this.elem.parent().width();
 		
 		// find the highest used row
 		var max_row;
 		for (var i = 0; i < this.cells.length; i++) {
 			var c = this.cells[i];
-			if (c.row_temp > max_row || max_row == undefined) {
-				max_row = c.row_temp;
+			if (c.y > max_row || max_row == undefined) {
+				max_row = c.y;
 			}
 		}
 		
-		// check for rows without any cells in them
-		for (var i = 0; i < max_row; i++) {
-			var emptyRow = true;
-			for (var j = 0; j < this.cells.length; j++) {
-				var c = this.cells[j];
-				if (c.row_temp == i) {
-					emptyRow = false;
-				}
-			}
-			// move anybody above this row down
-			if (emptyRow) {
-				for (var j = 0; j < this.cells.length; j++) {
-					var c = this.cells[j];
-					if (c.row_temp >= i) {
-						c.row_temp--;
-						
-						var xx = c.col_temp / 10 * ROW_WIDTH;
-						var yy = c.row_temp * this.ROW_HEIGHT;
-					
-						var cellDOM = c.el;
-			
-						cellDOM.css( { left: xx, top: yy } );
-					}
+		for (var row = 0; row <= max_row; row++) {
+			if (row != notRow) {
+				var els = this.getCellsOnRow(row);
+				if (els.length && this.rowCanMoveDown(els, row) != -1) {
+					var newRow = this.rowCanMoveDown(els, row);
+					this.moveRowTo(els, newRow);
 				}
 			}
 		}
-		
+				
 		// get them ready for another test
 		for (var i = 0; i < this.cells.length; i++) {
 			var c = this.cells[i];
@@ -287,6 +377,11 @@ define(["Helpers"], function (Helpers) {
 		if (ar.length) {
 			var cell = ar[0];
 			cell.setRowCol(row, col);
+		}
+		
+		for (var i = 0; i < this.cells.length; i++) {
+			var cell = this.cells[i];
+			cell.setRowCol(cell.y, cell.x);
 		}
 		
 		this.setContentOrderToLayoutOrder();
@@ -329,7 +424,7 @@ define(["Helpers"], function (Helpers) {
 		
 		cell = $(elem);
 		var me = this;
-
+		
 		var ROW_WIDTH = cell.parent().width();
 		
 		this.valueAccessor = valueAccessor;
@@ -346,7 +441,16 @@ define(["Helpers"], function (Helpers) {
 		$("<span>").addClass("id-label").attr("data-bind", "text: id").appendTo(inset);
 		
 		var id = bindingContext.$data.id();
+		this.id = id;
 		var image = bindingContext.$root.getCellData(id, "image");
+		
+		this.x = parseInt(bindingContext.$data.col());
+		this.y = parseInt(bindingContext.$data.row());
+		
+		this.x = isNaN(this.x) ? undefined : this.x;
+		this.y = isNaN(this.y) ? undefined : this.y;
+
+		this.width = bindingContext.$data.width();
 		
 		var type = bindingContext.$root.getCellType(id);
 		
@@ -371,6 +475,7 @@ define(["Helpers"], function (Helpers) {
 		cell.draggable( {
 							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],
 							stack: ".cell",
+							start: $.proxy(this.grid.onCellStartMove, this.grid),
 							drag: $.proxy(this.grid.onCellMoving, this.grid),
 							stop: $.proxy(this.grid.onCellMoved, this.grid)
 						} );
@@ -399,14 +504,18 @@ define(["Helpers"], function (Helpers) {
 		var value = this.valueAccessor();
 		value(percent);
 		
-		// NOTE: this is a bit of kludge, but the cell.parent(".grid").trigger("reformat") wasn't working too well
-		//currentLayout.reformat();
+		this.width = percent;
+		console.log("width = " + this.width);
+		
 		this.grid.reformat();
 	}
 	
 	GridCell.prototype.setRowCol = function (row, col) {
 		this.bindingContext.$data.row(row);
 		this.bindingContext.$data.col(col);
+		
+		this.x = col;
+		this.y = row;
 	}
 	
 	function setSelected (event) {
