@@ -34,6 +34,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		this.snapshots = [];
 		
 		this.firebase = undefined;
+		
+		this.localVersionNumber = 1;
 	}
 
 	Editor.prototype = {};
@@ -275,13 +277,32 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			
 			var s = compareDifferences(prevVer, newVer);
 		
-			var snapshot = { date: new Date(), data: dataSnapshot.exportVal(), diff: s };
+			var snapshot = { id: this.localVersionNumber++, date: new Date(), data: dataSnapshot.exportVal(), diff: s };
 			this.snapshots.push(snapshot);
 		
-			menu.items.unshift( { text: 'Snapshot', id: "rewind", routeData: this.snapshots.length - 1, icon: 'fa fa-camera' } );
+			menu.items.unshift( { text: 'Snapshot', id: "rewind", routeData: snapshot.id, icon: 'fa fa-camera' } );
+			
+			// don't store too many versions (they can probably get huge)
+			this.limitVersionList();
+			
 			w2ui["top-toolbar"].set("version_history", { count: this.snapshots.length });
 		} else {
 			// ignoring change since it's the same as the last snapshot (as when going back to an older version)
+		}
+	}
+	
+	Editor.prototype.limitVersionList = function () {
+		var MAX_VERSIONS = 20;
+		
+		if (this.snapshots.length > MAX_VERSIONS) {
+			var remove = this.snapshots.splice(0, this.snapshots.length - MAX_VERSIONS);
+			
+			var toolbar = w2ui["top-toolbar"];
+			var menu = toolbar.get("version_history");
+			
+			for (var i = 0; i < remove.length; i++) {
+				menu.items.pop();
+			}
 		}
 	}
 	
@@ -290,29 +311,41 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		var menu = toolbar.get("version_history");
 		for (var i = 0; i < menu.items.length; i++) {
 			var item = menu.items[i];
-			var snapshot = this.snapshots[item.routeData];
-			var text = snapshot.diff + " (" + moment(snapshot.date).fromNow() + ")";
-			item.text = text;
+			var snapshot = this.getSnapshotFromID(item.routeData);//this.snapshots[item.routeData];
+			if (snapshot) {
+				var text = snapshot.diff + " (" + moment(snapshot.date).fromNow() + ")";
+				item.text = text;
+			}
 		}
 	}
 	
-	Editor.prototype.rewindToVersion = function (index) {
-		if (index >= 0 && index < this.snapshots.length) {
-			var data = this.snapshots[index].data;
-			
+	Editor.prototype.getSnapshotFromID = function (id) {
+		for (var i = 0; i < this.snapshots.length; i++) {
+			var ver = this.snapshots[i];
+			if (ver.id == id) return ver;
+		}
+		return undefined;
+	}
+	
+	Editor.prototype.rewindToVersion = function (id) {
+		var ver = this.getSnapshotFromID(id);
+		if (ver) {
+			var data = ver.data;
+		
 			// turn value tracking off temporarily so we don't count this as a new version
-			this.firebase.off("value");
-			
+			// NOTE: This didn't work (too close to the .set call?)
+//			this.firebase.off("value");
+		
 			var me = this;
-			
+		
 			this.firebase.set(data, function (error) {
 				if (error) {
 					console.log("error setting firebase data");
 					console.log(error);
 				}
-				
+			
 				// turn value tracking back on
-				me.firebase.on("value", $.proxy(me.onValueChange, me));
+//				me.firebase.on("value", $.proxy(me.onValueChange, me));
 			});
 		}
 	}

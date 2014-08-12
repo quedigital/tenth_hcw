@@ -173,6 +173,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		var self = this;
 		
 		var firebase = new Firebase("https://howcomputerswork.firebaseio.com/contents");
+		var layouts = new Firebase("https://howcomputerswork.firebaseio.com/layouts");
 		
 		self.spreadArray = [];
 	
@@ -191,14 +192,16 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		});
 		
 		self.rebuildSidebarMenu = function () {
-			console.log("here");
-			
-			self.removeAllMenuItems();
+			window.spreadList = this;
 			
 			self.loadSpreadArrayFromFirebase();
-						
-			var sidebar = w2ui["toc_sidebar"];
 
+			self.doRebuild();						
+		}
+		
+		self.doRebuild = function () {
+			self.removeAllMenuItems();
+			
 			var sidebar = w2ui["toc_sidebar"];
 			
 			if (sidebar) {
@@ -206,14 +209,34 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 				for (var index = 0; index < self.spreadArray.length; index++) {
 					var element = self.spreadArray[index];
 					if (element.chapter != lastChapter) {
-						var newGroup = { id: "ch" + element.chapter, text: "CHAPTER " + element.chapter, icon: "w2ui-icon icon-folder", expanded: false, group: true, nodes: [] };
+						var newGroup = { id: "ch" + element.chapter, text: "CHAPTER " + element.chapter, expanded: false, group: true, nodes: [] };
+						lastParent = newGroup;
 						lastChapter = element.chapter;
 						lastGroupID = "ch" + element.chapter;
 						sidebar.add(newGroup);
 					}
 					
-					var node = { id: element.index, text: element.title, routeData: { index: element.index }, icon: "fa fa-list-alt", count: element.number };
+					var node = { id: element.index, text: element.title, routeData: { index: element.index }, icon: "fa fa-table", count: element.number };
 					sidebar.add(lastGroupID, node);
+					
+					// NOTE: This is really slow, especially since rebuilding gets called each time a row is fetched (ugh)
+					layouts.child(element.index).once("value", $.proxy(self.addLayoutStyle, self, element.index));
+				}
+			}
+		}
+		
+		self.addLayoutStyle = function (id, snapshot) {
+			if (snapshot && snapshot.val()) {
+				var style = snapshot.val().style;
+				
+				var sidebar = w2ui["toc_sidebar"];
+				switch (style) {
+					case "fixed":
+						sidebar.get(id).icon = "fa fa-th-list";
+						break;
+					case "grid":
+						sidebar.get(id).icon = "fa fa-table";
+						break;
 				}
 			}
 		}
@@ -230,14 +253,19 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			self.spreadArray.sort(Helpers.sortByChapterAndNumber);
 		}
 
-		// rebuild only the text
+		// rebuild only the text (was too cumbersome to do this with groups, so just rebuild the whole thing)
 		self.rebuildSidebarMenuText = function () {
 			self.loadSpreadArrayFromFirebase();
 			
+			self.doRebuild();
+			
+			/*
 			var sidebar = w2ui["toc_sidebar"];
 			
 			for (var i = 0; i < self.spreadArray.length; i++) {
 				var s = self.spreadArray[i];
+				var node = sidebar.get(s.id);
+				node.routeData = { index: s.index };
 				var text = s.id + " " + s.title;
 				sidebar.nodes[i].id = s.index;
 				sidebar.nodes[i].text = text;
@@ -246,6 +274,7 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 			}
 			
 			sidebar.refresh();
+			*/
 		}
 		
 		self.removeAllMenuItems = function () {
