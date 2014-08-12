@@ -62,6 +62,17 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		
 		$("#content").on("upload", $.proxy(this.onFileUpload, this));
 		$("#layout").on("upload", $.proxy(this.onFileUpload, this));
+		
+		$("#layout").on("selectedCell", $.proxy(this.onSelectedLayoutCell, this));
+	}
+	
+	Editor.prototype.onSelectedLayoutCell = function (event, id) {
+		var cell = $("#content .cell[data-id=" + id + "]");
+		var a = $("#content-cells").scrollTop();
+		var t = cell.offset().top;
+		// NOTE: might want to adjust this number to scroll it higher or lower:
+		var b = (a + t) - 100;
+		$("#content-cells").animate({ scrollTop: b });
 	}
 	
 	Editor.prototype.onCellOrderChange = function (event, ids) {
@@ -488,7 +499,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				{ type: 'button', id: 'glossary',  aption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
 				{ type: 'break', id: 'break0' },
 
-				{ type: 'menu',   id: 'version_history', caption: 'Version History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
+				{ type: 'menu',   id: 'version_history', caption: 'Undo History', icon: 'fa fa-table', count: 0, hint: "Show recent changes",
 					items: [
 					]
 				},

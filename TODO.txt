@@ -1,13 +1,14 @@
 
 
+// TODO: clicking on layout hint scrolls to corresponding content cell (also in Fixed layouts)
+
 // TODO: delete hint when cell is deleted
-// TODO: clicking on layout hint scrolls to corresponding content cell
 
 // TODO: optimize the loading of the spread sidebar
 
 // TODO: size cell images (so they're not huge by default?)
 
-// TODO: spread pane doesn't always load
+// TODO: spread pane doesn't always load or refresh (spreadList.doRebuild() makes it show up, so it's probably a timing issue)
 
 // TODO: refactor spread.js
 
