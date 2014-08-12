@@ -105,6 +105,25 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		}
 	};
 	
+	ko.bindingHandlers.uploadToS3 = {
+		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+			var id = bindingContext.$root.getID();
+			
+			var input = $("<input type='file' class='file-chooser' />");
+			input.change(uploadFile);
+			
+			$(element).append(input);
+			
+			function uploadFile (event) {
+				var file = event.target.files[0];
+				if (file) {
+					$(element).trigger("upload", [file, id, valueAccessor()]);
+					input[0].value = null;
+				}
+			}
+		}
+	};
+	
 	ko.bindingHandlers.cloudinary = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var id = bindingContext.$root.getID();

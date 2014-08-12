@@ -52,7 +52,7 @@
 	<script src='js/jquery.ui.widget.js' type='text/javascript'></script>
 	<script src='js/jquery.iframe-transport.js' type='text/javascript'></script>
 	<script src='js/jquery.fileupload.js' type='text/javascript'></script>
-	<script src='js/jquery.cloudinary.js' type='text/javascript'></script>
+<!--	<script src='js/jquery.cloudinary.js' type='text/javascript'></script>-->
 
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.0.11.min.js"></script>
 
@@ -201,7 +201,7 @@
 											<div class="col span_2_of_4">
 												<label for="inputID">Image</label>
 												<input data-bind="value: image" type="text"></input>
-												<div class="upload_div" data-bind="cloudinary: image"></div>
+												<div class="upload_div" data-bind="uploadToS3: image"></div>
 											</div>
 											<div class="col span_2_of_4">
 												<div class="thumbnail" data-bind="visible: image">
@@ -263,7 +263,7 @@
 					<div data-bind="if: style()==='fixed'">
 						<label for="inputID">Background Image</label>
 						<input data-bind="value: background" type="text"></input>
-						<div class="upload_div" data-bind="cloudinary: background"></div>
+						<div class="upload_div" data-bind="uploadToS3: background"></div>
 						<div class="fixer" data-bind="fixedThing: hints">
 							<div data-bind="foreach: hints">
 								<div class="bounds" data-bind="boundsThing: bounds">

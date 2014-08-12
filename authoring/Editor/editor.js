@@ -57,6 +57,9 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		
 		// listen for changes from the gridder object:
 		$("#layoutModel").on("order_change", $.proxy(this.onCellOrderChange, this));
+		
+		$("#content").on("upload", $.proxy(this.onFileUpload, this));
+		$("#layout").on("upload", $.proxy(this.onFileUpload, this));
 	}
 	
 	Editor.prototype.onCellOrderChange = function (event, ids) {
@@ -205,6 +208,35 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				$("#dialog-message").dialog( { title: "Publish" } ).dialog("open");
 			}
 		});
+	}
+	
+	Editor.prototype.onFileUpload = function (event, file, folder, observable) {
+		this.uploadFile(file, folder, observable);
+	}
+	
+	Editor.prototype.uploadFile = function (file, folder, observable) {
+		if (file) {
+			var bucket = new AWS.S3({
+										params: { Bucket: 'HCW10' },
+										credentials: credentials,
+										region: region
+									});
+								
+			var params = { Key: "Images/" + folder + "/" + file.name, ContentType: file.type, Body: file, ACL: "public-read" };
+			
+			bucket.putObject(params, function (err, data) {
+				if (err) {
+					console.log("putObject");
+					console.log(err);
+					$("#dialog-message .text-message").text(err);
+					$("#dialog-message").dialog( { title: "File Upload Error" } ).dialog("open");
+				} else {
+					// store the filename in Firebase
+					var url = "https://s3.amazonaws.com/HCW10/Images/" + folder + "/" + file.name;
+					observable(url);
+				}
+			});
+		}
 	}
 	
 	Editor.prototype.publishAll = function () {
