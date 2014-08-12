@@ -191,17 +191,30 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		});
 		
 		self.rebuildSidebarMenu = function () {
+			console.log("here");
+			
 			self.removeAllMenuItems();
 			
 			self.loadSpreadArrayFromFirebase();
 						
 			var sidebar = w2ui["toc_sidebar"];
+
+			var sidebar = w2ui["toc_sidebar"];
 			
 			if (sidebar) {
-				$.each(self.spreadArray, function (index, element) {
-					var text = element.id + " " + element.title;
-					sidebar.add([ { id: element.index, text: text, routeData: { index: element.index }, icon: "fa fa-list-alt" } ]);
-				});
+				var lastChapter = undefined, lastGroupID = undefined;
+				for (var index = 0; index < self.spreadArray.length; index++) {
+					var element = self.spreadArray[index];
+					if (element.chapter != lastChapter) {
+						var newGroup = { id: "ch" + element.chapter, text: "CHAPTER " + element.chapter, icon: "w2ui-icon icon-folder", expanded: false, group: true, nodes: [] };
+						lastChapter = element.chapter;
+						lastGroupID = "ch" + element.chapter;
+						sidebar.add(newGroup);
+					}
+					
+					var node = { id: element.index, text: element.title, routeData: { index: element.index }, icon: "fa fa-list-alt", count: element.number };
+					sidebar.add(lastGroupID, node);
+				}
 			}
 		}
 		

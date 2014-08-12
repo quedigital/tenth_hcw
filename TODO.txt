@@ -1,6 +1,7 @@
 
 
-// TODO: sidebar with chapter groupings
+// TODO: make sure sidebar text changes still work
+
 // TODO: different sidebar icons for each spread type
 // TODO: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"?)
 
@@ -111,3 +112,4 @@
 // DONE: abandon the idea of leaving grid cell's row and column sometimes blank?  (ie, fill them in all the time)
 // DONE: match content order with layout order
 // DONE: save images to AWS S3?
+// DONE: sidebar with chapter groupings
