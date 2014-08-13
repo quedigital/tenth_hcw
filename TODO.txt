@@ -1,8 +1,10 @@
 
 
-// TODO: hints shouldn't jump over other hints when re-stacking (I don't think)
+// TODO: callout lines
 
-// TODO: changing cell order doesn't seem to be working
+// TODO: hints shouldn't jump over other hints when re-stacking (I don't think) and maybe they shouldn't restack at all, just get out of the way of the dragging cell? (so: one temporary "spacer" row?)
+
+// TODO: invert color of step number blocks on dark backgrounds
 
 // TODO: optimize the loading of the spread sidebar
 
@@ -115,3 +117,5 @@
 // DONE: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"? -> use Publish for major checkpoints; they're stored by Amazon)
 // DONE: clicking on layout hint scrolls to corresponding content cell (also in Fixed layouts)
 // DONE: delete hint when cell is deleted
+// DONE: changing cell order doesn't seem to be working
+// DONE: cell heading

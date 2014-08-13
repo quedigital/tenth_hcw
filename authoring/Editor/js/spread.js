@@ -424,30 +424,18 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		
 		// kind of clunky because of the way (I think) you have to retrieve firebase children
 		self.setSortOrder = function (ids) {
-			var ref = self.content().firebase.child("cells");
-			ref.once("value", function (snapshot) {
-				self.setPriorityByID(snapshot.val(), ids);
-			});
-		}
-		
-		self.setPriorityByID = function (val, ids) {
 			for (var i = 0; i < ids.length; i++) {
 				var id = ids[i];
-				var ref = self.getCellByID(id, val);
-				if (ref) {
-					ref.setPriority(i);
-				}
+				var ref = this.getFirebaseRefFromID(id);
+				ref.setPriority(i);
 			}
 		}
 		
-		self.getCellByID = function (id, cells_in_firebase_order) {
-			for (var i = 0; i < cells_in_firebase_order.length; i++) {
-				var cell = cells_in_firebase_order[i];
-				if (cell && cell.id == id) {
-					return self.content().firebase.child("cells/" + i);
-				}
-			}
-			return undefined;
+		self.getFirebaseRefFromID = function (id) {
+			var cell = $("#content .cell[data-id=" + id + "]");
+			var firebaseKey = cell.data("firebaseRef");
+			var ref = self.content().firebase.child("cells/" + firebaseKey);
+			return ref;
 		}
 		
 		self.getData = function (callback) {

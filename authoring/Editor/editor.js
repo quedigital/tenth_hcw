@@ -76,7 +76,6 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	}
 	
 	Editor.prototype.onCellOrderChange = function (event, ids) {
-		console.log("changing order to " + ids);
 		this.content.setSortOrder(ids);
 	}
 	

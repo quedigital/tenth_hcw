@@ -178,6 +178,16 @@
 											</div>
 										</div>
 									</div>
+									<div class="section group">
+										<div class="control" data-bind="visible: type() === 'step'">
+											<div>
+												<label for="heading">Heading</label>
+											</div>
+											<div>
+												<input id="heading" data-bind="value: title" type="text">
+											</div>
+										</div>
+									</div>
 									<div class="step-text" data-bind="if: type() === 'step'">
 										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 									</div>

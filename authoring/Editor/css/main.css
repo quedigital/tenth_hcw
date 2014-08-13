@@ -383,78 +383,82 @@ input {
   display: inline-block;
 }
 /* line 146, ../sass/_editor.scss */
+#content #heading {
+  width: 30em;
+}
+/* line 150, ../sass/_editor.scss */
 #content .cell {
   padding: 5px 10px;
   display: table-row;
 }
-/* line 150, ../sass/_editor.scss */
+/* line 154, ../sass/_editor.scss */
 #content .cell .cell-left {
   min-width: 45px;
   display: table-cell;
 }
-/* line 155, ../sass/_editor.scss */
+/* line 159, ../sass/_editor.scss */
 #content .cell .cell-right {
   display: table-cell;
   padding-left: 10px;
   width: 100%;
 }
-/* line 162, ../sass/_editor.scss */
+/* line 166, ../sass/_editor.scss */
 #content .sortable-placeholder {
   height: 50px;
   width: 100%;
   background-color: purple;
 }
-/* line 168, ../sass/_editor.scss */
+/* line 172, ../sass/_editor.scss */
 #content .cell:nth-child(even) {
   background-color: #eef;
 }
-/* line 171, ../sass/_editor.scss */
+/* line 175, ../sass/_editor.scss */
 #content .cell:nth-child(even) .cell-left {
   background-color: #ccd;
 }
-/* line 176, ../sass/_editor.scss */
+/* line 180, ../sass/_editor.scss */
 #content .cell:nth-child(odd) {
   background-color: #cce;
 }
-/* line 179, ../sass/_editor.scss */
+/* line 183, ../sass/_editor.scss */
 #content .cell:nth-child(odd) .cell-left {
   background-color: #aac;
 }
-/* line 184, ../sass/_editor.scss */
+/* line 188, ../sass/_editor.scss */
 #content .step-text {
   margin: 10px 10px 0 0;
 }
-/* line 187, ../sass/_editor.scss */
+/* line 191, ../sass/_editor.scss */
 #content .step-text div.editable-text {
   border: 2px solid #88a;
   border-radius: 10px;
 }
-/* line 194, ../sass/_editor.scss */
+/* line 198, ../sass/_editor.scss */
 #content .callout-text #inputTitle {
   margin-bottom: 1em;
 }
-/* line 199, ../sass/_editor.scss */
+/* line 203, ../sass/_editor.scss */
 #content textarea {
   width: 100%;
   font-size: 18px;
 }
-/* line 204, ../sass/_editor.scss */
+/* line 208, ../sass/_editor.scss */
 #content span.glossary {
   font-weight: bold;
   color: blue;
 }
 
-/* line 211, ../sass/_editor.scss */
+/* line 215, ../sass/_editor.scss */
 #layout .grid {
   position: relative;
   margin: 1em auto 0 auto;
 }
-/* line 215, ../sass/_editor.scss */
+/* line 219, ../sass/_editor.scss */
 #layout .grid .cell {
   display: block;
   position: absolute;
 }
-/* line 219, ../sass/_editor.scss */
+/* line 223, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
   left: 0;
@@ -462,7 +466,7 @@ input {
   background-color: orange;
   border: 1px solid white;
 }
-/* line 226, ../sass/_editor.scss */
+/* line 230, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -471,81 +475,81 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 235, ../sass/_editor.scss */
+/* line 239, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 243, ../sass/_editor.scss */
+/* line 247, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 249, ../sass/_editor.scss */
+/* line 253, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 253, ../sass/_editor.scss */
+/* line 257, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
   top: 0;
   left: 0;
 }
-/* line 260, ../sass/_editor.scss */
+/* line 264, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 264, ../sass/_editor.scss */
+/* line 268, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 270, ../sass/_editor.scss */
+/* line 274, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 273, ../sass/_editor.scss */
+/* line 277, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 281, ../sass/_editor.scss */
+/* line 285, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 285, ../sass/_editor.scss */
+/* line 289, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: yellow;
 }
-/* line 291, ../sass/_editor.scss */
+/* line 295, ../sass/_editor.scss */
 #layout #cell-property-table {
   display: none;
 }
-/* line 296, ../sass/_editor.scss */
+/* line 300, ../sass/_editor.scss */
 #layout #propertyPane h4 {
   margin: .5em 0 0 0;
   text-align: center;
 }
-/* line 303, ../sass/_editor.scss */
+/* line 307, ../sass/_editor.scss */
 #layout .notes-group textarea {
   display: block;
   width: 100%;
 }
-/* line 309, ../sass/_editor.scss */
+/* line 313, ../sass/_editor.scss */
 #layout .small-right {
   width: 6em;
   margin-left: auto;
   margin-right: 0;
 }
 
-/* line 316, ../sass/_editor.scss */
+/* line 320, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   border: 2px solid #66a;
@@ -553,12 +557,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 324, ../sass/_editor.scss */
+/* line 328, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 329, ../sass/_editor.scss */
+/* line 333, ../sass/_editor.scss */
 table.properties {
   border: 1px solid #669;
   width: 100%;
@@ -566,15 +570,15 @@ table.properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 339, ../sass/_editor.scss */
+/* line 343, ../sass/_editor.scss */
 table.properties td {
   border: 1px solid #99e;
 }
-/* line 342, ../sass/_editor.scss */
+/* line 346, ../sass/_editor.scss */
 table.properties td:first-child {
   background-color: #ddd;
 }
-/* line 346, ../sass/_editor.scss */
+/* line 350, ../sass/_editor.scss */
 table.properties td input {
   width: 100%;
   height: 100%;
@@ -582,12 +586,12 @@ table.properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 353, ../sass/_editor.scss */
+/* line 357, ../sass/_editor.scss */
 table.properties td input:focus {
   outline: 0;
 }
 
-/* line 362, ../sass/_editor.scss */
+/* line 366, ../sass/_editor.scss */
 .grid .inset .id-label {
   position: absolute;
   top: 20px;
@@ -603,7 +607,7 @@ table.properties td input:focus {
   z-index: 0;
   pointer-events: none;
 }
-/* line 378, ../sass/_editor.scss */
+/* line 382, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -612,54 +616,54 @@ table.properties td input:focus {
   height: 12px;
   z-index: 1;
 }
-/* line 387, ../sass/_editor.scss */
+/* line 391, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 392, ../sass/_editor.scss */
+/* line 396, ../sass/_editor.scss */
 .grid .inset input[name='T'] {
   top: 0;
   left: calc(50% - 4px);
 }
-/* line 397, ../sass/_editor.scss */
+/* line 401, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 402, ../sass/_editor.scss */
+/* line 406, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 407, ../sass/_editor.scss */
+/* line 411, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 412, ../sass/_editor.scss */
+/* line 416, ../sass/_editor.scss */
 .grid .inset input[name='B'] {
   bottom: 0;
   left: calc(50% - 4px);
 }
-/* line 417, ../sass/_editor.scss */
+/* line 421, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 422, ../sass/_editor.scss */
+/* line 426, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
-/* line 427, ../sass/_editor.scss */
+/* line 431, ../sass/_editor.scss */
 .grid .inset .slider {
   margin: 35px 25px 0 25px;
   height: 0px;
   border: none;
   z-index: 0;
 }
-/* line 433, ../sass/_editor.scss */
+/* line 437, ../sass/_editor.scss */
 .grid .inset .slider.ui-slider .ui-slider-handle {
   width: 5px;
   height: 66px;
@@ -670,7 +674,7 @@ table.properties td input:focus {
 }
 
 /* SQUARED ONE */
-/* line 450, ../sass/_editor.scss */
+/* line 454, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -687,18 +691,18 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 467, ../sass/_editor.scss */
+/* line 471, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 471, ../sass/_editor.scss */
+/* line 475, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 477, ../sass/_editor.scss */
+/* line 481, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -716,13 +720,13 @@ table.properties td input:focus {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 496, ../sass/_editor.scss */
+/* line 500, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 502, ../sass/_editor.scss */
+/* line 506, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -744,28 +748,28 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 528, ../sass/_editor.scss */
+/* line 532, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 533, ../sass/_editor.scss */
+/* line 537, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 539, ../sass/_editor.scss */
+/* line 543, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 544, ../sass/_editor.scss */
+/* line 548, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
 
-/* line 549, ../sass/_editor.scss */
+/* line 553, ../sass/_editor.scss */
 #dialog-message {
   display: none;
 }

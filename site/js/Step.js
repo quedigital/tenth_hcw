@@ -9,7 +9,11 @@ define([], function () {
 		
 		this.elem.data("step", this);
 		
-		if (options.number != undefined) {
+		if (options.title && options.title.length) {
+			$("<h2>").html(options.title).appendTo(this.elem);
+		}
+		
+		if (options.number != undefined && options.number.length) {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
