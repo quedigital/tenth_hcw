@@ -2,8 +2,6 @@
 
 // TODO: callout lines
 
-// TODO: hints shouldn't jump over other hints when re-stacking (I don't think) and maybe they shouldn't restack at all, just get out of the way of the dragging cell? (so: one temporary "spacer" row?)
-
 // TODO: invert color of step number blocks on dark backgrounds
 
 // TODO: optimize the loading of the spread sidebar
@@ -119,3 +117,5 @@
 // DONE: delete hint when cell is deleted
 // DONE: changing cell order doesn't seem to be working
 // DONE: cell heading
+// DONE: hints shouldn't jump over other hints when re-stacking (I don't think) and maybe they shouldn't restack at all, just get out of the way of the dragging cell? (so: one temporary "spacer" row?)
+

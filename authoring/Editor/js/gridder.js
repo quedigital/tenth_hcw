@@ -205,18 +205,7 @@ define(["Helpers"], function (Helpers) {
 		return ar;
 	}
 	
-	Gridder.prototype.onCellStartMove = function (event, ui) {
-		var ar = this.findCellByElem(ui.helper);
-		if (ar.length) {
-			var cell = ar[0];
-			cell.old_y = cell.y;
-		}		
-	}
-	
 	Gridder.prototype.onCellMoving = function (event, ui) {
-		// 1: move all cells after this one (in the revised order) down
-		// 2: and pack everything back in
-		
 		var pos = ui.position;
 		
 		// convert pos to 10% increments
@@ -227,22 +216,58 @@ define(["Helpers"], function (Helpers) {
 		
 		var row = ui.position.top / this.ROW_HEIGHT;
 		row = Math.round(row);
-		
+
 		var ar = this.findCellByElem(ui.helper);
 		if (ar.length) {
 			var cell = ar[0];
+
+			var movingUp = true;
+			if (row > cell.y) movingUp = false;
 			
 			cell.x = col;
 			cell.y = row;
 			
-			cell.moved = true;
-			
-			var overlap = this.isCellOverlap(cell);
+			var overlap = this.isCellOverlapping(cell);
 			if (overlap) {
-				this.pushCellsDownAfter(cell, row, col);
+				if (movingUp) {
+					this.pushCellsDownAfter(cell, row);
+				} else {
+					var cells = this.getCellsOnRow(row - 1);
+					if (!cells.length) {
+						this.pushCellsUpOnRow(cell, row);
+					}
+					this.pushCellsDownAfter(null, row + 2);
+				}
 			}
-			
-			this.repackCells(cell.y);
+			this.removeBlankRows(row);
+		}		
+	}
+	
+	Gridder.prototype.getMaxRows = function () {
+		// find the highest used row
+		var max_row;
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c.y > max_row || max_row == undefined) {
+				max_row = c.y;
+			}
+		}
+		return max_row;
+	}
+	
+	Gridder.prototype.removeBlankRows = function (notRow) {
+		var rows = this.getMaxRows();
+		
+		var row = notRow;
+		
+		while (row <= rows) {
+			var cells = this.getCellsOnRow(row);
+			if (!cells.length) {
+				this.pushCellsUpAfter(row);
+				rows = this.getMaxRows();
+			} else {
+				row++;
+			}
 		}
 	}
 	
@@ -256,7 +281,7 @@ define(["Helpers"], function (Helpers) {
 		return (x1 < y2 && y1 < x2);
 	}
 	
-	Gridder.prototype.isCellOverlap = function (cell) {
+	Gridder.prototype.isCellOverlapping = function (cell) {
 		for (var i = 0; i < this.cells.length; i++) {
 			var c = this.cells[i];
 			if (c != cell) {
@@ -272,12 +297,52 @@ define(["Helpers"], function (Helpers) {
 		}
 	}
 	
-	Gridder.prototype.pushCellsDownAfter = function (cell, row, col) {
+	Gridder.prototype.refreshPosition = function (cell) {
+		var ROW_WIDTH = this.elem.parent().width();
+		var xx = cell.x / 10 * ROW_WIDTH;
+		var yy = cell.y * this.ROW_HEIGHT;
+		
+		var cellDOM = cell.el;
+
+		cellDOM.css( { left: xx, top: yy } );		
+	}
+	
+	Gridder.prototype.pushCellsUpAfter = function (row) {
 		var ROW_WIDTH = this.elem.parent().width();
 		
 		for (var i = 0; i < this.cells.length; i++) {
 			var c = this.cells[i];
-			if (c != cell && !c.moved && c.y >= row) {
+			if (c.y >= row && c.y > 0) {
+				c.y--;
+				this.refreshPosition(c);
+			}
+		}
+	}
+	
+	Gridder.prototype.pushCellsUpOnRow = function (cell, row) {
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c != cell && c.y == row && c.y > 0) {
+				c.y--;
+				
+				var xx = c.x / 10 * ROW_WIDTH;
+				var yy = c.y * this.ROW_HEIGHT;
+				
+				var cellDOM = c.el;
+		
+				cellDOM.css( { left: xx, top: yy } );
+			}
+		}
+	}
+	
+	Gridder.prototype.pushCellsDownAfter = function (cell, row) {
+		var ROW_WIDTH = this.elem.parent().width();
+		
+		for (var i = 0; i < this.cells.length; i++) {
+			var c = this.cells[i];
+			if (c != cell && c.y >= row) {
 				c.y++;
 				
 				var xx = c.x / 10 * ROW_WIDTH;
@@ -286,8 +351,6 @@ define(["Helpers"], function (Helpers) {
 				var cellDOM = c.el;
 		
 				cellDOM.css( { left: xx, top: yy } );
-				
-				c.moved = true;
 			}
 		}
 	}
@@ -341,36 +404,6 @@ define(["Helpers"], function (Helpers) {
 		}
 	}
 	
-	// check to see if whole rows can be moved down
-	Gridder.prototype.repackCells = function (notRow) {
-		var ROW_WIDTH = this.elem.parent().width();
-		
-		// find the highest used row
-		var max_row;
-		for (var i = 0; i < this.cells.length; i++) {
-			var c = this.cells[i];
-			if (c.y > max_row || max_row == undefined) {
-				max_row = c.y;
-			}
-		}
-		
-		for (var row = 0; row <= max_row; row++) {
-			if (row != notRow) {
-				var els = this.getCellsOnRow(row);
-				if (els.length && this.rowCanMoveDown(els, row) != -1) {
-					var newRow = this.rowCanMoveDown(els, row);
-					this.moveRowTo(els, newRow);
-				}
-			}
-		}
-				
-		// get them ready for another test
-		for (var i = 0; i < this.cells.length; i++) {
-			var c = this.cells[i];
-			c.moved = false;
-		}
-	}
-	
 	Gridder.prototype.onCellMoved = function (event, ui) {
 		var pos = ui.position;
 		
@@ -378,8 +411,10 @@ define(["Helpers"], function (Helpers) {
 		var ROW_WIDTH = this.elem.parent().width();
 		var col = ui.position.left / ROW_WIDTH;
 		col = Math.round(col * 10);
+		if (col < 0) col = 0;
 		var row = ui.position.top / this.ROW_HEIGHT;
 		row = Math.round(row);
+		if (row < 0) row = 0;
 		
 		var ar = this.findCellByElem(ui.helper);
 		if (ar.length) {
@@ -485,7 +520,6 @@ define(["Helpers"], function (Helpers) {
 		cell.draggable( {
 							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],
 							stack: ".cell",
-							start: $.proxy(this.grid.onCellStartMove, this.grid),
 							drag: $.proxy(this.grid.onCellMoving, this.grid),
 							stop: $.proxy(this.grid.onCellMoved, this.grid)
 						} );
