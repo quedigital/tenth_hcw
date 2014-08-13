@@ -1,8 +1,8 @@
 
 
-// TODO: clicking on layout hint scrolls to corresponding content cell (also in Fixed layouts)
+// TODO: hints shouldn't jump over other hints when re-stacking (I don't think)
 
-// TODO: delete hint when cell is deleted
+// TODO: changing cell order doesn't seem to be working
 
 // TODO: optimize the loading of the spread sidebar
 
@@ -113,3 +113,5 @@
 // DONE: make sure sidebar text changes still work
 // DONE: different sidebar icons for each spread type
 // DONE: only retain 20 or so version histories in the menu (but allow permanent "checkpoints"? -> use Publish for major checkpoints; they're stored by Amazon)
+// DONE: clicking on layout hint scrolls to corresponding content cell (also in Fixed layouts)
+// DONE: delete hint when cell is deleted

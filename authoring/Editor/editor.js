@@ -120,17 +120,24 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				var cell = $(item).parents(".cell");
 				var firebaseRef = cell.data("firebaseRef");
 				
-				console.log("delete " + firebaseRef);
+				var id = cell.data("id");
 				
-				// NOTE: I think we have to remove from both simultaneously or else Knockout re-populates Firebase
-				me.content.removeCellFromKnockoutByFirebaseRef(firebaseRef);
+				// NOTE: the order of these two .remove's made a big difference
+				//  layout remove needed to be called last or dispose wasn't called
+				//  content needed to be called first or the cell wasn't cleanly removed from Firebase
+				
+				$("#content .cell[data-id=" + id + "]").remove();
+				
+				// delete content cell and layout hint from Firebase
 				me.content.removeCellFromFirebaseByFirebaseRef(firebaseRef);
+				me.layout.removeHintFromFirebaseByFirebaseRef(firebaseRef);
+				
+				// NOTE: remove the DOM so Knockout doesn't add it back
+				$("#layout .cell[data-id=" + id + "]").remove();
 			});
 			
 		var selected = $(".cell-check:checked");
 		this.onSelectionChange(selected);
-		
-		this.synchronizeCellsAndHints();
 	}
 	
 	// add a layout hint for every new cell

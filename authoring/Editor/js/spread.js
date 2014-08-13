@@ -562,7 +562,12 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 				}
 			});
 		}
-		
+
+		self.removeHintFromFirebaseByFirebaseRef = function (firebaseRef) {
+			var hint = self.layout().firebase.child("hints/" + firebaseRef);
+			self.layout().firebase.child("hints/" + firebaseRef).remove();
+		}
+				
 		self.addNew = function (id, title) {
 			self.layout().firebase.parent().child(id).set( { id: id, style: "grid", hints: [] });
 		}		

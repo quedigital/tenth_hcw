@@ -166,6 +166,8 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		
 		$("table.properties tbody[data-id = " + id + "]").show();
 		$("table.properties tbody[data-id != " + id + "]").hide();
+
+		$(event.currentTarget).trigger("selectedCell", id);
 		
 		return true;
 	}	

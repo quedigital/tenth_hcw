@@ -97,10 +97,6 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 			}
 		}
 
-		if (this.layout.id == "8_2") {
-			console.log("here");
-		}		
-		
 		// next: put the reflowable cells in
 		for (var i = 0; i < hints.length; i++) {
 			var hint = hints[i];

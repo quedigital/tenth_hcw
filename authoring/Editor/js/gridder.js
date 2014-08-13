@@ -3,7 +3,7 @@ define(["Helpers"], function (Helpers) {
 	
 	ko.bindingHandlers.gridThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			$(element).data("grid", new Gridder(element));
+			$(element).data("grid", new Gridder(element));			
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -18,8 +18,7 @@ define(["Helpers"], function (Helpers) {
 			}
 			
 			ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
-				//$(element).slider("destroy");
-				console.log("dispose");
+				grid.removeCell($(element));
 			});
 		},
 		
@@ -91,6 +90,15 @@ define(["Helpers"], function (Helpers) {
 //		this.reformatSubscription = valueAccessor().subscribe(function (newValue) {
 //			elem.trigger("reformat");
 //		});		
+	}
+	
+	Gridder.prototype.removeCell = function (element) {
+		var cell = this.findCellByElem(element);
+		var index = this.cells.indexOf(cell[0]);
+		if (index != -1) {
+			this.cells.splice(index, 1);
+			this.reformat();
+		}
 	}
 	
 	Gridder.prototype.getNextOpenRow = function () {
@@ -385,6 +393,8 @@ define(["Helpers"], function (Helpers) {
 		}
 		
 		this.setContentOrderToLayoutOrder();
+		
+		this.reformat();
 	}
 	
 	Gridder.prototype.setContentOrderToLayoutOrder = function () {
