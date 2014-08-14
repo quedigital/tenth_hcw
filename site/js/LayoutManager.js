@@ -22,6 +22,11 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 			if (layout.publish) {
 				if (content) {
 					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
+			
+					if (layout.background && layout.background == "#000000") {
+						spreadDOM.addClass("dark");
+					}
+
 				
 					var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
 				

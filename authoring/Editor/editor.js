@@ -609,13 +609,20 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 					selectedNode = selectedRange = undefined;
 				}
 			});
+
+		$('#search-toolbar').w2toolbar({
+			name: 'search-toolbar',
+			items: [
+				{ type: 'html',  id: 'search', html: '<div id="search_box"><span class="fa fa-lg fa-search"></span><input/></div>' },
+			]
+		});
 	
 		$('#bottom-toolbar').w2toolbar({
 			name: 'bottom-toolbar',
 			items: [
-				{ type: 'button',  id: 'add',  caption: 'Add Cell', icon: 'fa fa-plus-square', hint: 'Hint for item 3' },
+				{ type: 'button',  id: 'add',  caption: 'Add Cell', icon: 'fa fa-plus-square', hint: 'Add a new content cell' },
 				{ type: 'break', id: 'break0' },
-				{ text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0 },
+				{ text: 'Delete Cell', id: "delete", icon: 'fa fa-trash-o', count: 0, hint: 'Delete selected content cells' },
 			],
 			onClick: function (event) {
 				switch (event.target) {
@@ -628,14 +635,14 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				}
 			}
 		});
-	
+		
 		$("#toc").w2sidebar({
 			name: "toc_sidebar",
 			onClick: function (event) {
 				editor.viewSpread(event.node.routeData.index);
 			}
 		});
-	
+		
 		$('#bottom-sidebar').w2toolbar({
 			name: 'bottom-sidebar',
 			items: [
@@ -688,8 +695,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			}
 		});		
 	
-		$("#leftmost").layout({ applyDefaultStyles: true });
-		$("#content").layout({ applyDefaultStyles: true });
+		$("#leftmost").layout({ applyDefaultStyles: true, north__resizable: false, north__closable: false, south__resizable: false, south__closable: false });
+		$("#content").layout({ applyDefaultStyles: true, north__resizable: false, north__closable: false, south__resizable: false, south__closable: false });
 		$(".ui-layout-east").layout({ applyDefaultStyles: true, livePaneResizing: true, south__size: "20%" });
 
 		// TODO: make this open the given spread by id
@@ -698,9 +705,12 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		editor.trackChanges("https://howcomputerswork.firebaseio.com/");
 
 		$("#content").bind('keydown', 'alt+meta+g', onGlossaryKey);		
+		
+		$("body").css("opacity", 1);
 	}
-	
-	domReady(function () {
+
+	// NOTE: using domReady seemed to cause problems with the toc_sidebar loading sequence	
+//	domReady(function () {
 		initializeUI();
-	});
+//	});
 });

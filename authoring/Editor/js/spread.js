@@ -188,14 +188,13 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		
 		// NOTE: this catches additions and deletions but not text changes
 		self.spreads.subscribe(function (changes) {
+			// TODO: throttle this
 			self.rebuildSidebarMenu();			
 		});
 		
 		self.rebuildSidebarMenu = function () {
-			window.spreadList = this;
-			
 			self.loadSpreadArrayFromFirebase();
-
+			
 			self.doRebuild();						
 		}
 		
@@ -221,6 +220,36 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 					
 					// NOTE: This is really slow, especially since rebuilding gets called each time a row is fetched (ugh)
 					layouts.child(element.index).once("value", $.proxy(self.addLayoutStyle, self, element.index));
+				}
+			}
+			
+			$("#search_box input").off("input");
+			$("#search_box input").on("input", $.proxy(self.onSearch, self));
+		}
+		
+		// show spreads with titles containing the search text
+		self.onSearch = function (event) {
+			var txt = $("#search_box input").val().toLowerCase();
+						
+			var sidebar = w2ui["toc_sidebar"];
+
+			if (txt == "") {
+				$("#toc .w2ui-node").css("display", "block");
+				sidebar.collapseAll();
+				return;
+			}
+			
+			sidebar.expandAll();
+			
+			for (var i = 0; i < sidebar.nodes.length; i++) {
+				var node = sidebar.nodes[i];
+				for (var j = 0; j < node.nodes.length; j++) {
+					var subnode = node.nodes[j];
+					if (subnode.text.toLowerCase().indexOf(txt) != -1) {
+						$("#node_" + subnode.id).css("display", "block");
+					} else {
+						$("#node_" + subnode.id).css("display", "none");
+					}
 				}
 			}
 		}
@@ -285,12 +314,14 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 				sidebar.remove.apply(sidebar, nd);
 			}
 		}
-	}
-	
+	}	
+
 	var spreadList = new SpreadListModel();
-
+	
+	window.spreadList = spreadList;
+	
 	ko.applyBindings(spreadList, $("#spreadModel")[0]);
-
+		
 	/* Content Model */
 	
 	function ContentModel (controller, index) {

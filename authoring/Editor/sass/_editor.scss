@@ -2,6 +2,10 @@ html, body {
 	font-family: sans-serif;
 }
 
+body {
+	opacity: 0;
+}
+
 * {
 	box-sizing: border-box;
 }
@@ -40,7 +44,25 @@ input {
 #toc {
 	width: 250px;
 	
-	padding: 0 !important;
+	padding: 0 !important;	
+}
+
+#lefttopbar {
+	div#search_box {
+		padding: 3px 10px;
+		
+		& > span {
+			vertical-align: text-top;
+			padding-right: 10px;
+		}
+		
+		input {
+			padding: 3px;
+			border-radius: 10px;
+			border: 1px solid silver;
+			outline: none;
+		}		
+	}
 }
 
 #leftbottombar {
@@ -219,6 +241,8 @@ input {
 		.cell {
 			display: block;
 			position: absolute;
+			transition: left .25s ease, top .25s ease;
+			
 			
 			.inset {
 				position: absolute;
