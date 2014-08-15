@@ -43,10 +43,20 @@ html, body, p, h1 {
 	h1 {
 		padding: 0 .25em;
 	}
+	
+	canvas {
+		position: absolute;
+		overflow: visible;
+		z-index: 2;
+	}
+	
+	.callout-line-target {
+		position: absolute;
+	}
 }
 
 .step {
-	padding-left: 2.75em;
+	padding-left: 2.75em;	
 }
 
 .spread.fixed {

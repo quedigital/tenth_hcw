@@ -2,11 +2,10 @@ define(["jqueryui",
 		"imagesloaded.pkgd.min",
 		"Step",
 		"Callout",
-		"make-callout",
 		"auto-size-text",
 		"Helpers",
 		"debug",
-		], function (jqueryui, imagesLoaded, Step, Callout, makeCallout, autoSizeText, Helpers, debug) {
+		], function (jqueryui, imagesLoaded, Step, Callout, autoSizeText, Helpers, debug) {
 	FixedLayout = function (container, layout, content) {
 		this.container = container;
 		this.layout = layout;

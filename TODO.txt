@@ -1,6 +1,18 @@
 
 
+// TODO: animate callout lines as they scroll into view?
+
+// TODO: callout line target selection dialog
+
+// TODO: changing content id needs to also change layout id
+
+// TODO: select a content cell selects / highlights the layout cell
+
 // TODO: callout lines
+
+// TODO: refactor callout lines so they can be shared by grid and fixed layouts
+
+// TODO: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?
 
 // TODO: size cell images (so they're not huge by default?)
 

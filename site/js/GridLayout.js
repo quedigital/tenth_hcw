@@ -1,8 +1,9 @@
-define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], function (Helpers, imagesLoaded, debug) {
+define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "CalloutLine"], function (Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content) {
 		this.container = container;
+		this.calloutLines = [];
 		
 		this.container.data("grid", this);
 		
@@ -113,8 +114,6 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 		
 		var last_id = undefined;
 		
-		console.log(this.layout.id);
-		
 		// now go through the map and place the cells
 		for (var i = 0; i < map.length; i++) {
 			var id = map[i];
@@ -193,6 +192,7 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 						if (hint.marginTop) {
 							img.css("marginTop", hint.marginTop + "px");
 						}
+						
 						break;
 						
 					case "image":
@@ -235,6 +235,37 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video"], fu
 		var totalY = getTotalUpTo(row_heights, row_heights.length);
 
 		this.container.height(top_y + totalY);
+		
+		this.removeCallouts();
+		this.addCallouts();
+	}
+	
+	function removeCalloutLines (index, element) {
+		element.remove();
+	}
+	
+	GridLayout.prototype.removeCallouts = function () {
+		$.each(this.calloutLines, removeCalloutLines);
+	}
+	
+	// add callout lines AFTER the spread is fully laid out
+	GridLayout.prototype.addCallouts = function () {
+		var cells = $.map(this.content.cells, function (el) { return el });
+		var hints = $.map(this.layout.hints, function (el) { return el });
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var id = cell.id;
+			var hint = Helpers.findByID(id, hints);
+			if (hint.callout_target_id) {
+				var line = new CalloutLine(this.container, this.getCellDOM(id), this.getCellDOM(hint.callout_target_id), hint.callout_target_pos);
+				this.calloutLines.push(line);
+			}
+		}	
+	}
+	
+	GridLayout.prototype.getCellDOM = function (id) {
+		return this.container.find(".cell[data-id=" + id + "]");
 	}
 	
 	return GridLayout;

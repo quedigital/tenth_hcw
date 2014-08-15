@@ -19,14 +19,16 @@ define(["GridLayout", "FixedLayout", "Helpers"], function (GridLayout, FixedLayo
 		
 		$.each(this.contents, function (index, content) {
 			var layout = Helpers.findByID(content.id, me.layouts);
-			if (layout.publish) {
+			if (!layout) {
+				console.log("not found: " + content.id);
+			}
+			if (layout && layout.publish) {
 				if (content) {
 					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
 			
 					if (layout.background && layout.background == "#000000") {
 						spreadDOM.addClass("dark");
 					}
-
 				
 					var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
 				

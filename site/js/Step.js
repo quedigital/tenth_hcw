@@ -13,7 +13,7 @@ define([], function () {
 			$("<h2>").html(options.title).appendTo(this.elem);
 		}
 		
-		if (options.number != undefined && options.number.length) {
+		if (options.number != undefined && parseInt(options.number) > 0) {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);

@@ -522,6 +522,8 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 								"col": true,
 								"nonblocking": true,
 								"imageWidth": true,
+								"callout_target_id": true,
+								"callout_target_pos": true
 							}
 						}
 					};
