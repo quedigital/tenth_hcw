@@ -73,6 +73,10 @@
 		</p>
 	</div>
 
+	<div id="dialog-target-selector" title="Select Callout Target">
+		<div class="control"></div>
+	</div>
+
 	<div id="leftmost" class="ui-layout-west">
 		<div id="lefttopbar" class="ui-layout-north">
 			<div id="search-toolbar"></div><!-- style="padding: 4px; border: 1px solid silver; border-radius: 3px"></div>-->
@@ -366,7 +370,7 @@
 									<td><input data-bind="value: callout_target_id" type="string"></input></td>
 								</tr>
 								<tr>
-									<td>callout line target pos</td>
+									<td><div class="split-left">callout line target pos</div><button class="split-right" data-bind="click: $root.setCalloutTargetPosition">Set</button></td>
 									<td><input data-bind="value: callout_target_pos" type="string"></input></td>
 								</tr>
 							</tbody>							

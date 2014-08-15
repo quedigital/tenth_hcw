@@ -690,7 +690,24 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			modal: true,
 			buttons: {
 				Ok: function () {
-					$(this).dialog( "close" );
+					$(this).dialog("close");
+				}
+			}
+		});		
+
+		$("#dialog-target-selector").dialog({
+			autoOpen: false,
+			modal: true,
+			buttons: {
+				Ok: function () {
+					var imageSelector = $(this).find(".control").data("control");
+					if (imageSelector) {
+						imageSelector.setDataToPosition();
+					}
+					$(this).dialog("close");
+				},
+				Cancel: function () {
+					$(this).dialog("close");
 				}
 			}
 		});		

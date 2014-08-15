@@ -383,6 +383,17 @@ table.properties {
 			}
 		}
 	}
+	
+	.split-left {
+		float: left;
+		width: 70%;
+	}
+	
+	.split-right {
+		float: right;
+		width: 30%;
+		line-height: 25px;
+	}
 }
 
 .grid {

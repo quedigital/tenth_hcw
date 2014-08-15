@@ -1,4 +1,4 @@
-define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
+define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gridder, fixer, Helpers, ImagePositionSelector) {
 	// NOTE: Gah, I couldn't get these sorting options to stick from event.js; hence these horrible workarounds
 	var callbacks = {
 		onSortStart: function () { console.log("no"); },
@@ -600,7 +600,17 @@ define(["gridder", "fixer", "Helpers"], function (gridder, fixer, Helpers) {
 		
 		self.getID = function () {
 			return self.layout()().id();
-		}			
+		}
+		
+		self.setCalloutTargetPosition = function (data, event) {
+			var url = self.getCellData(data.callout_target_id(), "image");
+//			var url = "https://s3.amazonaws.com/HCW10/Images/2_1/doping.svg";
+//			var coords = data.callout_target_pos();
+			var selector = new ImagePositionSelector(url, data.callout_target_pos);
+			
+			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
+			$("#dialog-target-selector").dialog("open");
+		}
 
 		self.viewLayoutForSpread(0);
 	}

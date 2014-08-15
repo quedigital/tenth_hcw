@@ -2,13 +2,11 @@
 
 // TODO: animate callout lines as they scroll into view?
 
-// TODO: callout line target selection dialog
+// TODO: callout lines for callouts without .block (ie, .diamond or unnumbered steps)
 
 // TODO: changing content id needs to also change layout id
 
 // TODO: select a content cell selects / highlights the layout cell
-
-// TODO: callout lines
 
 // TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
@@ -126,6 +124,7 @@
 // DONE: hints shouldn't jump over other hints when re-stacking (I don't think) and maybe they shouldn't restack at all, just get out of the way of the dragging cell? (so: one temporary "spacer" row?)
 // DONE: invert color of step number blocks on dark backgrounds
 // DONE: optimize the loading of the spread sidebar [as best I could think of; still very slow and repetitive]
-// TODO: search in spread sidebar
-// TODO: spread pane doesn't always load or refresh (spreadList.doRebuild() makes it show up, so it's probably a timing issue) [domReady issue, I think]
-
+// DONE: search in spread sidebar
+// DONE: spread pane doesn't always load or refresh (spreadList.doRebuild() makes it show up, so it's probably a timing issue) [domReady issue, I think]
+// DONE: callout lines
+// DONE: callout line target selection dialog

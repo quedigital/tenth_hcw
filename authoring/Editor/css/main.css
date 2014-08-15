@@ -613,8 +613,19 @@ table.properties td input {
 table.properties td input:focus {
   outline: 0;
 }
+/* line 387, ../sass/_editor.scss */
+table.properties .split-left {
+  float: left;
+  width: 70%;
+}
+/* line 392, ../sass/_editor.scss */
+table.properties .split-right {
+  float: right;
+  width: 30%;
+  line-height: 25px;
+}
 
-/* line 390, ../sass/_editor.scss */
+/* line 401, ../sass/_editor.scss */
 .grid .inset .id-label {
   position: absolute;
   top: 20px;
@@ -630,7 +641,7 @@ table.properties td input:focus {
   z-index: 0;
   pointer-events: none;
 }
-/* line 406, ../sass/_editor.scss */
+/* line 417, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -639,54 +650,54 @@ table.properties td input:focus {
   height: 12px;
   z-index: 1;
 }
-/* line 415, ../sass/_editor.scss */
+/* line 426, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 420, ../sass/_editor.scss */
+/* line 431, ../sass/_editor.scss */
 .grid .inset input[name='T'] {
   top: 0;
   left: calc(50% - 4px);
 }
-/* line 425, ../sass/_editor.scss */
+/* line 436, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 430, ../sass/_editor.scss */
+/* line 441, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 435, ../sass/_editor.scss */
+/* line 446, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 440, ../sass/_editor.scss */
+/* line 451, ../sass/_editor.scss */
 .grid .inset input[name='B'] {
   bottom: 0;
   left: calc(50% - 4px);
 }
-/* line 445, ../sass/_editor.scss */
+/* line 456, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 450, ../sass/_editor.scss */
+/* line 461, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
-/* line 455, ../sass/_editor.scss */
+/* line 466, ../sass/_editor.scss */
 .grid .inset .slider {
   margin: 35px 25px 0 25px;
   height: 0px;
   border: none;
   z-index: 0;
 }
-/* line 461, ../sass/_editor.scss */
+/* line 472, ../sass/_editor.scss */
 .grid .inset .slider.ui-slider .ui-slider-handle {
   width: 5px;
   height: 66px;
@@ -697,7 +708,7 @@ table.properties td input:focus {
 }
 
 /* SQUARED ONE */
-/* line 478, ../sass/_editor.scss */
+/* line 489, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -714,18 +725,18 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 495, ../sass/_editor.scss */
+/* line 506, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 499, ../sass/_editor.scss */
+/* line 510, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 505, ../sass/_editor.scss */
+/* line 516, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -743,13 +754,13 @@ table.properties td input:focus {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 524, ../sass/_editor.scss */
+/* line 535, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 530, ../sass/_editor.scss */
+/* line 541, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -771,28 +782,28 @@ table.properties td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 556, ../sass/_editor.scss */
+/* line 567, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 561, ../sass/_editor.scss */
+/* line 572, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 567, ../sass/_editor.scss */
+/* line 578, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 572, ../sass/_editor.scss */
+/* line 583, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
 
-/* line 577, ../sass/_editor.scss */
+/* line 588, ../sass/_editor.scss */
 #dialog-message {
   display: none;
 }
