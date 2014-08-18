@@ -28,6 +28,8 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	
 	var FixedLayout = function (elem) {
 		this.elem = $(elem);
+
+		this.elem.data("layoutObject", this);
 		
 		this.elem.on("update", $.proxy(this.onUpdate, this));
 		this.elem.on("resize_layout", $.proxy(this.onResize, this));
@@ -68,7 +70,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	}
 	
 	FixedLayout.prototype.addNewBoundsElement = function (element, valueAccessor, bindingContext) {
-		var b = new BoundsElement(element, valueAccessor, bindingContext);
+		var b = new BoundsElement(this, element, valueAccessor, bindingContext);
 		
 		this.bounds.push(b);
 	}
@@ -88,9 +90,26 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		this.scaleBounds();
 	}
 	
+	FixedLayout.prototype.setSelectedCell = function (id, trigger) {
+		this.elem.find(".bounds.selected").removeClass("selected");
+		
+		var b = this.elem.find(".bounds[data-id=" + id + "]");
+		b.addClass("selected");
+		
+		$("#cell-property-table").show();
+		
+		$("table.properties tbody[data-id = " + id + "]").show();
+		$("table.properties tbody[data-id != " + id + "]").hide();
+		
+		if (trigger)
+			this.elem.trigger("selectedCell", id);
+	}
+	
 	/* BoundsElement */
 	
-	var BoundsElement = function (elem, valueAccessor, bindingContext) {		
+	var BoundsElement = function (fixer, elem, valueAccessor, bindingContext) {
+		this.fixer = fixer;
+		
 		this.elem = $(elem);
 		
 		this.elem.data("id", bindingContext.$data.id());
@@ -98,7 +117,7 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		this.valueAccessor = valueAccessor;
 		
 		this.elem.on("update", $.proxy(this.onUpdate, this));
-		this.elem.click(setSelected);
+		this.elem.click($.proxy(this.onClickBounds, this));
 		
 		this.elem.resizable({ stop: $.proxy(this.onResizeStop, this) });
 		this.elem.draggable({ stop: $.proxy(this.onDragStop, this) });
@@ -155,20 +174,11 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		value(newRect);
 	}
 	
-	function setSelected (event) {
+	BoundsElement.prototype.onClickBounds = function (event) {
 		var id = $(event.currentTarget).find(".cell-id").text();
 
-		$(".bounds.selected").removeClass("selected");
-		
-		$(event.currentTarget).addClass("selected");
-		
-		$("#cell-property-table").show();
-		
-		$("table.properties tbody[data-id = " + id + "]").show();
-		$("table.properties tbody[data-id != " + id + "]").hide();
-
-		$(event.currentTarget).trigger("selectedCell", id);
-		
+		this.fixer.setSelectedCell(id, true);
+				
 		return true;
 	}	
 	

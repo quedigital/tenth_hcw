@@ -65,8 +65,10 @@ define(["Helpers"], function (Helpers) {
 		this.cells = [];
 		
 		this.elem = $(elem);
+		
+		this.elem.data("layoutObject", this);
 
-		this.elem.on("reformat", $.proxy(this.reformat, this));		
+		this.elem.on("reformat", $.proxy(this.reformat, this));
 		
 		$("#cell-property-table").hide();
 	}
@@ -461,6 +463,21 @@ define(["Helpers"], function (Helpers) {
 		this.elem.trigger("order_change", [ids]);
 	}
 	
+	Gridder.prototype.setSelectedCell = function (id, trigger) {
+		this.elem.find(".cell.selected").removeClass("selected");
+		this.elem.find(".cell[data-id=" + id + "]").addClass("selected");
+		
+		$("#cell-property-table").show();
+		
+		$("table.properties tbody[data-id = " + id + "]").show();
+		$("table.properties tbody[data-id != " + id + "]").hide();
+		
+		if (trigger)
+			this.elem.trigger("selectedCell", id);
+		
+		return true;
+	}
+	
 	// GridCell
 	
 	var GridCell = function (grid, elem, valueAccessor, bindingContext) {
@@ -524,7 +541,7 @@ define(["Helpers"], function (Helpers) {
 							stop: $.proxy(this.grid.onCellMoved, this.grid)
 						} );
 		
-		cell.click(setSelected);
+		cell.click($.proxy(this.onClickCell, this));
 	}
 	
 	GridCell.prototype = {};
@@ -562,22 +579,11 @@ define(["Helpers"], function (Helpers) {
 		this.y = row;
 	}
 	
-	function setSelected (event) {
+	GridCell.prototype.onClickCell = function (event) {
 //		var id = $(event.currentTarget).data("id");
 		// NOTE: I switched to using a span tag to hold the id because the attribute data-id wasn't being updated by knockout		
 		var id = $(event.currentTarget).find(".tag").text();
 		
-		$(".cell.selected").removeClass("selected");
-		
-		$(event.currentTarget).addClass("selected");
-		
-		$("#cell-property-table").show();
-		
-		$("table.properties tbody[data-id = " + id + "]").show();
-		$("table.properties tbody[data-id != " + id + "]").hide();
-		
-		$(event.currentTarget).trigger("selectedCell", id);
-		
-		return true;
+		this.grid.setSelectedCell(id, true);
 	}	
 });

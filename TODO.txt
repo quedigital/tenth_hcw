@@ -1,12 +1,12 @@
 
 
+// TODO: make gridder and fixer classes derive from same parent
+
 // TODO: animate callout lines as they scroll into view?
 
 // TODO: callout lines for callouts without .block (ie, .diamond or unnumbered steps)
 
 // TODO: changing content id needs to also change layout id
-
-// TODO: select a content cell selects / highlights the layout cell
 
 // TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
@@ -128,3 +128,4 @@
 // DONE: spread pane doesn't always load or refresh (spreadList.doRebuild() makes it show up, so it's probably a timing issue) [domReady issue, I think]
 // DONE: callout lines
 // DONE: callout line target selection dialog
+// DONE: select a content cell selects / highlights the layout cell

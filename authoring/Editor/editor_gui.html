@@ -270,7 +270,7 @@
 					</div>
 				
 					<div data-bind="if: style()==='grid'">
-						<div class="grid" data-bind="gridThing: hints">
+						<div class="grid layoutUI" data-bind="gridThing: hints">
 							<div data-bind="foreach: hints">
 								<div class="cell" data-bind="attr: { 'data-width': width, 'data-id': id, 'data-image': image }, cellThing: width">
 									<span class="invisible tag" data-bind="text: id"></span>
@@ -283,9 +283,9 @@
 						<label for="inputID">Background Image</label>
 						<input data-bind="value: background" type="text"></input>
 						<div class="upload_div" data-bind="uploadToS3: background"></div>
-						<div class="fixer" data-bind="fixedThing: hints">
+						<div class="fixer layoutUI" data-bind="fixedThing: hints">
 							<div data-bind="foreach: hints">
-								<div class="bounds" data-bind="boundsThing: bounds">
+								<div class="bounds" data-bind="boundsThing: bounds, attr: { 'data-id': id }">
 									<span class="cell-id" data-bind="text: id"></span>
 									<div class="styling" data-bind="if: styling">
 										<textarea data-bind="autosize: styling"></textarea>

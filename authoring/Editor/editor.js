@@ -64,6 +64,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		$("#layout").on("upload", $.proxy(this.onFileUpload, this));
 		
 		$("#layout").on("selectedCell", $.proxy(this.onSelectedLayoutCell, this));
+		$("#content").focusin($.proxy(this.onSelectedContentCell, this));
 	}
 	
 	Editor.prototype.onSelectedLayoutCell = function (event, id) {
@@ -73,6 +74,13 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		// NOTE: might want to adjust this number to scroll it higher or lower:
 		var b = (a + t) - 100;
 		$("#content-cells").animate({ scrollTop: b });
+	}
+	
+	Editor.prototype.onSelectedContentCell = function (event) {
+		var id = $(event.target).parents(".cell").data("id");
+		var layoutObject = $("#layout .layoutUI").data("layoutObject");
+		if (layoutObject && layoutObject.setSelectedCell)
+			layoutObject.setSelectedCell(id);
 	}
 	
 	Editor.prototype.onCellOrderChange = function (event, ids) {
