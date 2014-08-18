@@ -35,17 +35,34 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			$(element).on('blur', function() {
 				var observable = valueAccessor();
 				observable( $(this).html() );
-			});
-			
-			$(element).on("bob", function () {
-				console.log("writing");
-				var observable = valueAccessor();
-				observable( $(this).html() );
-			});
+			});			
 		},
 		update: function (element, valueAccessor) {
 			var value = ko.utils.unwrapObservable(valueAccessor());
 			$(element).html(value);
+		}
+	};
+	
+	ko.bindingHandlers.syncID = {
+		init: function (element, valueAccessor) {
+			$(element).on('blur', function() {
+				var observable = valueAccessor();
+				var v = $(this).val();
+				console.log("v =>");
+				console.log(v);
+				if (v != observable()) {
+					var old_val = observable();
+					console.log("change id");
+					console.log(old_val);
+					console.log(v);
+					observable(v);
+					$(element).trigger("change_id", [old_val, v]);
+				}
+			});			
+		},
+		update: function (element, valueAccessor) {
+			var value = ko.utils.unwrapObservable(valueAccessor());
+			$(element).val(value);
 		}
 	};
 	
@@ -558,7 +575,11 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 				keys.push(item().firebase.name());
 			});
 			return keys;
-		}		
+		}
+		
+		self.setCellID = function (firebase_id, new_id) {
+			self.layout().firebase.child("hints/" + firebase_id).update({ id: new_id });
+		}
 
 		self.addNewHint = function (id) {
 			var style = self.layout()().style();

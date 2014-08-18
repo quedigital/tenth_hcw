@@ -65,15 +65,24 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		
 		$("#layout").on("selectedCell", $.proxy(this.onSelectedLayoutCell, this));
 		$("#content").focusin($.proxy(this.onSelectedContentCell, this));
+		
+		$("#content").on("change_id", $.proxy(this.onChangedCellID, this));
+	}
+
+	Editor.prototype.onChangedCellID = function (event, old_id, new_id) {
+		var firebase = $(event.target).parents(".cell").data("firebaseRef");
+		this.layout.setCellID(firebase, new_id);
 	}
 	
 	Editor.prototype.onSelectedLayoutCell = function (event, id) {
 		var cell = $("#content .cell[data-id=" + id + "]");
 		var a = $("#content-cells").scrollTop();
-		var t = cell.offset().top;
-		// NOTE: might want to adjust this number to scroll it higher or lower:
-		var b = (a + t) - 100;
-		$("#content-cells").animate({ scrollTop: b });
+		if (cell.length) {
+			var t = cell.offset().top;
+			// NOTE: might want to adjust this number to scroll it higher or lower:
+			var b = (a + t) - 100;
+			$("#content-cells").animate({ scrollTop: b });
+		}
 	}
 	
 	Editor.prototype.onSelectedContentCell = function (event) {

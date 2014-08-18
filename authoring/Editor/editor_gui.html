@@ -181,7 +181,7 @@
 												<label for="inputID">ID</label>
 											</div>
 											<div>
-												<input id="inputID" data-bind="value: id" type="text">
+												<input id="inputID" data-bind="syncID: id" type="text">
 											</div>
 										</div>
 									</div>
@@ -315,7 +315,7 @@
 							<tbody data-bind="attr: { 'data-id': id }">
 								<tr>
 									<td>id</td>
-									<td><input data-bind="value: id"></input></td>
+									<td><span data-bind="text: id"></span></td>
 								</tr>
 							</tbody>
 							<tbody data-bind="attr: { 'data-id': id }, if: $parent.style()==='grid'">
