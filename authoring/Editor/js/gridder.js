@@ -471,6 +471,9 @@ define(["Helpers"], function (Helpers) {
 		
 		$("table.properties tbody[data-id = " + id + "]").show();
 		$("table.properties tbody[data-id != " + id + "]").hide();
+
+		$(".hideable[data-id = " + id + "]").show();
+		$(".hideable[data-id != " + id + "]").hide();
 		
 		if (trigger)
 			this.elem.trigger("selectedCell", id);
@@ -516,6 +519,8 @@ define(["Helpers"], function (Helpers) {
 		
 		var type = bindingContext.$root.getCellType(id);
 		
+		var sliderMax = .9;
+		
 		if (type == "step" && image) {
 			$("<input type='checkbox'>").attr("name", "TL").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "T").attr("data-bind", "checkbox: image").appendTo(inset);
@@ -526,13 +531,16 @@ define(["Helpers"], function (Helpers) {
 			$("<input type='checkbox'>").attr("name", "R").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<input type='checkbox'>").attr("name", "L").attr("data-bind", "checkbox: image").appendTo(inset);
 			$("<div class='slider'></div>").attr("data-bind", "slider: imageWidth").appendTo(inset);
+		} else if (type == "image" && image) {
+			$("<div class='slider'></div>").attr("data-bind", "slider: imageWidth").appendTo(inset);
+			sliderMax = 1.0;
 		}
 		
 		cell.append(inset);		
 		
 		inset.resizable( { grid: 10, maxWidth: ROW_WIDTH, minWidth: 10, handles: 'e', resize: $.proxy(me.onResize, me) } );
 		
-		inset.find(".slider").slider( { min: .1, max: .9, step: .1 } );
+		inset.find(".slider").slider( { min: .1, max: sliderMax, step: .1 } );
 		
 		cell.draggable( {
 							grid: [ ROW_WIDTH * .1, this.grid.ROW_HEIGHT ],

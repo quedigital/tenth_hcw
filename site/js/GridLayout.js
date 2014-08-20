@@ -1,4 +1,4 @@
-define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "CalloutLine"], function (Helpers, imagesLoaded, debug) {
+define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "CalloutLine", "CalloutLabel"], function (Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content) {
@@ -202,7 +202,14 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "Ca
 						var paddT = elem.innerWidth() - elem.width();
 						var margT = elem.outerWidth(true) - elem.outerWidth();
 						var w = elem.parent().width() * hint.width - paddT - margT;
-						elem.find(".image img").width(w);
+
+						var image_w = 1.0;
+						if (!isNaN(hint.imageWidth)) {
+							image_w = Math.max(.1, Math.min(.9, hint.imageWidth));
+						}
+
+						elem.find(".image img").width(w * image_w);
+						
 						/*
 						x = (elem.parent().width() - w) * .5;
 						x = 0;
@@ -238,6 +245,7 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "Ca
 		
 		this.removeCallouts();
 		this.addCallouts();
+		this.addImageCallouts();
 	}
 	
 	function removeCalloutLines (index, element) {
@@ -258,8 +266,28 @@ define(["Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "Ca
 			var id = cell.id;
 			var hint = Helpers.findByID(id, hints);
 			if (hint.callout_target_id) {
-				var line = new CalloutLine(this.container, this.getCellDOM(id), this.getCellDOM(hint.callout_target_id), hint.callout_target_pos);
+				var line = new CalloutLine(this.container, this.getCellDOM(id).find(".block"), this.getCellDOM(hint.callout_target_id), hint.callout_target_pos);
 				this.calloutLines.push(line);
+			}
+		}	
+	}
+	
+	GridLayout.prototype.addImageCallouts = function () {
+		var cells = $.map(this.content.cells, function (el) { return el });
+		var hints = $.map(this.layout.hints, function (el) { return el });
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var id = cell.id;
+			var hint = Helpers.findByID(id, hints);
+			if (cell.callouts && hint.callouts) {
+				var callouts = $.map(cell.callouts, function (el, index) { return { id: index, text: el.text } } )
+				var positions = $.map(hint.callouts, function (el, index) { return { id: index, hint: el } } )
+				for (var j = 0; j < callouts.length; j++) {
+					var callout = callouts[j];
+					var c = new CalloutLabel(callout.text, positions[j].hint, this.container, this.getCellDOM(id), hint);
+					this.calloutLines.push(c);
+				}
 			}
 		}	
 	}

@@ -1,21 +1,30 @@
 define([], function () {
 
 	// title, text, image
-	CalloutLine = function (container, from, to, coords) {
+	CalloutLine = function (container, from, to, coords, options) {
 		var canvas = $("<canvas>").attr({ width: 10, height: 10 });
 		
 		canvas.appendTo(container);
 		
 		var img = to.find("img");
 		
+		// TODO: fix this
+		if (img.length == 0) return;
+		
 		var target = $("<div>").addClass("callout-line-target").offset({ top: 0, left: 0 });
 		img.parent().append(target);
 
 		target.position( { my: "center", at: coords, of: img, collision: "none" } );
 		
-		var elemSource = from.find(".block");
+		var elemSource = from;//.find(".block");
+		
+		// TOOD: fix this
+		if (elemSource.length == 0) return;
+		
 		var viewSource = elemSource[0].getBoundingClientRect();
 		var viewTarget = target[0].getBoundingClientRect();
+		
+		options = $.extend(options, {});
 		
 		// first, calculate the best layout for the callout line
 		
@@ -31,29 +40,52 @@ define([], function () {
 		var dir = undefined;
 		var startX = 0, startY = 0;
 		
-		if (dy < 10) {
-			dir = "horizontal";
-			if (viewTarget.left > viewSource.left)
-				startX = viewSource.left + Math.floor(from.find(".block").width());
-			else
-				startX = viewSource.left;
-			startY = 1;
-		} else if (dx < 10) {
-			dir = "vertical";
-			startX = viewSource.left + Math.floor(from.find(".block").width() * .5);
-		// go below text and then over:
-		} else if (viewTarget.top - viewSource.top > from.outerHeight()) {
+		if (options.style == "label") {
+			startX = viewSource.left + viewSource.width * .5;
+			
 			dir = "BL";
-			startX = viewSource.left + Math.floor(from.find(".block").width() * .5);
-			startY = viewSource.top + Math.floor(from.find(".block").height());
-		} else {
-			// NOTE: could also draw from middle of block up and then over
-			dir = "TR";
-			if (viewTarget.left > viewSource.left)
-				startX = viewSource.left + Math.floor(from.find(".block").width());
-			else
+			
+			// adjust start Y depending on line direction / destination
+			if (options.my[0] == "B" && options.at[0] == "T") {
+				startY = viewSource.bottom;
+			} else if (options.my[0] == "T" && options.at[0] == "B") {
+				startY = viewSource.top;
+			} else if (options.my == "L" && options.at == "R") {
+				startY = viewSource.top + viewSource.height * .5;
 				startX = viewSource.left;
-			startY = viewSource.top + 1;
+				dir = "S";
+			} else {
+				startY = viewSource.bottom;
+				console.log("Don't know where to start line for " + options.my + " and " + options.at);
+			}
+			
+			if (dy < 10)
+				dir = "horizontal";
+		} else {
+			if (dy < 10) {
+				dir = "horizontal";
+				if (viewTarget.left > viewSource.left)
+					startX = viewSource.left + Math.floor(elemSource.width());
+				else
+					startX = viewSource.left;
+				startY = 1;
+			} else if (dx < 10) {
+				dir = "vertical";
+				startX = viewSource.left + Math.floor(elemSource.width() * .5);
+			// go below text and then over: TODO: this shouldn't be hard-coded to parent
+			} else if (viewTarget.top - viewSource.top > elemSource.parent().outerHeight()) {
+				dir = "BL";
+				startX = viewSource.left + Math.floor(elemSource.width() * .5);
+				startY = viewSource.top + Math.floor(elemSource.height());
+			} else {
+				// NOTE: could also draw from middle of block up and then over
+				dir = "TR";
+				if (viewTarget.left > viewSource.left)
+					startX = viewSource.left + Math.floor(elemSource.width());
+				else
+					startX = viewSource.left;
+				startY = viewSource.top + 1;
+			}
 		}
 		
 		// now see how big a canvas we need
@@ -89,25 +121,34 @@ define([], function () {
 				
 		context.lineWidth = 2;
 		context.strokeStyle = "black";
-		context.moveTo(startX, startY);
+		
+		moveTo(context, startX, startY);
 		
 		switch (dir) {
 			case "horizontal":
-				context.lineTo(viewTarget.left, startY);
+				lineTo(context, viewTarget.left, startY);
 				break;
 			
 			case "vertical":
-				context.lineTo(startX, viewTarget.top);
+				lineTo(context, startX, viewTarget.top);
 				break;
 				
 			case "BL":
-				context.lineTo(startX, viewTarget.top);
-				context.lineTo(viewTarget.left, viewTarget.top);
+				lineTo(context, startX, viewTarget.top);
+				lineTo(context, viewTarget.left, viewTarget.top);
 				break;
 				
 			case "TR":
-				context.lineTo(viewTarget.left, startY);
-				context.lineTo(viewTarget.left, viewTarget.top);
+				lineTo(context, viewTarget.left, startY);
+				lineTo(context, viewTarget.left, viewTarget.top);
+				break;
+				
+			case "S":
+				var nextDX = (viewTarget.left - startX) * .5;
+				nextDX = nextDX > 0 ? Math.max(5, nextDX) : Math.min(-5, nextDX);
+				lineTo(context, startX + nextDX, startY);
+				lineTo(context, startX + nextDX, viewTarget.top);
+				lineTo(context, viewTarget.left, viewTarget.top);
 				break;
 		}
 		
@@ -121,8 +162,18 @@ define([], function () {
 	CalloutLine.prototype.constructor = CalloutLine;
 	
 	CalloutLine.prototype.remove = function () {
-		this.canvas.remove();
-		this.target.remove();
+		if (this.canvas)
+			this.canvas.remove();
+		if (this.target)
+			this.target.remove();
+	}
+	
+	function moveTo (context, x, y) {
+		context.moveTo(Math.floor(x), Math.floor(y));
+	}
+
+	function lineTo (context, x, y) {
+		context.lineTo(Math.floor(x), Math.floor(y));
 	}
 	
 	return CalloutLine;

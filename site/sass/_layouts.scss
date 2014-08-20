@@ -262,6 +262,13 @@ div.cell {
 	}	
 }
 
+.image {
+	img {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
 .diamond {
 	display: inline-block;
 	color: white;
@@ -342,4 +349,14 @@ span.glossary {
 
 .spacer {
 	width: 0;
+}
+
+div.image-callout {
+	font-size: 12px;
+	position: absolute;
+	padding: 0 1.5em;
+	
+	span {
+		padding: 0 3px;
+	}
 }

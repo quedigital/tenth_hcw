@@ -61,12 +61,60 @@ define([], function () {
 		return $.map(obj, function (el) { return el });
 	}
 	
+	function getFirebaseKeys (firebase) {
+		var keys = [];
+		$.each(firebase, function (index, item) {
+			keys.push(item().firebase.name());
+		});
+		return keys;
+	}
+	
+	// return one higher than the highest numeric id so far, but use the firebase key not the content id (because the content id can be alpha)
+	function getNextHighestKey (firebase) {
+		var ids = getFirebaseKeys(firebase);
+		var max = 0;
+		$.each(ids, function (index, item) {
+			var n = parseInt(item);
+			if (n > max) {
+				max = n;
+			}
+		});
+		return max + 1;
+	}
+	
+	function convertAlignToJQueryAlign (align) {
+		var r = "";
+		
+		switch (align) {
+			case "TL":
+				r = "left top"; break;
+			case "T":
+				r = "center top"; break;
+			case "TR":
+				r = "right top"; break;
+			case "R":
+				r = "right center"; break;
+			case "BR":
+				r = "right bottom"; break;
+			case "B":
+				r = "center bottom"; break;
+			case "BL":
+				r = "left bottom"; break;
+			case "L":
+				r = "left center"; break;
+		}
+		
+		return r;
+	}
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
 		findSpace: findSpace,
 		sortByChapterAndNumber: sortByChapterAndNumber,
-		objectToArray: objectToArray
+		objectToArray: objectToArray,
+		getNextHighestKey: getNextHighestKey,
+		convertAlignToJQueryAlign: convertAlignToJQueryAlign,
 	};
 	
 	return Helpers;

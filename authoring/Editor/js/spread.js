@@ -48,13 +48,8 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			$(element).on('blur', function() {
 				var observable = valueAccessor();
 				var v = $(this).val();
-				console.log("v =>");
-				console.log(v);
 				if (v != observable()) {
 					var old_val = observable();
-					console.log("change id");
-					console.log(old_val);
-					console.log(v);
 					observable(v);
 					$(element).trigger("change_id", [old_val, v]);
 				}
@@ -72,7 +67,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			$(element).data("firebaseRef", firebaseRef);
 		}
 	};
-	
+
 	ko.bindingHandlers.sidebarItem = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var text = bindingContext.$data.id() + " " + bindingContext.$data.title();
@@ -162,7 +157,11 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 	};
 	
 	ko.bindingHandlers.slider = {
-		init: function (element, valueAccessor, allBindingsAccessor) {
+		init: function (element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
+			var observable = valueAccessor();
+			// default the slider to 100% (not sure this is the best way to do this)
+			if (observable() == null) observable(1.0);
+			
 			ko.utils.registerEventHandler(element, "slidechange", function (event, ui) {
 				var observable = valueAccessor();
 				observable(ui.value);
@@ -363,6 +362,11 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 								image: true,
 								number: true,
 								title: true,
+								callouts: {
+									"$callout": {
+										text: true,
+									}
+								},
 							},
 						}
 					};
@@ -504,6 +508,30 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		self.getID = function () {
 			return self.content()().id();
 		}
+		
+		self.addImageCallout = function (data, p1) {
+			var next = Helpers.getNextHighestKey(data.callouts());
+			data.callouts().firebase.child(next).set({ text: "Insert callout text here." });
+//			var spread_id = p1.id();
+//			var cell_id = data.id();
+			var spread_key = data.firebase.parent().parent().name();
+			var cell_key = data.firebase.name();
+			// add a hint for this spread
+			var firebase = new Firebase("https://howcomputerswork.firebaseio.com/layouts/" + spread_key + "/hints/" + cell_key + "/callouts/" + next);
+			firebase.set( { align: "TL", position: "0 0" } );			
+		}
+		
+		self.deleteImageCallout = function (data) {
+			var callout_key = data.firebase.name();
+			var spread_key = data.firebase.parent().parent().parent().parent().name();
+			var cell_key = data.firebase.parent().parent().name();
+			
+			data.firebase.remove();
+			
+			// remove the hint also
+			var firebase = new Firebase("https://howcomputerswork.firebaseio.com/layouts/" + spread_key + "/hints/" + cell_key + "/callouts/" + callout_key);
+			firebase.remove();
+		}
 				
 		self.viewContentForSpread(0);
 	}
@@ -540,7 +568,14 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 								"nonblocking": true,
 								"imageWidth": true,
 								"callout_target_id": true,
-								"callout_target_pos": true
+								"callout_target_pos": true,
+								callouts: {
+									"$callout": {
+										at: true,
+										my: true,
+										target: true,
+									}
+								},
 							}
 						}
 					};
@@ -630,6 +665,15 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			var selector = new ImagePositionSelector(url, data.callout_target_pos);
 			
 			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
+			$("#dialog-target-selector").dialog("open");
+		}
+		
+		self.setImageCalloutTargetPosition = function (parentData, data) {
+			var url = self.getCellData(parentData.id(), "image");
+			var selector = new ImagePositionSelector(url, data.target);
+			
+			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
+			$("#dialog-target-selector").dialog("option", "autoResize", true);
 			$("#dialog-target-selector").dialog("open");
 		}
 

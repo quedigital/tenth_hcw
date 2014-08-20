@@ -143,13 +143,16 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				//  content needed to be called first or the cell wasn't cleanly removed from Firebase
 				
 				$("#content .cell[data-id=" + id + "]").remove();
-				
+
 				// delete content cell and layout hint from Firebase
 				me.content.removeCellFromFirebaseByFirebaseRef(firebaseRef);
 				me.layout.removeHintFromFirebaseByFirebaseRef(firebaseRef);
 				
 				// NOTE: remove the DOM so Knockout doesn't add it back
 				$("#layout .cell[data-id=" + id + "]").remove();
+				
+				$("table.properties tbody[data-id = " + id + "]").remove();
+				$(".hideable[data-id = " + id + "]").remove();
 			});
 			
 		var selected = $(".cell-check:checked");

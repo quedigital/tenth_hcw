@@ -586,7 +586,7 @@ input {
 }
 
 /* line 357, ../sass/_editor.scss */
-table.properties {
+table.properties, table.callout-properties {
   border: 1px solid #669;
   width: 100%;
   border-spacing: 0;
@@ -594,38 +594,100 @@ table.properties {
   margin-top: .5em;
 }
 /* line 367, ../sass/_editor.scss */
-table.properties td {
+table.properties td, table.callout-properties td {
   border: 1px solid #99e;
+  min-width: 6em;
 }
-/* line 370, ../sass/_editor.scss */
-table.properties td:first-child {
+/* line 371, ../sass/_editor.scss */
+table.properties td:first-child, table.callout-properties td:first-child {
   background-color: #ddd;
 }
-/* line 374, ../sass/_editor.scss */
-table.properties td input {
+/* line 375, ../sass/_editor.scss */
+table.properties td input, table.callout-properties td input {
   width: 100%;
   height: 100%;
   border: none;
   font-size: 12px;
   padding: 0;
 }
-/* line 381, ../sass/_editor.scss */
-table.properties td input:focus {
+/* line 382, ../sass/_editor.scss */
+table.properties td input:focus, table.callout-properties td input:focus {
   outline: 0;
 }
-/* line 387, ../sass/_editor.scss */
-table.properties .split-left {
+/* line 388, ../sass/_editor.scss */
+table.properties .split-left, table.callout-properties .split-left {
   float: left;
-  width: 70%;
+  /*		width: 70%;*/
+  max-width: 50%;
 }
-/* line 392, ../sass/_editor.scss */
-table.properties .split-right {
+/* line 394, ../sass/_editor.scss */
+table.properties .split-right, table.callout-properties .split-right {
   float: right;
-  width: 30%;
+  /*		width: 30%;*/
   line-height: 25px;
 }
 
 /* line 401, ../sass/_editor.scss */
+.hideable {
+  display: none;
+}
+
+/* line 405, ../sass/_editor.scss */
+div#image_details {
+  margin-right: .5em;
+}
+/* line 408, ../sass/_editor.scss */
+div#image_details div.callout-header {
+  background-color: black;
+  color: white;
+  line-height: 30px;
+  position: relative;
+}
+/* line 414, ../sass/_editor.scss */
+div#image_details div.callout-header h4 {
+  text-align: center;
+  margin: 0;
+}
+/* line 419, ../sass/_editor.scss */
+div#image_details div.callout-header button {
+  margin: 3px;
+  height: 24px;
+  line-height: 24px;
+  position: absolute;
+  top: 0;
+}
+/* line 428, ../sass/_editor.scss */
+div#image_details table.callouts {
+  border: 1px solid #669;
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: separate;
+  margin-bottom: 1em;
+}
+/* line 438, ../sass/_editor.scss */
+div#image_details table.callouts td {
+  border: 1px solid #99e;
+}
+/* line 441, ../sass/_editor.scss */
+div#image_details table.callouts td:nth-child(2) {
+  width: 40px;
+  text-align: center;
+  button-width: 100%;
+}
+/* line 450, ../sass/_editor.scss */
+div#image_details table.callouts td input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  font-size: 12px;
+  padding: 0;
+}
+/* line 457, ../sass/_editor.scss */
+div#image_details table.callouts td input:focus {
+  outline: 0;
+}
+
+/* line 467, ../sass/_editor.scss */
 .grid .inset .id-label {
   position: absolute;
   top: 20px;
@@ -641,7 +703,7 @@ table.properties .split-right {
   z-index: 0;
   pointer-events: none;
 }
-/* line 417, ../sass/_editor.scss */
+/* line 483, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -650,54 +712,54 @@ table.properties .split-right {
   height: 12px;
   z-index: 1;
 }
-/* line 426, ../sass/_editor.scss */
+/* line 492, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 431, ../sass/_editor.scss */
+/* line 497, ../sass/_editor.scss */
 .grid .inset input[name='T'] {
   top: 0;
   left: calc(50% - 4px);
 }
-/* line 436, ../sass/_editor.scss */
+/* line 502, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 441, ../sass/_editor.scss */
+/* line 507, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 446, ../sass/_editor.scss */
+/* line 512, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 451, ../sass/_editor.scss */
+/* line 517, ../sass/_editor.scss */
 .grid .inset input[name='B'] {
   bottom: 0;
   left: calc(50% - 4px);
 }
-/* line 456, ../sass/_editor.scss */
+/* line 522, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 461, ../sass/_editor.scss */
+/* line 527, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
-/* line 466, ../sass/_editor.scss */
+/* line 532, ../sass/_editor.scss */
 .grid .inset .slider {
   margin: 35px 25px 0 25px;
   height: 0px;
   border: none;
   z-index: 0;
 }
-/* line 472, ../sass/_editor.scss */
+/* line 538, ../sass/_editor.scss */
 .grid .inset .slider.ui-slider .ui-slider-handle {
   width: 5px;
   height: 66px;
@@ -708,7 +770,7 @@ table.properties .split-right {
 }
 
 /* SQUARED ONE */
-/* line 489, ../sass/_editor.scss */
+/* line 555, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -725,18 +787,18 @@ table.properties .split-right {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 506, ../sass/_editor.scss */
+/* line 572, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 510, ../sass/_editor.scss */
+/* line 576, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 516, ../sass/_editor.scss */
+/* line 582, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -754,13 +816,13 @@ table.properties .split-right {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 535, ../sass/_editor.scss */
+/* line 601, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 541, ../sass/_editor.scss */
+/* line 607, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -782,28 +844,28 @@ table.properties .split-right {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 567, ../sass/_editor.scss */
+/* line 633, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 572, ../sass/_editor.scss */
+/* line 638, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 578, ../sass/_editor.scss */
+/* line 644, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 583, ../sass/_editor.scss */
+/* line 649, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
 
-/* line 588, ../sass/_editor.scss */
+/* line 654, ../sass/_editor.scss */
 #dialog-message {
   display: none;
 }

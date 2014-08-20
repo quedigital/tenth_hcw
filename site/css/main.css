@@ -480,7 +480,13 @@ div.cell .clear-right {
   clear: right;
 }
 
-/* line 265, ../sass/_layouts.scss */
+/* line 266, ../sass/_layouts.scss */
+.image img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* line 272, ../sass/_layouts.scss */
 .diamond {
   display: inline-block;
   color: white;
@@ -499,7 +505,7 @@ div.cell .clear-right {
   position: absolute;
   left: 5px;
 }
-/* line 283, ../sass/_layouts.scss */
+/* line 290, ../sass/_layouts.scss */
 .diamond:before {
   content: "";
   background-color: red;
@@ -508,7 +514,7 @@ div.cell .clear-right {
   height: 100%;
   -webkit-transform: rotate(45deg);
 }
-/* line 292, ../sass/_layouts.scss */
+/* line 299, ../sass/_layouts.scss */
 .diamond span {
   position: absolute;
   top: -5px;
@@ -517,7 +523,7 @@ div.cell .clear-right {
   text-align: center;
 }
 
-/* line 301, ../sass/_layouts.scss */
+/* line 308, ../sass/_layouts.scss */
 .block {
   display: inline-block;
   color: white;
@@ -538,7 +544,7 @@ div.cell .clear-right {
   left: 5px;
   top: -8px;
 }
-/* line 322, ../sass/_layouts.scss */
+/* line 329, ../sass/_layouts.scss */
 .block:before {
   content: "";
   background-color: black;
@@ -546,7 +552,7 @@ div.cell .clear-right {
   width: 100%;
   height: 100%;
 }
-/* line 330, ../sass/_layouts.scss */
+/* line 337, ../sass/_layouts.scss */
 .block span {
   position: absolute;
   top: -1px;
@@ -555,12 +561,23 @@ div.cell .clear-right {
   text-align: center;
 }
 
-/* line 339, ../sass/_layouts.scss */
+/* line 346, ../sass/_layouts.scss */
 span.glossary {
   font-weight: bold;
 }
 
-/* line 343, ../sass/_layouts.scss */
+/* line 350, ../sass/_layouts.scss */
 .spacer {
   width: 0;
+}
+
+/* line 354, ../sass/_layouts.scss */
+div.image-callout {
+  font-size: 12px;
+  position: absolute;
+  padding: 0 1.5em;
+}
+/* line 359, ../sass/_layouts.scss */
+div.image-callout span {
+  padding: 0 3px;
 }

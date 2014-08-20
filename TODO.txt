@@ -1,12 +1,16 @@
 
 
+// TODO: fixed layout cells aren't staying put (!?)
+
+// TODO: callout line pop-up dialog needs to size to fit image
+
+// TODO: refactor callout lines so they can be shared by grid and fixed layouts
+
 // TODO: make gridder and fixer classes derive from same parent
 
 // TODO: animate callout lines as they scroll into view?
 
 // TODO: callout lines for callouts without .block (ie, .diamond or unnumbered steps)
-
-// TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
 // TODO: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?
 
@@ -128,4 +132,4 @@
 // DONE: callout line target selection dialog
 // DONE: select a content cell selects / highlights the layout cell
 // DONE: changing content id needs to also change layout id [ok, but you need to reload the spread for the new id's to be reflected everywhere]
-
+// DONE: callouts per image

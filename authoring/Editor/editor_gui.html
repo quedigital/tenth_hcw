@@ -229,6 +229,22 @@
 											</div>
 										</div>
 									</div>
+									<div id="image_details" class="section group">
+										<div data-bind="if: type()=='image'">
+											<div class="callout-header">
+												<h4>Image Callouts</h4>
+												<button class="fa fa-plus" data-bind="click: function () { $root.addImageCallout($data, $parent) }"></button>
+											</div>
+											<table class="callouts" data-bind="foreach: callouts">
+												<tbody>
+													<tr>
+														<td><input data-bind="value: text" type="string"></input></td>
+														<td><button class="fa fa-times" data-bind="click: function () { $root.deleteImageCallout($data) }"></button></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -375,6 +391,33 @@
 								</tr>
 							</tbody>							
 						</table>
+					</div>
+					<div data-bind="foreach: hints">
+						<div class="hideable" data-bind="attr: { 'data-id': id }">
+							<div data-bind="foreach: callouts">
+								<h4>Callout Properties</h4>
+								<table class="callout-properties">
+									<tbody>
+										<tr>
+											<td>key</td>
+											<td><span data-bind="text: $data.firebase.name()"></span></td>
+										</tr>
+										<tr>
+											<td>my</td>
+											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: my"></select></input></td>
+										</tr>
+										<tr>
+											<td>at</td>
+											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: at"></select></input></td>
+										</tr>
+										<tr>
+											<td><div class="split-left">target</div><button class="split-right" data-bind="click: function () { $root.setImageCalloutTargetPosition($parent, $data) }">Set</button></td>
+											<td><input data-bind="value: target" type="string"></input></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
