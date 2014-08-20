@@ -1,11 +1,9 @@
-define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
+define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 	var MARGIN = 10;
-	
-	var currentLayout;
 	
 	ko.bindingHandlers.fixedThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			currentLayout = new FixedLayout(element);
+			$(element).data("fixer", new Fixer(element));
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -15,8 +13,14 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	
 	ko.bindingHandlers.boundsThing = {
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			if (currentLayout)
-				currentLayout.addNewBoundsElement(element, valueAccessor, bindingContext);
+			var fixer = $(element).parents(".fixer").data("fixer");
+			if (fixer) {
+				fixer.addNewBoundsElement(element, valueAccessor, bindingContext);
+			}
+				
+			ko.utils.domNodeDisposal.addDisposeCallback(element, function () {
+				fixer.removeBounds($(element));
+			});				
 		},
 		
 		update: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
@@ -24,9 +28,9 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		}
 	}
 	
-	/* FixedLayout */
+	/* Fixer */
 	
-	var FixedLayout = function (elem) {
+	var Fixer = function (elem) {
 		this.elem = $(elem);
 
 		this.elem.data("layoutObject", this);
@@ -45,10 +49,10 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		$("#cell-property-table").hide();
 	}
 
-	FixedLayout.prototype = {};
-	FixedLayout.prototype.constructor = FixedLayout;
+	Fixer.prototype = {};
+	Fixer.prototype.constructor = Fixer;
 	
-	FixedLayout.prototype.onUpdate = function (event, data) {
+	Fixer.prototype.onUpdate = function (event, data) {
 		if (!this.backgroundSet && data.background()) {
 			this.img.attr("src", data.background());
 			
@@ -56,26 +60,49 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		}
 	}
 	
-	FixedLayout.prototype.onImageLoaded = function () {
+	Fixer.prototype.onImageLoaded = function () {
 		this.scaleBounds();
 	}
 	
-	FixedLayout.prototype.getScale = function () {
+	Fixer.prototype.getScale = function () {
 		var img = this.img;
 		
-		this.currentSize = { width: img.width(), height: img.height() };
-		this.originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
+		if (Helpers.isVectorImage(img)) {
+			var currentSize = { width: img.width(), height: img.height() };
+			return currentSize.width / 1000;
+		} else {
+			var currentSize = { width: img.width(), height: img.height() };
+			var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
 	
-		return this.currentSize.width / this.originalSize.width;
+			return currentSize.width / originalSize.width;
+		}
 	}
 	
-	FixedLayout.prototype.addNewBoundsElement = function (element, valueAccessor, bindingContext) {
+	Fixer.prototype.addNewBoundsElement = function (element, valueAccessor, bindingContext) {
 		var b = new BoundsElement(this, element, valueAccessor, bindingContext);
 		
 		this.bounds.push(b);
 	}
+
+	Fixer.prototype.findBoundsByElem = function (elem) {
+		var ar = $.map(this.bounds, function (obj, index) {
+			if (obj.elem[0] == elem[0]) return obj;
+			else return null;
+		});
+		
+		return ar;
+	}
 	
-	FixedLayout.prototype.scaleBounds = function () {
+	Fixer.prototype.removeBounds = function (element) {
+		var bounds = this.findBoundsByElem(element);
+		var index = this.bounds.indexOf(bounds[0]);
+		if (index != -1) {
+			this.bounds.splice(index, 1);
+//			this.reformat();
+		}
+	}
+	
+	Fixer.prototype.scaleBounds = function () {
 		this.scale = this.getScale();
 		
 		for (var i = 0; i < this.bounds.length; i++) {
@@ -84,13 +111,15 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 		}
 	}
 	
-	FixedLayout.prototype.onResize = function (event) {
+	Fixer.prototype.onResize = function (event) {
 		this.scale = this.getScale();
+		
+		console.log("scale = " + this.scale);
 		
 		this.scaleBounds();
 	}
 	
-	FixedLayout.prototype.setSelectedCell = function (id, trigger) {
+	Fixer.prototype.setSelectedCell = function (id, trigger) {
 		this.elem.find(".bounds.selected").removeClass("selected");
 		
 		var b = this.elem.find(".bounds[data-id=" + id + "]");
@@ -129,13 +158,19 @@ define(["imagesloaded.pkgd.min"], function (imagesLoaded) {
 	BoundsElement.prototype.constructor = BoundsElement;
 	
 	BoundsElement.prototype.onUpdate = function (event, data) {
-		var rect = data.bounds();
+		var rect;
+		
+		if (data.bounds && data.bounds()) {
+			rect = data.bounds();
+		} else {
+			rect = [10, 10, 100, 100];
+		}
 		
 		this.rect = { left: rect[0], top: rect[1], width: rect[2], height: rect[3] };
 		
 		this.scaleTo(this.scale);
 		
-		currentLayout.scaleBounds();
+		this.fixer.scaleBounds();
 	}
 	
 	BoundsElement.prototype.scaleTo = function (scale) {

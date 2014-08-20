@@ -34,15 +34,27 @@ define(["jqueryui",
 	FixedLayout.prototype.reflow = function () {
 	}
 	
+	FixedLayout.prototype.getImageScale = function (img) {
+		if (Helpers.isVectorImage(img)) {
+			var currentSize = { width: img.width(), height: img.height() };
+			return currentSize.width / 1000;
+		} else {
+			var currentSize = { width: img.width(), height: img.height() };
+			var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
+	
+			return currentSize.width / originalSize.width;
+		}
+	}
+	
 	FixedLayout.prototype.positionCells = function () {
 		var img = this.container.find(".background");
 		
 		this.container.height(img.height());
 		
-		this.currentSize = { width: img.width(), height: img.height() };
-		this.originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
+		var currentSize = { width: img.width(), height: img.height() };
+		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
 		
-		this.scale = this.currentSize.width / this.originalSize.width;
+		this.scale = this.getImageScale(img);
 
 		var hints = $.map(this.layout.hints, function (el) { return el });
 		

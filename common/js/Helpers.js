@@ -107,6 +107,11 @@ define([], function () {
 		return r;
 	}
 	
+	function isVectorImage (img) {
+		if (img.attr("src").indexOf(".svg") != -1) return true;
+		else return false;
+	}
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
@@ -115,6 +120,7 @@ define([], function () {
 		objectToArray: objectToArray,
 		getNextHighestKey: getNextHighestKey,
 		convertAlignToJQueryAlign: convertAlignToJQueryAlign,
+		isVectorImage: isVectorImage,
 	};
 	
 	return Helpers;

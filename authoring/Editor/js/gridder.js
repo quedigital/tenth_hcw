@@ -104,7 +104,7 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	Gridder.prototype.getNextOpenRow = function () {
-		var max_y = 0;
+		var max_y = -1;
 		for (var i = 0; i < this.cells.length; i++) {
 			if (this.cells[i].y > max_y) {
 				max_y = this.cells[i].y;

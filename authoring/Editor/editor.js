@@ -144,12 +144,17 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 				
 				$("#content .cell[data-id=" + id + "]").remove();
 
+				// KLUDGE: I added these again here to help with being able to delete fixed layout cells (otherwise they came back!)
+				$("table.properties tbody[data-id = " + id + "]").remove();
+				$(".hideable[data-id = " + id + "]").remove();
+
 				// delete content cell and layout hint from Firebase
 				me.content.removeCellFromFirebaseByFirebaseRef(firebaseRef);
 				me.layout.removeHintFromFirebaseByFirebaseRef(firebaseRef);
 				
 				// NOTE: remove the DOM so Knockout doesn't add it back
 				$("#layout .cell[data-id=" + id + "]").remove();
+				$("#layout .bounds[data-id=" + id + "]").remove();
 				
 				$("table.properties tbody[data-id = " + id + "]").remove();
 				$(".hideable[data-id = " + id + "]").remove();
