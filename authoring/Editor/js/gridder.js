@@ -497,6 +497,12 @@ define(["Helpers"], function (Helpers) {
 		
 		var inset = $("<div>").addClass("inset");
 		inset.attr("data-id", cell.data("id"));
+		
+		if (bindingContext.$data.callout_target_id())
+			inset.addClass("with-callout-line");
+			
+		if (bindingContext.$data.callouts().length)
+			inset.addClass("with-image-callouts");
 
 		/*
 		var ta = $("<textarea>").attr("data-bind", "autosize: styling");

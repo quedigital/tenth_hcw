@@ -249,7 +249,7 @@ input {
 				left: 0;
 				top: 0;
 				background-color: orange;
-				border: 1px solid white;
+				/*border: 1px solid white;*/
 				
 				.ui-resizable-handle {
 					width: 5px;
@@ -462,7 +462,15 @@ div#image_details {
 	}
 }
 
-.grid {
+.grid {	
+	.inset.with-callout-line {
+		border-top: 1px dashed black;
+	}
+	
+	.inset.with-image-callouts {
+		border-left: 1px dashed black;
+	}
+
 	.inset {
 		.id-label {
 			position: absolute;

@@ -277,10 +277,10 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 				var sidebar = w2ui["toc_sidebar"];
 				switch (style) {
 					case "fixed":
-						sidebar.get(id).icon = "fa fa-th-list";
+						sidebar.get(id).icon = "fa fa-desktop";
 						break;
 					case "grid":
-						sidebar.get(id).icon = "fa fa-table";
+						sidebar.get(id).icon = "fa fa-align-left";
 						break;
 				}
 			}
@@ -665,6 +665,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			var selector = new ImagePositionSelector(url, data.callout_target_pos);
 			
 			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
+			$("#dialog-target-selector").dialog({ height:'auto', width:'auto'});
 			$("#dialog-target-selector").dialog("open");
 		}
 		
@@ -673,7 +674,8 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			var selector = new ImagePositionSelector(url, data.target);
 			
 			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
-			$("#dialog-target-selector").dialog("option", "autoResize", true);
+			//$("#dialog-target-selector").dialog("option", "autoResize", true);
+			$("#dialog-target-selector").dialog({ height:'auto', width:'auto'});
 			$("#dialog-target-selector").dialog("open");
 		}
 
