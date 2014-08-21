@@ -204,7 +204,6 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		self.spreads.subscribe(Helpers.throttle(function () { self.rebuildSidebarMenu(); }, 500, self));
 		
 		self.rebuildSidebarMenu = function () {
-			console.log("And here");
 			self.loadSpreadArrayFromFirebase();
 			
 			self.doRebuild();						
@@ -511,6 +510,10 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			// remove the hint also
 			var firebase = new Firebase("https://howcomputerswork.firebaseio.com/layouts/" + spread_key + "/hints/" + cell_key + "/callouts/" + callout_key);
 			firebase.remove();
+		}
+		
+		self.onClickCell = function (data, event) {
+			self.controller.onSelectedContentCell(event);
 		}
 				
 		self.viewContentForSpread(0);

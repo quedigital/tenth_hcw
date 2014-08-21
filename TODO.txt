@@ -1,7 +1,8 @@
 
 
-// TODO: selecting layout cells is no longer scrolling to selected cell
-// TODO: make selecting content cell itself count as selecting that cell
+// TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
+
+// TODO: syncing content and layout cells is still not completely robust
 
 // TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
@@ -20,8 +21,6 @@
 
 // TODO: use "Group ID" or something (instead of "non-blocking")
 // TODO: min-size for grid cells? (so the callouts in images don't get too small)
-
-// TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
 
 // TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
 // TODO: make a "fixed layout" widget that can be on a spread with other elements?
@@ -135,3 +134,5 @@
 // DONE: set callout line targets by clicking
 // DONE: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?
 // DONE: throttle the menu loading (since it's so repetitive)
+// DONE: selecting layout cells is no longer scrolling to selected cell
+// DONE: make selecting content cell itself count as selecting that cell

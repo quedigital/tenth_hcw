@@ -146,7 +146,7 @@
 			
 					<div id="cells">
 						<div id="bound-cells" data-bind="sortable: cells">
-							<div class="cell spaced" data-bind="firebaseRef: number">
+							<div class="cell spaced" data-bind="firebaseRef: number, attr: { 'data-id': id }, click: $root.onClickCell">
 								<div class="cell-left">
 									<div class="squaredOne">
 										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }, event: { change: $root.onSelectCell }"/>
