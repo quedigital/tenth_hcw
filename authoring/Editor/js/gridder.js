@@ -521,6 +521,12 @@ define(["Helpers"], function (Helpers) {
 		this.x = isNaN(this.x) ? undefined : this.x;
 		this.y = isNaN(this.y) ? undefined : this.y;
 
+		// defaults:
+		
+		if (!bindingContext.$data.width || !bindingContext.$data.width()) {
+			bindingContext.$data.width(1);
+		}
+		
 		this.width = bindingContext.$data.width();
 		
 		var type = bindingContext.$root.getCellType(id);
@@ -555,7 +561,7 @@ define(["Helpers"], function (Helpers) {
 							stop: $.proxy(this.grid.onCellMoved, this.grid)
 						} );
 		
-		cell.click($.proxy(this.onClickCell, this));
+		cell.bind("click.select", $.proxy(this.onClickCell, this));
 	}
 	
 	GridCell.prototype = {};

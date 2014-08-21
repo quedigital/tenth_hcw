@@ -658,10 +658,33 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			return self.layout()().id();
 		}
 		
+		function onInterceptClick (event, data) {
+			// find object under click
+			$(".clickCatcher").remove();
+			var el = document.elementFromPoint(event.clientX, event.clientY);
+			if (el.tagName == "IMG") {
+				data.callout_target_id("background")
+			} else if (el.className.indexOf("bounds") != -1 || el.className.indexOf("inset") != -1) {
+				data.callout_target_id($(el).data("id"));
+			}
+		}
+		
+		self.setCalloutTarget = function (data, event) {
+			$("<div>").addClass("clickCatcher").appendTo(".layoutUI").click(function (event) { onInterceptClick(event, data); });
+		}
+		
 		self.setCalloutTargetPosition = function (data, event) {
-			var url = self.getCellData(data.callout_target_id(), "image");
-//			var url = "https://s3.amazonaws.com/HCW10/Images/2_1/doping.svg";
-//			var coords = data.callout_target_pos();
+			if (!data.callout_target_id || !data.callout_target_id()) return;
+			
+			var id = data.callout_target_id();
+			
+			var url;
+			if (id == "background") {
+				url = self.layout()().background();
+			} else {
+				url = self.getCellData(data.callout_target_id(), "image");
+			}
+			
 			var selector = new ImagePositionSelector(url, data.callout_target_pos);
 			
 			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
@@ -674,8 +697,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			var selector = new ImagePositionSelector(url, data.target);
 			
 			$("#dialog-target-selector .control").replaceWith(selector.getContainer());
-			//$("#dialog-target-selector").dialog("option", "autoResize", true);
-			$("#dialog-target-selector").dialog({ height:'auto', width:'auto'});
+			$("#dialog-target-selector").dialog({ height: 'auto', width: 'auto' });
 			$("#dialog-target-selector").dialog("open");
 		}
 

@@ -66,7 +66,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		$("#layout").on("selectedCell", $.proxy(this.onSelectedLayoutCell, this));
 		$("#content").focusin($.proxy(this.onSelectedContentCell, this));
 		
-		$("#content").on("change_id", $.proxy(this.onChangedCellID, this));
+		$("#content").on("change_id", $.proxy(this.onChangedCellID, this));		
 	}
 
 	Editor.prototype.onChangedCellID = function (event, old_id, new_id) {

@@ -98,7 +98,6 @@ define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 		var index = this.bounds.indexOf(bounds[0]);
 		if (index != -1) {
 			this.bounds.splice(index, 1);
-//			this.reformat();
 		}
 	}
 	
@@ -113,8 +112,6 @@ define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 	
 	Fixer.prototype.onResize = function (event) {
 		this.scale = this.getScale();
-		
-		console.log("scale = " + this.scale);
 		
 		this.scaleBounds();
 	}
@@ -146,7 +143,7 @@ define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 		this.valueAccessor = valueAccessor;
 		
 		this.elem.on("update", $.proxy(this.onUpdate, this));
-		this.elem.click($.proxy(this.onClickBounds, this));
+		this.elem.bind("click.select", $.proxy(this.onClickBounds, this));
 		
 		this.elem.resizable({ stop: $.proxy(this.onResizeStop, this) });
 		this.elem.draggable({ stop: $.proxy(this.onDragStop, this) });

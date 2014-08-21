@@ -877,3 +877,21 @@ div#image_details table.callouts td input:focus {
 #dialog-message {
   display: none;
 }
+
+/* line 668, ../sass/_editor.scss */
+#dialog-target-selector .control img {
+  max-width: 640px;
+}
+
+/* line 674, ../sass/_editor.scss */
+.clickCatcher {
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+  opacity: .4;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}

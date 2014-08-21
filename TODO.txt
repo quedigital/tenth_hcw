@@ -1,7 +1,5 @@
 
 
-// TODO: fixed layout cells aren't staying put (!?)
-
 // TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
 // TODO: make gridder and fixer classes derive from same parent
@@ -132,3 +130,5 @@
 // DONE: size cell images (so they're not huge by default?)
 // DONE: callout line pop-up dialog needs to size to fit image
 // DONE: indicator for cells with callout lines
+// DONE: fixed layout cells aren't staying put (SVG's don't have "width" so scaling issue)
+// DONE: set callout line targets by clicking
