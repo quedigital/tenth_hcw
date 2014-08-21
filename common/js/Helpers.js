@@ -108,7 +108,7 @@ define([], function () {
 	}
 	
 	function isVectorImage (img) {
-		if (img.attr("src").indexOf(".svg") != -1) return true;
+		if (img.attr("src") && img.attr("src").indexOf(".svg") != -1) return true;
 		else return false;
 	}
 	

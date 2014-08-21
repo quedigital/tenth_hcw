@@ -25,7 +25,7 @@ require(["jquery", "LayoutManager"], function ($, LayoutManager) {
 	var layout = new LayoutManager("#container");
 	
 	function onData (data, status, jqXHR) {
-		layout.process(data.layouts, data.contents);
+		layout.setData(data.layouts, data.contents);
 	}
 	
 	$(window).on("reflow", function () {

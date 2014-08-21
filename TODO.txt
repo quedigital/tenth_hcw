@@ -8,8 +8,6 @@
 
 // TODO: callout lines for callouts without .block (ie, .diamond or unnumbered steps)
 
-// TODO: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?
-
 // TODO: refactor spread.js
 
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
@@ -132,3 +130,4 @@
 // DONE: indicator for cells with callout lines
 // DONE: fixed layout cells aren't staying put (SVG's don't have "width" so scaling issue)
 // DONE: set callout line targets by clicking
+// DONE: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?

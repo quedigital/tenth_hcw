@@ -53,7 +53,7 @@ define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 	Fixer.prototype.constructor = Fixer;
 	
 	Fixer.prototype.onUpdate = function (event, data) {
-		if (!this.backgroundSet && data.background()) {
+		if (!this.backgroundSet && data.background && data.background()) {
 			this.img.attr("src", data.background());
 			
 			this.backgroundSet = true;
@@ -67,7 +67,7 @@ define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
 	Fixer.prototype.getScale = function () {
 		var img = this.img;
 		
-		if (Helpers.isVectorImage(img)) {
+		if (img && Helpers.isVectorImage(img)) {
 			var currentSize = { width: img.width(), height: img.height() };
 			return currentSize.width / 1000;
 		} else {
