@@ -514,6 +514,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		
 		self.onClickCell = function (data, event) {
 			self.controller.onSelectedContentCell(event);
+			return true;
 		}
 				
 		self.viewContentForSpread(0);
