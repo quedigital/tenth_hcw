@@ -111,7 +111,6 @@
 	<!-- this model lives below but is actually used for the west layout div -->
 	<div id="spreadModel">
 		<div data-bind="foreach: spreads">
-			<div data-bind="sidebarItem: id"></div>
 			<div data-bind="sidebarItem: chapter"></div>
 			<div data-bind="sidebarItem: number"></div>
 			<div data-bind="sidebarItem: title"></div>
@@ -128,15 +127,11 @@
 				<div data-bind="with: content">
 					<section class="spread-header">
 						<header>
-							<div>ID</div>
 							<div>Chapter</div>
 							<div>Number</div>
 							<div>Title</div>
 						</header>
 						<div class="row">
-							<div>
-								<input data-bind="value: id"></input>
-							</div>
 							<div>
 								<input data-bind="value: chapter"></input>
 							</div>
@@ -151,7 +146,7 @@
 			
 					<div id="cells">
 						<div id="bound-cells" data-bind="sortable: cells">
-							<div class="cell spaced" data-bind="firebaseRef: id, attr: { 'data-id': id }">
+							<div class="cell spaced" data-bind="firebaseRef: number">
 								<div class="cell-left">
 									<div class="squaredOne">
 										<input type="checkbox" value="None" class="cell-check" data-bind="attr: { id: 'cell-check' + $index() }, event: { change: $root.onSelectCell }"/>
@@ -370,7 +365,7 @@
 									<td><select data-bind="options: ['TL','T','TR','R','BR','B','BL','L'], value: anchor"></select></td>
 								</tr>
 							</tbody>
-							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType(id())==='callout'">
+							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType($data.firebase.name())==='callout'">
 								<tr>
 									<td>theme</td>
 									<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>

@@ -476,17 +476,11 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		return false;
 	}
 	
-	function onRemoveLinebreaks () {
+	function onCleanupText () {
 		if (activeElement) {
 			var el = $(activeElement);
 			if (el.hasClass("editable-text")) {
-				el.find("p").replaceWith(function () { return $(this).contents(); });
-				var html = el.html().trim();
-				console.log(html);
-				console.log(html.indexOf("\r"));
-				console.log(html.indexOf("\n"));
-				html = html.replace(/(\r\n|\n|\r)/gm, " ");
-				el.html(html);
+				el.html(el.text().trim());
 				el.trigger("blur");
 			}
 		}
@@ -526,7 +520,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 			name: 'top-toolbar',
 			items: [
 				{ type: 'button', id: 'signin', caption: 'Sign In', icon: 'fa fa-sign-in', hint: 'Log in via Google' },
-				{ type: 'button', id: 'linebreaks', caption: 'Remove Line Breaks', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
+				{ type: 'button', id: 'cleanup', caption: 'Cleanup PDF Text', icon: 'fa fa-chain-broken', hint: "Remove line breaks from the current field" },
 				{ type: 'button', id: 'glossary',  aption: 'Toggle Glossary Term', icon: 'fa fa-book', hint: 'Make the selected text a glossary term' },
 				{ type: 'break', id: 'break0' },
 
@@ -549,8 +543,8 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 						gapi.auth.signIn(additionalParams);
 						
 						break;
-					case "linebreaks":
-						onRemoveLinebreaks();
+					case "cleanup":
+						onCleanupText();
 						break;
 					case "glossary":
 						onGlossaryKey(null, selectedNode, selectedRange);

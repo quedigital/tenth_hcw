@@ -65,14 +65,12 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var firebaseRef = viewModel.firebase.name();
 			$(element).data("firebaseRef", firebaseRef);
+			$(element).data("id", firebaseRef);
 		}
 	};
 
 	ko.bindingHandlers.sidebarItem = {
-		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var text = bindingContext.$data.id() + " " + bindingContext.$data.title();
-			var index = bindingContext.$index();
-			
+		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {			
 			// this catches changes to spread id and title (but not additions or deletions)
 			valueAccessor().subscribe(function (changes) {
 				spreadList.rebuildSidebarMenuText();
@@ -119,7 +117,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 	
 	ko.bindingHandlers.uploadToS3 = {
 		init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-			var id = bindingContext.$root.getID();
+			var id = bindingContext.$root.getFirebaseKey();
 			
 			var input = $("<input type='file' class='file-chooser' />");
 			input.change(uploadFile);
@@ -203,12 +201,10 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		});
 		
 		// NOTE: this catches additions and deletions but not text changes
-		self.spreads.subscribe(function (changes) {
-			// TODO: throttle this
-			self.rebuildSidebarMenu();			
-		});
+		self.spreads.subscribe(Helpers.throttle(function () { self.rebuildSidebarMenu(); }, 500, self));
 		
 		self.rebuildSidebarMenu = function () {
+			console.log("And here");
 			self.loadSpreadArrayFromFirebase();
 			
 			self.doRebuild();						
@@ -291,7 +287,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			
 			for (var i = 0; i < self.spreads().length; i++) {
 				var s = self.spreads()[i]();
-				var spread = { id: s.id(), chapter: s.chapter(), number: s.number(), title: s.title(), index: s.firebase.name() };
+				var spread = { id: s.firebase.name(), chapter: s.chapter(), number: s.number(), title: s.title(), index: s.firebase.name() };
 				self.spreadArray.push(spread);
 			}
 			
@@ -302,24 +298,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		self.rebuildSidebarMenuText = function () {
 			self.loadSpreadArrayFromFirebase();
 			
-			self.doRebuild();
-			
-			/*
-			var sidebar = w2ui["toc_sidebar"];
-			
-			for (var i = 0; i < self.spreadArray.length; i++) {
-				var s = self.spreadArray[i];
-				var node = sidebar.get(s.id);
-				node.routeData = { index: s.index };
-				var text = s.id + " " + s.title;
-				sidebar.nodes[i].id = s.index;
-				sidebar.nodes[i].text = text;
-				sidebar.nodes[i].routeData = { index: s.index };
-				sidebar.nodes[i].icon = "fa fa-list-alt";
-			}
-			
-			sidebar.refresh();
-			*/
+			self.doRebuild();			
 		}
 		
 		self.removeAllMenuItems = function () {
@@ -333,8 +312,6 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 	}	
 
 	var spreadList = new SpreadListModel();
-	
-	window.spreadList = spreadList;
 	
 	ko.applyBindings(spreadList, $("#spreadModel")[0]);
 		
@@ -350,7 +327,6 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		var defaults = { id: "New", type: "step" };
 	
 		var schema = {
-						"id": true,
 						"chapter": true,
 						"number": true,
 						"title": true,
@@ -381,7 +357,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			var cells = this.content()().cells();
 			for (var i = 0; i < cells.length; i++) {
 				var cell = cells[i]();
-				if (cell.id() == id) {
+				if (cell.firebase.name() == id) {
 					return cell.type();
 				}
 			}
@@ -405,19 +381,23 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		}
 		
 		self.addNew = function (id, title, chapter, number) {
-			self.content().firebase.parent().child(id).set( { id: id, title: title, chapter: chapter, number: number, cells: [] });
+			self.content().firebase.parent().child(id).update( { title: title, chapter: chapter, number: number });
 		}
 		
 		self.removeByID = function (id) {
+			var ref = self.content().firebase.parent().child(id);
+			
 			// this worked to disable knockout, but we'd have to reapply bindings, I think
 //			var element = $("#contentModel")[0];
 //			ko.cleanNode(element);
 			// remove from Firebase
-			self.content().firebase.parent().child(id).remove();
+//			self.content().firebase.parent().child(id).remove();
 			
 			// NOTE: temporarily disable Knockout so the data isn't auto-repopulated (kludgy?)
-			var dummy = function () { return { chapter: "", number: "", title: "", id: "", cells: function () { return []; } } };
+			var dummy = function () { return { chapter: "", number: "", title: "", cells: function () { return []; } } };
 			self.content(dummy);
+			
+			ref.remove();
 		}
 		
 		self.addNewCell = function () {
@@ -505,8 +485,8 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			});
 		}
 		
-		self.getID = function () {
-			return self.content()().id();
+		self.getFirebaseKey = function () {
+			return self.content()().firebase.name();
 		}
 		
 		self.addImageCallout = function (data, p1) {
@@ -612,6 +592,10 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 			return keys;
 		}
 		
+		self.getFirebaseKey = function () {
+			return self.layout()().firebase.name();
+		}		
+		
 		self.setCellID = function (firebase_id, new_id) {
 			self.layout().firebase.child("hints/" + firebase_id).update({ id: new_id });
 		}
@@ -646,17 +630,18 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		}
 				
 		self.addNew = function (id, title) {
-			self.layout().firebase.parent().child(id).set( { id: id, style: "grid", hints: [] });
+			self.layout().firebase.parent().child(id).update( { style: "grid" });
 		}		
 
 		self.removeByID = function (id) {
 			self.layout().firebase.parent().child(id).child("hints").remove();
 			self.layout().firebase.parent().child(id).remove();
 		}
-		
+/*		
 		self.getID = function () {
 			return self.layout()().id();
 		}
+*/
 		
 		function onInterceptClick (event, data) {
 			// find object under click

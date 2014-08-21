@@ -1,5 +1,8 @@
 
 
+// TODO: selecting layout cells is no longer scrolling to selected cell
+// TODO: make selecting content cell itself count as selecting that cell
+
 // TODO: refactor callout lines so they can be shared by grid and fixed layouts
 
 // TODO: make gridder and fixer classes derive from same parent
@@ -131,3 +134,4 @@
 // DONE: fixed layout cells aren't staying put (SVG's don't have "width" so scaling issue)
 // DONE: set callout line targets by clicking
 // DONE: don't load all spreads at once (obviously!) – bottom TOC? horizontal swiping?
+// DONE: throttle the menu loading (since it's so repetitive)

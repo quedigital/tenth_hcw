@@ -12,7 +12,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 	LayoutManager.prototype.setData = function (layouts, contents) {
 		this.layouts = layouts;
 		
-		this.contents = Helpers.objectToArray(contents);
+		this.contents = Helpers.objectToArrayWithKey(contents);
 
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
@@ -30,7 +30,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 		this.clearSpreads();
 		
 		var content = Helpers.findByID(id, this.contents);
-		var layout = Helpers.findByID(id, this.layouts);
+		var layout = this.layouts[id];
 		
 		var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(this.dom);
 

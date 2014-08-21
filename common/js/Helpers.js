@@ -57,8 +57,8 @@ define([], function () {
 		}
 	}
 	
-	function objectToArray (obj) {
-		return $.map(obj, function (el) { return el });
+	function objectToArrayWithKey (obj) {
+		return $.map(obj, function (el, key) { return $.extend(el, { id: key }) });
 	}
 	
 	function getFirebaseKeys (firebase) {
@@ -112,15 +112,37 @@ define([], function () {
 		else return false;
 	}
 	
+	function throttle (fn, threshold, scope) {
+		threshold || (threshold = 250);
+		var last, deferTimer;
+		return function () {
+			var context = scope || this;
+			var now = +new Date,
+			args = arguments;
+			if (last && now < last + threshold) {
+				// hold on to it
+				clearTimeout(deferTimer);
+				deferTimer = setTimeout(function () {
+					last = now;
+					fn.apply(context, args);
+				}, threshold);
+			} else {
+				last = now;
+				fn.apply(context, args);
+			}
+		};
+	}	
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
 		findSpace: findSpace,
 		sortByChapterAndNumber: sortByChapterAndNumber,
-		objectToArray: objectToArray,
+		objectToArrayWithKey: objectToArrayWithKey,
 		getNextHighestKey: getNextHighestKey,
 		convertAlignToJQueryAlign: convertAlignToJQueryAlign,
 		isVectorImage: isVectorImage,
+		throttle: throttle,
 	};
 	
 	return Helpers;
