@@ -1,12 +1,15 @@
-define(["jqueryui",
+define(["Layout",
+		"jqueryui",
 		"imagesloaded.pkgd.min",
 		"Step",
 		"Callout",
 		"auto-size-text",
 		"Helpers",
 		"debug",
-		], function (jqueryui, imagesLoaded, Step, Callout, autoSizeText, Helpers, debug) {
+		], function (Layout, jqueryui, imagesLoaded, Step, Callout, autoSizeText, Helpers, debug) {
 	FixedLayout = function (container, layout, content) {
+		Layout.call(this);
+		
 		this.container = container;
 		this.layout = layout;
 		this.content = content;
@@ -28,7 +31,7 @@ define(["jqueryui",
 		imagesLoaded(container, $.proxy(this.positionCells, this));
 	}
 	
-	FixedLayout.prototype = Object.create(null);
+	FixedLayout.prototype = Object.create(Layout.prototype);
 	FixedLayout.prototype.constructor = FixedLayout;
 	
 	FixedLayout.prototype.reflow = function () {
@@ -75,6 +78,8 @@ define(["jqueryui",
 			switch (cell.type) {
 				case "step":
 					var step = new Step(options);
+					
+					step.elem.attr("data-id", cell.id);
 			
 					this.container.append(step.elem);
 					
@@ -100,6 +105,9 @@ define(["jqueryui",
 		}
 		
 		autoSizeText( { minSize: 12 } );
+		
+		this.removeAllCallouts();
+		this.addLineCallouts({ fromSelector: ".step" });
 	}
 
 	FixedLayout.prototype.drawRect = function (rect) {
