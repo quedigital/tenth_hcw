@@ -56,7 +56,11 @@ html, body, p, h1 {
 }
 
 .step {
-	padding-left: 2.75em;	
+	padding-left: 2.75em;
+	
+	&.no-number {
+		padding-left: 0;
+	}
 }
 
 .spread.fixed {
@@ -425,4 +429,9 @@ div.image-callout {
 			opacity: .5;
 		}
 	}
+}
+
+.testrect {
+	position: absolute;
+	border: 1px solid yellow;
 }

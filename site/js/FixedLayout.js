@@ -61,7 +61,9 @@ define(["jqueryui",
 		for (var i = 0; i < hints.length; i++) {
 			var hint = hints[i];
 			var cell = Helpers.findByID(hint.id, this.content.cells);
-			var rect = { left: hint.bounds[0] * this.scale, top: hint.bounds[1] * this.scale, width: hint.bounds[2] * this.scale, height: hint.bounds[3] * this.scale };
+			var rect = { left: Math.round(hint.bounds[0] * this.scale), top: Math.round(hint.bounds[1] * this.scale), width: Math.round(hint.bounds[2] * this.scale), height: Math.round(hint.bounds[3] * this.scale) };
+			
+//			this.drawRect(rect);
 			
 			var options = $.extend({ rect: rect }, cell, hint);
 			
@@ -75,9 +77,9 @@ define(["jqueryui",
 					var step = new Step(options);
 			
 					this.container.append(step.elem);
-
-					step.setPosition(rect.left, rect.top);
 					
+					step.initialize();
+
 					step.elem.hover($.proxy(step.onHover, step));
 					step.elem.on("touchend", $.proxy(step.onTouch, step));
 					
@@ -98,6 +100,13 @@ define(["jqueryui",
 		}
 		
 		autoSizeText( { minSize: 12 } );
+	}
+
+	FixedLayout.prototype.drawRect = function (rect) {
+		var r = $("<div>").addClass("testrect");
+		r.css({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
+		
+		this.container.append(r);
 	}
 	
 	return FixedLayout;

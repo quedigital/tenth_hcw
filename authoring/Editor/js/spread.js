@@ -65,7 +65,6 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 		init: function (element, valueAccessor, allBindings, viewModel, bindingContext) {
 			var firebaseRef = viewModel.firebase.name();
 			$(element).data("firebaseRef", firebaseRef);
-			$(element).data("id", firebaseRef);
 		}
 	};
 
