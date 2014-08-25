@@ -125,8 +125,6 @@ define(["Layout",
 
 			var rect = { left: Math.round(hint.bounds[0] * this.scale), top: Math.round(hint.bounds[1] * this.scale), width: Math.round(hint.bounds[2] * this.scale), height: Math.round(hint.bounds[3] * this.scale) };
 
-			debug.write("Hi mom");
-			
 			if (debug.isDebugMode()) {
 				this.drawRect(rect);
 			}
