@@ -1,7 +1,16 @@
 define([], function () {
-	function debug (text) {
+	var DEBUG_MODE = false;
+	
+	function write (text) {
 		console.log(text);
 	}
 	
-	return debug;
+	function isDebugMode () {
+		return DEBUG_MODE;
+	}
+	
+	return {
+		write: write,
+		isDebugMode: isDebugMode
+	}
 });

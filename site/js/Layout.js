@@ -1,6 +1,8 @@
 define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 	Layout = function () {
 		this.calloutLines = [];
+		
+		window.layout = this;
 	}
 	
 	Layout.prototype = Object.create(null);
@@ -32,7 +34,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 					targetDOM = this.getCellDOM(target_id);
 				}
 				
-				var sourceDOM = this.container.find(options.fromSelector + "[data-id=" + id + "]").find(".block, .diamond");
+				var sourceDOM = this.container.find(options.fromSelector + "[data-id=" + id + "]").find(".block, .diamond, .textblock");
 				
 				var line = new CalloutLine(this.container, sourceDOM, targetDOM, hint.callout_target_pos);
 				this.calloutLines.push(line);

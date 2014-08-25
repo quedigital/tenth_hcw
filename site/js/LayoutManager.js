@@ -16,7 +16,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
-		var tocContainer = $("<div>").addClass("toc-container").appendTo(this.dom);
+		var tocContainer = $("<div>").addClass("toc-container").appendTo($("body"));//this.dom);
 		
 		var toc = new TOC(this, tocContainer, this.contents);
 	}
@@ -92,7 +92,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 	}
 	
 	LayoutManager.prototype.reflow = function () {
-		console.log("reflow");
+		console.log("reflow " + this.layoutArray.length);
 		
 		$.each(this.layoutArray, function (index, element) {
 			this.reflow();

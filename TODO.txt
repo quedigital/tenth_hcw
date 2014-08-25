@@ -1,16 +1,14 @@
 
 
-// TODO: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
+// TODO: optimize Fixed Layout positioning algorithm (it's way too slow)
+
+// TODO: make fixed layout text areas scrollable (in case they can't fit on the screen)
+
+// TODO: slide show layout
 
 // TODO: syncing content and layout cells is still not completely robust
 
-// TODO: refactor callout lines so they can be shared by grid and fixed layouts
-
-// TODO: make gridder and fixer classes derive from same parent
-
 // TODO: animate callout lines as they scroll into view?
-
-// TODO: callout lines for callouts without .block (ie, .diamond or unnumbered steps)
 
 // TODO: refactor spread.js
 
@@ -136,3 +134,8 @@
 // DONE: throttle the menu loading (since it's so repetitive)
 // DONE: selecting layout cells is no longer scrolling to selected cell
 // DONE: make selecting content cell itself count as selecting that cell
+// DONE: refactor callout lines so they can be shared by grid and fixed layouts
+// DONE: for Fixed Layout steps, calculate the expanded/unexpanded positions and sizes on page load, not on click (or cache it at least)
+// DONE: make gridder and fixer classes derive from same parent
+// DONE: callout lines for callouts without .block (ie, .diamond or unnumbered steps) [falls back to .diamond, .textblock]
+// DONE: resize when window resizes

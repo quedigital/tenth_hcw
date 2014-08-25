@@ -28,13 +28,12 @@ require(["jquery", "LayoutManager"], function ($, LayoutManager) {
 		layout.setData(data.layouts, data.contents);
 	}
 	
+	// reflow is currently triggered only when a video is loaded & ready
 	$(window).on("reflow", function () {
 		layout.reflow();
 	});
 	
-	/*
 	$(window).resize(function () {
 		layout.reflow();
 	});
-	*/
 });

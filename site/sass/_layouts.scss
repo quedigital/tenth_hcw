@@ -16,8 +16,11 @@ html, body, p, h1 {
 
 .centered {
 	max-width: 1120px;
+	width: 100%;
 	margin: 0 auto;
 	background-color: white;
+	position: relative;
+	z-index: 1;
 }
 
 .layout {
@@ -48,6 +51,7 @@ html, body, p, h1 {
 		position: absolute;
 		overflow: visible;
 		z-index: 2;
+		pointer-events: none;
 	}
 	
 	.callout-line-target {
@@ -64,7 +68,7 @@ html, body, p, h1 {
 }
 
 .spread.fixed {
-	overflow-x: auto;
+	overflow-x: hidden;
 	overflow-y: hidden;
 	/* to account for scroll bar:*/
 	padding-bottom: 15px;
@@ -372,6 +376,7 @@ div.image-callout {
 	width: 200px;
 	height: 100%;
 	overflow-y: scroll;
+	z-index: 0;
 }
 
 .toc {
@@ -434,4 +439,5 @@ div.image-callout {
 .testrect {
 	position: absolute;
 	border: 1px solid yellow;
+	pointer-events: none;
 }
