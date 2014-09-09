@@ -120,7 +120,9 @@ define([], function () {
 		// draw the actual lines
 				
 		context.lineWidth = 2;
-		context.strokeStyle = "black";
+		
+		// use the color of the container for the line color
+		context.strokeStyle = container.css("color");
 		
 		moveTo(context, startX, startY);
 		

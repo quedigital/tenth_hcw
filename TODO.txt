@@ -2,7 +2,12 @@
 
 // TODO: spread count (by chapter?)
 
+// TODO: for Fixed Layouts, callout lines are only visible for the highlighted step?
+
 // TODO: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
+
+// TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
+// TODO: make a "fixed layout" widget that can be on a spread with other elements?
 
 // TODO: optimize Fixed Layout positioning algorithm (it's way too slow)
 
@@ -23,9 +28,6 @@
 
 // TODO: use "Group ID" or something (instead of "non-blocking")
 // TODO: min-size for grid cells? (so the callouts in images don't get too small)
-
-// TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
-// TODO: make a "fixed layout" widget that can be on a spread with other elements?
 
 // TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
 // TODO: come up with navigation option (ie, arrows) for Fixed Layout
@@ -143,3 +145,4 @@
 // DONE: make gridder and fixer classes derive from same parent
 // DONE: callout lines for callouts without .block (ie, .diamond or unnumbered steps) [falls back to .diamond, .textblock]
 // DONE: resize when window resizes
+// DONE: callout lines match text color
