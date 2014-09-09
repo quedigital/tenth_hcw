@@ -28,6 +28,10 @@ define(["Layout",
 //		this.container.height(h);
 		
 		$("<div>").addClass("highlight").appendTo(container);		
+
+		if (this.layout.textcolor) {
+			this.container.css("color", this.layout.textcolor);
+		}
 		
 		this.elements = [];
 		

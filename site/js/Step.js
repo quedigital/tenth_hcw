@@ -1,6 +1,6 @@
-define([], function () {
+define(["Helpers"], function (Helpers) {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
-	var SIDE_MARGIN = 15;
+	var SIDE_MARGIN = 15, INCREMENT = 5;
 	
 	// number, text, image, anchor
 	Step = function (options) {
@@ -17,6 +17,8 @@ define([], function () {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
+		} else {
+			this.elem.addClass("no-number");
 		}
 		
 		// TODO: use a div with a background-image to allow for easier scaling?
@@ -46,13 +48,10 @@ define([], function () {
 	Step.prototype = Object.create(null);
 	Step.prototype.constructor = Step;
 
-	Step.prototype.setPosition = function (x, y) {
-		this.x = x;
-		this.y = y;
+	Step.prototype.setupPositions = function () {
+		this.calculatePositions();
 		
-//		this.elem.css( { left: this.x, top: this.y } );
-		
-		this.position(false);		
+		this.gotoPosition("normal");
 	}
 	
 	function rectInRect (rect1, rect2) {
@@ -65,6 +64,10 @@ define([], function () {
 	
 	function opposite (anchor) {
 		switch (anchor) {
+			case "T":
+				return "B";
+			case "B":
+				return "T";
 			case "BR":
 				return "TL";
 			case "BL":
@@ -79,6 +82,10 @@ define([], function () {
 				return "L";
 		}
 	}
+	
+	Step.prototype.setRect = function (rect) {
+		this.rect = rect;
+	}
 		
 	function reflow (elem) {
 		// NOTE: this hack forces a reflow so we can get the text height properly
@@ -86,150 +93,207 @@ define([], function () {
 //		elem[0].offsetWidth;
 	}
 	
-	// TODO: optimize this for better fitting
-	Step.prototype.position = function (expand) {
-		var pos;
-
-		var anchor = "";
+	Step.prototype.calculatePositions = function () {
+		this.screenPositions = {};
 		
-		switch (this.anchor) {
-			case "BR":
-				anchor = "right bottom";
-				pos = { x: this.rect.left + this.rect.width, y: this.rect.top + this.rect.height };
-				break;
-			case "BL":
-				anchor = "left bottom";
-				pos = { x: this.rect.left, y: this.rect.top + this.rect.height };
-				break;
-			case "TL":
-				anchor = "left top";
-				pos = { x: this.rect.left, y: this.rect.top };
-				break;
-			case "L":
-				anchor = "left";
-				pos = { x: this.rect.left, y: this.rect.top };
-				break;
-			case "TR":
-				anchor = "right top";
-				pos = { x: this.rect.left + this.rect.width, y: this.rect.top };
-				break;
-			case "R":
-				anchor = "right";
-				pos = { x: this.rect.left + this.rect.width, y: this.rect.top };
-				break;
-		}
-
+		this.calculateNormalPosition();
+		this.calculateExpandedPosition();
+	}
+	
+	Step.prototype.calculateNormalPosition = function () {
+		var pos;
+		var anchor = Helpers.convertAlignToJQueryAlign(this.anchor);
+		
+		var pos = { x: this.rect.left, y: this.rect.top };
+		
 		var fs = DEFAULT_FONT_SIZE;
 		
 		var scrollLeft = this.elem.parent().scrollLeft();
-		
-		// TODO: why isn't step #2 positioned with right-bottom in the same place as it is when highlighted? (esp. in full height window)
-		if (!expand) {
-			var t = this.elem.find(".textblock");
-			t.css("font-size", "12px");
-			this.elem.height("auto");
-			t.height("auto");
-			this.elem.css("width", this.rect.width);
-			if (t.height() > this.rect.height) {
-				t.height(this.rect.height);
-			}
-			
-			if (t.height() < t[0].scrollHeight) {
-				this.elem.addClass("overflow");
-			} else {
-				this.elem.removeClass("overflow");
-			}
-			
-			var at = "left+" + Math.floor(pos.x - scrollLeft) + "px top+" + Math.floor(pos.y) + "px";
-			this.elem.position( { my: anchor, at: at, of: this.elem.parent(), collision: "none" } );			
-		} else {
-			var offscreen = this.elem.clone();
-			offscreen.css("opacity", "0");
-			this.elem.parent().append(offscreen);
+				
+		var offscreen = this.elem.clone();
+		offscreen.css("opacity", "0");
+		this.elem.parent().append(offscreen);
 
-			offscreen.height("auto");
-			offscreen.find(".textblock").height("auto");
-			
-			// find width of image (ie, not the spread, which is limited to the column width)
-			var container_w = this.elem.siblings(".background").width();
-			var container_h = this.elem.parent().height() - MARGIN;
-			
-			// expand the width and move opposite the anchor point until we fit
-			var JUMP = 5;
-			var atWidth = false, atHeight = false;
-			
-			var x = this.elem.position().left + scrollLeft;
-			var y = this.elem.position().top;
-			var w = parseInt(offscreen.css("width"));	
-			var h = offscreen.find(".textblock").height();
-			
-			moveHighlightTo(x, y, w, this.elem.height());
-			
-			var direction = opposite(this.anchor);
-			var goLeft = false, goUp = false;
-			if (direction.indexOf("L") != -1) goLeft = true;
-			if (direction.indexOf("T") != -1) goUp = true;
-			
+		var overflow = false;
+		
+		var t = offscreen.find(".textblock");
+		t.css("font-size", fs + "px");
+		offscreen.height("auto");
+		t.height("auto");
+		var width = this.rect.width;
+		var height = "auto";
+		offscreen.css("width", width);
+		if (t.height() > this.rect.height) {
+			height = this.rect.height;
+			t.height(height);
+		}
+		
+		var overflow = t.height() < t[0].scrollHeight;
+		
+		this.screenPositions.normal = {
+			left: Math.floor(pos.x - scrollLeft),
+			top: Math.floor(pos.y),
+			rect: this.rect,
+			anchor: anchor,
+			overflow: overflow,
+			height: height,
+			width: width,
+			fontSize: fs
+		};
+
+		offscreen.remove();		
+	}
+	
+	function canGoLeft (offscreen, settings) {
+		if (settings.allowedDirections.indexOf("L") == -1) return false;
+		
+		if (settings.x - INCREMENT <= SIDE_MARGIN) return false;
+		
+		return true;
+	}
+	
+	function goLeft (offscreen, settings) {
+		settings.x -= INCREMENT;
+		settings.width += INCREMENT;
+		
+		checkNewPosition(offscreen, settings);
+	}
+
+	function canGoUp (offscreen, settings) {
+		if (settings.allowedDirections.indexOf("T") == -1) return false;
+		
+		if (settings.y - INCREMENT <= MARGIN) return false;
+		
+		return true;
+	}
+	
+	function goUp (offscreen, settings) {
+		settings.y = (settings.rect.top + settings.rect.height) - settings.height;
+		
+		checkNewPosition(offscreen, settings);
+	}
+
+	function canGoRight (offscreen, settings) {
+		if (settings.allowedDirections.indexOf("R") == -1) return false;
+		
+		if (settings.x + settings.width + INCREMENT >= settings.container_width - SIDE_MARGIN) return false;
+		
+		return true;
+	}
+	
+	function goRight (offscreen, settings) {
+		settings.width += INCREMENT;
+		
+		checkNewPosition(offscreen, settings);
+	}
+
+	function canGoDown (offscreen, settings) {
+		if (settings.allowedDirections.indexOf("B") == -1) return false;
+		
+		if (settings.y + settings.height + INCREMENT >= settings.container_height - MARGIN) return false;
+		
+		return true;
+	}	
+	
+	function goDown (offscreen, settings) {
+		settings.height += INCREMENT;
+		
+		checkNewPosition(offscreen, settings);
+	}
+	
+	function checkNewPosition (offscreen, settings) {
+		offscreen.css("left", settings.x).css("top", settings.y);
+		offscreen.css("width", settings.width);
+		
+		reflow(offscreen);
+		
+		settings.height = offscreen.find(".textblock").height();
+	
+		if (settings.x >= 0 && settings.x + settings.width <= settings.container_width
+			&& settings.y >= 0 && settings.y + settings.height <= settings.container_height
+			&& settings.height <= settings.rect.height) {
+				settings.fits = true;
+		}
+	}
+	
+	Step.prototype.calculateExpandedPosition = function () {
+		var offscreen = this.elem.clone();
+		offscreen.css("opacity", "0");
+		this.elem.parent().append(offscreen);
+
+		var scrollLeft = this.elem.parent().scrollLeft();
+
+		offscreen.height("auto");
+		var t = offscreen.find(".textblock");
+		t.css("font-size", DEFAULT_FONT_SIZE + "px");
+		offscreen.height("auto");
+		t.height("auto");
+		var width = this.rect.width;
+		offscreen.css("width", width);
+		
+		var settings = {
+							allowedDirections: opposite(this.anchor),
+							rect: this.rect,
+							x: this.rect.left + scrollLeft,
+							y: this.rect.top,
+							width: parseInt(offscreen.css("width")),
+							height: offscreen.find(".textblock").height(),
+							container_width: this.elem.siblings(".background").width(),
+							container_height: this.elem.parent().height(),// - MARGIN,
+							fontSize: DEFAULT_FONT_SIZE,
+							fits: false,
+						};
+						
+		checkNewPosition(offscreen, settings);
+		
+		if (!settings.fits) {
 			for (var tries = 0; tries < 100; tries++) {
-				atWidth = false, atHeight = false;
-				
-//				if (x >= 0 && y >= 0 && y + h <= container_h) break;
-			
-				if (goLeft) {
-					// if we're already hitting the edge, shrink us
-					if (x > SIDE_MARGIN + JUMP) x -= JUMP;
-					else {
-						x = SIDE_MARGIN;
-						atWidth = true;
-					}
-					w = this.rect.left + this.rect.width - x;
-				} else {
-					// expand to the right until we're not over the bottom
-					if (x + w + JUMP < container_w - SIDE_MARGIN) {
-						w += JUMP;							
-					} else {
-						w = container_w - x - SIDE_MARGIN;
-						atWidth = true;
-					}
+				if (!settings.fits && canGoLeft(offscreen, settings)) {
+					goLeft(offscreen, settings);
 				}
-				
-				if (goUp) {
-					y = this.rect.top + this.rect.height - h;
-					if (y < MARGIN)
-						atHeight = true;
+				if (!settings.fits && canGoUp(offscreen, settings)) {
+					goUp(offscreen, settings);
 				}
-			
-				// try reducing font
-				if (atWidth && atHeight) {
-					if (fs > 10) {
-						fs -= .5;
-						offscreen.find(".textblock").css("font-size", fs + "px");
-					}
+				if (!settings.fits && canGoRight(offscreen, settings)) {
+					goRight(offscreen, settings);
 				}
-				
-				offscreen.css("left", x).css("top", y);
-				offscreen.css("width", w);
-				
-				reflow(offscreen);
-				
-				h = offscreen.find(".textblock").height();
-			
-				if (x >= 0 && y >= MARGIN && y + h <= container_h) break;
+				if (!settings.fits && canGoDown(offscreen, settings)) {
+					goDown(offscreen, settings);
+				}				
 			}
-			
-			moveHighlightTo(this.elem);
-			
-			this.elem.css("left", x).css("top", y);
-			this.elem.css("width", w);
-			this.elem.find(".textblock").height("auto");
-			if (fs != DEFAULT_FONT_SIZE) {
-				this.elem.find(".textblock").css("font-size", fs + "px");
-			}
-			
-			animateHighlightTo(x, y, w, h);
-			
-			offscreen.remove();
-		}		
+		}
+		
+		this.screenPositions.expanded = {
+			left: settings.x,
+			top: settings.y,
+			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
+			overflow: false,
+			height: settings.height,
+			width: settings.width,
+			fontSize: settings.fontSize
+		};
+		
+		offscreen.remove();
+	}
+	
+	Step.prototype.gotoPosition = function (val) {
+		var opts = this.screenPositions[val];
+
+		var t = this.elem.find(".textblock");
+		t.css("font-size", opts.fontSize + "px");
+		this.elem.height("auto");
+		t.height(opts.height);
+		this.elem.css("width", opts.width);
+		
+		if (opts.overflow) {
+			this.elem.addClass("overflow");
+		} else {
+			this.elem.removeClass("overflow");
+		}
+		
+		this.elem.css({ left: opts.left, top: opts.top });
+		
+		animateHighlightTo(opts.left, opts.top, opts.width, opts.height);		
 	}
 	
 	function moveHighlightTo (x, y, w, h) {
@@ -238,7 +302,7 @@ define([], function () {
 		y -= 20;
 		h += 40;
 				
-		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
+		$(".highlighted").width(w).height(h);
 		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
@@ -250,7 +314,7 @@ define([], function () {
 		y -= 20;
 		h += 40;
 				
-		$(".highlighted").width(w).height(h);//.css( { left: x, top: y } );
+		$(".highlighted").width(w).height(h);
 		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
@@ -261,7 +325,8 @@ define([], function () {
 		
 		$(".highlight").addClass("highlighted");
 		
-		this.position(true);
+//		this.position(true);
+		this.gotoPosition("expanded");
 		
 		this.isExpanded = true;
 	}
@@ -273,7 +338,8 @@ define([], function () {
 		
 		this.elem.css("zIndex", "auto");
 		
-		this.position(false);
+//		this.position(false);
+		this.gotoPosition("normal");
 		
 		this.isExpanded = false;
 	}

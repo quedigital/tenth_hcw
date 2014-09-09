@@ -1,5 +1,9 @@
 
 
+// TODO: spread count (by chapter?)
+
+// TODO: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
+
 // TODO: optimize Fixed Layout positioning algorithm (it's way too slow)
 
 // TODO: make fixed layout text areas scrollable (in case they can't fit on the screen)

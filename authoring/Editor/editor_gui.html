@@ -294,6 +294,8 @@
 						<label for="inputID">Background Image</label>
 						<input data-bind="value: background" type="text"></input>
 						<div class="upload_div" data-bind="uploadToS3: background"></div>
+						<label for="inputID">Text Color</label>
+						<input data-bind="value: textcolor" type="text"></input>
 						<div class="fixer layoutUI" data-bind="fixedThing: hints">
 							<div data-bind="foreach: hints">
 								<div class="bounds" data-bind="boundsThing: bounds, attr: { 'data-id': id }">
