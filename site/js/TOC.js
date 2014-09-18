@@ -6,7 +6,7 @@ define([], function () {
 		
 		var me = this;
 		
-		var colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"];
+		var colors = ["#FF3E54", "#f75", "#f94", "#fc4", "#fe4", "#df4", "#7f4", "#0f4", "#0fb"];
 		var color = 0;
 		
 		var toc = $("<div>").addClass("toc").appendTo(container);
@@ -14,11 +14,16 @@ define([], function () {
 		var lastChapter = undefined;
 		
 		$.each(this.contents, function (index, content) {
-			var entry = $("<div>").addClass("entry").appendTo(toc);
-			
-			if (content.chapter != lastChapter && lastChapter != undefined) {
-				color = (color + 1) % colors.length;
+			if (content.chapter != lastChapter) {
+				if (lastChapter != undefined) {
+					color = (color + 1) % colors.length;
+				}
+				
+				$("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", colors[color]).appendTo(toc);
 			}
+			
+			var entry = $("<div>").addClass("entry spread").appendTo(toc);
+			
 			entry.css("backgroundColor", colors[color]);
 			
 			entry.data("id", content.id);
@@ -52,10 +57,20 @@ define([], function () {
 			id = $(event.target).parents(".entry").data("id");
 			
 		if (id) {
-			this.manager.showSpreadByID(id);
+			$("#content-holder").css("visibility", "hidden");
+			$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
+			
+			this.manager.showSpreadByID(id, onSpreadVisible);
 		}
 	}
-
+	
+	function onSpreadVisible () {
+		$("#content-holder").css("visibility", "visible");
+		$(".layout").addClass("animated zoomInDown").css("visibility", "visible");
+		
+		$("#loading-spinner").addClass("animated fadeOutRightBig");
+	}
+	
 	return TOC;
 });	
 	

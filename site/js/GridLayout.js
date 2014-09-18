@@ -1,8 +1,8 @@
 define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "CalloutLine", "CalloutLabel"], function (Layout, Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
-	GridLayout = function (container, layout, content) {
-		Layout.call(this);
+	GridLayout = function (container, layout, content, manager) {
+		Layout.call(this, manager);
 		
 		this.container = container;
 		
@@ -247,6 +247,8 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".cell" });
 		this.addImageCallouts();
+		
+		this.layoutComplete();
 	}
 	
 	GridLayout.prototype.addImageCallouts = function () {

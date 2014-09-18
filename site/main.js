@@ -7,22 +7,54 @@ requirejs.config({
 	},
 	
 	shim: {
+			"jquery": {
+				export: "$",
+			},
 			"jqueryui": {
 				export: "$" ,
+				deps: ['jquery']
+			},
+			"jquery.layout-latest": {
+				export: "$",
 				deps: ['jquery']
 			}
 		}
 });
 
-require(["jquery", "LayoutManager"], function ($, LayoutManager) {
+require(["LayoutManager", "jquery", "jqueryui", "jquery.layout-latest"], function (LayoutManager, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
 	} else {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
 	}
+
+	var pageLayout = $("body").layout({
+										applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
+										spacing_open: 0, spacing_closed: 0,
+										west__size: "220",
+										east__initHidden: true,
+										south__size: "82",
+									});
 	
-	var layout = new LayoutManager("#container");
+	pageLayout.panes.center.css( { border: "none", padding: 0 } );
+	pageLayout.panes.west.css( { border: "none", padding: 0 } );
+	pageLayout.panes.south.css( { border: "none", padding: 0, overflow: "hidden" } );
+	
+	var westLayout = $("#toc-container").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
+									spacing_open: 0, spacing_close: 0, north__size: "70" } );
+	westLayout.panes.north.css( { border: "none", padding: 0 } );
+	westLayout.panes.center.css( { border: "none", padding: 0 } );
+
+	var bottomLayout = $("#bottom-bar").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
+									spacing_open: 0, spacing_close: 0, west__size: "220" } );
+	bottomLayout.panes.west.css( { border: "none", padding: 0 } );
+	bottomLayout.panes.center.css( { border: "none", padding: 0 } );
+	
+	// recalculate layout after padding changes	
+//	pageLayout.resizeAll();
+	
+	var layout = new LayoutManager("#content-holder");
 	
 	function onData (data, status, jqXHR) {
 		layout.setData(data.layouts, data.contents);

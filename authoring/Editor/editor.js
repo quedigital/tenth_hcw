@@ -228,6 +228,20 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 		a.click();
 	}
 	
+	Editor.prototype.onPrePublish = function (data) {
+		var to_publish = { contents: {}, layouts: {} };
+		
+		for (var each in data.layouts) {
+			var layout = data.layouts[each];
+			if (layout.publish != false) {
+				to_publish.layouts[each] = layout;
+				to_publish.contents[each] = data.contents[each];
+			}
+		}
+		
+		this.onPublish(to_publish);
+	}
+	
 	Editor.prototype.onPublish = function (data) {
 		var json = $.toJSON(data);
 		
@@ -284,7 +298,7 @@ require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
 	}
 	
 	Editor.prototype.publishAll = function () {
-		this.content.getData($.proxy(this.onPublish, this));
+		this.content.getData($.proxy(this.onPrePublish, this));
 	}
 	
 	Editor.prototype.onExport = function (data) {

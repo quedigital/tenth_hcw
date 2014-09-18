@@ -5,14 +5,49 @@
 	<title>How Computers Work</title>
 
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>	
+	<link rel="stylesheet" type="text/css" href="css/animate.css"/>	
 	
 	<script data-main="main" src="js/require.js"></script>
 </head>
 <body>
 
-<div class="centered">
-	<div id="container">
+<div id="toc-container" class="ui-layout-west">
+	<div id="toc-header" class="ui-layout-north">
+		<div id="header">
+			<div class="half left">
+				<div class="tiny">chapter</div>
+				<div class="number">22</div>
+			</div>
+			<div class="half left">
+				<div class="tiny">page</div>
+				<div class="number">1</div>
+			</div>
+		</div>
 	</div>
+	<div id="toc" class="ui-layout-center">
+	</div>
+</div>
+<div class="ui-layout-center">
+	<div id="content">
+		<div id="content-holder">
+		</div>
+	</div>
+</div>
+<div id="bottom-bar" class="ui-layout-south">
+	<div class="ui-layout-west">
+		<div id="search-icon">
+		</div>
+	</div>
+	<div class="ui-layout-center">
+		<div id="search-text">
+			Search
+		</div>
+	</div>
+</div>
+
+<div id="loading-spinner" class="spinner">
+	<div class="cube1"></div>
+	<div class="cube2"></div>
 </div>
 
 </body>

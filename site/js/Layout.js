@@ -1,5 +1,7 @@
 define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
-	Layout = function () {
+	Layout = function (manager) {
+		this.manager = manager;
+		
 		this.calloutLines = [];
 		
 		window.layout = this;
@@ -44,6 +46,12 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 
 	Layout.prototype.getCellDOM = function (id) {
 		return this.container.find(".cell[data-id=" + id + "]");
+	}
+	
+	Layout.prototype.layoutComplete = function () {
+		if (this.manager) {
+			this.manager.onLayoutComplete();
+		}
 	}
 
 	return Layout;

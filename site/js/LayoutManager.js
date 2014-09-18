@@ -4,6 +4,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 		this.dom = $(selector);
 		
 		this.layoutArray = [];
+		
+		this.showCallback = undefined;
 	}
 	
 	LayoutManager.prototype = Object.create({});
@@ -16,7 +18,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
-		var tocContainer = $("<div>").addClass("toc-container").appendTo($("body"));//this.dom);
+		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
 		
 		var toc = new TOC(this, tocContainer, this.contents);
 	}
@@ -26,7 +28,9 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 		this.layoutArray = [];
 	}
 	
-	LayoutManager.prototype.showSpreadByID = function (id) {
+	LayoutManager.prototype.showSpreadByID = function (id, callback) {
+		this.showCallback = callback;
+		
 		this.clearSpreads();
 		
 		var content = Helpers.findByID(id, this.contents);
@@ -44,12 +48,12 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 	
 		switch (layout.style) {
 			case "grid":
-				var grid = new GridLayout(layoutDOM, layout, content);
+				var grid = new GridLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(grid);
 				break;
 		
 			case "fixed":
-				var fixed = new FixedLayout(layoutDOM, layout, content);
+				var fixed = new FixedLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(fixed);
 				break;
 		}
@@ -63,7 +67,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 			if (!layout) {
 				console.log("not found: " + content.id);
 			}
-			if (layout && layout.publish) {
+			console.log(content.id + " publish = " + layout.publish);
+			if (layout && layout.publish == true) {
 				if (content) {
 					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
 			
@@ -97,6 +102,12 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 		$.each(this.layoutArray, function (index, element) {
 			this.reflow();
 		});
+	}
+	
+	LayoutManager.prototype.onLayoutComplete = function () {
+		if (this.showCallback) {
+			this.showCallback();
+		}
 	}
 
 	return LayoutManager;

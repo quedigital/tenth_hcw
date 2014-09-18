@@ -7,8 +7,8 @@ define(["Layout",
 		"Helpers",
 		"debug",
 		], function (Layout, jqueryui, imagesLoaded, Step, Callout, autoSizeText, Helpers, debug) {
-	FixedLayout = function (container, layout, content) {
-		Layout.call(this);
+	FixedLayout = function (container, layout, content, manager) {
+		Layout.call(this, manager);
 		
 		this.container = container;
 		this.layout = layout;
@@ -157,7 +157,9 @@ define(["Layout",
 		}
 		
 		this.removeAllCallouts();
-		this.addLineCallouts({ fromSelector: ".step" });		
+		this.addLineCallouts({ fromSelector: ".step" });
+		
+		this.layoutComplete();	
 	}
 
 	FixedLayout.prototype.clearRects = function () {
