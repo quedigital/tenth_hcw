@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, FixedLayout, Helpers, TOC) {
+define(["GridLayout", "FixedLayout", "Helpers", "TOC", "tinycolor"], function (GridLayout, FixedLayout, Helpers, TOC, tinycolor) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -38,8 +38,14 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC"], function (GridLayout, Fi
 		
 		var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(this.dom);
 
-		if (layout.background && layout.background == "#000000") {
-			spreadDOM.addClass("dark");
+		if (layout.background) {
+			var back = tinycolor(layout.background);
+			if (back.isValid()) {
+				var brightness = back.getBrightness();
+				if (brightness < 50) {
+					spreadDOM.addClass("dark");
+				}
+			}
 		}
 	
 		var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);

@@ -71,6 +71,7 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 		}
 	}
 	
+	// return the bottom position, including "non-blocking" cells
 	function getMaxYPosition (cell_heights, map, row, col, width) {
 		var max_y = 0;
 		for (var r = row; r >= 0; r--) {
@@ -85,17 +86,23 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 		return max_y;
 	}
 	
-	function getLastYPosition (cell_heights, map, row, col, width) {
-		for (var r = row; r >= 0; row--) {
-			for (var c = col; c < col + width; c++) {
-				var id = map[r * 10 + c];
-				if (id) {
-					return cell_heights[id].y + cell_heights[id].height;
+	// return bottom position of the given row, not counting "non-blocking" cells
+	function getLastRowPosition (cell_heights, map, row, col, width) {
+		var max_y = undefined;
+		
+		for (var c = 0; c < 10; c++) {
+			var id = map[row * 10 + c];
+			if (id) {
+				if (!cell_heights[id].nonblocking) {
+					var y = cell_heights[id].y + cell_heights[id].height;
+					if (!isNaN(y) && (max_y == undefined || y > max_y)) {
+						max_y = y;
+					}
 				}
 			}
 		}
 		
-		return 0;
+		return max_y == undefined ? 0 : max_y;
 	}
 	
 	function rowIsBelowNonBlockingCell (hints, map, row, col, width) {
@@ -168,7 +175,7 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 				if (rowIsBelowNonBlockingCell(hints, map, hint.row, hint.col, hint.width * 10)) {
 					y = getMaxYPosition(cell_heights, map, hint.row - 1, 0, 10);
 				} else {
-					y = getLastYPosition(cell_heights, map, hint.row - 1, hint.col, hint.width * 10);
+					y = getLastRowPosition(cell_heights, map, hint.row - 1, hint.col, hint.width * 10);
 				}
 				
 				var elem = this.container.find(".cell[data-id=" + id + "]");
@@ -275,7 +282,7 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 				
 				var h = elem.outerHeight();
 				
-				cell_heights[id] = { y: y, height: h };
+				cell_heights[id] = { y: y, height: h, nonblocking: hint.nonblocking };
 				
 				if (y + h > bottomY) bottomY = y + h;
 				
