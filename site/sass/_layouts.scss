@@ -44,8 +44,9 @@ html, body, p, h1 {
 	background-color: #dd9;
 }
 
-.spread {
+.layout .spread {
 	position: relative;
+	padding: 1em 0 2em 0;
 	
 	h1 {
 		padding: 0 .25em;

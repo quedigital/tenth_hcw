@@ -71,13 +71,62 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 		}
 	}
 	
-	function getTotalUpTo (heights, n) {
-		var total = 0;
-		for (var i = 0; i < n; i++) {
-			var h = isNaN(heights[i]) ? 0 : heights[i];
-			total += h;
+	function getMaxYPosition (cell_heights, map, row, col, width) {
+		var max_y = 0;
+		for (var r = row; r >= 0; r--) {
+			for (var c = col; c < col + width; c++) {
+				var id = map[r * 10 + c];
+				if (id) {
+					var y = cell_heights[id].y + cell_heights[id].height;
+					if (y > max_y) max_y = y;
+				}
+			}
 		}
-		return total;
+		return max_y;
+	}
+	
+	function getLastYPosition (cell_heights, map, row, col, width) {
+		for (var r = row; r >= 0; row--) {
+			for (var c = col; c < col + width; c++) {
+				var id = map[r * 10 + c];
+				if (id) {
+					return cell_heights[id].y + cell_heights[id].height;
+				}
+			}
+		}
+		
+		return 0;
+	}
+	
+	function rowIsBelowNonBlockingCell (hints, map, row, col, width) {
+		var last_id;
+		
+		for (var i = 0; i < 10; i++) {
+			var id = map[row * 10 + i];
+			if (id && id != last_id) {
+				var hint = Helpers.findByID(id, hints);
+				if (cellIsBelowNonBlockingCell(hints, map, hint.row, hint.col, hint.width * 10))
+					return true;
+				else
+					last_id = id;
+			}
+		}
+		
+		return false;
+	}
+	
+	function cellIsBelowNonBlockingCell (hints, map, row, col, width) {
+		for (var r = 0; r < row; r++) {
+			for (var c = col; c < col + width; c++) {
+				var id = map[r * 10 + c];
+				var hint = Helpers.findByID(id, hints);
+				if (hint && hint.nonblocking) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	GridLayout.prototype.positionCells = function () {
@@ -99,19 +148,8 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 			}
 		}
 
-		// next: put the reflowable cells in
-		for (var i = 0; i < hints.length; i++) {
-			var hint = hints[i];
-			var col = parseInt(hint.col);
-			var row = parseInt(hint.row);
-			if (isNaN(col) || isNaN(row)) {
-				var spot = Helpers.findSpace(map, hint.width * 10, 1);
-				Helpers.reserveSpace(map, spot.x, spot.y, hint.width * 10, 1, hint.id);
-			}
-		}
-		
-		var last_row = undefined;
-		var row_heights = [];
+		var cell_heights = {};
+		var bottomY = 0;
 		
 		var last_id = undefined;
 		
@@ -122,11 +160,17 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 				var cell_x = (i % 10) / 10 * width;
 				var row = Math.floor(i / 10);
 				
-				var y = getTotalUpTo(row_heights, row);
-				
 				var hint = Helpers.findByID(id, hints);
 				var cell = Helpers.findByID(id, this.content.cells);
-
+				
+				var y;
+				
+				if (rowIsBelowNonBlockingCell(hints, map, hint.row, hint.col, hint.width * 10)) {
+					y = getMaxYPosition(cell_heights, map, hint.row - 1, 0, 10);
+				} else {
+					y = getLastYPosition(cell_heights, map, hint.row - 1, hint.col, hint.width * 10);
+				}
+				
 				var elem = this.container.find(".cell[data-id=" + id + "]");
 				elem.css("position", "absolute");
 				
@@ -229,20 +273,17 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 						break;
 				}
 				
-				if (!hint.nonblocking) {
-					var h = elem.outerHeight();
-					if (h > row_heights[row] || row_heights[row] == undefined) {
-						row_heights[row] = h;
-					}
-				}
+				var h = elem.outerHeight();
+				
+				cell_heights[id] = { y: y, height: h };
+				
+				if (y + h > bottomY) bottomY = y + h;
 				
 				last_id = id;
-			}
+			}			
 		}
 		
-		var totalY = getTotalUpTo(row_heights, row_heights.length);
-
-		this.container.height(top_y + totalY);
+		this.container.height(top_y + bottomY);
 		
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".cell" });
