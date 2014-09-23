@@ -21,7 +21,7 @@ requirejs.config({
 		}
 });
 
-require(["LayoutManager", "jquery", "jqueryui", "jquery.layout-latest"], function (LayoutManager, $) {
+require(["inobounce.min", "LayoutManager", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);

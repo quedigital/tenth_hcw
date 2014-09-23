@@ -1,5 +1,19 @@
 
 
+// TODO: advance to next/prev spread by scrolling
+
+// TODO: show spread name in fixed header
+
+// TODO: interactive slide-over
+
+// TODO: fixed layouts need to fit the pane
+
+// TODO: fixed layout sidebars aren't appearing in the correct place / z-order
+
+// TODO: fixed layouts need next/prev buttons
+
+// TODO: fixed layouts need to switch to black text for hover state
+
 // TODO: spread count (by chapter?)
 
 // TODO: for Fixed Layouts, callout lines are only visible for the highlighted step?
@@ -37,7 +51,6 @@
 // TODO: collapsible columns
 // TODO: template the sections
 
-// UI DESIGN: leave pinch-zooming enabled?
 // UI DESIGN: come up with exterior framework / navigation / spread loading
 // UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
 //            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
@@ -146,3 +159,7 @@
 // DONE: callout lines for callouts without .block (ie, .diamond or unnumbered steps) [falls back to .diamond, .textblock]
 // DONE: resize when window resizes
 // DONE: callout lines match text color
+// DONE: added smooth scrolling for iPad (using css not iScroll because it didn't zoom-in-place well)
+// DONE: UI DESIGN: leave pinch-zooming enabled?
+// DONE: renamed "callout" boxes "sidebar"
+// DONE: used iNobounce to eliminate iOS page bouncing

@@ -62,6 +62,8 @@ define([], function () {
 			if (dy < 10)
 				dir = "horizontal";
 		} else {
+			var diffBottom = viewTarget.top - viewSource.top - elemSource.parent().outerHeight();
+			
 			if (dy < 10) {
 				dir = "horizontal";
 				if (viewTarget.left > viewSource.left)
@@ -72,19 +74,27 @@ define([], function () {
 			} else if (dx < 10) {
 				dir = "vertical";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5);
-			// go below text and then over: TODO: this shouldn't be hard-coded to parent
-			} else if (viewTarget.top - viewSource.top > elemSource.parent().outerHeight()) {
+			// go above and right if we're wider than the parent
+			} else if (dx > elemSource.parent().width()) {
+				// NOTE: could also draw from middle of block up and then over
+				dir = "TR";
+				if (viewTarget.left > viewSource.left) {
+					if (from.hasClass("diamond")) {
+						startX = viewSource.left + Math.floor(elemSource.width() * .5);
+						startY = viewSource.top - 4;
+					} else {
+						startX = viewSource.left + Math.floor(elemSource.width());
+						startY = viewSource.top + 1;
+					}
+				} else {
+					startX = viewSource.left;
+					startY = viewSource.top + 1;
+				}
+			// go down and over (this is a problem if we overlap the next cell below)
+			} else {
 				dir = "BL";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5);
 				startY = viewSource.top + Math.floor(elemSource.height());
-			} else {
-				// NOTE: could also draw from middle of block up and then over
-				dir = "TR";
-				if (viewTarget.left > viewSource.left)
-					startX = viewSource.left + Math.floor(elemSource.width());
-				else
-					startX = viewSource.left;
-				startY = viewSource.top + 1;
 			}
 		}
 		

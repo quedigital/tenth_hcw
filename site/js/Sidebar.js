@@ -1,8 +1,8 @@
 define([], function () {
 
 	// title, text, image
-	Callout = function (options) {
-		this.elem = $("<div>").addClass("callout");
+	Sidebar = function (options) {
+		this.elem = $("<div>").addClass("sidebar");
 		
 		if (options.theme) {
 			this.elem.addClass(options.theme);
@@ -37,10 +37,10 @@ define([], function () {
 		this.setShrinkable(options.shrinkable || false);		
 	}
 	
-	Callout.prototype = Object.create(null);
-	Callout.prototype.constructor = Callout;
+	Sidebar.prototype = Object.create(null);
+	Sidebar.prototype.constructor = Sidebar;
 	
-	Callout.prototype.setShrinkable = function (val) {
+	Sidebar.prototype.setShrinkable = function (val) {
 		this.shrinkable = val;
 		
 		if (this.shrinkable) {
@@ -50,21 +50,21 @@ define([], function () {
 		}
 	}
 	
-	Callout.prototype.maximize = function () {
+	Sidebar.prototype.maximize = function () {
 		this.elem.find(".interior").css("display", "block");
 		this.updatePosition();
 	}
 	
-	Callout.prototype.minimize = function () {
+	Sidebar.prototype.minimize = function () {
 		this.elem.find(".interior").css("display", "none");
 		this.updatePosition();
 	}
 	
-	Callout.prototype.getHeight = function () {
+	Sidebar.prototype.getHeight = function () {
 		return this.elem.outerHeight();
 	}
 
-	Callout.prototype.setPosition = function (anchor, rect) {
+	Sidebar.prototype.setPosition = function (anchor, rect) {
 		this.anchor = anchor;
 		this.rect = $.extend({}, rect);
 		
@@ -73,7 +73,7 @@ define([], function () {
 		this.updatePosition();
 	}
 	
-	Callout.prototype.updatePosition = function () {
+	Sidebar.prototype.updatePosition = function () {
 		switch (this.anchor) {
 			case "BL":
 				var x = this.rect.left;
@@ -86,7 +86,7 @@ define([], function () {
 		this.elem.css({ left: x + "px", top: y + "px" });
 	}
 	
-	Callout.prototype.setSize = function (w, h) {
+	Sidebar.prototype.setSize = function (w, h) {
 		if (this.open) {
 			this.elem.css({ overflow: "visible", width: w + "px" });
 		} else {
@@ -94,5 +94,5 @@ define([], function () {
 		}
 	}
 
-	return Callout;
+	return Sidebar;
 });

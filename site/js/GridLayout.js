@@ -55,9 +55,9 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 						cellDOM.append(div);
 					}
 					break;
-				case "callout":
-					var callout = new Callout(cell);
-					cellDOM.append(callout.elem);
+				case "sidebar":
+					var sidebar = new Sidebar(cell);
+					cellDOM.append(sidebar.elem);
 					break;
 				case "interactive":
 					var interactive = new Interactive(cell);

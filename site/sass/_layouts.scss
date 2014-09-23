@@ -196,7 +196,7 @@ html, body, p, h1 {
 	}
 }
 
-div.callout {
+div.sidebar {
 	border: 2px solid black;
 	background-color: white;
 	color: black;
@@ -229,11 +229,12 @@ div.callout {
 			display: block;
 			margin: 0 auto;
 			padding: 10px;
+			max-width: 100%;
 		}
 	}
 }
 
-div.callout.factoid {
+div.sidebar.factoid {
 	.interior {
 	}
 }
@@ -461,6 +462,10 @@ div.image-callout {
 	}
 }
 
+#toc {
+	-webkit-overflow-scrolling: touch;
+}
+
 #toc-header {
 	#header {
 		background-color: #3a3a3a;
@@ -494,6 +499,13 @@ div.image-callout {
 	}
 }
 
+#main-content {
+	-webkit-overflow-scrolling: touch;
+}
+
+#content {
+}
+
 #content-holder {
 	background-color: #876CA2;
 	width: 100%;
@@ -501,6 +513,9 @@ div.image-callout {
 	box-shadow: 12px 0 24px -12px rgba(0, 0, 0, .7) inset;
 	padding: 15px;
 	visibility: hidden;
+	
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
 }
 
 #bottom-bar {

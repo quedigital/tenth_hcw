@@ -160,7 +160,7 @@
 												<label>Cell Type</label>
 											</div>
 											<div>
-												<select data-bind="options: ['step','image', 'callout', 'interactive', 'video'], value: type"></select>
+												<select data-bind="options: ['step','image', 'sidebar', 'interactive', 'video'], value: type"></select>
 											</div>
 										</div>
 										<div class="control" data-bind="visible: type() === 'step'">
@@ -193,7 +193,7 @@
 									<div class="step-text" data-bind="if: type() === 'step'">
 										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 									</div>
-									<div class="callout-text" data-bind="if: type() === 'callout'">
+									<div class="callout-text" data-bind="if: type() === 'sidebar'">
 										<label for="inputTitle">Title</label>
 										<input id="inputTitle" data-bind="value: title" type="text"/>
 										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
@@ -211,7 +211,7 @@
 										</div>
 									</div>
 									<div id="image_group" class="section group">
-										<div data-bind="if:type()=='step' || type()=='callout' || type()=='image'">
+										<div data-bind="if:type()=='step' || type()=='sidebar' || type()=='image'">
 											<div class="col span_2_of_4">
 												<label for="inputID">Image</label>
 												<input data-bind="value: image" type="text"></input>
@@ -367,7 +367,7 @@
 									<td><select data-bind="options: ['TL','T','TR','R','BR','B','BL','L'], value: anchor"></select></td>
 								</tr>
 							</tbody>
-							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType($data.firebase.name())==='callout'">
+							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType($data.firebase.name())==='sidebar'">
 								<tr>
 									<td>theme</td>
 									<td><select data-bind="options: ['factoid','tidbit','did-you-know'], value: theme"></select></td>

@@ -2,11 +2,11 @@ define(["Layout",
 		"jqueryui",
 		"imagesloaded.pkgd.min",
 		"Step",
-		"Callout",
+		"Sidebar",
 		"auto-size-text",
 		"Helpers",
 		"debug",
-		], function (Layout, jqueryui, imagesLoaded, Step, Callout, autoSizeText, Helpers, debug) {
+		], function (Layout, jqueryui, imagesLoaded, Step, Sidebar, autoSizeText, Helpers, debug) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, manager);
 		
@@ -91,16 +91,16 @@ define(["Layout",
 					this.elements.push(step);
 					
 					break;
-				case "callout":
+				case "sidebar":
 					options.shrinkable = true;
 					
-					var callout = new Callout(options);
+					var sidebar = new Sidebar(options);
 					
-					callout.elem.css("visibility", "hidden");
+					sidebar.elem.css("visibility", "hidden");
 												
-					this.container.append(callout.elem);
+					this.container.append(sidebar.elem);
 					
-					this.elements.push(callout);
+					this.elements.push(sidebar);
 					
 					break;
 			}
@@ -144,13 +144,13 @@ define(["Layout",
 					step.elem.css("visibility", "visible");
 
 					break;
-				case "callout":
-					var callout = this.elements[i];
+				case "sidebar":
+					var sidebar = this.elements[i];
 												
-					callout.setSize(rect.width, rect.height);					
-					callout.setPosition(hint.anchor, rect);
+					sidebar.setSize(rect.width, rect.height);					
+					sidebar.setPosition(hint.anchor, rect);
 
-					callout.elem.css("visibility", "visible");
+					sidebar.elem.css("visibility", "visible");
 					
 					break;
 			}
