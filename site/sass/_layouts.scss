@@ -46,7 +46,6 @@ html, body, p, h1 {
 
 .layout .spread {
 	position: relative;
-	padding: 1em 0 2em 0;
 	
 	h1 {
 		padding: 0 .25em;
@@ -75,8 +74,7 @@ html, body, p, h1 {
 .spread.fixed {
 	overflow-x: hidden;
 	overflow-y: hidden;
-	/* to account for scroll bar:*/
-	padding-bottom: 15px;
+	margin: 0 auto;
 	
 	h1 {
 		position: absolute;

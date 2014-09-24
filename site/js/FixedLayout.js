@@ -18,13 +18,24 @@ define(["Layout",
 //		var div = $("<div>").attr("background-url", layout.background).css({ width: 200, height: 200, backgroundSize: "cover" });
 //		$(container).append(div);
 		var img = $("<img>").addClass("background").attr("src", layout.background);
-		// size to fit window
-		var h = $(window).height();
-		var w = this.container.width();
-//		img.height(h);
-		img.width("100%");//w);
+		
+		// size to fit containing pane (not window)
+		var pane = $(this.container).parents(".ui-layout-pane");
+		var h = pane.height();
+		var w = pane.width();
+		
+		var ch = $("#content-holder");
+		var padding = ch.outerWidth() - ch.width();
+		
+		if (w / h > 4 / 3) {
+			img.height(h - padding);
+		} else {
+			img.width(w - padding);
+		}
+
+		this.container.height(h - padding);
+				
 		$(container).append(img);
-//		this.container.height(h);
 		
 		$("<div>").addClass("highlight").appendTo(container);		
 
@@ -112,9 +123,17 @@ define(["Layout",
 		this.clearRects();
 		
 		var img = this.container.find(".background");
+
+		this.container.width(img.width());
 		
-		this.container.height(img.height());
+		var ch = $("#content-holder");
+		var padding = ch.outerWidth() - ch.width();
 		
+		// center vertically
+		var marginTop = (this.container.height() - img.height()) * .5 - (padding * .5);
+		if (marginTop > 0)
+			this.container.css("margin-top", marginTop);
+
 		var currentSize = { width: img.width(), height: img.height() };
 		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
 		

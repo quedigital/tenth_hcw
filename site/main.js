@@ -25,7 +25,7 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, $) {
+require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, TOC, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -58,18 +58,23 @@ require(["inobounce.min", "LayoutManager", "jquery", "jqueryui", "jquery.layout-
 	// recalculate layout after padding changes	
 //	pageLayout.resizeAll();
 	
-	var layout = new LayoutManager("#content-holder");
+	var layoutManager = new LayoutManager("#content-holder");
 	
 	function onData (data, status, jqXHR) {
-		layout.setData(data.layouts, data.contents);
+		layoutManager.setData(data.layouts, data.contents);
+		
+		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
+		var toc = new TOC(layoutManager, tocContainer, data.contents);
+		
+		toc.openToRandomSpread();
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready
 	$(window).on("reflow", function () {
-		layout.reflow();
+		layoutManager.reflow();
 	});
 	
 	$(window).resize(function () {
-		layout.reflow();
+		layoutManager.reflow();
 	});
 });

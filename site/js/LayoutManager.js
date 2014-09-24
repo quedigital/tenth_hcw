@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "Helpers", "TOC", "tinycolor"], function (GridLayout, FixedLayout, Helpers, TOC, tinycolor) {
+define(["GridLayout", "FixedLayout", "Helpers", "tinycolor"], function (GridLayout, FixedLayout, Helpers, tinycolor) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -15,12 +15,6 @@ define(["GridLayout", "FixedLayout", "Helpers", "TOC", "tinycolor"], function (G
 		this.layouts = layouts;
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
-
-		this.contents.sort(Helpers.sortByChapterAndNumber);
-		
-		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
-		
-		var toc = new TOC(this, tocContainer, this.contents);
 	}
 	
 	LayoutManager.prototype.clearSpreads = function () {

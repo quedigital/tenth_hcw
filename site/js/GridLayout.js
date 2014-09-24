@@ -46,7 +46,7 @@ define(["Layout",
 	//       show other waypoints when scrolled
 	
 	var lastWaypointTime;
-	var calloutLineDelay = 2000;
+	var calloutLineDelay = 1500;
 	
 	GridLayout.prototype.showNextWaypoint = function () {
 		var now = +new Date;
@@ -56,9 +56,11 @@ define(["Layout",
 			if (wp) {
 				var cell = wp.step.elem.parents(".cell");
 				
-				cell.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
-		
-				console.log("show id " + cell.attr("data-id"));		
+				cell.find(".diamond, .block").removeClass("animated rubberBand").addClass("animated rubberBand");
+				
+				setTimeout(function () {
+					cell.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
+				}, 750);
 			}
 			lastWaypointTime = now;
 		} else {
@@ -349,7 +351,7 @@ define(["Layout",
 		this.layoutComplete();
 		
 		this.okToShowWaypoints = true;
-		lastWaypointTime = +new Date + calloutLineDelay;
+		lastWaypointTime = +new Date + calloutLineDelay * .5;
 	}
 	
 	GridLayout.prototype.addImageCallouts = function () {

@@ -1,14 +1,10 @@
 
 
-// TODO: open to random spread (for quality control review purposes)
-
 // TODO: advance to next/prev spread by scrolling
 
-// TODO: show spread name in fixed header
+// TODO: show spread name in a fixed header
 
 // TODO: interactive slide-over
-
-// TODO: fixed layouts need to fit the pane
 
 // TODO: fixed layout sidebars aren't appearing in the correct place / z-order
 
@@ -166,3 +162,6 @@
 // DONE: renamed "callout" boxes "sidebar"
 // DONE: used iNobounce to eliminate iOS page bouncing
 // DONE: animate callout lines as they scroll into view?
+// DONE: highlight step number before callout line animates out
+// DONE: open to random spread (for quality control review purposes)
+// DONE: fixed layouts need to fit the pane (and centered)
