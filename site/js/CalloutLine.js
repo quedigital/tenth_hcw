@@ -3,6 +3,8 @@ define([], function () {
 	// title, text, image
 	CalloutLine = function (container, from, to, coords, options) {
 		var canvas = $("<canvas>").attr({ width: 10, height: 10 });
+		this.elem = canvas;
+		canvas.addClass("callout-line");
 		
 		canvas.appendTo(container);
 		

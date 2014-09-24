@@ -1,5 +1,7 @@
 
 
+// TODO: open to random spread (for quality control review purposes)
+
 // TODO: advance to next/prev spread by scrolling
 
 // TODO: show spread name in fixed header
@@ -13,6 +15,8 @@
 // TODO: fixed layouts need next/prev buttons
 
 // TODO: fixed layouts need to switch to black text for hover state
+
+// TODO: layouts don't seem to be full-screen on iOS Safari
 
 // TODO: spread count (by chapter?)
 
@@ -30,8 +34,6 @@
 // TODO: slide show layout
 
 // TODO: syncing content and layout cells is still not completely robust
-
-// TODO: animate callout lines as they scroll into view?
 
 // TODO: refactor spread.js
 
@@ -163,3 +165,4 @@
 // DONE: UI DESIGN: leave pinch-zooming enabled?
 // DONE: renamed "callout" boxes "sidebar"
 // DONE: used iNobounce to eliminate iOS page bouncing
+// DONE: animate callout lines as they scroll into view?

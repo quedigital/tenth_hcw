@@ -8,9 +8,8 @@ define(["Layout",
 		"debug",
 		], function (Layout, jqueryui, imagesLoaded, Step, Sidebar, autoSizeText, Helpers, debug) {
 	FixedLayout = function (container, layout, content, manager) {
-		Layout.call(this, manager);
+		Layout.call(this, container, manager);
 		
-		this.container = container;
 		this.layout = layout;
 		this.content = content;
 

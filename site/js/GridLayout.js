@@ -1,10 +1,16 @@
-define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "Video", "CalloutLine", "CalloutLabel"], function (Layout, Helpers, imagesLoaded, debug) {
+define(["Layout",
+		"Helpers",
+		"imagesloaded.pkgd.min",
+		"debug",
+		"Interactive",
+		"Video",
+		"CalloutLine",
+		"CalloutLabel",
+		"waypoints"], function (Layout, Helpers, imagesLoaded, debug) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content, manager) {
-		Layout.call(this, manager);
-		
-		this.container = container;
+		Layout.call(this, container, manager);
 		
 		this.container.data("grid", this);
 		
@@ -21,6 +27,8 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 			this.container.css("color", this.layout.textcolor);
 		}
 		
+		this.okToShowWaypoints = false;
+		
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
@@ -33,8 +41,45 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 		this.positionCells();
 	}
 	
+	// plan: if the first waypoint is above 40%, show that after a short delay on page load (what if we're infinite-scrolling?)
+	//       if other waypoints are above 40%, show them after short delays
+	//       show other waypoints when scrolled
+	
+	var lastWaypointTime;
+	var calloutLineDelay = 2000;
+	
+	GridLayout.prototype.showNextWaypoint = function () {
+		var now = +new Date;
+		
+		if (this.okToShowWaypoints && (lastWaypointTime == undefined || now > lastWaypointTime + calloutLineDelay) ) {
+			var wp = this.queuedWaypoints.shift();
+			if (wp) {
+				var cell = wp.step.elem.parents(".cell");
+				
+				cell.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
+		
+				console.log("show id " + cell.attr("data-id"));		
+			}
+			lastWaypointTime = now;
+		} else {
+			var next = calloutLineDelay - (now - lastWaypointTime);
+			if (this.queuedWaypoints.length)
+				setTimeout($.proxy(this.showNextWaypoint, this), next);
+		}
+	}
+	
+	GridLayout.prototype.onScrolledToStep = function (step, direction) {
+		if (direction == "down") {
+			this.queuedWaypoints.push( { step: step, direction: direction } );
+			this.showNextWaypoint();
+		}
+	}
+	
 	GridLayout.prototype.buildCells = function () {
 		var cells = $.map(this.content.cells, function (el) { return el });
+		
+		this.queuedWaypoints = [];
+		$.waypoints("destroy");
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -42,11 +87,14 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 			this.container.append(cellDOM);
 			
 			cellDOM.attr("data-id", cell.id);
-			
+
 			switch (cell.type) {
 				case "step":
 					var step = new Step(cell);
 					cellDOM.append(step.elem);
+					
+					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#main-content" });
+					
 					break;
 				case "image":
 					if (cell.image) {
@@ -289,14 +337,19 @@ define(["Layout", "Helpers", "imagesloaded.pkgd.min", "debug", "Interactive", "V
 				last_id = id;
 			}			
 		}
-		
+				
 		this.container.height(top_y + bottomY);
 		
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".cell" });
 		this.addImageCallouts();
 		
+		$.waypoints("refresh");
+		
 		this.layoutComplete();
+		
+		this.okToShowWaypoints = true;
+		lastWaypointTime = +new Date + calloutLineDelay;
 	}
 	
 	GridLayout.prototype.addImageCallouts = function () {

@@ -4,6 +4,7 @@ requirejs.config({
 		"jquery": "jquery-1.11.0",
 		"jqueryui": "jquery-ui-1.10.4.custom.min",
 		"Helpers": "../../common/js/Helpers",
+		"waypoints": "waypoints.min"
 	},
 	
 	shim: {
@@ -17,6 +18,9 @@ requirejs.config({
 			"jquery.layout-latest": {
 				export: "$",
 				deps: ['jquery']
+			},
+			"waypoints": {
+				export: "$",
 			}
 		}
 });

@@ -247,7 +247,8 @@ div.cell {
 	margin: 15px 5px;
 	padding: 1em;
 	width: 49%;
-	overflow: hidden;
+	/* leave cell overflow visible so the callout lines can extend beyond the cell? */
+/*	overflow: hidden;*/
 
 	.top {
 		margin: 0 auto;
@@ -273,7 +274,7 @@ div.cell {
 	
 		&.image {
 		}
-	}	
+	}
 }
 
 .image {
@@ -371,6 +372,7 @@ div.image-callout {
 	padding: 0 1.5em;
 	
 	span {
+		display: block;
 		padding: 0 3px;
 	}
 }

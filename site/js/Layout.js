@@ -1,5 +1,6 @@
 define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
-	Layout = function (manager) {
+	Layout = function (container, manager) {
+		this.container = container;
 		this.manager = manager;
 		
 		this.calloutLines = [];
@@ -38,7 +39,12 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 				
 				var sourceDOM = this.container.find(options.fromSelector + "[data-id=" + id + "]").find(".block, .diamond, .textblock");
 				
-				var line = new CalloutLine(this.container, sourceDOM, targetDOM, hint.callout_target_pos);
+				var sourceCell = this.getCellDOM(id);
+				
+//				var line = new CalloutLine(this.container, sourceDOM, targetDOM, hint.callout_target_pos);
+				var line = new CalloutLine(sourceCell, sourceDOM, targetDOM, hint.callout_target_pos);
+				// lines will be displayed during scrolling
+				line.elem.css("visibility", "hidden");
 				this.calloutLines.push(line);
 			}
 		}	
