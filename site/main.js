@@ -43,17 +43,24 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 	
 	pageLayout.panes.center.css( { border: "none", padding: 0 } );
 	pageLayout.panes.west.css( { border: "none", padding: 0 } );
-	pageLayout.panes.south.css( { border: "none", padding: 0, overflow: "hidden" } );
 	
 	var westLayout = $("#toc-container").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, north__size: "70" } );
+									spacing_open: 0, spacing_close: 0, north__size: "70", south__size: "70" } );
 	westLayout.panes.north.css( { border: "none", padding: 0 } );
 	westLayout.panes.center.css( { border: "none", padding: 0 } );
+	westLayout.panes.south.css( { border: "none", padding: 0 } );
 
+	var centerLayout = $("#main-content").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
+									spacing_open: 0, spacing_close: 0, south__size: "70" } );
+	centerLayout.panes.center.css( { border: "none", padding: 0 } );
+	centerLayout.panes.south.css( { border: "none", padding: 0 } );
+
+/*
 	var bottomLayout = $("#bottom-bar").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
 									spacing_open: 0, spacing_close: 0, west__size: "220" } );
 	bottomLayout.panes.west.css( { border: "none", padding: 0 } );
 	bottomLayout.panes.center.css( { border: "none", padding: 0 } );
+*/
 	
 	// recalculate layout after padding changes	
 //	pageLayout.resizeAll();

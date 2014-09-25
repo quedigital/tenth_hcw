@@ -48,6 +48,8 @@ define(["Layout",
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
+		
+		this.currentStep = undefined;
 	}
 	
 	FixedLayout.prototype = Object.create(Layout.prototype);
@@ -189,6 +191,82 @@ define(["Layout",
 		r.css({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
 		
 		this.container.append(r);
+	}
+	
+	FixedLayout.prototype.layoutComplete = function () {
+		Layout.prototype.layoutComplete.call(this);
+		
+		var me = this;
+		
+		setTimeout(function () { me.expandFirstStep(); }, 1500);
+	}
+	
+	FixedLayout.prototype.expandFirstStep = function () {
+		this.currentStep = undefined;
+		
+		this.expandNextStep();
+	}
+	
+	FixedLayout.prototype.expandNextStep = function () {
+		var tryingFromStart = false;
+		
+		if (this.currentStep == undefined) {
+			tryingFromStart = true;
+			this.currentStep = -1;
+		}
+		
+		var found = false;
+		
+		for (var i = this.currentStep + 1; i < this.elements.length; i++) {
+			var el = this.elements[i];
+			if (el instanceof Step) {
+				el.expand();
+				this.currentStep = i;
+				found = true;
+				break;
+			}
+		}
+		
+		if (!found && !tryingFromStart) {
+			// start over
+			this.currentStep = undefined;
+			this.expandNextStep();
+		}
+	}
+
+	FixedLayout.prototype.expandPreviousStep = function () {
+		var tryingFromStart = false;
+		
+		if (this.currentStep == undefined) {
+			tryingFromStart = true;
+			this.currentStep = this.elements.length;
+		}
+		
+		var found = false;
+		
+		for (var i = this.currentStep - 1; i >= 0; i++) {
+			var el = this.elements[i];
+			if (el instanceof Step) {
+				el.expand();
+				this.currentStep = i;
+				found = true;
+				break;
+			}
+		}
+		
+		if (!found && !tryingFromStart) {
+			// start over
+			this.currentStep = undefined;
+			this.expandPreviousStep();
+		}
+	}
+	
+	FixedLayout.prototype.gotoNext = function () {
+		this.expandNextStep();
+	}
+
+	FixedLayout.prototype.gotoPrevious = function () {
+		this.expandPreviousStep();
 	}
 	
 	return FixedLayout;

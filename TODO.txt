@@ -1,5 +1,7 @@
 
 
+// TODO: search pane (hideable?) used for other spreads to jump to
+
 // TODO: advance to next/prev spread by scrolling
 
 // TODO: show spread name in a fixed header
@@ -7,8 +9,6 @@
 // TODO: interactive slide-over
 
 // TODO: fixed layout sidebars aren't appearing in the correct place / z-order
-
-// TODO: fixed layouts need next/prev buttons
 
 // TODO: fixed layouts need to switch to black text for hover state
 
@@ -165,3 +165,4 @@
 // DONE: highlight step number before callout line animates out
 // DONE: open to random spread (for quality control review purposes)
 // DONE: fixed layouts need to fit the pane (and centered)
+// DONE: fixed layouts need next/prev buttons

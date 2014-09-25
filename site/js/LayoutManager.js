@@ -4,8 +4,12 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor"], function (GridLayo
 		this.dom = $(selector);
 		
 		this.layoutArray = [];
+		this.currentLayout = undefined;
 		
 		this.showCallback = undefined;
+		
+		$("#fixed-layout-controls #previous-button").click($.proxy(this.onClickPrevious, this));
+		$("#fixed-layout-controls #next-button").click($.proxy(this.onClickNext, this));		
 	}
 	
 	LayoutManager.prototype = Object.create({});
@@ -50,11 +54,13 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor"], function (GridLayo
 			case "grid":
 				var grid = new GridLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(grid);
+				this.currentLayout = grid;
 				break;
 		
 			case "fixed":
 				var fixed = new FixedLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(fixed);
+				this.currentLayout = fixed;
 				break;
 		}
 	}
@@ -107,6 +113,27 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor"], function (GridLayo
 	LayoutManager.prototype.onLayoutComplete = function () {
 		if (this.showCallback) {
 			this.showCallback();
+		}
+	}
+	
+	LayoutManager.prototype.getCurrentLayout = function () {
+		return this.currentLayout;
+	}
+	
+	LayoutManager.prototype.onClickPrevious = function () {
+		var layout = this.getCurrentLayout();
+		
+		if (layout) {
+			layout.gotoPrevious();
+		}
+	}
+	
+	LayoutManager.prototype.onClickNext = function () {
+		// TODO: this needs to be the layout currently (or mostly) in the viewport
+		var layout = this.getCurrentLayout();
+		
+		if (layout) {
+			layout.gotoNext();
 		}
 	}
 

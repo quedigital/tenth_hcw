@@ -59,6 +59,12 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 			this.manager.onLayoutComplete();
 		}
 	}
+	
+	Layout.prototype.gotoPrevious = function () {
+	}
+
+	Layout.prototype.gotoNext = function () {
+	}
 
 	return Layout;
 });

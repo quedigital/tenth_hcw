@@ -56,7 +56,7 @@ define(["Layout",
 			if (wp) {
 				var cell = wp.step.elem.parents(".cell");
 				
-				cell.find(".diamond, .block").removeClass("animated rubberBand").addClass("animated rubberBand");
+				cell.find(".diamond, .block").removeClass("animated rubberBand bounce").addClass("animated rubberBand bounce");
 				
 				setTimeout(function () {
 					cell.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
@@ -95,7 +95,7 @@ define(["Layout",
 					var step = new Step(cell);
 					cellDOM.append(step.elem);
 					
-					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#main-content" });
+					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#main-center" });
 					
 					break;
 				case "image":
