@@ -1,8 +1,14 @@
 
 
-// TODO: search pane (hideable?) used for other spreads to jump to
+// TODO: during infinite scroll, delete past spreads
 
-// TODO: advance to next/prev spread by scrolling
+// TODO: keep track of current spread while scrolling (for waypoints) OR don't delete waypoints with each new spread
+
+// TODO: Fixed layout steps don't account for "headings" when sizing
+
+// TODO: fixed layout zooms in just enough for text to fit in its boundary?
+
+// TODO: search pane (hideable?) used for other spreads to jump to
 
 // TODO: show spread name in a fixed header
 
@@ -166,3 +172,4 @@
 // DONE: open to random spread (for quality control review purposes)
 // DONE: fixed layouts need to fit the pane (and centered)
 // DONE: fixed layouts need next/prev buttons
+// DONE: advance to next/prev spread by scrolling

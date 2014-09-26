@@ -201,6 +201,15 @@ define(["Layout",
 		setTimeout(function () { me.expandFirstStep(); }, 1500);
 	}
 	
+	FixedLayout.prototype.unexpandAllExcept = function  (el) {
+		for (var i = 0; i < this.elements.length; i++) {
+			var el2 = this.elements[i];
+			if (el2 instanceof Step && el2 != el) {
+				el2.unexpand();
+			}
+		}
+	}
+	
 	FixedLayout.prototype.expandFirstStep = function () {
 		this.currentStep = undefined;
 		
@@ -220,6 +229,7 @@ define(["Layout",
 		for (var i = this.currentStep + 1; i < this.elements.length; i++) {
 			var el = this.elements[i];
 			if (el instanceof Step) {
+				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
 				found = true;
@@ -247,6 +257,7 @@ define(["Layout",
 		for (var i = this.currentStep - 1; i >= 0; i++) {
 			var el = this.elements[i];
 			if (el instanceof Step) {
+				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
 				found = true;

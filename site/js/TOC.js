@@ -5,6 +5,8 @@ define(["Helpers"], function (Helpers) {
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
 		this.contents.sort(Helpers.sortByChapterAndNumber);
+		
+		this.currentID = undefined;
 
 		var me = this;
 		
@@ -50,6 +52,8 @@ define(["Helpers"], function (Helpers) {
 			
 			entry.click($.proxy(me.onClickEntry, me));
 		});
+		
+		$("#nav-controls #next-spread").click($.proxy(this.onClickLoadNextSpread, this));		
 	}
 	
 	TOC.prototype = Object.create(null);
@@ -61,19 +65,22 @@ define(["Helpers"], function (Helpers) {
 			id = $(event.target).parents(".entry").data("id");
 			
 		if (id) {
-			this.openSpread(id);			
+			$("#content").scrollTop(0);		
+			this.openSpread(id, true);			
 		}
 	}
 	
-	TOC.prototype.openSpread = function (id) {
-		$("#content-holder").css("visibility", "hidden");
+	TOC.prototype.openSpread = function (id, replace) {
+		this.currentID = id;
+		
+//		$("#content-holder").css("visibility", "hidden");
 		$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
 		
 		var c = Helpers.findByID(id, this.contents);
 		$("#header #chapter").text(c.chapter);
 		$("#header #page").text(c.number);
 		
-		this.layoutManager.showSpreadByID(id, onSpreadVisible);
+		this.layoutManager.showSpreadByID(id, replace, onSpreadVisible);
 	}
 	
 	TOC.prototype.openToRandomSpread = function () {
@@ -83,10 +90,27 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	function onSpreadVisible () {
-		$("#content-holder").css("visibility", "visible");
-		$(".layout").addClass("animated zoomInDown").css("visibility", "visible");
+//		$("#content-holder").css("visibility", "visible");
+//		$(".layout").addClass("animated zoomInDown").css("visibility", "visible");
 		
 		$("#loading-spinner").addClass("animated fadeOutRightBig");
+	}
+	
+	TOC.prototype.onClickLoadNextSpread = function () {
+		for (var i = 0; i < this.contents.length; i++) {
+			var c = this.contents[i];
+			if (c.id == this.currentID) {
+				var nextID;
+				if (i == this.contents.length - 1) {
+					nextID = this.contents[0].id;
+				} else {
+					nextID = this.contents[i + 1].id;
+				}
+				
+				this.openSpread(nextID, false);
+				break;
+			}
+		}
 	}
 	
 	return TOC;

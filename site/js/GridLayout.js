@@ -95,7 +95,7 @@ define(["Layout",
 					var step = new Step(cell);
 					cellDOM.append(step.elem);
 					
-					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#main-center" });
+					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#content" });
 					
 					break;
 				case "image":

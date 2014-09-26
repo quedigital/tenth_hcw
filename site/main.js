@@ -4,7 +4,8 @@ requirejs.config({
 		"jquery": "jquery-1.11.0",
 		"jqueryui": "jquery-ui-1.10.4.custom.min",
 		"Helpers": "../../common/js/Helpers",
-		"waypoints": "waypoints.min"
+		"waypoints": "waypoints.min",
+		"waypoints-sticky": "waypoints-sticky.min",
 	},
 	
 	shim: {
@@ -21,7 +22,12 @@ requirejs.config({
 			},
 			"waypoints": {
 				export: "$",
-			}
+				deps: ['jquery']
+			},
+			"waypoints-sticky": {
+				export: "$",
+				deps: ['jquery']
+			},
 		}
 });
 
@@ -74,6 +80,8 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 		var toc = new TOC(layoutManager, tocContainer, data.contents);
 		
 		toc.openToRandomSpread();
+		
+		layoutManager.dom.bind("next-spread", $.proxy(toc.onClickLoadNextSpread, toc));
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready
