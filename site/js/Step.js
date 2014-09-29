@@ -293,29 +293,19 @@ define(["Helpers"], function (Helpers) {
 		
 		this.elem.css({ left: opts.left, top: opts.top });
 		
-		animateHighlightTo(opts.left, opts.top, opts.width, opts.height);		
+		animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);		
 	}
 	
-	function moveHighlightTo (x, y, w, h) {
-		x -= 10;
-		w += 20;
-		y -= 20;
-		h += 40;
-				
-		$(".highlighted").width(w).height(h);
-		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
-	}
-	
-	function animateHighlightTo (x, y, w, h) {
-		$(".highlighted").addClass("animated");
+	function animateHighlightTo (elem, x, y, w, h) {
+		elem.addClass("animated");
 		
 		x -= 10;
 		w += 20;
 		y -= 20;
 		h += 40;
 				
-		$(".highlighted").width(w).height(h);
-		$(".highlighted").css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
+		elem.width(w).height(h);
+		elem.css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
 	Step.prototype.expand = function () {
@@ -323,7 +313,7 @@ define(["Helpers"], function (Helpers) {
 		
 		this.elem.addClass("animated selected");
 		
-		$(".highlight").addClass("highlighted");
+		this.elem.parent().find(".highlight").addClass("highlighted");
 		
 //		this.position(true);
 		this.gotoPosition("expanded");
@@ -332,9 +322,9 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	Step.prototype.unexpand = function () {
-		$(".step.selected").removeClass("selected");
+		this.elem.parent().find(".step.selected").removeClass("selected");
 		
-		$(".highlighted").removeClass("highlighted");// animated");
+		this.elem.parent().find(".highlighted").removeClass("highlighted");// animated");
 		
 		this.elem.css("zIndex", "auto");
 		

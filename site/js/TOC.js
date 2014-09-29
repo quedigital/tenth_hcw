@@ -6,8 +6,8 @@ define(["Helpers"], function (Helpers) {
 		this.contents = Helpers.objectToArrayWithKey(contents);
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
-		this.infiniteScrolling = false;
-
+		this.lastID = undefined;
+		
 		var me = this;
 		
 		var colors = ["#FF3E54", "#f75", "#f94", "#fc4", "#fe4", "#df4", "#7f4", "#0f4", "#0fb"];
@@ -30,7 +30,7 @@ define(["Helpers"], function (Helpers) {
 			
 			entry.css("backgroundColor", colors[color]);
 			
-			entry.data("id", content.id);
+			entry.data("id", content.id).attr("data-id", content.id);
 			
 //			var thumbnail = $("<div>").addClass("thumbnail").appendTo(entry);
 			
@@ -64,7 +64,6 @@ define(["Helpers"], function (Helpers) {
 			
 		if (id) {
 			$("#content").scrollTop(0);
-			this.infiniteScrolling = false;
 			this.openSpread( { id: id, replace: true } );
 		}
 	}
@@ -82,8 +81,31 @@ define(["Helpers"], function (Helpers) {
 		this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this));
 		
 		if (options.replace) {
-			$("#prev-ad").css({ display: "none" });
-			this.showPreviousSpreadName(options.id);
+			this.updatePreviousSpreadName(options.id);
+		}
+		
+//		this.showSpreadSelection(options.id);
+	}
+	
+	TOC.prototype.showSpreadSelection = function (id) {
+		var entry = $("#toc .entry[data-id='" + id + "']");
+		
+		$("#toc .entry").removeClass("selected");
+		
+		entry.addClass("selected");
+		
+		var toc = $(".toc-container");
+		var h = toc.height();
+		var y = entry.position().top;
+		var st = toc.scrollTop() + y - (h * .5) + (entry.height() * .5);
+		
+		toc.animate({ scrollTop: st }, 500);
+	}
+	
+	TOC.prototype.onCurrentSpread = function (event, id) {
+		if (id && id != this.lastID) {
+			this.showSpreadSelection(id);
+			this.lastID = id;
 		}
 	}
 	
@@ -106,21 +128,23 @@ define(["Helpers"], function (Helpers) {
 			layoutDIV.insertBefore($("#next-ad"));
 		}
 		layoutDIV.removeClass("loading");
-		
-		this.showNextSpreadName(options.id);
-		
-		$("#next-ad").css({ display: "block" });
-		
+				
 		if (options.previous) {
-			this.showPreviousSpreadName(options.id);
+			this.updatePreviousSpreadName(options.id);
+		} else {
+			this.updateNextSpreadName(options.id);
 		}
 		
-		if (this.infiniteScrolling) {
-			$("#prev-ad").css({ display: "block" });
+//		$("#next-ad").css({ display: "block" });
+//		$("#prev-ad").css({ display: "block" });
+		
+		if (options.replace) {
+			// scroll to top of this spread
+			$("#content").scrollTop($(".layout").offset().top - 15);			
 		}
 	}
 	
-	TOC.prototype.showNextSpreadName = function (id) {
+	TOC.prototype.updateNextSpreadName = function (id) {
 		var nextSpread = this.getNextSpread(id);
 		
 		if (nextSpread) {
@@ -129,7 +153,7 @@ define(["Helpers"], function (Helpers) {
 		}
 	}
 
-	TOC.prototype.showPreviousSpreadName = function (id) {
+	TOC.prototype.updatePreviousSpreadName = function (id) {
 		var prevSpread = this.getPreviousSpread(id);
 		
 		if (prevSpread) {
@@ -171,8 +195,6 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	TOC.prototype.onAutoLoadNextSpread = function (event, id) {
-		this.infiniteScrolling = true;
-		
 		this.openSpread( { id: id, replace: false } );
 	}
 
@@ -181,6 +203,4 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	return TOC;
-});	
-	
-	
+});

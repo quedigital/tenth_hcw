@@ -83,6 +83,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 		
 		layoutManager.dom.bind("next-spread", $.proxy(toc.onAutoLoadNextSpread, toc));
 		layoutManager.dom.bind("previous-spread", $.proxy(toc.onAutoLoadPreviousSpread, toc));
+		layoutManager.dom.bind("current-spread", $.proxy(toc.onCurrentSpread, toc));
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

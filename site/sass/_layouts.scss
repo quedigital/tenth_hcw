@@ -411,6 +411,11 @@ div.image-callout {
 		border-bottom: 1px solid rgba(0, 0, 0, .2);
 		cursor: pointer;
 		
+		&.selected {
+			background-color: brown !important;
+			color: white !important;
+		}
+		
 		&:hover:before {
 			content: "";
 			display: block;

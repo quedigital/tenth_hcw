@@ -3,6 +3,8 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		this.container = container;
 		this.manager = manager;
 		
+		this.container.data("layout", this);
+		
 		this.calloutLines = [];
 		
 		window.layout = this;

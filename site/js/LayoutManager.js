@@ -33,8 +33,6 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 	}
 	
 	LayoutManager.prototype.showSpreadByID = function (options, callback) {
-		this.currentID = options.id;
-		
 		this.showCallback = callback;
 		this.showCallbackOptions = options;
 		
@@ -66,13 +64,11 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 			case "grid":
 				var grid = new GridLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(grid);
-				this.currentLayout = grid;
 				break;
 		
 			case "fixed":
 				var fixed = new FixedLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(fixed);
-				this.currentLayout = fixed;
 				break;
 		}		
 	}
@@ -92,7 +88,10 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 	}
 	
 	LayoutManager.prototype.getCurrentLayout = function () {
-		return this.currentLayout;
+		var sel = ".layout[id='" + this.currentID + "'] .spread";
+		var elem = this.dom.find(sel);
+		var layoutObject = elem.data("layout");
+		return layoutObject;
 	}
 	
 	LayoutManager.prototype.onClickPreviousStep = function () {
@@ -104,7 +103,6 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 	}
 	
 	LayoutManager.prototype.onClickNextStep = function () {
-		// TODO: this needs to be the layout currently (or mostly) in the viewport
 		var layout = this.getCurrentLayout();
 		
 		if (layout) {
@@ -123,12 +121,31 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		if (amount_left <= 0 && $(".layout.loading").length == 0) {
 			var id = $("#next-ad").data("next-id");
 			this.dom.trigger("next-spread", id);
-		} else if (scrollTop <= 0) {
-			if ($("#prev-ad").css("display") == "block") {
-				var id = $("#prev-ad").data("prev-id");
-				this.dom.trigger("previous-spread", id);
-			}
+		} else if (scrollTop <= 0 && $(".layout.loading").length == 0) {
+			var id = $("#prev-ad").data("prev-id");
+			this.dom.trigger("previous-spread", id);
 		}
+		
+		this.identifyCurrentSpread();
+	}
+	
+	LayoutManager.prototype.identifyCurrentSpread = function () {
+		var t = $("#content").scrollTop();
+		
+		var h = this.dom.parent().height();
+		
+		var me = this;
+		
+		var headers = this.dom.find(".spread");
+		$.each(headers, function (index, item) {
+			var it = $(item);
+			if (it.offset().top + it.height() > h * .4) {
+				var layout = it.parents(".layout");
+				me.currentID = layout.attr("id");
+				me.dom.trigger("current-spread", layout.attr("id"));
+				return false;
+			}
+		});
 	}
 	
 	return LayoutManager;
