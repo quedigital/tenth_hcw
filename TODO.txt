@@ -1,6 +1,10 @@
 
 
-// TODO: during infinite scroll, delete past spreads
+// TODO: scroll and highlight TOC while scrolling through spreads
+
+// TODO: during infinite scroll, remove past spreads from memory
+
+// TODO: change URL location to reflect current spread?
 
 // TODO: keep track of current spread while scrolling (for waypoints) OR don't delete waypoints with each new spread
 

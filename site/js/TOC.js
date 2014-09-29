@@ -6,7 +6,7 @@ define(["Helpers"], function (Helpers) {
 		this.contents = Helpers.objectToArrayWithKey(contents);
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
-		this.currentID = undefined;
+		this.infiniteScrolling = false;
 
 		var me = this;
 		
@@ -52,8 +52,6 @@ define(["Helpers"], function (Helpers) {
 			
 			entry.click($.proxy(me.onClickEntry, me));
 		});
-		
-		$("#nav-controls #next-spread").click($.proxy(this.onClickLoadNextSpread, this));		
 	}
 	
 	TOC.prototype = Object.create(null);
@@ -65,52 +63,121 @@ define(["Helpers"], function (Helpers) {
 			id = $(event.target).parents(".entry").data("id");
 			
 		if (id) {
-			$("#content").scrollTop(0);		
-			this.openSpread(id, true);			
+			$("#content").scrollTop(0);
+			this.infiniteScrolling = false;
+			this.openSpread( { id: id, replace: true } );
 		}
 	}
 	
-	TOC.prototype.openSpread = function (id, replace) {
-		this.currentID = id;
-		
+	TOC.prototype.openSpread = function (options) {
+		options = $.extend(options, {});
+				
 //		$("#content-holder").css("visibility", "hidden");
 		$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
 		
-		var c = Helpers.findByID(id, this.contents);
+		var c = Helpers.findByID(options.id, this.contents);
 		$("#header #chapter").text(c.chapter);
 		$("#header #page").text(c.number);
 		
-		this.layoutManager.showSpreadByID(id, replace, onSpreadVisible);
+		this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this));
+		
+		if (options.replace) {
+			$("#prev-ad").css({ display: "none" });
+			this.showPreviousSpreadName(options.id);
+		}
 	}
 	
 	TOC.prototype.openToRandomSpread = function () {
 		var rand = Math.floor(Math.random() * this.contents.length);
 		
-		this.openSpread(this.contents[rand].id);
+		this.openSpread( { id: this.contents[rand].id, replace: true } );
 	}
 	
-	function onSpreadVisible () {
+	TOC.prototype.onSpreadVisible = function (layout, options) {
 //		$("#content-holder").css("visibility", "visible");
 //		$(".layout").addClass("animated zoomInDown").css("visibility", "visible");
 		
 		$("#loading-spinner").addClass("animated fadeOutRightBig");
+		
+		var layoutDIV = layout.container.parents(".layout");
+		if (options.previous) {
+			layoutDIV.insertAfter($("#prev-ad"));
+		} else {
+			layoutDIV.insertBefore($("#next-ad"));
+		}
+		layoutDIV.removeClass("loading");
+		
+		this.showNextSpreadName(options.id);
+		
+		$("#next-ad").css({ display: "block" });
+		
+		if (options.previous) {
+			this.showPreviousSpreadName(options.id);
+		}
+		
+		if (this.infiniteScrolling) {
+			$("#prev-ad").css({ display: "block" });
+		}
 	}
 	
-	TOC.prototype.onClickLoadNextSpread = function () {
+	TOC.prototype.showNextSpreadName = function (id) {
+		var nextSpread = this.getNextSpread(id);
+		
+		if (nextSpread) {
+			$("#next-ad").text("Next Up: " + nextSpread.title);
+			$("#next-ad").data("next-id", nextSpread.id);
+		}
+	}
+
+	TOC.prototype.showPreviousSpreadName = function (id) {
+		var prevSpread = this.getPreviousSpread(id);
+		
+		if (prevSpread) {
+			$("#prev-ad").text("Previously: " + prevSpread.title);
+			$("#prev-ad").data("prev-id", prevSpread.id);
+		}
+	}
+	
+	TOC.prototype.getNextSpread = function (id) {
 		for (var i = 0; i < this.contents.length; i++) {
 			var c = this.contents[i];
-			if (c.id == this.currentID) {
-				var nextID;
+			if (c.id == id) {
+				var next;
 				if (i == this.contents.length - 1) {
-					nextID = this.contents[0].id;
+					next = this.contents[0];
 				} else {
-					nextID = this.contents[i + 1].id;
+					next = this.contents[i + 1];
 				}
-				
-				this.openSpread(nextID, false);
-				break;
+				return next;
 			}
 		}
+		return undefined;
+	}
+
+	TOC.prototype.getPreviousSpread = function (id) {
+		for (var i = 0; i < this.contents.length; i++) {
+			var c = this.contents[i];
+			if (c.id == id) {
+				var prev;
+				if (i == 0) {
+					prev = this.contents[this.contents.length - 1];
+				} else {
+					prev = this.contents[i - 1];
+				}
+				return prev;
+			}
+		}
+		return undefined;
+	}
+	
+	TOC.prototype.onAutoLoadNextSpread = function (event, id) {
+		this.infiniteScrolling = true;
+		
+		this.openSpread( { id: id, replace: false } );
+	}
+
+	TOC.prototype.onAutoLoadPreviousSpread = function (event, id) {
+		this.openSpread( { id: id, replace: false, previous: true } );
 	}
 	
 	return TOC;

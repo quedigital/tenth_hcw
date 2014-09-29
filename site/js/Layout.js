@@ -56,7 +56,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 	
 	Layout.prototype.layoutComplete = function () {
 		if (this.manager) {
-			this.manager.onLayoutComplete();
+			this.manager.onLayoutComplete(this);
 		}
 	}
 	

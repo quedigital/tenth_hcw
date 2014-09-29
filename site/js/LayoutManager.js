@@ -7,6 +7,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		this.currentLayout = undefined;
 		
 		this.showCallback = undefined;
+		this.showCallbackOptions = undefined;
 		
 		this.currentID = undefined;
 		
@@ -31,19 +32,21 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		this.layoutArray = [];
 	}
 	
-	LayoutManager.prototype.showSpreadByID = function (id, replace, callback) {
-		this.currentID = id;
+	LayoutManager.prototype.showSpreadByID = function (options, callback) {
+		this.currentID = options.id;
 		
 		this.showCallback = callback;
+		this.showCallbackOptions = options;
 		
-		if (replace) {
+		if (options.replace) {
 			this.clearSpreads();
 		}
 		
-		var content = Helpers.findByID(id, this.contents);
-		var layout = this.layouts[id];
+		var content = Helpers.findByID(options.id, this.contents);
+		var layout = this.layouts[options.id];
 		
-		var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(this.dom);
+		var spreadDOM = $("<div>").addClass("layout loading").attr("id", layout.id);
+		this.dom.append(spreadDOM);
 
 		if (layout.background) {
 			var back = tinycolor(layout.background);
@@ -71,50 +74,9 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 				this.layoutArray.push(fixed);
 				this.currentLayout = fixed;
 				break;
-		}
-		
-		var bottom = this.dom.parent().height() - $("#next-ad").height();
-		$("#next-ad").waypoint("unsticky");
-		$("#next-ad").waypoint('sticky', { direction: "down", context: this.dom.parent(), offset: bottom } );		
+		}		
 	}
-	
-	LayoutManager.prototype.process = function () {
-		var me = this;
-		
-		$.each(this.contents, function (index, content) {
-			var layout = Helpers.findByID(content.id, me.layouts);
-			if (!layout) {
-				console.log("not found: " + content.id);
-			}
-			console.log(content.id + " publish = " + layout.publish);
-			if (layout && layout.publish == true) {
-				if (content) {
-					var spreadDOM = $("<div>").addClass("layout").attr("id", layout.id).appendTo(me.dom);
-			
-					if (layout.background && layout.background == "#000000") {
-						spreadDOM.addClass("dark");
-					}
-				
-					var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
-				
-					layoutDOM.append("<h1>" + content.title);
-				
-					switch (layout.style) {
-						case "grid":
-							var grid = new GridLayout(layoutDOM, layout, content);
-							me.layoutArray.push(grid);
-							break;
-					
-						case "fixed":
-							var fixed = new FixedLayout(layoutDOM, layout, content);
-							me.layoutArray.push(fixed);
-							break;
-					}
-				}
-			}
-		});
-	}
-	
+
 	LayoutManager.prototype.reflow = function () {
 		console.log("reflow " + this.layoutArray.length);
 		
@@ -123,9 +85,9 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		});
 	}
 	
-	LayoutManager.prototype.onLayoutComplete = function () {
+	LayoutManager.prototype.onLayoutComplete = function (layout) {
 		if (this.showCallback) {
-			this.showCallback();
+			this.showCallback(layout, this.showCallbackOptions);
 		}
 	}
 	
@@ -151,39 +113,22 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 	}
 	
 	LayoutManager.prototype.onScroll = function (event) {
-		var amount_left = this.dom.offset().top + this.dom.outerHeight();
-		
-		var half = this.dom.parent().height() * .5;
-		
-		var percent = (amount_left - half) / half;
-		var countdown = Math.ceil((percent * 10));
-		
-		if (countdown <= 10) {
-			$("#next-ad").text("Loading: Another Spread... in " + countdown).css("background", "rgba(255, 255, 0, " + percent + ")");
-		}
-		
-		if (amount_left <= half) {
-			this.dom.trigger("next-spread");
-		}
-		/*
-		var DEADZONE = 800;
-		
 		var scrollTop = Math.floor($(event.target).scrollTop());
 		var sh = Math.floor($(event.target)[0].scrollHeight);
 		var h = Math.floor($(event.target).height());
 		
-		// TODO: fix the "#next-ad" to the bottom of the scrolling area for a bit and then load the next spread
+		var amount_left = sh - (h + scrollTop);
 		
-		if (h + scrollTop >= sh - DEADZONE) {
-			console.log("scroll");
-//			$("#content").scrollTop(1684);
-			
-			$("#content-holder").css( { position: "fixed", width: 1666, top: -500, overflow: "hidden" } );
-			$("#next-ad").css( { position: "fixed", bottom: 70, left: 0, width: "100%" } );
-			$("#content").css({ height: 3000, overflow: "scroll" });
-//			this.dom.trigger("next-spread");
+		// if we run out of scrolling height (and we're not loading something already), load the next spread
+		if (amount_left <= 0 && $(".layout.loading").length == 0) {
+			var id = $("#next-ad").data("next-id");
+			this.dom.trigger("next-spread", id);
+		} else if (scrollTop <= 0) {
+			if ($("#prev-ad").css("display") == "block") {
+				var id = $("#prev-ad").data("prev-id");
+				this.dom.trigger("previous-spread", id);
+			}
 		}
-		*/
 	}
 	
 	return LayoutManager;
