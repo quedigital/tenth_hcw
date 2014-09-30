@@ -35,7 +35,7 @@ html, body, p, h1 {
 		visibility: hidden;
 	}
 	
-	&.dark .block {
+	&.dark .step:not(.selected) .block {
 		color: black;
 		
 		&:before {
@@ -96,6 +96,7 @@ html, body, p, h1 {
 		
 		.textblock {
 			overflow: hidden;
+			color: black;
 		}
 
 		&:hover .textblock {
@@ -227,7 +228,11 @@ div.sidebar {
 		text-align: left;
 	}
 	
-	.interior {		
+	&.overflowing .interior {
+		overflow: scroll;
+	}
+	
+	.interior {
 		p {
 			padding: .75em .5em .75em .5em;
 			font-size: 14px;

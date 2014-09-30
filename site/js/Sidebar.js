@@ -64,6 +64,10 @@ define([], function () {
 		return this.elem.outerHeight();
 	}
 
+	Sidebar.prototype.getWidth = function () {
+		return this.elem.outerWidth();
+	}
+
 	Sidebar.prototype.setPosition = function (anchor, rect) {
 		this.anchor = anchor;
 		this.rect = $.extend({}, rect);
@@ -74,12 +78,48 @@ define([], function () {
 	}
 	
 	Sidebar.prototype.updatePosition = function () {
+		var container = this.elem.parent();
+		
+		var x, y;
+		var w, h;
+		
 		switch (this.anchor) {
-			case "BL":
-				var x = this.rect.left;
+			case "TL":
+				x = this.rect.left;
+				y = this.rect.top;
 				var h = this.getHeight();
-				var y = this.rect.top + this.rect.height - h;
-				break;			
+				if (y + h > container.height()) {
+					this.elem.find(".interior").height(this.rect.height);
+					this.elem.addClass("overflowing");
+				}
+				w = this.getWidth();
+				x = this.rect.left + this.rect.width - w;
+				break;
+			case "TR":
+				x = this.rect.left;
+				y = this.rect.top;
+				var h = this.getHeight();
+				if (y + h > container.height()) {
+					this.elem.find(".interior").height(this.rect.height);
+					this.elem.addClass("overflowing");
+				}
+				break;
+			case "BL":
+				x = this.rect.left;
+				h = this.getHeight();
+				y = this.rect.top + this.rect.height - h;
+				break;
+			case "BR":
+				h = this.getHeight();
+				if (h > container.height()) {
+					this.elem.find(".interior").height(this.rect.height);
+					h = this.getHeight();
+					this.elem.addClass("overflowing");
+				}
+				w = this.getWidth();
+				y = this.rect.top + this.rect.height - h;		
+				x = this.rect.left + this.rect.width - w;
+				break;
 		}
 		
 		this.elem.css("position", "absolute");

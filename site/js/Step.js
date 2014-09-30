@@ -1,6 +1,6 @@
 define(["Helpers"], function (Helpers) {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
-	var SIDE_MARGIN = 15, INCREMENT = 5;
+	var SIDE_MARGIN = 15, INCREMENT = 10;
 	
 	// number, text, image, anchor
 	Step = function (options) {
@@ -278,22 +278,35 @@ define(["Helpers"], function (Helpers) {
 	
 	Step.prototype.gotoPosition = function (val) {
 		var opts = this.screenPositions[val];
-
-		var t = this.elem.find(".textblock");
-		t.css("font-size", opts.fontSize + "px");
-		this.elem.height("auto");
-		t.height(opts.height);
-		this.elem.css("width", opts.width);
 		
-		if (opts.overflow) {
-			this.elem.addClass("overflow");
-		} else {
-			this.elem.removeClass("overflow");
+		switch (val) {
+			case "expanded":
+				var t = this.elem.find(".textblock");
+				t.css( { "font-size": opts.fontSize + "px", display: "block" } );
+				this.elem.height("auto");
+				t.height(opts.height);
+				this.elem.css("width", opts.width);
+		
+				if (opts.overflow) {
+					this.elem.addClass("overflow");
+				} else {
+					this.elem.removeClass("overflow");
+				}
+		
+				this.elem.css({ left: opts.left, top: opts.top });
+		
+				animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);		
+				
+				break;
+			
+			case "normal":
+				var t = this.elem.find(".textblock");
+				t.css({ display: "none" });
+				
+				this.elem.css({ left: opts.left, top: opts.top });
+				
+				break;			
 		}
-		
-		this.elem.css({ left: opts.left, top: opts.top });
-		
-		animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);		
 	}
 	
 	function animateHighlightTo (elem, x, y, w, h) {
@@ -315,7 +328,6 @@ define(["Helpers"], function (Helpers) {
 		
 		this.elem.parent().find(".highlight").addClass("highlighted");
 		
-//		this.position(true);
 		this.gotoPosition("expanded");
 		
 		this.isExpanded = true;
@@ -328,7 +340,6 @@ define(["Helpers"], function (Helpers) {
 		
 		this.elem.css("zIndex", "auto");
 		
-//		this.position(false);
 		this.gotoPosition("normal");
 		
 		this.isExpanded = false;

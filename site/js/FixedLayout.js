@@ -6,7 +6,8 @@ define(["Layout",
 		"auto-size-text",
 		"Helpers",
 		"debug",
-		], function (Layout, jqueryui, imagesLoaded, Step, Sidebar, autoSizeText, Helpers, debug) {
+		"tinycolor",
+		], function (Layout, jqueryui, imagesLoaded, Step, Sidebar, autoSizeText, Helpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager);
 		
@@ -41,6 +42,14 @@ define(["Layout",
 
 		if (this.layout.textcolor) {
 			this.container.css("color", this.layout.textcolor);
+
+			var color = tinycolor(layout.textcolor);
+			if (color.isValid()) {
+				var brightness = color.getBrightness();
+				if (brightness > 240) {
+					this.container.parent().addClass("dark");
+				}
+			}
 		}
 		
 		this.elements = [];

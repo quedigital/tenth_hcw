@@ -1,5 +1,7 @@
 
 
+// TODO: is non-blocking working on spreads 15_5 and 16_1?
+
 // TODO: during infinite scroll, remove past spreads from memory
 
 // TODO: change URL location to reflect current spread? (history.pushState)
@@ -178,3 +180,5 @@
 // DONE: scroll and highlight TOC while scrolling through spreads
 // DONE: keep track of current spread while scrolling (for waypoints) OR don't delete waypoints with each new spread
 // DONE: TOC is hide-able
+// DONE: sidebars not showing up in the right place
+// DONE: sidebars need scrolling
