@@ -40,8 +40,8 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 	}
 
 	var pageLayout = $("body").layout({
-										applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-										spacing_open: 0, spacing_closed: 0,
+										applyDefaultStyles: true, resizable: false, slidable: true, closable: true,
+										spacing_open: 8, spacing_closed: 8,
 										west__size: "220",
 										east__initHidden: true,
 										south__size: "82",

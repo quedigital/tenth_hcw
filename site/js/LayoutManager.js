@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky", ], function (GridLayout, FixedLayout, Helpers, tinycolor) {
+define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, Helpers, tinycolor) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -29,6 +29,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 	
 	LayoutManager.prototype.clearSpreads = function () {
 		$(".layout").remove();
+		$.waypoints("destroy");
 		this.layoutArray = [];
 	}
 	
@@ -43,7 +44,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		var content = Helpers.findByID(options.id, this.contents);
 		var layout = this.layouts[options.id];
 		
-		var spreadDOM = $("<div>").addClass("layout loading").attr("id", layout.id);
+		var spreadDOM = $("<div>").addClass("layout loading").attr("id", options.id);
 		this.dom.append(spreadDOM);
 
 		if (layout.background) {
@@ -85,6 +86,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints-sticky",
 		if (this.showCallback) {
 			this.showCallback(layout, this.showCallbackOptions);
 		}
+		
+		$.waypoints("refresh");
 	}
 	
 	LayoutManager.prototype.getCurrentLayout = function () {

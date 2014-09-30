@@ -63,6 +63,9 @@ define(["Helpers"], function (Helpers) {
 			id = $(event.target).parents(".entry").data("id");
 			
 		if (id) {
+			$("#next-ad").css({ display: "none" });
+			$("#prev-ad").css({ display: "none" });
+			
 			$("#content").scrollTop(0);
 			this.openSpread( { id: id, replace: true } );
 		}
@@ -83,8 +86,6 @@ define(["Helpers"], function (Helpers) {
 		if (options.replace) {
 			this.updatePreviousSpreadName(options.id);
 		}
-		
-//		this.showSpreadSelection(options.id);
 	}
 	
 	TOC.prototype.showSpreadSelection = function (id) {
@@ -135,12 +136,17 @@ define(["Helpers"], function (Helpers) {
 			this.updateNextSpreadName(options.id);
 		}
 		
-//		$("#next-ad").css({ display: "block" });
-//		$("#prev-ad").css({ display: "block" });
+		$("#next-ad").css({ display: "block" });
+		$("#prev-ad").css({ display: "block" });
 		
 		if (options.replace) {
 			// scroll to top of this spread
 			$("#content").scrollTop($(".layout").offset().top - 15);			
+		}
+		
+		if (options.previous) {
+			// scroll to top of next spread (to keep our place)
+			$("#content").scrollTop(layoutDIV.offset().top + layoutDIV.outerHeight() - $("#prev-ad").outerHeight() - 30);
 		}
 	}
 	
@@ -157,7 +163,7 @@ define(["Helpers"], function (Helpers) {
 		var prevSpread = this.getPreviousSpread(id);
 		
 		if (prevSpread) {
-			$("#prev-ad").text("Previously: " + prevSpread.title);
+			$("#prev-ad").text("Read More: " + prevSpread.title);
 			$("#prev-ad").data("prev-id", prevSpread.id);
 		}
 	}

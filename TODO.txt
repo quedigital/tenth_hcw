@@ -1,12 +1,10 @@
 
 
-// TODO: scroll and highlight TOC while scrolling through spreads
-
 // TODO: during infinite scroll, remove past spreads from memory
 
-// TODO: change URL location to reflect current spread?
+// TODO: change URL location to reflect current spread? (history.pushState)
 
-// TODO: keep track of current spread while scrolling (for waypoints) OR don't delete waypoints with each new spread
+// TODO: waypoint triggering is still a little wonky
 
 // TODO: Fixed layout steps don't account for "headings" when sizing
 
@@ -177,3 +175,6 @@
 // DONE: fixed layouts need to fit the pane (and centered)
 // DONE: fixed layouts need next/prev buttons
 // DONE: advance to next/prev spread by scrolling
+// DONE: scroll and highlight TOC while scrolling through spreads
+// DONE: keep track of current spread while scrolling (for waypoints) OR don't delete waypoints with each new spread
+// DONE: TOC is hide-able

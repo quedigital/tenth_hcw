@@ -81,7 +81,7 @@ define(["Layout",
 		var cells = $.map(this.content.cells, function (el) { return el });
 		
 		this.queuedWaypoints = [];
-		$.waypoints("destroy");
+		this.container.find(".cell").waypoint("destroy");
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -345,8 +345,6 @@ define(["Layout",
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".cell" });
 		this.addImageCallouts();
-		
-		$.waypoints("refresh");
 		
 		this.layoutComplete();
 		
