@@ -13,6 +13,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		
 		$("#fixed-layout-controls #previous-button").click($.proxy(this.onClickPreviousStep, this));
 		$("#fixed-layout-controls #next-button").click($.proxy(this.onClickNextStep, this));
+		this.dom.on("controls", $.proxy(this.onReceivedControls, this));
 		
 		this.dom.parent().scroll($.proxy(this.onScroll, this));		
 	}
@@ -88,6 +89,19 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		}
 		
 		$.waypoints("refresh");
+		
+		if (this.showCallbackOptions.replace) {
+			layout.activate();
+		}
+	}
+	
+	LayoutManager.prototype.getLayoutByID = function (id) {
+		var sel = ".layout[id='" + id + "'] .spread";
+		var elem = this.dom.find(sel);
+		if (elem) {
+			return layoutObject = elem.data("layout");
+		}
+		return undefined;
 	}
 	
 	LayoutManager.prototype.getCurrentLayout = function () {
@@ -144,11 +158,41 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 			var it = $(item);
 			if (it.offset().top + it.height() > h * .4) {
 				var layout = it.parents(".layout");
-				me.currentID = layout.attr("id");
-				me.dom.trigger("current-spread", layout.attr("id"));
+				var id = layout.attr("id");
+				if (me.currentID != id) {
+					if (me.currentID) {
+						var oldLayout = me.getLayoutByID(me.currentID);
+						if (oldLayout)
+							oldLayout.deactivate();
+					}
+					me.currentID = id;
+					me.dom.trigger("current-spread", layout.attr("id"));
+					var layoutObj = me.getCurrentLayout();
+					tryToActivate(layoutObj);
+				}
 				return false;
 			}
 		});
+	}
+	
+	function tryToActivate (layout) {
+		if (!layout.isActive) {
+			if (layout.isReady) {
+				layout.activate();
+			} else {
+				setTimeout(function () { tryToActivate(layout); }, 100);
+			}
+		}
+	}
+	
+	LayoutManager.prototype.onReceivedControls = function (event, args) {
+		$("#direct-buttons button.direct").remove();
+		for (var i = 0; i < args.items.length; i++) {
+			var b = $("<button>").addClass("direct").text(i + 1);
+			$("#direct-buttons").append(b);
+			var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
+			b.click(func);
+		}
 	}
 	
 	return LayoutManager;

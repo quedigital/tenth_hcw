@@ -62,27 +62,6 @@ define(["Helpers"], function (Helpers) {
 		}
 	}
 	
-	function opposite (anchor) {
-		switch (anchor) {
-			case "T":
-				return "B";
-			case "B":
-				return "T";
-			case "BR":
-				return "TL";
-			case "BL":
-				return "TR";
-			case "TL":
-				return "BR";
-			case "L":
-				return "R";
-			case "TR":
-				return "BL";
-			case "R":
-				return "L";
-		}
-	}
-	
 	Step.prototype.setRect = function (rect) {
 		this.rect = rect;
 	}
@@ -99,181 +78,46 @@ define(["Helpers"], function (Helpers) {
 		this.calculateNormalPosition();
 		this.calculateExpandedPosition();
 	}
-	
+
 	Step.prototype.calculateNormalPosition = function () {
-		var pos;
-		var anchor = Helpers.convertAlignToJQueryAlign(this.anchor);
-		
-		var pos = { x: this.rect.left, y: this.rect.top };
-		
-		var fs = DEFAULT_FONT_SIZE;
-		
-		var scrollLeft = this.elem.parent().scrollLeft();
-				
-		var offscreen = this.elem.clone();
-		offscreen.css("opacity", "0");
-		this.elem.parent().append(offscreen);
-
-		var overflow = false;
-		
-		var t = offscreen.find(".textblock");
-		t.css("font-size", fs + "px");
-		offscreen.height("auto");
-		t.height("auto");
-		var width = this.rect.width;
-		var height = "auto";
-		offscreen.css("width", width);
-		if (t.height() > this.rect.height) {
-			height = this.rect.height;
-			t.height(height);
-		}
-		
-		var overflow = t.height() < t[0].scrollHeight;
-		
 		this.screenPositions.normal = {
-			left: Math.floor(pos.x - scrollLeft),
-			top: Math.floor(pos.y),
+			left: this.rect.left,
+			top: this.rect.top,
 			rect: this.rect,
-			anchor: anchor,
-			overflow: overflow,
-			height: height,
-			width: width,
-			fontSize: fs
+			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
+			overflow: false,
+			height: this.rect.height,
+			width: this.rect.width,
+			fontSize: DEFAULT_FONT_SIZE
 		};
-
-		offscreen.remove();		
-	}
-	
-	function canGoLeft (offscreen, settings) {
-		if (settings.allowedDirections.indexOf("L") == -1) return false;
-		
-		if (settings.x - INCREMENT <= SIDE_MARGIN) return false;
-		
-		return true;
-	}
-	
-	function goLeft (offscreen, settings) {
-		settings.x -= INCREMENT;
-		settings.width += INCREMENT;
-		
-		checkNewPosition(offscreen, settings);
-	}
-
-	function canGoUp (offscreen, settings) {
-		if (settings.allowedDirections.indexOf("T") == -1) return false;
-		
-		if (settings.y - INCREMENT <= MARGIN) return false;
-		
-		return true;
-	}
-	
-	function goUp (offscreen, settings) {
-		settings.y = (settings.rect.top + settings.rect.height) - settings.height;
-		
-		checkNewPosition(offscreen, settings);
-	}
-
-	function canGoRight (offscreen, settings) {
-		if (settings.allowedDirections.indexOf("R") == -1) return false;
-		
-		if (settings.x + settings.width + INCREMENT >= settings.container_width - SIDE_MARGIN) return false;
-		
-		return true;
-	}
-	
-	function goRight (offscreen, settings) {
-		settings.width += INCREMENT;
-		
-		checkNewPosition(offscreen, settings);
-	}
-
-	function canGoDown (offscreen, settings) {
-		if (settings.allowedDirections.indexOf("B") == -1) return false;
-		
-		if (settings.y + settings.height + INCREMENT >= settings.container_height - MARGIN) return false;
-		
-		return true;
-	}	
-	
-	function goDown (offscreen, settings) {
-		settings.height += INCREMENT;
-		
-		checkNewPosition(offscreen, settings);
-	}
-	
-	function checkNewPosition (offscreen, settings) {
-		offscreen.css("left", settings.x).css("top", settings.y);
-		offscreen.css("width", settings.width);
-		
-		reflow(offscreen);
-		
-		settings.height = offscreen.find(".textblock").height();
-	
-		if (settings.x >= 0 && settings.x + settings.width <= settings.container_width
-			&& settings.y >= 0 && settings.y + settings.height <= settings.container_height
-			&& settings.height <= settings.rect.height) {
-				settings.fits = true;
-		}
 	}
 	
 	Step.prototype.calculateExpandedPosition = function () {
+		// see if we can use a smaller text area
 		var offscreen = this.elem.clone();
 		offscreen.css("opacity", "0");
 		this.elem.parent().append(offscreen);
 
-		var scrollLeft = this.elem.parent().scrollLeft();
-
-		offscreen.height("auto");
 		var t = offscreen.find(".textblock");
-		t.css("font-size", DEFAULT_FONT_SIZE + "px");
 		offscreen.height("auto");
 		t.height("auto");
+		t.css("font-size", DEFAULT_FONT_SIZE + "px");
 		var width = this.rect.width;
 		offscreen.css("width", width);
-		
-		var settings = {
-							allowedDirections: opposite(this.anchor),
-							rect: this.rect,
-							x: this.rect.left + scrollLeft,
-							y: this.rect.top,
-							width: parseInt(offscreen.css("width")),
-							height: offscreen.find(".textblock").height(),
-							container_width: this.elem.siblings(".background").width(),
-							container_height: this.elem.parent().height(),// - MARGIN,
-							fontSize: DEFAULT_FONT_SIZE,
-							fits: false,
-						};
-						
-		checkNewPosition(offscreen, settings);
-		
-		if (!settings.fits) {
-			for (var tries = 0; tries < 100; tries++) {
-				if (!settings.fits && canGoLeft(offscreen, settings)) {
-					goLeft(offscreen, settings);
-				}
-				if (!settings.fits && canGoUp(offscreen, settings)) {
-					goUp(offscreen, settings);
-				}
-				if (!settings.fits && canGoRight(offscreen, settings)) {
-					goRight(offscreen, settings);
-				}
-				if (!settings.fits && canGoDown(offscreen, settings)) {
-					goDown(offscreen, settings);
-				}				
-			}
-		}
-		
-		this.screenPositions.expanded = {
-			left: settings.x,
-			top: settings.y,
-			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
-			overflow: false,
-			height: settings.height,
-			width: settings.width,
-			fontSize: settings.fontSize
-		};
+		var text_height = t.height();
 		
 		offscreen.remove();
+		
+		this.screenPositions.expanded = {
+			rect: this.rect,
+			left: this.rect.left,
+			top: this.rect.top,
+			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
+			overflow: false,
+			height: Math.min(text_height, this.rect.height),
+			width: this.rect.width,
+			fontSize: DEFAULT_FONT_SIZE,
+		};
 	}
 	
 	Step.prototype.gotoPosition = function (val) {
@@ -334,9 +178,11 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	Step.prototype.unexpand = function () {
-		this.elem.parent().find(".step.selected").removeClass("selected");
+//		this.elem.parent().find(".step.selected").removeClass("selected");
 		
-		this.elem.parent().find(".highlighted").removeClass("highlighted");// animated");
+//		this.elem.parent().find(".highlighted").removeClass("highlighted");// animated");
+		
+		this.elem.removeClass("selected");
 		
 		this.elem.css("zIndex", "auto");
 		
@@ -355,10 +201,11 @@ define(["Helpers"], function (Helpers) {
 	Step.prototype.onHover = function (event) {
 		switch (event.type) {
 			case "mouseenter":
-				this.expand();				
+				this.expand();
+				this.elem.trigger("expand");				
 				break;
 			case "mouseleave":
-				this.unexpand();
+//				this.unexpand();
 				break;
 		}
 	}

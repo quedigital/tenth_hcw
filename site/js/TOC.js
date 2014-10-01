@@ -77,10 +77,6 @@ define(["Helpers"], function (Helpers) {
 //		$("#content-holder").css("visibility", "hidden");
 		$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
 		
-		var c = Helpers.findByID(options.id, this.contents);
-		$("#header #chapter").text(c.chapter);
-		$("#header #page").text(c.number);
-		
 		this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this));
 		
 		if (options.replace) {
@@ -99,8 +95,12 @@ define(["Helpers"], function (Helpers) {
 		var h = toc.height();
 		var y = entry.position().top;
 		var st = toc.scrollTop() + y - (h * .5) + (entry.height() * .5);
-		
+
 		toc.animate({ scrollTop: st }, 500);
+		
+		var c = Helpers.findByID(id, this.contents);
+		$("#header #chapter").text(c.chapter);
+		$("#header #page").text(c.number);
 	}
 	
 	TOC.prototype.onCurrentSpread = function (event, id) {

@@ -7,6 +7,9 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		
 		this.calloutLines = [];
 		
+		this.isReady = false;
+		this.isActive = false;
+		
 		window.layout = this;
 	}
 	
@@ -60,12 +63,26 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		if (this.manager) {
 			this.manager.onLayoutComplete(this);
 		}
+		
+		this.isReady = true;
 	}
 	
 	Layout.prototype.gotoPrevious = function () {
 	}
 
 	Layout.prototype.gotoNext = function () {
+	}
+	
+	Layout.prototype.gotoStep = function (n) {
+		console.log("got " + n);
+	}
+	
+	Layout.prototype.activate = function () {
+		this.isActive = true;
+	}
+	
+	Layout.prototype.deactivate = function () {
+		this.isActive = false;
 	}
 
 	return Layout;

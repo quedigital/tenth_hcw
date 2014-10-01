@@ -1,5 +1,7 @@
 
 
+// TODO: fixed layout textblocks scroll or page?
+
 // TODO: is non-blocking working on spreads 15_5 and 16_1?
 
 // TODO: during infinite scroll, remove past spreads from memory
@@ -18,10 +20,6 @@
 
 // TODO: interactive slide-over
 
-// TODO: fixed layout sidebars aren't appearing in the correct place / z-order
-
-// TODO: fixed layouts need to switch to black text for hover state
-
 // TODO: layouts don't seem to be full-screen on iOS Safari
 
 // TODO: spread count (by chapter?)
@@ -32,10 +30,6 @@
 
 // TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
 // TODO: make a "fixed layout" widget that can be on a spread with other elements?
-
-// TODO: optimize Fixed Layout positioning algorithm (it's way too slow)
-
-// TODO: make fixed layout text areas scrollable (in case they can't fit on the screen)
 
 // TODO: slide show layout
 
@@ -182,3 +176,10 @@
 // DONE: TOC is hide-able
 // DONE: sidebars not showing up in the right place
 // DONE: sidebars need scrolling
+// DONE: fixed layout sidebars aren't appearing in the correct place / z-order
+// DONE: fixed layouts need to switch to black text for hover state
+// DONE: optimize Fixed Layout positioning algorithm (it's way too slow) [eliminated in favor of just numbers]
+// DONE: make fixed layout text areas scrollable (in case they can't fit on the screen)
+// DONE: activating spreads
+// DONE: fixed layout step navigation
+

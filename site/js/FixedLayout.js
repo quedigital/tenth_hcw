@@ -15,6 +15,11 @@ define(["Layout",
 		this.content = content;
 
 		this.container.addClass("fixed");
+		
+		var image_holder = $("<div>").addClass("image_holder");
+		this.image_holder = image_holder;
+		
+		this.container.append(image_holder);
 
 //		var div = $("<div>").attr("background-url", layout.background).css({ width: 200, height: 200, backgroundSize: "cover" });
 //		$(container).append(div);
@@ -34,11 +39,11 @@ define(["Layout",
 			img.width(w - padding);
 		}
 
-		this.container.height(h - padding);
+		image_holder.height(h - padding);
 				
-		$(container).append(img);
+		$(image_holder).append(img);
 		
-		$("<div>").addClass("highlight").appendTo(container);		
+		$("<div>").addClass("highlight").appendTo(image_holder);		
 
 		if (this.layout.textcolor) {
 			this.container.css("color", this.layout.textcolor);
@@ -59,6 +64,8 @@ define(["Layout",
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
 		
 		this.currentStep = undefined;
+		
+		this.hasIntro = false;
 	}
 	
 	FixedLayout.prototype = Object.create(Layout.prototype);
@@ -98,18 +105,30 @@ define(["Layout",
 			
 			switch (cell.type) {
 				case "step":
+					if (options.number == undefined && !this.hasIntro) {
+						var intro = $("<div>").addClass("intro-text").html(options.text);
+						
+						intro.insertBefore(this.image_holder);
+						
+						this.hasIntro = true;
+						options.isIntro = true;
+						
+						break;
+					}					
+					
 					var step = new Step(options);
 					
 					step.elem.attr("data-id", cell.id);
 					
 					step.elem.css("visibility", "hidden");
 			
-					this.container.append(step.elem);
+					this.image_holder.append(step.elem);
 					
 					step.elem.hover($.proxy(step.onHover, step));
 					step.elem.on("touchend", $.proxy(step.onTouch, step));
+					step.elem.on("expand", $.proxy(this.onExpandStep, this));
 					
-					this.elements.push(step);
+					this.elements[i] = step;
 					
 					break;
 				case "sidebar":
@@ -119,9 +138,9 @@ define(["Layout",
 					
 					sidebar.elem.css("visibility", "hidden");
 												
-					this.container.append(sidebar.elem);
+					this.image_holder.append(sidebar.elem);
 					
-					this.elements.push(sidebar);
+					this.elements[i] = sidebar;
 					
 					break;
 			}
@@ -140,10 +159,12 @@ define(["Layout",
 		var ch = $("#content-holder");
 		var padding = ch.outerWidth() - ch.width();
 		
+		/*
 		// center vertically
 		var marginTop = (this.container.height() - img.height()) * .5 - (padding * .5);
 		if (marginTop > 0)
 			this.container.css("margin-top", marginTop);
+		*/
 
 		var currentSize = { width: img.width(), height: img.height() };
 		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
@@ -166,11 +187,13 @@ define(["Layout",
 				case "step":
 					var step = this.elements[i];
 					
-					step.setRect(rect);
+					if (step) {
+						step.setRect(rect);
 					
-					step.setupPositions();
+						step.setupPositions();
 					
-					step.elem.css("visibility", "visible");
+						step.elem.css("visibility", "visible");
+					}
 
 					break;
 				case "sidebar":
@@ -202,19 +225,22 @@ define(["Layout",
 		this.container.append(r);
 	}
 	
-	FixedLayout.prototype.layoutComplete = function () {
-		Layout.prototype.layoutComplete.call(this);
-		
-		var me = this;
-		
-		setTimeout(function () { me.expandFirstStep(); }, 1500);
-	}
-	
 	FixedLayout.prototype.unexpandAllExcept = function  (el) {
 		for (var i = 0; i < this.elements.length; i++) {
 			var el2 = this.elements[i];
-			if (el2 instanceof Step && el2 != el) {
-				el2.unexpand();
+			if (el2) {
+				if (el instanceof Step) {
+					if (el2 instanceof Step && el2 != el) {
+						el2.unexpand();
+					}
+				} else {
+					if (el2 instanceof Step && el2.elem[0] != el) {
+						el2.unexpand();					
+					} else if (el2.elem[0] == el) {
+						// quasi-kludge: this is the step we just moused over
+						this.currentStep = i;
+					}
+				}
 			}
 		}
 	}
@@ -223,6 +249,24 @@ define(["Layout",
 		this.currentStep = undefined;
 		
 		this.expandNextStep();
+	}
+	
+	FixedLayout.prototype.expandStepByIndex = function (n) {
+		var count = 0;
+		
+		for (var i = 0; i < this.elements.length; i++) {
+			var el = this.elements[i];
+			if (el instanceof Step && !el.isIntro) {
+				if (count == n) {
+					this.unexpandAllExcept(el);
+					el.expand();
+					this.currentStep = i;
+					break;
+				} else {
+					count++;
+				}
+			}
+		}
 	}
 	
 	FixedLayout.prototype.expandNextStep = function () {
@@ -263,7 +307,7 @@ define(["Layout",
 		
 		var found = false;
 		
-		for (var i = this.currentStep - 1; i >= 0; i++) {
+		for (var i = this.currentStep - 1; i >= 0; i--) {
 			var el = this.elements[i];
 			if (el instanceof Step) {
 				this.unexpandAllExcept(el);
@@ -289,5 +333,32 @@ define(["Layout",
 		this.expandPreviousStep();
 	}
 	
+	FixedLayout.prototype.onExpandStep = function (event) {
+		this.unexpandAllExcept(event.target);
+	}
+	
+	FixedLayout.prototype.activate = function () {
+		Layout.prototype.activate.call(this);
+		
+		this.expandFirstStep();
+		
+		// count all the non-intro elements
+		var count = 0;
+		for (var i = 0; i < this.elements.length; i++) {
+			var el = this.elements[i];
+			if (el && !el.isIntro) {
+				count++;
+			}
+		}
+		
+		var items = new Array(count);
+			
+		this.container.trigger("controls", { layout: this, items: items });
+	}
+	
+	FixedLayout.prototype.gotoStep = function (n) {
+		this.expandStepByIndex(n);
+	}
+
 	return FixedLayout;
 });

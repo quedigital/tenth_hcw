@@ -371,6 +371,12 @@ define(["Layout",
 			}
 		}	
 	}
+
+	GridLayout.prototype.activate = function () {
+		Layout.prototype.activate.call(this);
+		
+		this.container.trigger("controls", { layout: this, items: {} });
+	}
 	
 	return GridLayout;
 });
