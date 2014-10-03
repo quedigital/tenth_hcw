@@ -1,8 +1,13 @@
 
+// TODO: is non-blocking working on spreads 15_5 and 16_1?
+// TODO: are fixed layout callout lines working?
+// TODO: for Fixed Layouts, callout lines are only visible for the highlighted step?
+// TODO: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
+// TODO: nicer numbers and animations for fixed layouts
+
+// TODO: slide show layout?
 
 // TODO: fixed layout textblocks scroll or page?
-
-// TODO: is non-blocking working on spreads 15_5 and 16_1?
 
 // TODO: during infinite scroll, remove past spreads from memory
 
@@ -16,6 +21,10 @@
 
 // TODO: search pane (hideable?) used for other spreads to jump to
 
+// TODO: keywords (searchable) for spreads
+
+// TODO: fun entry / surprise page ("How does your phone know...?")
+
 // TODO: show spread name in a fixed header
 
 // TODO: interactive slide-over
@@ -23,12 +32,6 @@
 // TODO: layouts don't seem to be full-screen on iOS Safari
 
 // TODO: spread count (by chapter?)
-
-// TODO: for Fixed Layouts, callout lines are only visible for the highlighted step?
-
-// TODO: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
-
-// TODO: slide show layout
 
 // TODO: syncing content and layout cells is still not completely robust
 
@@ -181,3 +184,5 @@
 // DONE: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
 // DONE: make a "fixed layout" widget that can be on a spread with other elements? [extracting fixed layout steps before or after spread]
 // DONE: come up with navigation option (ie, arrows) for Fixed Layout
+// DONE: remove extracted numbers from fixed layout navigation
+// DONE: do extracted sidebars work?

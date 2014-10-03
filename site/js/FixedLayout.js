@@ -64,8 +64,6 @@ define(["Layout",
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
 		
 		this.currentStep = undefined;
-		
-		this.hasIntro = false;
 	}
 	
 	FixedLayout.prototype = Object.create(Layout.prototype);
@@ -101,6 +99,8 @@ define(["Layout",
 				break;
 			}
 			
+			var elem;
+			
 			switch (cell.type) {
 				case "step":
 					var step = new Step(cell, hint);
@@ -108,18 +108,7 @@ define(["Layout",
 					step.elem.attr("data-id", cell.id);
 					
 					if (hint.anchor == "before" || hint.anchor == "after") {
-						step.elem.addClass("extracted");
-						if (hint.anchor == "before") {
-							step.elem.insertBefore(this.image_holder);
-						} else if (hint.anchor == "after") {
-							var next = this.image_holder.next();
-							if (!next.length) {
-								step.elem.insertAfter(this.image_holder);
-							} else {
-								next = this.image_holder.siblings().last();
-								step.elem.insertAfter(next);
-							}
-						}
+						// nothing to do here
 					} else {
 						step.elem.css("visibility", "hidden");
 			
@@ -132,19 +121,42 @@ define(["Layout",
 										
 					this.elements[i] = step;
 					
+					elem = step.elem;
+					
 					break;
 				case "sidebar":
-					hint.shrinkable = true;
+					hint.shrinkable = (hint.anchor != "before" && hint.anchor != "after");
 					
 					var sidebar = new Sidebar(cell, hint);
-					
-					sidebar.elem.css("visibility", "hidden");
+
+					if (hint.anchor == "before" || hint.anchor == "after") {
+						// nothing to do here
+					} else {					
+						sidebar.elem.css("visibility", "hidden");
 												
-					this.image_holder.append(sidebar.elem);
+						this.image_holder.append(sidebar.elem);
+					}
 					
 					this.elements[i] = sidebar;
 					
+					elem = sidebar.elem;
+					
 					break;
+			}
+			
+			if (hint.anchor == "before" || hint.anchor == "after") {
+				elem.addClass("extracted");
+				if (hint.anchor == "before") {
+					elem.insertBefore(this.image_holder);
+				} else if (hint.anchor == "after") {
+					var next = this.image_holder.next();
+					if (!next.length) {
+						elem.insertAfter(this.image_holder);
+					} else {
+						next = this.image_holder.siblings().last();
+						elem.insertAfter(next);
+					}
+				}
 			}
 		}
 		
@@ -202,11 +214,13 @@ define(["Layout",
 					break;
 				case "sidebar":
 					var sidebar = this.elements[i];
-												
-					sidebar.setSize(rect.width, rect.height);					
-					sidebar.setPosition(hint.anchor, rect);
+					
+					if (!sidebar.isExtracted()) {												
+						sidebar.setSize(rect.width, rect.height);					
+						sidebar.setPosition(hint.anchor, rect);
 
-					sidebar.elem.css("visibility", "visible");
+						sidebar.elem.css("visibility", "visible");
+					}
 					
 					break;
 			}
@@ -260,7 +274,7 @@ define(["Layout",
 		
 		for (var i = 0; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el instanceof Step && !el.isIntro) {
+			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
 				if (count == n) {
 					this.unexpandAllExcept(el);
 					el.expand();
@@ -285,7 +299,7 @@ define(["Layout",
 		
 		for (var i = this.currentStep + 1; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el instanceof Step) {
+			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
 				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
@@ -313,7 +327,7 @@ define(["Layout",
 		
 		for (var i = this.currentStep - 1; i >= 0; i--) {
 			var el = this.elements[i];
-			if (el instanceof Step) {
+			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
 				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
@@ -346,11 +360,11 @@ define(["Layout",
 		
 		this.expandFirstStep();
 		
-		// count all the non-intro elements
+		// count all the non-extracted elements
 		var count = 0;
 		for (var i = 0; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el && !el.isIntro) {
+			if (el && el instanceof Step && (!el.isExtracted || !el.isExtracted()) ) {
 				count++;
 			}
 		}

@@ -55,6 +55,10 @@ html, body, p, h1 {
 .layout .spread {
 	position: relative;
 	
+	/* this allowed adding margins after extracted sidebars */
+	display: table;
+	width: 100%;
+	
 	h1 {
 		padding: .5em .25em 0 .25em;
 	}
@@ -188,6 +192,11 @@ html, body, p, h1 {
 		margin: 0 auto;
 	}
 	
+	.sidebar.extracted {
+		max-width: 800px;
+		margin: 15px auto;		
+	}
+	
 	.highlight {
 		pointer-events: none;
 		z-index: 1;
@@ -220,12 +229,12 @@ html, body, p, h1 {
 	}
 	
 	/* leave a little space around extracted steps */
-	& .step.extracted:last-child {
-		padding-bottom: 25px;
-	}
-	
 	& .step.extracted + .image_holder {
 		margin-top: 25px;
+	}
+	
+	& .step.extracted:last-child {
+		padding-bottom: 25px;
 	}
 }
 

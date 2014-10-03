@@ -34,12 +34,18 @@ define([], function () {
 			this.minimize();
 		}
 		
+		this.hints = hints;
+		
 		this.setShrinkable(hints.shrinkable || false);		
 	}
 	
 	Sidebar.prototype = Object.create(null);
 	Sidebar.prototype.constructor = Sidebar;
-	
+
+	Sidebar.prototype.isExtracted = function () {
+		return (this.hints && (this.hints.anchor == "before" || this.hints.anchor == "after"));
+	}
+		
 	Sidebar.prototype.setShrinkable = function (val) {
 		this.shrinkable = val;
 		
@@ -78,6 +84,8 @@ define([], function () {
 	}
 	
 	Sidebar.prototype.updatePosition = function () {
+		if (this.isExtracted()) return;
+		
 		var container = this.elem.parent();
 		
 		var x, y;
