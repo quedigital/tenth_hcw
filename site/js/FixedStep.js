@@ -3,9 +3,9 @@ define(["Helpers"], function (Helpers) {
 	var SIDE_MARGIN = 15, INCREMENT = 10;
 	
 	// number, text, image, anchor
-	Step = function (options, hints) {
+	FixedStep = function (options, hints) {
 		// TODO: Handlebars or Mustache (or even Backbone)?
-		this.elem = $("<div>").addClass("step");
+		this.elem = $("<div>").addClass("fixed_step");
 		
 		this.elem.data("step", this);
 		
@@ -47,10 +47,10 @@ define(["Helpers"], function (Helpers) {
 		}		
 	}
 	
-	Step.prototype = Object.create(null);
-	Step.prototype.constructor = Step;
+	FixedStep.prototype = Object.create(null);
+	FixedStep.prototype.constructor = FixedStep;
 
-	Step.prototype.setupPositions = function () {
+	FixedStep.prototype.setupPositions = function () {
 		this.calculatePositions();
 		
 		this.gotoPosition("normal");
@@ -64,7 +64,7 @@ define(["Helpers"], function (Helpers) {
 		}
 	}
 	
-	Step.prototype.setRect = function (rect) {
+	FixedStep.prototype.setRect = function (rect) {
 		this.rect = rect;
 	}
 		
@@ -74,14 +74,14 @@ define(["Helpers"], function (Helpers) {
 //		elem[0].offsetWidth;
 	}
 	
-	Step.prototype.calculatePositions = function () {
+	FixedStep.prototype.calculatePositions = function () {
 		this.screenPositions = {};
 		
 		this.calculateNormalPosition();
 		this.calculateExpandedPosition();
 	}
 
-	Step.prototype.calculateNormalPosition = function () {
+	FixedStep.prototype.calculateNormalPosition = function () {
 		this.screenPositions.normal = {
 			left: this.rect.left,
 			top: this.rect.top,
@@ -94,7 +94,7 @@ define(["Helpers"], function (Helpers) {
 		};
 	}
 	
-	Step.prototype.calculateExpandedPosition = function () {
+	FixedStep.prototype.calculateExpandedPosition = function () {
 		// see if we can use a smaller text area
 		var offscreen = this.elem.clone();
 		offscreen.css("opacity", "0");
@@ -122,15 +122,13 @@ define(["Helpers"], function (Helpers) {
 		};
 	}
 	
-	Step.prototype.gotoPosition = function (val) {
-		if (this.isExtracted()) return;
-		
+	FixedStep.prototype.gotoPosition = function (val) {
 		var opts = this.screenPositions[val];
 		
 		switch (val) {
 			case "expanded":
 				var t = this.elem.find(".textblock");
-				t.css( { "font-size": opts.fontSize + "px", display: "block" } );
+				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
 				this.elem.height("auto");
 				t.height(opts.height);
 				this.elem.css("width", opts.width);
@@ -140,18 +138,34 @@ define(["Helpers"], function (Helpers) {
 				} else {
 					this.elem.removeClass("overflow");
 				}
+				
+				this.elem.find("h2").css("display", "none");
 		
 				this.elem.css({ left: opts.left, top: opts.top });
 		
-				animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);		
+				animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);
+				
+				this.elem.find(".callout-line").hide().css("visibility", "visible").show();
+				/*
+				var elem = this.elem;
+
+				setTimeout(function () {
+					elem.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
+				}, 750);
+				*/
 				
 				break;
 			
 			case "normal":
+				this.elem.css("width", opts.width);
 				var t = this.elem.find(".textblock");
-				t.css({ display: "none" });
+				t.css({ visibility: "hidden" });
+
+				this.elem.find("h2").css("display", "block");
 				
 				this.elem.css({ left: opts.left, top: opts.top });
+
+				this.elem.find(".callout-line").hide().css("visibility", "hidden");
 				
 				break;			
 		}
@@ -169,7 +183,7 @@ define(["Helpers"], function (Helpers) {
 		elem.css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
 	}
 	
-	Step.prototype.expand = function () {
+	FixedStep.prototype.expand = function () {
 		this.elem.css("zIndex", 2);
 		
 		this.elem.addClass("animated selected");
@@ -181,7 +195,7 @@ define(["Helpers"], function (Helpers) {
 		this.isExpanded = true;
 	}
 	
-	Step.prototype.unexpand = function () {
+	FixedStep.prototype.unexpand = function () {
 //		this.elem.parent().find(".step.selected").removeClass("selected");
 		
 //		this.elem.parent().find(".highlighted").removeClass("highlighted");// animated");
@@ -195,98 +209,17 @@ define(["Helpers"], function (Helpers) {
 		this.isExpanded = false;
 	}
 	
-	Step.prototype.onTouch = function (event) {
+	FixedStep.prototype.onTouch = function (event) {
 		console.log("step ontouch");
 		
 		if (this.isExpanded) this.unexpand();
 		else this.expand();
 	}
 	
-	Step.prototype.onHover = function (event) {
-		switch (event.type) {
-			case "mouseenter":
-				this.expand();
-				this.elem.trigger("expand");				
-				break;
-			case "mouseleave":
-//				this.unexpand();
-				break;
-		}
+	FixedStep.prototype.onClick = function (event) {
+		this.expand();
+		this.elem.trigger("expand");				
 	}
 	
-	Step.prototype.isExtracted = function () {
-		return (this.hints.anchor == "before" || this.hints.anchor == "after");
-	}
-	
-	Step.prototype.format = function () {
-		var elem = this.elem;
-		var hint = this.hints;
-		
-		var img = elem.find(".image");
-		img.find("img").css("width", "100%");
-		var image_w = "50%";
-		if (!isNaN(hint.imageWidth)) {
-			image_w = Math.max(.1, Math.min(.9, hint.imageWidth)) * 100 + "%"
-		}
-		img.width(image_w);
-		
-		switch (hint.image) {
-			case "TL":
-				img.addClass("clear-left");
-				break;
-			case "T":
-				img.addClass("top");
-				img.prependTo(img.parent());
-				break;
-			case "TR":
-				img.addClass("clear-right");
-				break;
-			case "R":
-				var step = elem.find(".step");
-				img.addClass("clear-right");
-				img.insertBefore(step);
-				step.css("margin-right", img.outerWidth() + MARGIN);
-				break;
-			case "BR":
-				// try to position the image at the bottom, knowing the text will reflow and throw us off
-				var h1 = elem.find(".span-text").height();
-				var h2 = img.height();
-				var h = h1 * .6;
-				$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem.find(".step"));
-				img.addClass("clear-right");
-				break;
-			case "B":
-				img.addClass("bottom");
-				img.appendTo(img.parent());
-				break;
-			case "BL":
-				// try to position the image at the bottom, knowing the text will reflow and throw us off
-				var h1 = elem.find(".span-text").height();
-				var h2 = img.height();
-				var h = h1 * .6;
-				$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem.find(".step"));
-				img.addClass("clear-left");						
-				break;
-			case "L":
-				var step = elem.find(".step");
-				img.addClass("clear-left");
-				img.insertBefore(step);
-				step.css("margin-left", img.outerWidth() + MARGIN);
-				break;
-		}
-	
-		// allow some CSS hinting
-		if (hint.marginTop) {
-			img.css("marginTop", hint.marginTop + "px");
-		}
-		
-		// for extracted cells, always vertically center the textblock?
-		if (this.isExtracted()) {
-			var tb = this.elem.find(".textblock");
-			var pt = (tb.parent().height() - tb.outerHeight()) * .5;
-			tb.css({ paddingTop: pt });
-		}
-	}
-	
-	return Step;	
+	return FixedStep;	
 });

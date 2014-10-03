@@ -188,7 +188,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 	LayoutManager.prototype.onReceivedControls = function (event, args) {
 		$("#direct-buttons button.direct").remove();
 		for (var i = 0; i < args.items.length; i++) {
-			var b = $("<button>").addClass("direct").text(i + 1);
+			var b = $("<button>").addClass("direct").text(args.items[i]);
 			$("#direct-buttons").append(b);
 			var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
 			b.click(func);

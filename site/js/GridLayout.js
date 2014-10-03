@@ -2,11 +2,12 @@ define(["Layout",
 		"Helpers",
 		"imagesloaded.pkgd.min",
 		"debug",
+		"Step",
 		"Interactive",
 		"Video",
 		"CalloutLine",
 		"CalloutLabel",
-		"waypoints"], function (Layout, Helpers, imagesLoaded, debug) {
+		"waypoints"], function (Layout, Helpers, imagesLoaded, debug, Step) {
 	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content, manager) {

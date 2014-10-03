@@ -76,6 +76,11 @@ define([], function () {
 			} else if (dx < 10) {
 				dir = "vertical";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5);
+			} else if (viewTarget.left < viewSource.left) {
+				// going left
+				dir = "TR";
+				startX = viewSource.left;
+				startY = viewSource.top + 1;
 			// go above and right if we're wider than the parent
 			} else if (dx > elemSource.parent().width()) {
 				// NOTE: could also draw from middle of block up and then over

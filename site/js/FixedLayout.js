@@ -2,12 +2,13 @@ define(["Layout",
 		"jqueryui",
 		"imagesloaded.pkgd.min",
 		"Step",
+		"FixedStep",
 		"Sidebar",
 		"auto-size-text",
 		"Helpers",
 		"debug",
 		"tinycolor",
-		], function (Layout, jqueryui, imagesLoaded, Step, Sidebar, autoSizeText, Helpers, debug, tinycolor) {
+		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, autoSizeText, Helpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager);
 		
@@ -61,13 +62,17 @@ define(["Layout",
 		
 		this.buildCells();
 		
-		imagesLoaded(this.container, $.proxy(this.positionCells, this));
+		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
 		
 		this.currentStep = undefined;
 	}
 	
 	FixedLayout.prototype = Object.create(Layout.prototype);
 	FixedLayout.prototype.constructor = FixedLayout;
+	
+	FixedLayout.prototype.onImagesLoaded = function () {
+		this.positionCells();		
+	}
 	
 	FixedLayout.prototype.reflow = function () {
 		console.log("reflow");
@@ -103,22 +108,22 @@ define(["Layout",
 			
 			switch (cell.type) {
 				case "step":
-					var step = new Step(cell, hint);
-					
-					step.elem.attr("data-id", cell.id);
-					
 					if (hint.anchor == "before" || hint.anchor == "after") {
-						// nothing to do here
+						var step = new Step(cell, hint);
 					} else {
+						var step = new FixedStep(cell, hint);
+					
 						step.elem.css("visibility", "hidden");
 			
 						this.image_holder.append(step.elem);
 					
-						step.elem.hover($.proxy(step.onHover, step));
+						step.elem.click($.proxy(step.onClick, step));
 						step.elem.on("touchend", $.proxy(step.onTouch, step));
 						step.elem.on("expand", $.proxy(this.onExpandStep, this));
 					}
 										
+					step.elem.attr("data-id", cell.id);
+					
 					this.elements[i] = step;
 					
 					elem = step.elem;
@@ -202,7 +207,7 @@ define(["Layout",
 					var step = this.elements[i];
 					
 					if (step) {
-						if (step.isExtracted()) {
+						if (step instanceof Step) {
 							step.format(hint);
 						} else {
 							step.setRect(rect);
@@ -227,7 +232,7 @@ define(["Layout",
 		}
 		
 		this.removeAllCallouts();
-		this.addLineCallouts({ fromSelector: ".step" });
+		this.addLineCallouts({ fromSelector: ".fixed_step" });
 		
 		this.layoutComplete();	
 	}
@@ -247,12 +252,12 @@ define(["Layout",
 		for (var i = 0; i < this.elements.length; i++) {
 			var el2 = this.elements[i];
 			if (el2) {
-				if (el instanceof Step) {
-					if (el2 instanceof Step && el2 != el) {
+				if (el instanceof FixedStep) {
+					if (el2 instanceof FixedStep && el2 != el) {
 						el2.unexpand();
 					}
 				} else {
-					if (el2 instanceof Step && el2.elem[0] != el) {
+					if (el2 instanceof FixedStep && el2.elem[0] != el) {
 						el2.unexpand();					
 					} else if (el2.elem[0] == el) {
 						// quasi-kludge: this is the step we just moused over
@@ -274,7 +279,7 @@ define(["Layout",
 		
 		for (var i = 0; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
+			if (el instanceof FixedStep) {
 				if (count == n) {
 					this.unexpandAllExcept(el);
 					el.expand();
@@ -299,7 +304,7 @@ define(["Layout",
 		
 		for (var i = this.currentStep + 1; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
+			if (el instanceof FixedStep) {
 				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
@@ -327,7 +332,7 @@ define(["Layout",
 		
 		for (var i = this.currentStep - 1; i >= 0; i--) {
 			var el = this.elements[i];
-			if (el instanceof Step && (!el.isExtracted || !el.isExtracted())) {
+			if (el instanceof FixedStep) {
 				this.unexpandAllExcept(el);
 				el.expand();
 				this.currentStep = i;
@@ -360,16 +365,20 @@ define(["Layout",
 		
 		this.expandFirstStep();
 		
+		var items = [];
+		
 		// count all the non-extracted elements
 		var count = 0;
 		for (var i = 0; i < this.elements.length; i++) {
 			var el = this.elements[i];
-			if (el && el instanceof Step && (!el.isExtracted || !el.isExtracted()) ) {
-				count++;
+			if (el && el instanceof FixedStep) {
+				if (el.options.title) {
+					items.push(el.options.title);
+				} else {
+					items.push(el.options.number);
+				}
 			}
 		}
-		
-		var items = new Array(count);
 			
 		this.container.trigger("controls", { layout: this, items: items });
 	}

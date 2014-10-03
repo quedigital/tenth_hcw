@@ -35,7 +35,15 @@ html, body, p, h1 {
 		visibility: hidden;
 	}
 	
-	&.dark .step:not(.selected) .block {
+	&.dark .fixed_step:not(.selected) .block {
+		color: black;
+		
+		&:before {
+			background-color: white;
+		}
+	}
+
+	&.dark .step .block {
 		color: black;
 		
 		&:before {
@@ -107,14 +115,28 @@ html, body, p, h1 {
 	}
 }
 
+.fixed_step {
+	padding-left: 2.75em;
+	
+	&.no-number {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	
+	h2 {
+		font-size: 120%;
+	}	
+}
+
 .spread.fixed {
 	margin-left: auto;
 	margin-right: auto;
-	background-color: black;
 	
 	h1 {
 /*		position: absolute;*/
 		padding: 0 0 0 .25em;
+		color: white;
+		background-color: black;
 	}
 	
 	.image_holder {
@@ -125,7 +147,7 @@ html, body, p, h1 {
 		padding: .5em 1em 1em 1em;
 	}
 	
-	.step:not(.extracted) {
+	.fixed_step {
 		position: absolute;
 		cursor: pointer;
 		-webkit-tap-highlight-color: rgba(0,0,0,0);

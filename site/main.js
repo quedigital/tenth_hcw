@@ -28,6 +28,10 @@ requirejs.config({
 				export: "$",
 				deps: ['jquery']
 			},
+			"jquery.adaptive-backgrounds": {
+				export: "$",
+				deps: ['jquery']
+			}
 		}
 });
 
