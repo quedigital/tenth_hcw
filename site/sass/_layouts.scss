@@ -77,6 +77,30 @@ html, body, p, h1 {
 	&.no-number {
 		padding-left: 0;
 	}
+	
+	.clear-left {
+		float: left;
+		clear: left;
+	
+		&.image {
+			margin-right: 20px;
+			margin-top: 20px;
+		}
+	}
+
+	.clear-right {
+		float: right;
+		clear: right;
+	
+		&.image {
+		}
+	}
+	
+	&:after {
+		content: "";
+		display: block;
+		clear: both;
+	}
 }
 
 .spread.fixed {
@@ -97,7 +121,7 @@ html, body, p, h1 {
 		padding: .5em 1em 1em 1em;
 	}
 	
-	.step {
+	.step:not(.extracted) {
 		position: absolute;
 		cursor: pointer;
 		-webkit-tap-highlight-color: rgba(0,0,0,0);
@@ -159,6 +183,11 @@ html, body, p, h1 {
 		*/
 	}
 	
+	.step.extracted {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+	
 	.highlight {
 		pointer-events: none;
 		z-index: 1;
@@ -188,6 +217,15 @@ html, body, p, h1 {
 			transition: transform .5s ease, width .5s ease, height .5s ease, background-color 1.0s ease;
 		}
 		*/		
+	}
+	
+	/* leave a little space around extracted steps */
+	& .step.extracted:last-child {
+		padding-bottom: 25px;
+	}
+	
+	& .step.extracted + .image_holder {
+		margin-top: 25px;
 	}
 }
 
@@ -293,25 +331,7 @@ div.cell {
 	
 	.bottom {
 		margin: 0 auto;
-	}
-		
-	.clear-left {
-		float: left;
-		clear: left;
-	
-		&.image {
-			margin-right: 20px;
-			margin-top: 20px;
-		}
-	}
-
-	.clear-right {
-		float: right;
-		clear: right;
-	
-		&.image {
-		}
-	}
+	}		
 }
 
 .image {

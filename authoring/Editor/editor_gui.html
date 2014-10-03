@@ -364,7 +364,21 @@
 							<tbody data-bind="attr: { 'data-id': id }, if: $parent.style()==='fixed'">
 								<tr>
 									<td>anchor</td>
-									<td><select data-bind="options: ['TL','T','TR','R','BR','B','BL','L'], value: anchor"></select></td>
+									<td><select data-bind="options: ['TL','T','TR','R','BR','B','BL','L','before','after'], value: anchor"></select></td>
+								</tr>
+							</tbody>
+							<tbody data-bind="attr: { 'data-id': id }, if: anchor()=='before' || anchor()=='after'">
+								<tr>
+									<td>width</td>
+									<td><input data-bind="value: width" type="number"></input></td>
+								</tr>
+								<tr>
+									<td>image width</td>
+									<td><input data-bind="value: imageWidth" type="number"></input></td>
+								</tr>
+								<tr>
+									<td>image</td>
+									<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: image"></select></td>
 								</tr>
 							</tbody>
 							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType($data.firebase.name())==='sidebar'">

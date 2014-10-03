@@ -28,9 +28,6 @@
 
 // TODO: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
 
-// TODO: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
-// TODO: make a "fixed layout" widget that can be on a spread with other elements?
-
 // TODO: slide show layout
 
 // TODO: syncing content and layout cells is still not completely robust
@@ -46,7 +43,6 @@
 // TODO: min-size for grid cells? (so the callouts in images don't get too small)
 
 // TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
-// TODO: come up with navigation option (ie, arrows) for Fixed Layout
 // TODO: make Callout titles fit on one line (iPad)
 // TODO: images can be zoomed on desktop (mousewheel? double-click?)
 
@@ -182,4 +178,6 @@
 // DONE: make fixed layout text areas scrollable (in case they can't fit on the screen)
 // DONE: activating spreads
 // DONE: fixed layout step navigation
-
+// DONE: instead of a FixedLayout, have an AnnotatedImage cell type that can be dropped into a GridLayout (and get its data from steps)
+// DONE: make a "fixed layout" widget that can be on a spread with other elements? [extracting fixed layout steps before or after spread]
+// DONE: come up with navigation option (ie, arrows) for Fixed Layout

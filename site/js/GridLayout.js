@@ -79,12 +79,14 @@ define(["Layout",
 	
 	GridLayout.prototype.buildCells = function () {
 		var cells = $.map(this.content.cells, function (el) { return el });
+		var hints = $.map(this.layout.hints, function (el) { return el });
 		
 		this.queuedWaypoints = [];
 		this.container.find(".cell").waypoint("destroy");
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
+			var hint = hints[i];
 			var cellDOM = $("<div>").addClass("cell");
 			this.container.append(cellDOM);
 			
@@ -92,7 +94,7 @@ define(["Layout",
 
 			switch (cell.type) {
 				case "step":
-					var step = new Step(cell);
+					var step = new Step(cell, hint);
 					cellDOM.append(step.elem);
 					
 					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#content" });
@@ -106,7 +108,7 @@ define(["Layout",
 					}
 					break;
 				case "sidebar":
-					var sidebar = new Sidebar(cell);
+					var sidebar = new Sidebar(cell, hint);
 					cellDOM.append(sidebar.elem);
 					break;
 				case "interactive":
@@ -238,63 +240,9 @@ define(["Layout",
 				// internal formatting:
 				switch (cell.type) {
 					case "step":
-						var img = elem.find(".image");
-						img.find("img").css("width", "100%");
-						var image_w = "50%";
-						if (!isNaN(hint.imageWidth)) {
-							image_w = Math.max(.1, Math.min(.9, hint.imageWidth)) * 100 + "%"
-						}
-						img.width(image_w);
-						switch (hint.image) {
-							case "TL":
-								img.addClass("clear-left");
-								break;
-							case "T":
-								img.addClass("top");
-								img.prependTo(img.parent());
-								break;
-							case "TR":
-								img.addClass("clear-right");
-								break;
-							case "R":
-								var step = elem.find(".step");
-								img.addClass("clear-right");
-								img.insertBefore(step);
-								step.css("margin-right", img.outerWidth() + MARGIN);
-								break;
-							case "BR":
-								// try to position the image at the bottom, knowing the text will reflow and throw us off
-								var h1 = elem.find(".span-text").height();
-								var h2 = img.height();
-								var h = h1 * .6;
-								$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem.find(".step"));
-								img.addClass("clear-right");
-								break;
-							case "B":
-								img.addClass("bottom");
-								img.appendTo(img.parent());
-								break;
-							case "BL":
-								// try to position the image at the bottom, knowing the text will reflow and throw us off
-								var h1 = elem.find(".span-text").height();
-								var h2 = img.height();
-								var h = h1 * .6;
-								$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem.find(".step"));
-								img.addClass("clear-left");						
-								break;
-							case "L":
-								var step = elem.find(".step");
-								img.addClass("clear-left");
-								img.insertBefore(step);
-								step.css("margin-left", img.outerWidth() + MARGIN);
-								break;
-						}
-					
-						// allow some CSS hinting
-						if (hint.marginTop) {
-							img.css("marginTop", hint.marginTop + "px");
-						}
-						
+						var step = elem.find(".step").data("step");
+						step.format();
+
 						break;
 						
 					case "image":

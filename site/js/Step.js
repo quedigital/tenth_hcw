@@ -3,7 +3,7 @@ define(["Helpers"], function (Helpers) {
 	var SIDE_MARGIN = 15, INCREMENT = 10;
 	
 	// number, text, image, anchor
-	Step = function (options) {
+	Step = function (options, hints) {
 		// TODO: Handlebars or Mustache (or even Backbone)?
 		this.elem = $("<div>").addClass("step");
 		
@@ -34,8 +34,10 @@ define(["Helpers"], function (Helpers) {
 		$("<span>").addClass("span-text").html(options.text).appendTo(d);
 		
 		this.number = options.number;
-		this.anchor = options.anchor;
-		this.rect = options.rect;
+		this.anchor = hints.anchor;
+		this.rect = hints.rect;
+		this.options = options;
+		this.hints = hints;
 		
 		d.appendTo(this.elem);
 		
@@ -121,6 +123,8 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	Step.prototype.gotoPosition = function (val) {
+		if (this.isExtracted()) return;
+		
 		var opts = this.screenPositions[val];
 		
 		switch (val) {
@@ -207,6 +211,80 @@ define(["Helpers"], function (Helpers) {
 			case "mouseleave":
 //				this.unexpand();
 				break;
+		}
+	}
+	
+	Step.prototype.isExtracted = function () {
+		return (this.hints.anchor == "before" || this.hints.anchor == "after");
+	}
+	
+	Step.prototype.format = function () {
+		var elem = this.elem;
+		var hint = this.hints;
+		
+		var img = elem.find(".image");
+		img.find("img").css("width", "100%");
+		var image_w = "50%";
+		if (!isNaN(hint.imageWidth)) {
+			image_w = Math.max(.1, Math.min(.9, hint.imageWidth)) * 100 + "%"
+		}
+		img.width(image_w);
+		
+		switch (hint.image) {
+			case "TL":
+				img.addClass("clear-left");
+				break;
+			case "T":
+				img.addClass("top");
+				img.prependTo(img.parent());
+				break;
+			case "TR":
+				img.addClass("clear-right");
+				break;
+			case "R":
+				var step = elem.find(".step");
+				img.addClass("clear-right");
+				img.insertBefore(step);
+				step.css("margin-right", img.outerWidth() + MARGIN);
+				break;
+			case "BR":
+				// try to position the image at the bottom, knowing the text will reflow and throw us off
+				var h1 = elem.find(".span-text").height();
+				var h2 = img.height();
+				var h = h1 * .6;
+				$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem.find(".step"));
+				img.addClass("clear-right");
+				break;
+			case "B":
+				img.addClass("bottom");
+				img.appendTo(img.parent());
+				break;
+			case "BL":
+				// try to position the image at the bottom, knowing the text will reflow and throw us off
+				var h1 = elem.find(".span-text").height();
+				var h2 = img.height();
+				var h = h1 * .6;
+				$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem.find(".step"));
+				img.addClass("clear-left");						
+				break;
+			case "L":
+				var step = elem.find(".step");
+				img.addClass("clear-left");
+				img.insertBefore(step);
+				step.css("margin-left", img.outerWidth() + MARGIN);
+				break;
+		}
+	
+		// allow some CSS hinting
+		if (hint.marginTop) {
+			img.css("marginTop", hint.marginTop + "px");
+		}
+		
+		// for extracted cells, always vertically center the textblock?
+		if (this.isExtracted()) {
+			var tb = this.elem.find(".textblock");
+			var pt = (tb.parent().height() - tb.outerHeight()) * .5;
+			tb.css({ paddingTop: pt });
 		}
 	}
 	

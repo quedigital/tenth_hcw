@@ -96,8 +96,6 @@ define(["Layout",
 			var hint = hints[i];
 			var cell = Helpers.findByID(hint.id, this.content.cells);
 
-			var options = $.extend(cell, hint);
-			
 			if (!cell) {
 				debug.write("Couldn't find cell for hint " + hint.id);
 				break;
@@ -105,36 +103,40 @@ define(["Layout",
 			
 			switch (cell.type) {
 				case "step":
-					if (options.number == undefined && !this.hasIntro) {
-						var intro = $("<div>").addClass("intro-text").html(options.text);
-						
-						intro.insertBefore(this.image_holder);
-						
-						this.hasIntro = true;
-						options.isIntro = true;
-						
-						break;
-					}					
-					
-					var step = new Step(options);
+					var step = new Step(cell, hint);
 					
 					step.elem.attr("data-id", cell.id);
 					
-					step.elem.css("visibility", "hidden");
+					if (hint.anchor == "before" || hint.anchor == "after") {
+						step.elem.addClass("extracted");
+						if (hint.anchor == "before") {
+							step.elem.insertBefore(this.image_holder);
+						} else if (hint.anchor == "after") {
+							var next = this.image_holder.next();
+							if (!next.length) {
+								step.elem.insertAfter(this.image_holder);
+							} else {
+								next = this.image_holder.siblings().last();
+								step.elem.insertAfter(next);
+							}
+						}
+					} else {
+						step.elem.css("visibility", "hidden");
 			
-					this.image_holder.append(step.elem);
+						this.image_holder.append(step.elem);
 					
-					step.elem.hover($.proxy(step.onHover, step));
-					step.elem.on("touchend", $.proxy(step.onTouch, step));
-					step.elem.on("expand", $.proxy(this.onExpandStep, this));
-					
+						step.elem.hover($.proxy(step.onHover, step));
+						step.elem.on("touchend", $.proxy(step.onTouch, step));
+						step.elem.on("expand", $.proxy(this.onExpandStep, this));
+					}
+										
 					this.elements[i] = step;
 					
 					break;
 				case "sidebar":
-					options.shrinkable = true;
+					hint.shrinkable = true;
 					
-					var sidebar = new Sidebar(options);
+					var sidebar = new Sidebar(cell, hint);
 					
 					sidebar.elem.css("visibility", "hidden");
 												
@@ -188,11 +190,13 @@ define(["Layout",
 					var step = this.elements[i];
 					
 					if (step) {
-						step.setRect(rect);
-					
-						step.setupPositions();
-					
-						step.elem.css("visibility", "visible");
+						if (step.isExtracted()) {
+							step.format(hint);
+						} else {
+							step.setRect(rect);
+							step.setupPositions();
+							step.elem.css("visibility", "visible");
+						}
 					}
 
 					break;

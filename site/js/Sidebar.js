@@ -1,11 +1,11 @@
 define([], function () {
 
 	// title, text, image
-	Sidebar = function (options) {
+	Sidebar = function (options, hints) {
 		this.elem = $("<div>").addClass("sidebar");
 		
-		if (options.theme) {
-			this.elem.addClass(options.theme);
+		if (hints.theme) {
+			this.elem.addClass(hints.theme);
 		}
 		
 		$("<h2>").text(options.title)
@@ -13,8 +13,8 @@ define([], function () {
 		
 		var interior = $("<div>").addClass("interior").appendTo(this.elem);
 		
-		if (options.backgroundColor) {
-			interior.css("backgroundColor", options.backgroundColor);
+		if (hints.backgroundColor) {
+			interior.css("backgroundColor", hints.backgroundColor);
 		}
 		
 		$("<p>").html(options.text).appendTo(interior);
@@ -30,11 +30,11 @@ define([], function () {
 			});
 		}
 
-		if (options.shrinkable) {
+		if (hints.shrinkable) {
 			this.minimize();
 		}
 		
-		this.setShrinkable(options.shrinkable || false);		
+		this.setShrinkable(hints.shrinkable || false);		
 	}
 	
 	Sidebar.prototype = Object.create(null);
