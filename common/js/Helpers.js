@@ -57,6 +57,12 @@ define([], function () {
 		}
 	}
 	
+	function sortByPriority (a, b) {
+		if (a[".priority"] < b[".priority"]) return -1;
+		else if (a[".priority"] > b[".priority"]) return 1;
+		else return 0;
+	}
+	
 	function objectToArrayWithKey (obj) {
 		return $.map(obj, function (el, key) { return $.extend(el, { id: key }) });
 	}
@@ -138,6 +144,7 @@ define([], function () {
 		reserveSpace: reserveSpace,
 		findSpace: findSpace,
 		sortByChapterAndNumber: sortByChapterAndNumber,
+		sortByPriority: sortByPriority,
 		objectToArrayWithKey: objectToArrayWithKey,
 		getNextHighestKey: getNextHighestKey,
 		convertAlignToJQueryAlign: convertAlignToJQueryAlign,

@@ -75,7 +75,12 @@ define([], function () {
 				startY = 1;
 			} else if (dx < 10) {
 				dir = "vertical";
-				startX = viewSource.left + Math.floor(elemSource.width() * .5);
+				startX = viewSource.left + Math.floor(elemSource.width() * .5) + 1;
+ 				if (viewTarget.top < viewSource.top) {
+					startY = viewSource.top;
+				} else {
+					startY = viewSource.top + viewSource.height + 1;
+				}
 			} else if (viewTarget.left < viewSource.left) {
 				// going left
 				dir = "TR";
@@ -101,7 +106,11 @@ define([], function () {
 			} else {
 				dir = "BL";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5);
-				startY = viewSource.top + Math.floor(elemSource.height());
+				if (viewSource.top < viewTarget.top) {
+					startY = viewSource.top + Math.floor(elemSource.height());
+				} else {
+					startY = viewSource.top;
+				}
 			}
 		}
 		

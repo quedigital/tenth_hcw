@@ -93,11 +93,15 @@ define(["Layout",
 	}
 	
 	FixedLayout.prototype.buildCells = function () {
-		var hints = $.map(this.layout.hints, function (el) { return el });
+		var cells = $.map(this.content.cells, function (el) { return el });
 		
-		for (var i = 0; i < hints.length; i++) {
-			var hint = hints[i];
-			var cell = Helpers.findByID(hint.id, this.content.cells);
+		cells.sort(Helpers.sortByPriority);
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var hint = Helpers.findByID(cell.id, this.layout.hints);
+			
+			console.log(cell.number);
 
 			if (!cell) {
 				debug.write("Couldn't find cell for hint " + hint.id);

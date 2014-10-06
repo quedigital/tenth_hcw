@@ -3,7 +3,6 @@
 // TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
 			(with focus highlight on current step)
 			
-// TODO: fixed layout steps should load in priority order
 // TODO: is non-blocking working on spreads 15_5 and 16_1?
 // TODO: nicer numbers and animations for fixed layouts (numbered and titled)
 
@@ -193,3 +192,4 @@
 // DONE: are fixed layout callout lines working?
 // DONE: for Fixed Layouts, callout lines are only visible for the highlighted step?
 // DONE: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
+// DONE: fixed layout steps should load in priority order (9_5)
