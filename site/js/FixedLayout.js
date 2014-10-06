@@ -101,8 +101,6 @@ define(["Layout",
 			var cell = cells[i];
 			var hint = Helpers.findByID(cell.id, this.layout.hints);
 			
-			console.log(cell.number);
-
 			if (!cell) {
 				debug.write("Couldn't find cell for hint " + hint.id);
 				break;

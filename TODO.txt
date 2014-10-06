@@ -1,13 +1,11 @@
 
 
-// TODO: GridLayout.GetMaxYPosition shouldn't go through all rows
-
 // TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
 			(with focus highlight on current step)
+// TODO: waypoint triggering is still a little wonky
 			
 // TODO: nicer numbers and animations for fixed layouts (numbered and titled)
-
-// TODO: marginTop not working?
+// TODO: show spread name in a fixed header
 
 // TODO: slide show layout?
 
@@ -17,19 +15,14 @@
 
 // TODO: change URL location to reflect current spread? (history.pushState)
 
-// TODO: waypoint triggering is still a little wonky
-
 // TODO: Fixed layout steps don't account for "headings" when sizing
 
 // TODO: fixed layout zooms in just enough for text to fit in its boundary?
 
 // TODO: search pane (hideable?) used for other spreads to jump to
-
 // TODO: keywords (searchable) for spreads
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
-
-// TODO: show spread name in a fixed header
 
 // TODO: interactive slide-over
 
@@ -55,6 +48,8 @@
 
 // TODO: collapsible columns
 // TODO: template the sections
+
+// TODO: marginTop not working? [not being used]
 
 // UI DESIGN: come up with exterior framework / navigation / spread loading
 // UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
@@ -195,3 +190,4 @@
 // DONE: for Fixed Layouts, callout lines should not go in front of the current, expanded text area
 // DONE: fixed layout steps should load in priority order (9_5)
 // DONE: is non-blocking working on spreads 15_5 and 16_1?
+// DONE: GridLayout.GetMaxYPosition shouldn't go through all rows
