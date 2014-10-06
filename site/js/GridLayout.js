@@ -124,6 +124,18 @@ define(["Layout",
 		}
 	}
 	
+	
+	// if 2 is non-blocking, 3 and 4 should move up:
+	// 111222
+	// 333
+	// 444
+	
+	// if 2 is non-blocking, 5 and 6 should be below 2:
+	// 111222
+	// 333
+	// 444
+	// 555566
+
 	// return the bottom position, including "non-blocking" cells
 	function getMaxYPosition (cell_heights, map, row, col, width) {
 		var max_y = 0;
@@ -165,7 +177,7 @@ define(["Layout",
 			var id = map[row * 10 + i];
 			if (id && id != last_id) {
 				var hint = Helpers.findByID(id, hints);
-				if (cellIsBelowNonBlockingCell(hints, map, hint.row, hint.col, hint.width * 10))
+				if (cellIsBelowNonBlockingCell(hints, map, hint.row - 1, hint.col, hint.width * 10))
 					return true;
 				else
 					last_id = id;
@@ -176,12 +188,17 @@ define(["Layout",
 	}
 	
 	function cellIsBelowNonBlockingCell (hints, map, row, col, width) {
-		for (var r = 0; r < row; r++) {
-			for (var c = col; c < col + width; c++) {
+		// check all columns first
+		for (var c = col; c < col + width; c++) {
+			for (var r = row; r > 0; r--) {
 				var id = map[r * 10 + c];
 				var hint = Helpers.findByID(id, hints);
-				if (hint && hint.nonblocking) {
-					return true;
+				if (hint) {
+					if (hint.nonblocking) {
+						return true;
+					} else {
+						break;
+					}
 				}
 			}
 		}
@@ -224,6 +241,10 @@ define(["Layout",
 				var cell = Helpers.findByID(id, this.content.cells);
 				
 				var y;
+				
+				if (id == "19") {
+					var a = 5;
+				}
 				
 				if (rowIsBelowNonBlockingCell(hints, map, hint.row, hint.col, hint.width * 10)) {
 					y = getMaxYPosition(cell_heights, map, hint.row - 1, 0, 10);
