@@ -247,7 +247,7 @@ define(["Layout",
 		var r = $("<div>").addClass("testrect");
 		r.css({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
 		
-		this.container.append(r);
+		this.image_holder.append(r);
 	}
 	
 	FixedLayout.prototype.unexpandAllExcept = function  (el) {

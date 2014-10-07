@@ -15,6 +15,7 @@ define(["Helpers"], function (Helpers) {
 		
 		if (options.number != undefined && parseInt(options.number) > 0) {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
+				.addClass("shape")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
 		} else {
@@ -33,18 +34,16 @@ define(["Helpers"], function (Helpers) {
 		
 		$("<span>").addClass("span-text").html(options.text).appendTo(d);
 		
+		var bounds = $("<div>").addClass("bounds");
+		this.elem.append(bounds);
+		this.bounds = bounds;
+
 		this.number = options.number;
 		this.anchor = hints.anchor;
-		this.rect = hints.rect;
 		this.options = options;
 		this.hints = hints;
 		
 		d.appendTo(this.elem);
-		
-		if (this.rect) {
-			this.elem.find(".textblock").addClass("resizeable").css("font-size", "12px");
-			this.elem.css( { width: this.rect.width } );
-		}		
 	}
 	
 	FixedStep.prototype = Object.create(null);
@@ -52,6 +51,7 @@ define(["Helpers"], function (Helpers) {
 
 	FixedStep.prototype.setupPositions = function () {
 		this.calculatePositions();
+		this.updateBoundsBox();
 		
 		this.gotoPosition("normal");
 	}
@@ -65,7 +65,11 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	FixedStep.prototype.setRect = function (rect) {
-		this.rect = rect;
+		this.rect = rect;		
+	}
+	
+	FixedStep.prototype.updateBoundsBox = function () {
+		this.bounds.css({ width: this.rect.width, height: this.screenPositions.expanded.height });
 	}
 		
 	function reflow (elem) {
@@ -108,6 +112,14 @@ define(["Helpers"], function (Helpers) {
 		offscreen.css("width", width);
 		var text_height = t.height();
 		
+		// use the actual text height if it's close enough to the rect height
+		var overflow_amount = text_height - this.rect.height;
+		var box_height = Math.min(text_height, this.rect.height);
+		var THRESHOLD = 12;
+		if (overflow_amount > 0 && overflow_amount < THRESHOLD) {
+			box_height = text_height;
+		}
+		
 		offscreen.remove();
 		
 		this.screenPositions.expanded = {
@@ -116,10 +128,12 @@ define(["Helpers"], function (Helpers) {
 			top: this.rect.top,
 			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
 			overflow: false,
-			height: Math.min(text_height, this.rect.height),
+			height: box_height,
 			width: this.rect.width,
 			fontSize: DEFAULT_FONT_SIZE,
 		};
+		
+		this.elem.find(".textblock").height(box_height);
 	}
 	
 	FixedStep.prototype.gotoPosition = function (val) {
@@ -153,6 +167,10 @@ define(["Helpers"], function (Helpers) {
 					elem.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
 				}, 750);
 				*/
+
+				var shape = this.elem.find(".shape");
+				var transform = "scale(1)";
+				shape.css("transform", transform);
 				
 				break;
 			
@@ -161,32 +179,47 @@ define(["Helpers"], function (Helpers) {
 				var t = this.elem.find(".textblock");
 				t.css({ visibility: "hidden" });
 
-				this.elem.find("h2").css("display", "block");
+				var h2 = this.elem.find("h2");
+				if (h2.length) {
+					h2.css("display", "inline-block");
+					h2.position( { my: "center", at: "center", of: this.bounds, collision: "none" } );
+				}
 				
 				this.elem.css({ left: opts.left, top: opts.top });
 
 				this.elem.find(".callout-line").hide().css("visibility", "hidden");
 				
+				var shape = this.elem.find(".shape");
+				var scale = 1.5;
+				var w = shape.width();// * scale;
+				var h = shape.height();// * scale;
+				
+				var tx = this.rect.width / scale * .5 - (w * .5);
+				var ty = (this.screenPositions.expanded.height / scale) * .5 - (h * .5);
+				
+				var transform = "scale(" + scale + ") translate(" + tx + "px," + ty + "px)";
+				
+				shape.css("transform", transform);
+				
 				break;			
 		}
 	}
 	
-	function animateHighlightTo (elem, x, y, w, h) {
-		elem.addClass("animated");
+	function animateHighlightTo (highlight, x, y, w, h) {
+		highlight.addClass("animated");
 		
 		x -= 10;
 		w += 20;
 		y -= 20;
 		h += 40;
 				
-		elem.width(w).height(h);
-		elem.css("-webkit-transform", "translate3d(" + x + "px," + y + "px,0)");
+		highlight.width(w).height(h).css("-webkit-transform", "translate3d(" + x + "px," + y + "px, 0)");
 	}
 	
 	FixedStep.prototype.expand = function () {
 		this.elem.css("zIndex", 2);
 		
-		this.elem.addClass("animated selected");
+		this.elem.addClass("selected");
 		
 		this.elem.parent().find(".highlight").addClass("highlighted");
 		
@@ -196,10 +229,6 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	FixedStep.prototype.unexpand = function () {
-//		this.elem.parent().find(".step.selected").removeClass("selected");
-		
-//		this.elem.parent().find(".highlighted").removeClass("highlighted");// animated");
-		
 		this.elem.removeClass("selected");
 		
 		this.elem.css("zIndex", "auto");

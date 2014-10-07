@@ -1,11 +1,18 @@
 
 
+// TODO: show spread name in a fixed header
+
+// TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
+
+// TODO: animate callout lines (grid and fixed)
+
+// TODO: style fixed layout navigation controls
+
 // TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
 			(with focus highlight on current step)
 // TODO: waypoint triggering is still a little wonky
 			
-// TODO: nicer numbers and animations for fixed layouts (numbered and titled)
-// TODO: show spread name in a fixed header
+// TODO: eliminate memory leaks
 
 // TODO: slide show layout?
 
@@ -15,9 +22,7 @@
 
 // TODO: change URL location to reflect current spread? (history.pushState)
 
-// TODO: Fixed layout steps don't account for "headings" when sizing
-
-// TODO: fixed layout zooms in just enough for text to fit in its boundary?
+// TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
 
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
@@ -43,15 +48,12 @@
 // TODO: min-size for grid cells? (so the callouts in images don't get too small)
 
 // TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
-// TODO: make Callout titles fit on one line (iPad)
-// TODO: images can be zoomed on desktop (mousewheel? double-click?)
 
 // TODO: collapsible columns
 // TODO: template the sections
 
 // TODO: marginTop not working? [not being used]
 
-// UI DESIGN: come up with exterior framework / navigation / spread loading
 // UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
 //            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
 // UI DESIGN: or use SVG for most non-raster images? (IE9+)
@@ -191,3 +193,7 @@
 // DONE: fixed layout steps should load in priority order (9_5)
 // DONE: is non-blocking working on spreads 15_5 and 16_1?
 // DONE: GridLayout.GetMaxYPosition shouldn't go through all rows
+// DONE: nicer numbers and animations for fixed layouts (numbered and titled)
+// NOPE: make Callout titles fit on one line (iPad) [not really necessary]
+// DONE: come up with exterior framework / navigation / spread loading
+// NOPE: Fixed layout steps don't account for "headings" when sizing [we're now using headings as selectable captions]

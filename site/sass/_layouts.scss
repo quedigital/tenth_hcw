@@ -70,7 +70,7 @@ html, body, p, h1 {
 		width: 100%;
 	
 		h1 {
-			padding: .5em .25em 0 .25em;
+			padding: .25em;
 		}
 	
 		canvas {
@@ -123,19 +123,6 @@ html, body, p, h1 {
 	}
 }
 
-.fixed_step {
-	padding-left: 2.75em;
-	
-	&.no-number {
-		padding-left: 1em;
-		padding-right: 1em;
-	}
-	
-	h2 {
-		font-size: 120%;
-	}	
-}
-
 .spread.fixed {
 	margin-left: auto;
 	margin-right: auto;
@@ -155,11 +142,17 @@ html, body, p, h1 {
 	
 	.fixed_step {
 		position: absolute;
+		padding-left: 2.75em;
 		cursor: pointer;
 		-webkit-tap-highlight-color: rgba(0,0,0,0);
 		
+		&.no-number {
+			padding-left: 1em;
+			padding-right: 1em;
+		}
+		
 		h2 {
-			margin: -.75em 0 0 0;
+			font-size: 120%;
 		}
 		
 		&.selected h2 {
@@ -207,12 +200,51 @@ html, body, p, h1 {
 			transition: opacity .25s;
 		}
 		
-		/*
-		&.animated {
-			-webkit-transition: left .5s, top .5s;
-			transition: transform .5s ease;
+		.shape {
+			transition: transform .5s ease-in-out;
+			transform-origin: 0 0;
 		}
-		*/
+		
+		&:not(.selected) .shape {
+			z-index: 1;
+			
+			&:before {
+				box-shadow: 4px 4px 8px rgba(0, 0, 0, .5);
+			}
+		}
+		
+		&:not(.selected) .block {
+			top: 0;
+		}
+		
+		&:not(.selected) h2 {
+			background-color: #ddf;
+			border: 2px solid black;
+			border-radius: 15px;
+			text-align: center;
+			padding: .25em;
+			box-shadow: 4px 4px 8px rgba(0, 0, 0, .5);
+			text-shadow: -1px 1px 1px #999;
+			font-weight: 100;
+			z-index: 1;
+		}
+		
+		.bounds {
+			position: absolute;
+			top: 0;
+			left: 0;
+			pointer-events: none;
+		}
+		
+		&:not(.selected):hover .bounds {
+			background-color: orange;
+		}
+		
+		&:not(.selected) .bounds {
+			border-radius: 15px;
+			border: 2px dashed;
+			opacity: .3;			
+		}
 	}
 	
 	.step.extracted {
@@ -227,7 +259,7 @@ html, body, p, h1 {
 	
 	.highlight {
 		pointer-events: none;
-		z-index: 1;
+		z-index: 2;
 		position: absolute;
 		background-color: rgba(255, 255, 255, 0);
 		border-radius: 15px;
@@ -239,21 +271,8 @@ html, body, p, h1 {
 		
 		&.highlighted {
 			background-color: rgba(255, 255, 255, 1.0);
-			/*
-			left: -15px;
-			top: -15px;
-			*/
 			box-shadow: 0 10px 15px rgba(0,0,0,.3), 0 0 30px rgba(0,0,0,.3) inset;
-			
-/*			transition: transform .5s ease;*/
-		}
-		
-		/*
-		&.animated {
-			-webkit-transition: left .5s, top .5s, width .5s, height .5s, background-color 1.0s;
-			transition: transform .5s ease, width .5s ease, height .5s ease, background-color 1.0s ease;
-		}
-		*/		
+		}		
 	}
 	
 	/* leave a little space around extracted steps */
@@ -388,12 +407,6 @@ div.cell {
 	text-align: center;
 	width: 25px;
 	height: 25px;
-	/*
-	position: relative;
-	margin-left: -38px;
-	margin-right: 13px;
-	top: 8px;
-	*/
 	position: absolute;
 	left: 5px;
 	
@@ -412,7 +425,7 @@ div.cell {
 		left: 0;
 		width: 100%;
 		text-align: center;
-	}
+	}	
 }
 
 .block {
