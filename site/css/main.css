@@ -930,8 +930,26 @@ div.image-callout span {
   text-align: center;
 }
 
+/* line 705, ../sass/_layouts.scss */
+#current-spread-name {
+  position: fixed;
+  z-index: 5;
+  transition: top 1s ease-in-out;
+  top: -50px;
+  display: none;
+}
+/* line 712, ../sass/_layouts.scss */
+#current-spread-name h1 {
+  padding: .1em 1em .1em 1em;
+  background-color: #666;
+  color: white;
+  border-radius: 0 0 15px 0;
+  border-right: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
 /* Loading spinner: */
-/* line 707, ../sass/_layouts.scss */
+/* line 724, ../sass/_layouts.scss */
 .spinner {
   margin: 300px auto;
   width: 32px;
@@ -940,7 +958,7 @@ div.image-callout span {
   display: none;
 }
 
-/* line 715, ../sass/_layouts.scss */
+/* line 732, ../sass/_layouts.scss */
 .cube1, .cube2 {
   background-color: black;
   width: 20px;
@@ -952,60 +970,60 @@ div.image-callout span {
   animation: cubemove 1.8s infinite ease-in-out;
 }
 
-/* line 727, ../sass/_layouts.scss */
+/* line 744, ../sass/_layouts.scss */
 .cube2 {
   -webkit-animation-delay: -0.9s;
   animation-delay: -0.9s;
 }
 
 @-webkit-keyframes cubemove {
-  /* line 733, ../sass/_layouts.scss */
+  /* line 750, ../sass/_layouts.scss */
   25% {
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
   }
 
-  /* line 734, ../sass/_layouts.scss */
+  /* line 751, ../sass/_layouts.scss */
   50% {
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
   }
 
-  /* line 735, ../sass/_layouts.scss */
+  /* line 752, ../sass/_layouts.scss */
   75% {
     -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
   }
 
-  /* line 736, ../sass/_layouts.scss */
+  /* line 753, ../sass/_layouts.scss */
   100% {
     -webkit-transform: rotate(-360deg);
   }
 }
 
 @keyframes cubemove {
-  /* line 740, ../sass/_layouts.scss */
+  /* line 757, ../sass/_layouts.scss */
   25% {
     transform: translateX(42px) rotate(-90deg) scale(0.5);
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
   }
 
-  /* line 743, ../sass/_layouts.scss */
+  /* line 760, ../sass/_layouts.scss */
   50% {
     transform: translateX(42px) translateY(42px) rotate(-179deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
   }
 
-  /* line 746, ../sass/_layouts.scss */
+  /* line 763, ../sass/_layouts.scss */
   50.1% {
     transform: translateX(42px) translateY(42px) rotate(-180deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
   }
 
-  /* line 749, ../sass/_layouts.scss */
+  /* line 766, ../sass/_layouts.scss */
   75% {
     transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
     -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
   }
 
-  /* line 752, ../sass/_layouts.scss */
+  /* line 769, ../sass/_layouts.scss */
   100% {
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
@@ -1013,7 +1031,7 @@ div.image-callout span {
 }
 
 /* ^ Loading spinner */
-/* line 760, ../sass/_layouts.scss */
+/* line 777, ../sass/_layouts.scss */
 .testrect {
   position: absolute;
   border: 1px solid yellow;

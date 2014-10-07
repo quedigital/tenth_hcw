@@ -11,6 +11,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		
 		this.currentID = undefined;
 		
+		this.headerIsOff = false;
+		
 		$("#fixed-layout-controls #previous-button").click($.proxy(this.onClickPreviousStep, this));
 		$("#fixed-layout-controls #next-button").click($.proxy(this.onClickNextStep, this));
 		this.dom.on("controls", $.proxy(this.onReceivedControls, this));
@@ -144,6 +146,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		}
 		
 		this.identifyCurrentSpread();
+		
+		this.updateSpreadHeader();
 	}
 	
 	LayoutManager.prototype.identifyCurrentSpread = function () {
@@ -167,6 +171,7 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 					}
 					me.currentID = id;
 					me.dom.trigger("current-spread", layout.attr("id"));
+					me.onSpreadChange();
 					var layoutObj = me.getCurrentLayout();
 					tryToActivate(layoutObj);
 				}
@@ -181,6 +186,37 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 				layout.activate();
 			} else {
 				setTimeout(function () { tryToActivate(layout); }, 100);
+			}
+		}
+	}
+	
+	LayoutManager.prototype.onSpreadChange = function () {
+	}
+	
+	LayoutManager.prototype.updateSpreadHeader = function () {
+		var layout = this.getCurrentLayout();
+		var h1 = layout.container.find("h1");
+		
+		var header = $("#current-spread-name");
+		
+		var isOff = Helpers.isScrolledOff(h1);
+		if (isOff != this.headerIsOff) {
+			var h = Math.ceil(header.outerHeight());
+			var t = isOff ? 0 : -h;
+			if (header.top != t) {
+				header.css({ top: t, display: "block" });
+			}
+			this.headerIsOff = isOff;
+		}
+		
+		// only change the header when it's off-screen
+		isOff = Helpers.isScrolledOff(header);
+		if (isOff) {
+			console.log("ok to chang enow");
+			var layout = this.getCurrentLayout();
+			var h1 = header.find("h1");
+			if (h1.text() != layout.content.title) {
+				h1.text(layout.content.title);
 			}
 		}
 	}

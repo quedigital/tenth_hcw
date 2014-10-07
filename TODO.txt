@@ -1,7 +1,5 @@
 
 
-// TODO: show spread name in a fixed header
-
 // TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
 
 // TODO: animate callout lines (grid and fixed)
@@ -197,3 +195,4 @@
 // NOPE: make Callout titles fit on one line (iPad) [not really necessary]
 // DONE: come up with exterior framework / navigation / spread loading
 // NOPE: Fixed layout steps don't account for "headings" when sizing [we're now using headings as selectable captions]
+// DONE: show spread name in a fixed header

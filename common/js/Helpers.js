@@ -137,6 +137,12 @@ define([], function () {
 				fn.apply(context, args);
 			}
 		};
+	}
+	
+	var isScrolledOff = function (elem) {
+		var el = elem[0];
+		var rect = el.getBoundingClientRect();
+		return (Math.round(rect.bottom) <= 0);
 	}	
 	
 	var Helpers = {
@@ -150,6 +156,7 @@ define([], function () {
 		convertAlignToJQueryAlign: convertAlignToJQueryAlign,
 		isVectorImage: isVectorImage,
 		throttle: throttle,
+		isScrolledOff: isScrolledOff,
 	};
 	
 	return Helpers;

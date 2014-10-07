@@ -702,6 +702,23 @@ div.image-callout {
 	text-align: center;
 }
 
+#current-spread-name {
+	position: fixed;
+	z-index: 5;
+	transition: top 1s ease-in-out;
+	top: -50px;
+	display: none;
+	
+	h1 {
+		padding: .1em 1em .1em 1em;
+		background-color: #666;
+		color: white;
+		border-radius: 0 0 15px 0;
+		border-right: 1px solid #aaa;
+		border-bottom: 1px solid #aaa;
+	}
+}
+
 /* Loading spinner: */
 
 .spinner {
