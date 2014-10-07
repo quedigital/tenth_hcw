@@ -195,6 +195,8 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 	
 	LayoutManager.prototype.updateSpreadHeader = function () {
 		var layout = this.getCurrentLayout();
+		if (!layout) return;
+		
 		var h1 = layout.container.find("h1");
 		
 		var header = $("#current-spread-name");
@@ -212,8 +214,6 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		// only change the header when it's off-screen
 		isOff = Helpers.isScrolledOff(header);
 		if (isOff) {
-			console.log("ok to chang enow");
-			var layout = this.getCurrentLayout();
 			var h1 = header.find("h1");
 			if (h1.text() != layout.content.title) {
 				h1.text(layout.content.title);

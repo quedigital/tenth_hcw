@@ -257,6 +257,11 @@ html, body, p, h1 {
 		margin: 15px auto;		
 	}
 	
+	.cell-image.extracted {
+		margin: 15px auto;
+		text-align: center;
+	}
+	
 	.highlight {
 		pointer-events: none;
 		z-index: 2;
@@ -390,7 +395,7 @@ div.cell {
 	}		
 }
 
-.image {
+.cell-image {
 	img {
 		display: block;
 		margin: 0 auto;

@@ -6,6 +6,8 @@
 
 // TODO: style fixed layout navigation controls
 
+// TODO: big previous + next buttons on the sides of fixed layouts
+
 // TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
 			(with focus highlight on current step)
 // TODO: waypoint triggering is still a little wonky
@@ -196,3 +198,4 @@
 // DONE: come up with exterior framework / navigation / spread loading
 // NOPE: Fixed layout steps don't account for "headings" when sizing [we're now using headings as selectable captions]
 // DONE: show spread name in a fixed header
+// DONE: extract images from Fixed Layouts

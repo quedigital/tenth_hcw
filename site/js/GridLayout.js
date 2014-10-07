@@ -102,11 +102,8 @@ define(["Layout",
 					
 					break;
 				case "image":
-					if (cell.image) {
-						var img = $("<img>").attr("src", cell.image);
-						var div = $("<div>").addClass("image").append(img);
-						cellDOM.append(div);
-					}
+					var image = new CellImage(cell, hint);
+					cellDOM.append(image.elem);					
 					break;
 				case "sidebar":
 					var sidebar = new Sidebar(cell, hint);
@@ -261,30 +258,11 @@ define(["Layout",
 					case "step":
 						var step = elem.find(".step").data("step");
 						step.format();
-
 						break;
 						
 					case "image":
-						// centered image
-						// TODO: handle narrow images differently?
-						// account for the element's padding and margin
-						var paddT = elem.innerWidth() - elem.width();
-						var margT = elem.outerWidth(true) - elem.outerWidth();
-						var w = elem.parent().width() * hint.width - paddT - margT;
-
-						var image_w = 1.0;
-						if (!isNaN(hint.imageWidth)) {
-							image_w = Math.max(.1, Math.min(.9, hint.imageWidth));
-						}
-
-						elem.find(".image img").width(w * image_w);
-						
-						/*
-						x = (elem.parent().width() - w) * .5;
-						x = 0;
-						elem.css({ left: x, top: y, width: "auto" });
-						*/
-					
+						var image = elem.find(".cell-image").data("CellImage");
+						image.format();					
 						break;
 						
 					case "interactive":

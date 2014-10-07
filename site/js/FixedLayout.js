@@ -4,11 +4,12 @@ define(["Layout",
 		"Step",
 		"FixedStep",
 		"Sidebar",
+		"CellImage",
 		"auto-size-text",
 		"Helpers",
 		"debug",
 		"tinycolor",
-		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, autoSizeText, Helpers, debug, tinycolor) {
+		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, autoSizeText, Helpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager);
 		
@@ -147,6 +148,14 @@ define(["Layout",
 					this.elements[i] = sidebar;
 					
 					elem = sidebar.elem;
+					
+					break;		
+				case "image":
+					var image = new CellImage(cell, hint);
+					
+					this.elements[i] = image;
+					
+					elem = image.elem;
 					
 					break;
 			}
