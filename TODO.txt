@@ -1,5 +1,7 @@
 
 
+// TODO: fixed layout textblocks scroll by page
+
 // TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
 
 // TODO: animate callout lines (grid and fixed)
@@ -15,8 +17,6 @@
 // TODO: eliminate memory leaks
 
 // TODO: slide show layout?
-
-// TODO: fixed layout textblocks scroll or page?
 
 // TODO: during infinite scroll, remove past spreads from memory
 
@@ -199,3 +199,4 @@
 // NOPE: Fixed layout steps don't account for "headings" when sizing [we're now using headings as selectable captions]
 // DONE: show spread name in a fixed header
 // DONE: extract images from Fixed Layouts
+// DONE: Fixed Layout callout lines need to be drawn after the box height is established

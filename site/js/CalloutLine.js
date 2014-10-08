@@ -18,9 +18,8 @@ define([], function () {
 
 		target.position( { my: "center", at: coords, of: img, collision: "none" } );
 		
-		var elemSource = from;//.find(".block");
+		var elemSource = from;
 		
-		// TOOD: fix this
 		if (elemSource.length == 0) return;
 		
 		var viewSource = elemSource[0].getBoundingClientRect();
@@ -45,7 +44,7 @@ define([], function () {
 		if (options.style == "label") {
 			startX = viewSource.left + viewSource.width * .5;
 			
-			dir = "BL";
+			dir = "VH";
 			
 			// adjust start Y depending on line direction / destination
 			if (options.my[0] == "B" && options.at[0] == "T") {
@@ -82,18 +81,28 @@ define([], function () {
 					startY = viewSource.top + viewSource.height + 1;
 				}
 			} else if (viewTarget.left < viewSource.left) {
-				// going left
-				dir = "TR";
-				startX = viewSource.left;
-				startY = viewSource.top + 1;
+				dir = "HV";
+				if (from.hasClass("diamond")) {
+					startX = viewSource.left + Math.floor(elemSource.width() * .5);
+					startY = viewSource.top - 4;
+				} else if (from.eq(0).hasClass("textblock")) {
+					startX = viewSource.left - 4;
+					startY = viewSource.top + 8;
+				} else {
+					startX = viewSource.left;
+					startY = viewSource.top + 1;
+				}
 			// go above and right if we're wider than the parent
 			} else if (dx > elemSource.parent().width()) {
 				// NOTE: could also draw from middle of block up and then over
-				dir = "TR";
+				dir = "HV";
 				if (viewTarget.left > viewSource.left) {
 					if (from.hasClass("diamond")) {
 						startX = viewSource.left + Math.floor(elemSource.width() * .5);
 						startY = viewSource.top - 4;
+					} else if (from.eq(0).hasClass("textblock")) {
+						startX = viewSource.left + Math.floor(elemSource.width());
+						startY = viewSource.top + 8;
 					} else {
 						startX = viewSource.left + Math.floor(elemSource.width());
 						startY = viewSource.top + 1;
@@ -104,7 +113,7 @@ define([], function () {
 				}
 			// go down and over (this is a problem if we overlap the next cell below)
 			} else {
-				dir = "BL";
+				dir = "VH";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5);
 				if (viewSource.top < viewTarget.top) {
 					startY = viewSource.top + Math.floor(elemSource.height());
@@ -161,12 +170,12 @@ define([], function () {
 				lineTo(context, startX, viewTarget.top);
 				break;
 				
-			case "BL":
+			case "VH":
 				lineTo(context, startX, viewTarget.top);
 				lineTo(context, viewTarget.left, viewTarget.top);
 				break;
 				
-			case "TR":
+			case "HV":
 				lineTo(context, viewTarget.left, startY);
 				lineTo(context, viewTarget.left, viewTarget.top);
 				break;

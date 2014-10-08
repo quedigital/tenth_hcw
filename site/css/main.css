@@ -431,7 +431,7 @@ html, body, p, h1 {
 }
 /* line 203, ../sass/_layouts.scss */
 .spread.fixed .fixed_step .shape {
-  transition: transform .5s ease-in-out;
+  /*transition: transform .5s ease-in-out;*/
   transform-origin: 0 0;
 }
 /* line 208, ../sass/_layouts.scss */
@@ -452,7 +452,7 @@ html, body, p, h1 {
   border: 2px solid black;
   border-radius: 15px;
   text-align: center;
-  padding: .25em;
+  padding: .25em 1em;
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
   text-shadow: -1px 1px 1px #999;
   font-weight: 100;
@@ -946,7 +946,7 @@ div.image-callout span {
 /* line 717, ../sass/_layouts.scss */
 #current-spread-name h1 {
   padding: .1em 1em .1em 1em;
-  background-color: #666;
+  background-color: #333;
   color: white;
   border-radius: 0 0 15px 0;
   border-right: 1px solid #aaa;

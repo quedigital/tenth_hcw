@@ -53,7 +53,7 @@ define(["Helpers"], function (Helpers) {
 		this.calculatePositions();
 		this.updateBoundsBox();
 		
-		this.gotoPosition("normal");
+		this.gotoPosition("layout");
 	}
 	
 	function rectInRect (rect1, rect2) {
@@ -141,6 +141,8 @@ define(["Helpers"], function (Helpers) {
 		
 		switch (val) {
 			case "expanded":
+				this.elem.addClass("selected");
+		
 				var t = this.elem.find(".textblock");
 				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
 				this.elem.height("auto");
@@ -173,8 +175,31 @@ define(["Helpers"], function (Helpers) {
 				shape.css("transform", transform);
 				
 				break;
+				
+			case "layout":
+				this.elem.addClass("selected");
+				
+				var opts = this.screenPositions["expanded"];
+				
+				var t = this.elem.find(".textblock");
+				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
+				this.elem.height("auto");
+				t.height(opts.height);
+				this.elem.css("width", opts.width);
+		
+				this.elem.find("h2").css("display", "none");
+		
+				this.elem.css({ left: opts.left, top: opts.top });
+		
+				var shape = this.elem.find(".shape");
+				var transform = "scale(1)";
+				shape.css("transform", transform);
+				
+				break;
 			
 			case "normal":
+				this.elem.removeClass("selected");
+				
 				this.elem.css("width", opts.width);
 				var t = this.elem.find(".textblock");
 				t.css({ visibility: "hidden" });
@@ -219,8 +244,6 @@ define(["Helpers"], function (Helpers) {
 	FixedStep.prototype.expand = function () {
 		this.elem.css("zIndex", 2);
 		
-		this.elem.addClass("selected");
-		
 		this.elem.parent().find(".highlight").addClass("highlighted");
 		
 		this.gotoPosition("expanded");
@@ -229,8 +252,6 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	FixedStep.prototype.unexpand = function () {
-		this.elem.removeClass("selected");
-		
 		this.elem.css("zIndex", "auto");
 		
 		this.gotoPosition("normal");
