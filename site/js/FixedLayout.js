@@ -201,11 +201,13 @@ define(["Layout",
 		
 		this.scale = this.getImageScale(img);
 		
-		var hints = $.map(this.layout.hints, function (el) { return el });
+		var cells = $.map(this.content.cells, function (el) { return el });
 		
-		for (var i = 0; i < hints.length; i++) {
-			var hint = hints[i];
-			var cell = Helpers.findByID(hint.id, this.content.cells);
+		cells.sort(Helpers.sortByPriority);
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			var hint = Helpers.findByID(cell.id, this.layout.hints);
 
 			var rect = { left: Math.round(hint.bounds[0] * this.scale), top: Math.round(hint.bounds[1] * this.scale), width: Math.round(hint.bounds[2] * this.scale), height: Math.round(hint.bounds[3] * this.scale) };
 

@@ -43,7 +43,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 				}
 				
 				var el = this.container.find(options.fromSelector + "[data-id=" + id + "]");
-				var sourceDOM = el.find(".block, .diamond, .textblock");
+				var sourceDOM = el.find(".block, .diamond, .bounds");
 				
 				var line = new CalloutLine(sourceDOM.parent(), sourceDOM, targetDOM, hint.callout_target_pos);
 				// lines will be displayed during scrolling or clicking

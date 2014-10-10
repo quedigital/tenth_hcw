@@ -85,7 +85,7 @@ define([], function () {
 				if (from.hasClass("diamond")) {
 					startX = viewSource.left + Math.floor(elemSource.width() * .5);
 					startY = viewSource.top - 4;
-				} else if (from.eq(0).hasClass("textblock")) {
+				} else if (from.eq(0).hasClass("bounds")) {
 					startX = viewSource.left - 4;
 					startY = viewSource.top + 8;
 				} else {
@@ -100,7 +100,7 @@ define([], function () {
 					if (from.hasClass("diamond")) {
 						startX = viewSource.left + Math.floor(elemSource.width() * .5);
 						startY = viewSource.top - 4;
-					} else if (from.eq(0).hasClass("textblock")) {
+					} else if (from.eq(0).hasClass("bounds")) {
 						startX = viewSource.left + Math.floor(elemSource.width());
 						startY = viewSource.top + 8;
 					} else {
