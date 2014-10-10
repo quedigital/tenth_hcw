@@ -5,11 +5,11 @@ define(["Layout",
 		"FixedStep",
 		"Sidebar",
 		"CellImage",
-		"auto-size-text",
 		"Helpers",
 		"debug",
 		"tinycolor",
-		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, autoSizeText, Helpers, debug, tinycolor) {
+		"jquery.columnizer",
+		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, Helpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager);
 		
@@ -176,7 +176,7 @@ define(["Layout",
 			}
 		}
 		
-		autoSizeText({ minSize: 12 });
+//		autoSizeText({ minSize: 12 });
 	}
 	
 	FixedLayout.prototype.positionCells = function () {

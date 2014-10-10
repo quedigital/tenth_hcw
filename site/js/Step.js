@@ -42,7 +42,7 @@ define(["Helpers"], function (Helpers) {
 		d.appendTo(this.elem);
 		
 		if (this.rect) {
-			this.elem.find(".textblock").addClass("resizeable").css("font-size", "12px");
+//			this.elem.find(".textblock").addClass("resizeable").css("font-size", "12px");
 			this.elem.css( { width: this.rect.width } );
 		}		
 	}

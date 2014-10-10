@@ -6,6 +6,7 @@ requirejs.config({
 		"Helpers": "../../common/js/Helpers",
 		"waypoints": "waypoints.min",
 		"waypoints-sticky": "waypoints-sticky.min",
+		"jquery.columnizer": "jquery.columnizer",
 	},
 	
 	shim: {
@@ -31,7 +32,11 @@ requirejs.config({
 			"jquery.adaptive-backgrounds": {
 				export: "$",
 				deps: ['jquery']
-			}
+			},
+			"jquery.columnizer": {
+				export: "$",
+				deps: ['jquery']
+			},
 		}
 });
 

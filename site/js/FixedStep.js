@@ -38,12 +38,20 @@ define(["Helpers"], function (Helpers) {
 		this.elem.append(bounds);
 		this.bounds = bounds;
 
+		this.controls = $("<div>").addClass("controls");
+		this.controls.change($.proxy(this.onChangeTextPage, this));
+		this.elem.append(this.controls);
+		
 		this.number = options.number;
 		this.anchor = hints.anchor;
 		this.options = options;
 		this.hints = hints;
 		
-		d.appendTo(this.elem);
+		var holder = $("<div>").addClass("textholder");
+		holder.appendTo(this.elem);
+		this.textholder = holder;
+		
+		d.appendTo(holder);
 	}
 	
 	FixedStep.prototype = Object.create(null);
@@ -70,6 +78,7 @@ define(["Helpers"], function (Helpers) {
 	
 	FixedStep.prototype.updateBoundsBox = function () {
 		this.bounds.css({ width: this.rect.width, height: this.screenPositions.expanded.height });
+		this.textholder.css({ width: this.rect.width, height: this.screenPositions.expanded.height });
 	}
 		
 	function reflow (elem) {
@@ -195,6 +204,19 @@ define(["Helpers"], function (Helpers) {
 				var transform = "scale(1)";
 				shape.css("transform", transform);
 				
+				var insideWidth = this.elem.width();	// width minus padding
+				
+				t.columnize( { width: insideWidth, height: opts.height, buildOnce: true } );
+				// NOTE: columnizer seems to be adding an extra column, so ignore it
+				var cols = t.find(".column").length - 1;
+				var sel = $("<select>");
+				for (var i = 0; i < cols; i++) {
+					var opt = $("<option>").text(i);
+					sel.append(opt);
+				}
+				this.controls.append(sel);
+				this.controls.css("bottom", -this.controls.height());
+				
 				break;
 			
 			case "normal":
@@ -269,6 +291,11 @@ define(["Helpers"], function (Helpers) {
 	FixedStep.prototype.onClick = function (event) {
 		this.expand();
 		this.elem.trigger("expand");				
+	}
+	
+	FixedStep.prototype.onChangeTextPage = function (event) {
+		var page = parseInt($(event.target).val());
+		this.textholder.find(".column").css("display", "none").eq(page).css("display", "block");
 	}
 	
 	return FixedStep;	
