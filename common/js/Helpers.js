@@ -1,4 +1,4 @@
-define([], function () {
+define(["jquery"], function () {
 	function findByID (id, data) {
 		var found = $.map(data, function (elem) {
 			return (elem.id == id) ? elem : null;

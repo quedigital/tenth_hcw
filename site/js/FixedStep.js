@@ -1,6 +1,62 @@
-define(["Helpers"], function (Helpers) {
+define(["jquery", "Helpers"], function ($, Helpers) {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
 	var SIDE_MARGIN = 15, INCREMENT = 10;
+	
+	$.fn.slideControls = function (options) {
+		var settings = $.extend({
+			pages: 1,
+		}, options);
+        	
+		this.addClass("controls");
+		
+		var button;
+		
+		function goBack () {
+			var index = $(this).parent().find(".selected").index();
+			if (index > 1) {
+				$(this).parent().find(".selected").removeClass("selected");
+				$(this).parent().find(".dot").eq(index - 2).addClass("selected");
+				settings.callback(index - 2);
+			}
+		}
+		
+		function goForward () {
+			var index = $(this).parent().find(".selected").index();
+			var num = $(this).parent().find(".dot");
+			if (index < num.length) {
+				$(this).parent().find(".selected").removeClass("selected");
+				$(this).parent().find(".dot").eq(index).addClass("selected");
+				settings.callback(index);
+			}
+		}
+		
+		button = $("<div class='left-arrow button'>");
+		button.click(goBack);
+		this.append(button);
+		
+		for (var i = 0; i < settings.pages; i++) {
+			button = $("<div class='dot button'>");
+			
+			if (i == 0)
+				button.addClass("selected");
+				
+			this.append(button);
+			
+			if (settings.callback) {
+				button.click(function () {
+					$(this).parent().find(".selected").removeClass("selected");
+					$(this).addClass("selected");
+					settings.callback($(this).index() - 1);
+				});
+			}
+		}
+
+		button = $("<div class='right-arrow button'>");
+		button.click(goForward);
+		this.append(button);
+
+		return this;
+	}
 	
 	// number, text, image, anchor
 	FixedStep = function (options, hints) {
@@ -38,10 +94,6 @@ define(["Helpers"], function (Helpers) {
 		this.elem.append(bounds);
 		this.bounds = bounds;
 
-		this.controls = $("<div>").addClass("controls");
-		this.controls.change($.proxy(this.onChangeTextPage, this));
-		this.elem.append(this.controls);
-		
 		this.number = options.number;
 		this.anchor = hints.anchor;
 		this.options = options;
@@ -209,13 +261,13 @@ define(["Helpers"], function (Helpers) {
 				t.columnize( { width: insideWidth, height: opts.height, buildOnce: true } );
 				// NOTE: columnizer seems to be adding an extra column, so ignore it
 				var cols = t.find(".column").length - 1;
-				var sel = $("<select>");
-				for (var i = 0; i < cols; i++) {
-					var opt = $("<option>").text(i);
-					sel.append(opt);
+				
+				if (cols > 1) {
+					this.controls = $("<div>").slideControls({ pages: cols, callback: $.proxy(this.onChangeTextPage, this) });
+					this.elem.append(this.controls);
+		
+					this.controls.css("bottom", -this.controls.height());
 				}
-				this.controls.append(sel);
-				this.controls.css("bottom", -this.controls.height());
 				
 				break;
 			
@@ -293,9 +345,8 @@ define(["Helpers"], function (Helpers) {
 		this.elem.trigger("expand");				
 	}
 	
-	FixedStep.prototype.onChangeTextPage = function (event) {
-		var page = parseInt($(event.target).val());
-		this.textholder.find(".column").css("display", "none").eq(page).css("display", "block");
+	FixedStep.prototype.onChangeTextPage = function (index) {
+		this.textholder.find(".column").css("display", "none").eq(index).css("display", "block");
 	}
 	
 	return FixedStep;	

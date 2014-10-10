@@ -263,6 +263,52 @@ html, body, p, h1 {
 		.controls {
 			position: absolute;
 			right: 0;
+			font-size: 15px;
+			color: black;
+			
+			.button {
+				position: relative;
+				width: 15px;
+				height: 15px;
+				line-height: 15px;
+				display: inline-block;
+				
+				&:before {
+					top: 0;
+					left: 0;
+					position: absolute;
+					font-family: FontAwesome;
+				}
+
+				&:hover:before {
+					color: #911;
+				}
+								
+				&.dot:before {
+					content: "\0f10c";
+				}
+				
+				&.dot.selected:before {
+					content: "\0f111";
+				}
+				
+				&.dot.selected:hover:before {
+					color: black;
+				}
+				
+				&.dot:hover:before {
+					content: "\0f111";
+				}
+				
+				&.left-arrow:before {
+					content: "\0f053";
+				}
+				
+				&.right-arrow:before {
+					content: "\0f054";
+					left: 3px;
+				}				
+			}
 		}
 		
 		&:not(.selected) .controls {

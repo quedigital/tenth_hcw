@@ -2,8 +2,6 @@
 
 // TODO: remove embedded "line-height" tags from the text
 
-// TODO: fixed layout textblocks scroll by page
-
 // TODO: fixed layouts don't automatically highlight step 1 if there's a "before" step
 
 // TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
@@ -204,3 +202,4 @@
 // DONE: show spread name in a fixed header
 // DONE: extract images from Fixed Layouts
 // DONE: Fixed Layout callout lines need to be drawn after the box height is established
+// DONE: fixed layout textblocks scroll by page
