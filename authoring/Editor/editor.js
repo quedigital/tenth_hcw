@@ -1,19 +1,60 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-	/*
 		"jquery": "jquery-1.11.0.min",
-		"jqueryui": "jquery-ui-1.10.4.custom",
-	*/
+		"jqueryui": "jquery-ui-1.10.4.min",
 		"domReady": "../../../common/js/domReady",
-		"Helpers": "../../../common/js/Helpers"
+		"Helpers": "../../../common/js/Helpers",
+		"jquery.layout": "jquery.layout-latest.min",
+		"jquery.autosize": "jquery.autosize.min",
+		"jquery.json": "jquery.json.min",
+		"jquery.hotkeys": "jquery.hotkeys",
+		"w2ui": "w2ui-1.4.min",
+		"firebase": "https://cdn.firebase.com/js/client/1.0.15/firebase",
+		"knockout": "knockout-3.1.0",
+		"knockout.sortable": "knockout-sortable",
+		"knockoutfire": "knockoutfire",
+		"moment": "moment.min"
 	},
 	
 	shim: {
+			"jquery": {
+				export: "$",
+			},
+			"jqueryui": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.layout": {
+				export: "$",
+				deps: ['jquery', 'jqueryui']
+			},
+			"jquery.autosize": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.json": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.hotkeys": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"w2ui": {
+				export: "w2ui",
+				deps: ['jquery']
+			},
+			"knockout.sortable": {
+				deps: ['jquery', 'jqueryui', 'knockout']
+			},
+			"knockoutfire": {
+				deps: ["knockout", "firebase"]
+			}
 	},
 });
 
-require(["domReady", "spread", "jquery.hotkeys"], function (domReady, Spread) {
+require(["knockout", "spread", "w2ui", "jquery.hotkeys", "jquery.layout", "jquery.json", "moment", "domReady!"], function (ko, Spread) {
 	var credentials;
 	var region = 'us-east-1'
 

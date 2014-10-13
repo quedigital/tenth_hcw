@@ -1,4 +1,4 @@
-define(["Helpers"], function (Helpers) {
+define(["Helpers", "knockout"], function (Helpers, ko) {
 	var MARGIN = 10;
 	
 	ko.bindingHandlers.gridThing = {

@@ -1,4 +1,4 @@
-define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gridder, fixer, Helpers, ImagePositionSelector) {
+define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositionSelector", "w2ui", "jquery.autosize", "knockout.sortable"], function (ko, KnockoutFire, gridder, fixer, Helpers, ImagePositionSelector) {
 	// NOTE: Gah, I couldn't get these sorting options to stick from event.js; hence these horrible workarounds
 	var callbacks = {
 		onSortStart: function () { console.log("no"); },
@@ -29,7 +29,7 @@ define(["gridder", "fixer", "Helpers", "ImagePositionSelector", ], function (gri
 	ko.bindingHandlers.sortable.afterMove = function (arg, event, ui) {
 												callbacks.onSortUpdate(event, ui);
 											};
-											
+	
 	ko.bindingHandlers.editableText = {
 		init: function (element, valueAccessor) {
 			$(element).on('blur', function() {

@@ -1,4 +1,4 @@
-define(["imagesloaded.pkgd.min", "Helpers"], function (imagesLoaded, Helpers) {
+define(["imagesloaded.pkgd.min", "Helpers", "knockout"], function (imagesLoaded, Helpers, ko) {
 	var MARGIN = 10;
 	
 	ko.bindingHandlers.fixedThing = {
