@@ -8,7 +8,6 @@ define(["Layout",
 		"CalloutLine",
 		"CalloutLabel",
 		"waypoints"], function (Layout, Helpers, imagesLoaded, debug, Step) {
-	var MARGIN = 10;
 	
 	GridLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager);

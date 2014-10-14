@@ -32,6 +32,9 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
 			var id = cell.id;
+			if (id == "9") {
+				var a = 5;
+			}
 			var hint = Helpers.findByID(id, hints);
 			if (hint.callout_target_id) {
 				var target_id = hint.callout_target_id;
@@ -43,7 +46,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 				}
 				
 				var el = this.container.find(options.fromSelector + "[data-id=" + id + "]");
-				var sourceDOM = el.find(".block, .diamond, .bounds");
+				var sourceDOM = el.find(".block, .diamond, .bounds, .textblock");
 				
 				var line = new CalloutLine(sourceDOM.parent(), sourceDOM, targetDOM, hint.callout_target_pos);
 				// lines will be displayed during scrolling or clicking

@@ -14,15 +14,6 @@ html, body, p, h1 {
 	padding: 0;
 }
 
-.centered {
-	max-width: 1120px;
-	width: 100%;
-	margin: 0 auto;
-	background-color: white;
-	position: relative;
-	z-index: 1;
-}
-
 .layout {
 	/*
 	padding: 1em 0;
@@ -397,6 +388,8 @@ html, body, p, h1 {
 
 .spread.grid {
 	padding-bottom: 50px;
+	max-width: 1080px;
+	margin: 0 auto;
 
 	.step {
 		position: relative;
