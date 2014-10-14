@@ -23,25 +23,10 @@ define(["Layout",
 		
 		this.container.append(image_holder);
 
-//		var div = $("<div>").attr("background-url", layout.background).css({ width: 200, height: 200, backgroundSize: "cover" });
-//		$(container).append(div);
 		var img = $("<img>").addClass("background").attr("src", layout.background);
+		this.img = img;
 		
-		// size to fit containing pane (not window)
-		var pane = $(this.container).parents(".ui-layout-pane");
-		var h = pane.height();
-		var w = pane.width();
-		
-		var ch = $("#content-holder");
-		var padding = ch.outerWidth() - ch.width();
-		
-		if (w / h > 4 / 3) {
-			img.height(h - padding);
-		} else {
-			img.width(w - padding);
-		}
-
-		image_holder.height(h - padding);
+		this.sizeToFitContainingPane();
 				
 		$(image_holder).append(img);
 		
@@ -71,14 +56,34 @@ define(["Layout",
 	FixedLayout.prototype = Object.create(Layout.prototype);
 	FixedLayout.prototype.constructor = FixedLayout;
 	
+	FixedLayout.prototype.sizeToFitContainingPane = function () {
+		// size to fit containing pane (not window)
+		var pane = $(this.container).parents(".ui-layout-pane");
+		var h = pane.height();
+		var w = pane.width();
+		
+		var ch = $("#content-holder");
+		var padding = ch.outerWidth() - ch.width();
+		
+		if (w / h > 4 / 3) {
+			this.img.height(h - padding);
+		} else {
+			this.img.width(w - padding);
+		}
+
+		this.image_holder.height(h - padding);
+	}
+	
 	FixedLayout.prototype.onImagesLoaded = function () {
 		this.positionCells();		
+		this.layoutComplete();	
 	}
 	
 	FixedLayout.prototype.reflow = function () {
-		console.log("reflow");
-		
+		console.log("reflowing fixed");
+		this.sizeToFitContainingPane();
 		this.positionCells();
+		this.expandCurrentStep();
 	}
 	
 	FixedLayout.prototype.getImageScale = function (img) {
@@ -120,7 +125,7 @@ define(["Layout",
 			
 						this.image_holder.append(step.elem);
 					
-						step.elem.click($.proxy(step.onClick, step));
+						step.elem.click($.proxy(this.onClickStep, this, step));
 						step.elem.on("touchend", $.proxy(step.onTouch, step));
 						step.elem.on("expand", $.proxy(this.onExpandStep, this));
 					}
@@ -183,19 +188,12 @@ define(["Layout",
 		this.clearRects();
 		
 		var img = this.container.find(".background");
-
+		
 		this.container.width(img.width());
 		
 		var ch = $("#content-holder");
 		var padding = ch.outerWidth() - ch.width();
 		
-		/*
-		// center vertically
-		var marginTop = (this.container.height() - img.height()) * .5 - (padding * .5);
-		if (marginTop > 0)
-			this.container.css("margin-top", marginTop);
-		*/
-
 		var currentSize = { width: img.width(), height: img.height() };
 		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
 		
@@ -222,10 +220,12 @@ define(["Layout",
 					if (step) {
 						if (step instanceof Step) {
 							step.format(hint);
-						} else {
+						} else if (step instanceof FixedStep) {
+							step.elem.css("visibility", "hidden");
 							step.setRect(rect);
 							step.setupPositions();
 							step.elem.css("visibility", "visible");
+							//step.returnToCurrentPosition();
 						}
 					}
 
@@ -245,9 +245,7 @@ define(["Layout",
 		}
 		
 		this.removeAllCallouts();
-		this.addLineCallouts({ fromSelector: ".fixed_step" });
-		
-		this.layoutComplete();	
+		this.addLineCallouts({ fromSelector: ".fixed_step" });		
 	}
 
 	FixedLayout.prototype.clearRects = function () {
@@ -281,6 +279,24 @@ define(["Layout",
 		}
 	}
 	
+	FixedLayout.prototype.expandCurrentStep = function () {
+		if (this.currentStep == undefined)
+			return;
+		
+		var count = 0;
+		
+		for (var i = 0; i < this.elements.length; i++) {
+			var el = this.elements[i];
+			if (el instanceof FixedStep) {
+				if (count == this.currentStep)
+					el.expand();
+				else
+					el.unexpand();
+				count++;
+			}
+		}	
+	}
+	
 	FixedLayout.prototype.expandFirstStep = function () {
 		this.currentStep = undefined;
 		
@@ -303,6 +319,20 @@ define(["Layout",
 				}
 			}
 		}
+	}
+	
+	FixedLayout.prototype.getStepIndex = function (step) {
+		var count = 0;
+		
+		for (var i = 0; i < this.elements.length; i++) {
+			var el = this.elements[i];
+			if (el instanceof FixedStep) {
+				if (el == step) return count;
+				else count++;
+			}
+		}
+		
+		return undefined;
 	}
 	
 	FixedLayout.prototype.expandNextStep = function () {
@@ -398,6 +428,12 @@ define(["Layout",
 	
 	FixedLayout.prototype.gotoStep = function (n) {
 		this.expandStepByIndex(n);
+	}
+	
+	FixedLayout.prototype.onClickStep = function (step) {
+		this.currentStep = this.getStepIndex(step);
+		step.expand();
+		this.unexpandAllExcept(step);
 	}
 
 	return FixedLayout;

@@ -11,7 +11,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		
 		var button;
 		
-		function goBack () {
+		function goBack (event) {
+			event.preventDefault();
 			var index = $(this).parent().find(".selected").index();
 			if (index > 1) {
 				$(this).parent().find(".selected").removeClass("selected");
@@ -20,7 +21,9 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 			}
 		}
 		
-		function goForward () {
+		function goForward (event) {
+			event.preventDefault();
+			event.stopImmediatePropagation();
 			var index = $(this).parent().find(".selected").index();
 			var num = $(this).parent().find(".dot");
 			if (index < num.length) {
@@ -43,7 +46,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 			this.append(button);
 			
 			if (settings.callback) {
-				button.click(function () {
+				button.click(function (event) {
+					event.preventDefault();
 					$(this).parent().find(".selected").removeClass("selected");
 					$(this).addClass("selected");
 					settings.callback($(this).index() - 1);
@@ -88,7 +92,7 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		// adding support for resizing the text to fit Fixed layouts
 		var d = $("<div>").addClass("textblock");
 		
-		$("<span>").addClass("span-text").html(options.text).appendTo(d);
+//		$("<span>").addClass("span-text").html(options.text).appendTo(d);
 		
 		var bounds = $("<div>").addClass("bounds");
 		this.elem.append(bounds);
@@ -104,6 +108,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.textholder = holder;
 		
 		d.appendTo(holder);
+		
+		this.positionSetting = undefined;
 	}
 	
 	FixedStep.prototype = Object.create(null);
@@ -133,12 +139,6 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.textholder.css({ width: this.rect.width, height: this.screenPositions.expanded.height });
 	}
 		
-	function reflow (elem) {
-		// NOTE: this hack forces a reflow so we can get the text height properly
-		elem.hide().show(0);
-//		elem[0].offsetWidth;
-	}
-	
 	FixedStep.prototype.calculatePositions = function () {
 		this.screenPositions = {};
 		
@@ -168,18 +168,21 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		var t = offscreen.find(".textblock");
 		offscreen.height("auto");
 		t.height("auto");
-		t.css("font-size", DEFAULT_FONT_SIZE + "px");
+		t.width("auto");
+		t.css( { "font-size": DEFAULT_FONT_SIZE + "px" } );
 		var width = this.rect.width;
 		offscreen.css("width", width);
 		var text_height = t.height();
 		
-		// use the actual text height if it's close enough to the rect height
+		// use the box height since we're going to try for columns anyway
+		/*
 		var overflow_amount = text_height - this.rect.height;
 		var box_height = Math.min(text_height, this.rect.height);
 		var THRESHOLD = 12;
 		if (overflow_amount > 0 && overflow_amount < THRESHOLD) {
 			box_height = text_height;
 		}
+		*/
 		
 		offscreen.remove();
 		
@@ -189,15 +192,23 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 			top: this.rect.top,
 			anchor: Helpers.convertAlignToJQueryAlign(this.anchor),
 			overflow: false,
-			height: box_height,
+			height: this.rect.height,//box_height,
 			width: this.rect.width,
 			fontSize: DEFAULT_FONT_SIZE,
 		};
 		
-		this.elem.find(".textblock").height(box_height);
+		this.elem.find(".textblock").height(this.rect.height);
+	}
+	
+	FixedStep.prototype.returnToCurrentPosition = function () {
+		if (this.positionSetting != undefined)
+			this.gotoPosition(this.positionSetting);
 	}
 	
 	FixedStep.prototype.gotoPosition = function (val) {
+		if (val != "layout")
+			this.positionSetting = val;
+		
 		var opts = this.screenPositions[val];
 		
 		switch (val) {
@@ -258,16 +269,27 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				
 				var insideWidth = this.elem.width();	// width minus padding
 				
-				t.columnize( { width: insideWidth, height: opts.height, buildOnce: true } );
+				// rebuild the text in columns
+				
+				t.empty();
+				$("<span>").addClass("span-text").html(this.options.text).appendTo(t);
+				
+				t.columnize( { width: insideWidth, height: this.rect.height, buildOnce: true } );
 				// NOTE: columnizer seems to be adding an extra column, so ignore it
 				var cols = t.find(".column").length - 1;
+
+				this.elem.find(".controls").remove();
 				
 				if (cols > 1) {
 					this.controls = $("<div>").slideControls({ pages: cols, callback: $.proxy(this.onChangeTextPage, this) });
 					this.elem.append(this.controls);
 		
 					this.controls.css("bottom", -this.controls.height());
-				}
+				} else {
+					// if we're just one column, use that height
+					opts.height = t.find(".column").height();
+					this.updateBoundsBox();
+				}				
 				
 				break;
 			
@@ -288,20 +310,24 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 
 				this.elem.find(".callout-line").hide().css("visibility", "hidden");
 				
-				var shape = this.elem.find(".shape");
-				var scale = 1.5;
-				var w = shape.width();// * scale;
-				var h = shape.height();// * scale;
-				
-				var tx = this.rect.width / scale * .5 - (w * .5);
-				var ty = (this.screenPositions.expanded.height / scale) * .5 - (h * .5);
-				
-				var transform = "scale(" + scale + ") translate(" + tx + "px," + ty + "px)";
-				
-				shape.css("transform", transform);
+				this.centerShape();
 				
 				break;			
 		}
+	}
+	
+	FixedStep.prototype.centerShape = function () {
+		var shape = this.elem.find(".shape");
+		var scale = 1.5;
+		var w = shape.width();// * scale;
+		var h = shape.height();// * scale;
+		
+		var tx = this.rect.width / scale * .5 - (w * .5);
+		var ty = (this.screenPositions.expanded.height / scale) * .5 - (h * .5);
+		
+		var transform = "scale(" + scale + ") translate(" + tx + "px," + ty + "px)";
+		
+		shape.css("transform", transform);
 	}
 	
 	function animateHighlightTo (highlight, x, y, w, h) {

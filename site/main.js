@@ -40,7 +40,7 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, TOC, $) {
+require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, TOC, Helpers, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -66,7 +66,11 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 	westLayout.panes.south.css( { border: "none", padding: 0 } );
 
 	var centerLayout = $("#main-content").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, south__size: "70" } );
+									spacing_open: 0, spacing_close: 0, south__size: "70",
+									onresize_end: function () {
+										throttledReflow();
+									}
+								} );
 	centerLayout.panes.center.css( { border: "none", padding: 0 } );
 	centerLayout.panes.south.css( { border: "none", padding: 0 } );
 
@@ -81,6 +85,10 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 //	pageLayout.resizeAll();
 	
 	var layoutManager = new LayoutManager("#content-holder");
+
+	var throttledReflow = Helpers.throttle(layoutManager.reflow, 3000, layoutManager);
+		
+	window.layoutManager = layoutManager;
 	
 	function onData (data, status, jqXHR) {
 		layoutManager.setData(data.layouts, data.contents);
@@ -100,7 +108,9 @@ require(["inobounce.min", "LayoutManager", "TOC", "jquery", "jqueryui", "jquery.
 		layoutManager.reflow();
 	});
 	
+	/*
 	$(window).resize(function () {
 		layoutManager.reflow();
 	});
+	*/
 });

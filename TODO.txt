@@ -203,3 +203,4 @@
 // DONE: extract images from Fixed Layouts
 // DONE: Fixed Layout callout lines need to be drawn after the box height is established
 // DONE: fixed layout textblocks scroll by page
+// DONE: throttle reformatting due to window resize
