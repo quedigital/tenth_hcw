@@ -224,11 +224,18 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 	LayoutManager.prototype.onReceivedControls = function (event, args) {
 		$("#direct-buttons button.direct").remove();
 		for (var i = 0; i < args.items.length; i++) {
-			var b = $("<button>").addClass("direct").text(args.items[i]);
+			var lbl = args.items[i];
+			if (!lbl) {
+				console.log(lbl);
+				lbl = "&nbsp;";
+			}
+			var b = $("<button>").addClass("btn direct").html(lbl);
 			$("#direct-buttons").append(b);
 			var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
 			b.click(func);
 		}
+		
+		$("#fixed-layout-controls").css("visibility", (args.items.length ? "visible" : "hidden"));
 	}
 	
 	return LayoutManager;

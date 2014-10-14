@@ -768,20 +768,81 @@ div.image-callout {
 		font-size: 24px;
 		padding-left: 2em;
 		vertical-align: top;
-		float: left;
+		position: absolute;
 	}
 	
 	#fixed-layout-controls {
-		float: left;
-		margin-left: 3em;
+		text-align: center;
+		height: 100%;
+		white-space: nowrap;
 		
-		button {
-			height: 70px;
-			width: 70px;
+		.btn {
+			border: none;
+			font-family: inherit;
+			font-size: inherit;
+			color: inherit;
+			background: none;
+			cursor: pointer;
+			padding: 0 20px;
+			height: 90%;
+			display: inline-block;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: 700;
+			outline: none;
+			position: relative;
+			transition: all 0.3s;
+
+			border: 3px solid #55A;
+			border-radius: 15px;
+			color: #55A;
+			margin: 0 5px;
+			top: 5%;
+
+			overflow: hidden;
+			
+			&:after {
+				content: '';
+				position: absolute;
+				z-index: -1;
+				transition: all 0.3s;
+				
+				width: 0;
+				height: 103%;
+				top: 50%;
+				left: 50%;
+				background: #116;
+				opacity: 0;
+				transform: translateX(-50%) translateY(-50%);				
+			}
+			
+			&:hover,
+			&:active {
+				color: white;
+			}
+
+			&:hover:after {
+				width: 80%;
+				opacity: 1;
+			}
+
+			&:active:after {
+				width: 101%;
+				opacity: 1;
+			}
 		}
 		
 		div#direct-buttons {
-			display: inline-block;
+			display: inline;
+			height: 100%;
+			white-space: nowrap;
+		}
+		
+		button#previous-button, button#next-button {
+			font-family: FontAwesome;
+			background-color: #3F4756;
+			color: white;
+			border: none;
 		}
 	}
 }

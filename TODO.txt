@@ -1,7 +1,5 @@
 
 
-// TODO: style fixed layout navigation controls
-
 // TODO: "chapter" background color for layout (including margins)
 
 // TODO: use nicer fonts everywhere
@@ -208,3 +206,4 @@
 // DONE: fixed layouts don't automatically highlight step 1 if there's a "before" step
 // DONE: big previous + next buttons on the sides of fixed layouts
 // DONE: grid layouts have max-width
+// DONE: style fixed layout navigation controls
