@@ -532,6 +532,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 						"id": true,
 						"style": true,
 						"background": true,
+						"bgcolor": true,
 						"textcolor": true,
 						"publish": true,
 						"notes": true,

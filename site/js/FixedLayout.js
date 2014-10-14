@@ -21,6 +21,14 @@ define(["Layout",
 		var image_holder = $("<div>").addClass("image_holder");
 		this.image_holder = image_holder;
 		
+		var nextButton = $("<div>").addClass("nav-button next").html("&#xf054;");
+		nextButton.click($.proxy(this.gotoNext, this));
+		image_holder.append(nextButton);
+
+		var prevButton = $("<div>").addClass("nav-button prev").html("&#xf053;");
+		prevButton.click($.proxy(this.gotoPrevious, this));
+		image_holder.append(prevButton);
+		
 		this.container.append(image_holder);
 
 		var img = $("<img>").addClass("background").attr("src", layout.background);
@@ -34,8 +42,13 @@ define(["Layout",
 
 		if (this.layout.textcolor) {
 			this.container.css("color", this.layout.textcolor);
-
-			var color = tinycolor(layout.textcolor);
+		}
+		
+		// theory: for fixed layouts, "dark" only applies if the background color is dark
+		if (this.layout.bgcolor) {
+			this.container.css("background", this.layout.bgcolor);
+			
+			var color = tinycolor(layout.bgcolor);
 			if (color.isValid()) {
 				var brightness = color.getBrightness();
 				if (brightness > 240) {
@@ -403,10 +416,17 @@ define(["Layout",
 		this.unexpandAllExcept(event.target);
 	}
 	
+	FixedLayout.prototype.firstElementIsFixedStep = function () {
+		return (this.elements.length > 0 && this.elements[0] instanceof FixedStep);
+	}
+	
 	FixedLayout.prototype.activate = function () {
 		Layout.prototype.activate.call(this);
 		
-		this.expandFirstStep();
+		if (this.firstElementIsFixedStep())
+			this.expandFirstStep();
+		else
+			this.unexpandAllExcept();
 		
 		var items = [];
 		
