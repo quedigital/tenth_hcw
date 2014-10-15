@@ -11,7 +11,7 @@ define(["Layout",
 		"jquery.columnizer",
 		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, Helpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
-		Layout.call(this, container, manager);
+		Layout.call(this, container, manager, content);
 		
 		this.layout = layout;
 		this.content = content;
@@ -51,7 +51,7 @@ define(["Layout",
 			var color = tinycolor(layout.bgcolor);
 			if (color.isValid()) {
 				var brightness = color.getBrightness();
-				if (brightness > 240) {
+				if (brightness < 15) {
 					this.container.parent().addClass("dark");
 				}
 			}
@@ -451,9 +451,13 @@ define(["Layout",
 	}
 	
 	FixedLayout.prototype.onClickStep = function (step) {
-		this.currentStep = this.getStepIndex(step);
-		step.expand();
-		this.unexpandAllExcept(step);
+		if (step.isExpanded) {
+			step.gotoNextPage();
+		} else {
+			this.currentStep = this.getStepIndex(step);
+			step.expand();
+			this.unexpandAllExcept(step);
+		}
 	}
 
 	return FixedLayout;

@@ -157,7 +157,7 @@ define([], function () {
 		context.lineWidth = 2;
 		
 		// use the color of the container for the line color
-		context.strokeStyle = container.css("color");
+		context.strokeStyle = container.parents(".spread").css("color");
 		
 		moveTo(context, startX, startY);
 		

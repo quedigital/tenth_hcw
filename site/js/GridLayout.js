@@ -10,7 +10,7 @@ define(["Layout",
 		"waypoints"], function (Layout, Helpers, imagesLoaded, debug, Step) {
 	
 	GridLayout = function (container, layout, content, manager) {
-		Layout.call(this, container, manager);
+		Layout.call(this, container, manager, content);
 		
 		this.container.data("grid", this);
 		

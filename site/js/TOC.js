@@ -10,25 +10,20 @@ define(["Helpers"], function (Helpers) {
 		
 		var me = this;
 		
-		var colors = ["#FF3E54", "#f75", "#f94", "#fc4", "#fe4", "#df4", "#7f4", "#0f4", "#0fb"];
-		var color = 0;
-		
 		var toc = $("<div>").addClass("toc").appendTo(container);
 		
 		var lastChapter = undefined;
 		
 		$.each(this.contents, function (index, content) {
+			var color = Helpers.getColorForChapter(content.chapter);
+			
 			if (content.chapter != lastChapter) {
-				if (lastChapter != undefined) {
-					color = (color + 1) % colors.length;
-				}
-				
-				$("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", colors[color]).appendTo(toc);
+				$("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", color).appendTo(toc);
 			}
 			
 			var entry = $("<div>").addClass("entry spread").appendTo(toc);
 			
-			entry.css("backgroundColor", colors[color]);
+			entry.css("backgroundColor", color);
 			
 			entry.data("id", content.id).attr("data-id", content.id);
 			

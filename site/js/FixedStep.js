@@ -19,6 +19,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				$(this).parent().find(".dot").eq(index - 2).addClass("selected");
 				settings.callback(index - 2);
 			}
+			
+			return false;
 		}
 		
 		function goForward (event) {
@@ -31,6 +33,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				$(this).parent().find(".dot").eq(index).addClass("selected");
 				settings.callback(index);
 			}
+			
+			return false;
 		}
 		
 		button = $("<div class='left-arrow button'>");
@@ -48,9 +52,11 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 			if (settings.callback) {
 				button.click(function (event) {
 					event.preventDefault();
+					event.stopImmediatePropagation();
 					$(this).parent().find(".selected").removeClass("selected");
 					$(this).addClass("selected");
 					settings.callback($(this).index() - 1);
+					return false;
 				});
 			}
 		}
@@ -68,10 +74,6 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.elem = $("<div>").addClass("fixed_step");
 		
 		this.elem.data("step", this);
-		
-		if (options.title && options.title.length) {
-			$("<h2>").html(options.title).appendTo(this.elem);
-		}
 		
 		if (options.number != undefined && parseInt(options.number) > 0) {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
@@ -228,11 +230,11 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 					this.elem.removeClass("overflow");
 				}
 				
-				this.elem.find("h2").css("display", "none");
+//				this.elem.find("h2").css("display", "none");
 		
 				this.elem.css({ left: opts.left, top: opts.top });
 		
-				animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);
+				this.animateHighlightTo(this.elem.parent().find(".highlighted"), opts.left, opts.top, opts.width, opts.height);
 				
 				this.elem.find(".callout-line").hide().css("visibility", "visible").show();
 				/*
@@ -261,7 +263,7 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				t.height(opts.height);
 				this.elem.css("width", opts.width);
 		
-				this.elem.find("h2").css("display", "none");
+//				this.elem.find("h2").css("display", "none");
 		
 				this.elem.css({ left: opts.left, top: opts.top });
 		
@@ -274,6 +276,11 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				// rebuild the text in columns
 				
 				t.empty();
+				
+				if (this.options.title && this.options.title.length) {
+					$("<h2>").html(this.options.title).appendTo(t);
+				}
+				
 				$("<span>").addClass("span-text").html(this.options.text).appendTo(t);
 				
 				t.columnize( { width: insideWidth, height: this.rect.height, buildOnce: true } );
@@ -298,6 +305,7 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 			case "normal":
 				this.elem.removeClass("selected");
 				
+				/*
 				this.elem.css("width", opts.width);
 				var t = this.elem.find(".textblock");
 				t.css({ visibility: "hidden" });
@@ -309,10 +317,11 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				}
 				
 				this.elem.css({ left: opts.left, top: opts.top });
-
-				this.elem.find(".callout-line").hide().css("visibility", "hidden");
 				
 				this.centerShape();
+				*/
+				
+				this.elem.find(".callout-line").hide().css("visibility", "hidden");
 				
 				break;			
 		}
@@ -332,13 +341,20 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		shape.css("transform", transform);
 	}
 	
-	function animateHighlightTo (highlight, x, y, w, h) {
+	FixedStep.prototype.animateHighlightTo = function (highlight, x, y, w, h) {
 		highlight.addClass("animated");
 		
-		x -= 10;
-		w += 20;
-		y -= 20;
-		h += 40;
+		if (this.elem.hasClass("no-number")) {
+			x -= 10;
+			w += 20;
+			y -= 10;
+			h += 30;
+		} else {
+			x -= 10;
+			w += 20;
+			y -= 20;
+			h += 40;
+		}
 				
 		highlight.width(w).height(h).css("-webkit-transform", "translate3d(" + x + "px," + y + "px, 0)");
 	}
@@ -375,6 +391,16 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 	
 	FixedStep.prototype.onChangeTextPage = function (index) {
 		this.textholder.find(".column").css("display", "none").eq(index).css("display", "block");
+	}
+	
+	FixedStep.prototype.gotoNextPage = function () {
+		var index = this.elem.find(".selected").index();
+		var num = this.elem.find(".dot");
+		if (index >= num.length) index = 0;
+		
+		this.elem.find(".selected").removeClass("selected");
+		this.elem.find(".dot").eq(index).addClass("selected");
+		this.onChangeTextPage(index);
 	}
 	
 	return FixedStep;	

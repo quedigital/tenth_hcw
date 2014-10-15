@@ -143,6 +143,13 @@ define(["jquery"], function () {
 		var el = elem[0];
 		var rect = el.getBoundingClientRect();
 		return (Math.round(rect.bottom) <= 0);
+	}
+	
+	function getColorForChapter (ch) {
+		var colors = ["#FF3E54", "#f75", "#f94", "#fc4", "#fe4", "#df4", "#7f4", "#0f4", "#0fb"];
+		
+		var c = (parseInt(ch) - 1) % colors.length;
+		return colors[c];		
 	}	
 	
 	var Helpers = {
@@ -157,6 +164,7 @@ define(["jquery"], function () {
 		isVectorImage: isVectorImage,
 		throttle: throttle,
 		isScrolledOff: isScrolledOff,
+		getColorForChapter: getColorForChapter,
 	};
 	
 	return Helpers;

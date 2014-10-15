@@ -226,7 +226,6 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 		for (var i = 0; i < args.items.length; i++) {
 			var lbl = args.items[i];
 			if (!lbl) {
-				console.log(lbl);
 				lbl = "&nbsp;";
 			}
 			var b = $("<button>").addClass("btn direct").html(lbl);

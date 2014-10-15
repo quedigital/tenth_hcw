@@ -1,5 +1,5 @@
 define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
-	Layout = function (container, manager) {
+	Layout = function (container, manager, content) {
 		this.container = container;
 		this.manager = manager;
 		
@@ -10,7 +10,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		this.isReady = false;
 		this.isActive = false;
 		
-		window.layout = this;
+		this.container.parents(".layout").css("backgroundColor", Helpers.getColorForChapter(content.chapter));
 	}
 	
 	Layout.prototype = Object.create(null);

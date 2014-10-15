@@ -1,6 +1,10 @@
 
 
-// TODO: "chapter" background color for layout (including margins)
+// TODO: hard-code callout line directions in editor? [3_2]
+
+// TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
+
+// TODO: flowchart spread
 
 // TODO: remove embedded "line-height" tags from the text
 
@@ -20,8 +24,6 @@
 
 // TODO: change URL location to reflect current spread? (history.pushState)
 
-// TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
-
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
 
@@ -33,22 +35,7 @@
 
 // TODO: spread count (by chapter?)
 
-// TODO: syncing content and layout cells is still not completely robust
-
-// TODO: refactor spread.js
-
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
-
-// TODO: rename content.image to content.url
-// TODO: rename layout.image to layout.imagePosition
-
-// TODO: use "Group ID" or something (instead of "non-blocking")
-// TODO: min-size for grid cells? (so the callouts in images don't get too small)
-
-// TODO: make sure expanded captions always fit on Fixed Layouts (iPad)
-
-// TODO: collapsible columns
-// TODO: template the sections
 
 // TODO: marginTop not working? [not being used]
 
@@ -206,3 +193,11 @@
 // DONE: grid layouts have max-width
 // DONE: style fixed layout navigation controls
 // DONE: use nicer fonts everywhere
+// DONE: Fixed Layouts need to use text color for unselected text (18_7)
+// DONE: fixed layouts show text all the time
+// DONE: dark fixed layouts need to invert blocks (20_6) [set text and background color]
+// DONE: make an active style for the forward/next fixed layout buttons
+// DONE: headers need to go back into fixed layout textblocks [10_2]
+// DONE: "chapter" background color for layout (including margins)
+// DONE: callout lines on dark should be white [20_4]
+// DONE: space between paragraphs in textblocks [14_5]
