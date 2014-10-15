@@ -169,7 +169,7 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		offscreen.height("auto");
 		t.height("auto");
 		t.width("auto");
-		t.css( { "font-size": DEFAULT_FONT_SIZE + "px" } );
+//		t.css( { "font-size": DEFAULT_FONT_SIZE + "px" } );
 		var width = this.rect.width;
 		offscreen.css("width", width);
 		var text_height = t.height();
@@ -216,7 +216,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				this.elem.addClass("selected");
 		
 				var t = this.elem.find(".textblock");
-				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
+//				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
+				t.css( { visibility: "visible" } );
 				this.elem.height("auto");
 				t.height(opts.height);
 				this.elem.css("width", opts.width);
@@ -254,7 +255,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				var opts = this.screenPositions["expanded"];
 				
 				var t = this.elem.find(".textblock");
-				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
+//				t.css( { "font-size": opts.fontSize + "px", visibility: "visible" } );
+				t.css( { visibility: "visible" } );
 				this.elem.height("auto");
 				t.height(opts.height);
 				this.elem.css("width", opts.width);

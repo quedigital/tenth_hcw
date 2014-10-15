@@ -2,8 +2,6 @@
 
 // TODO: "chapter" background color for layout (including margins)
 
-// TODO: use nicer fonts everywhere
-
 // TODO: remove embedded "line-height" tags from the text
 
 // TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
@@ -207,3 +205,4 @@
 // DONE: big previous + next buttons on the sides of fixed layouts
 // DONE: grid layouts have max-width
 // DONE: style fixed layout navigation controls
+// DONE: use nicer fonts everywhere

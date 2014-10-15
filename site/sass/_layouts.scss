@@ -6,7 +6,9 @@
 
 html, body {
 	background-color: #ffe;
-	font-family: sans-serif;
+	font-family: 'Archivo Narrow', sans-serif;
+	font-weight: 300;
+	font-size: 110%;
 }
 
 html, body, p, h1 {
@@ -192,6 +194,8 @@ html, body, p, h1 {
 			line-height: 1.4em;
 			
 			.span-text {
+				font-size: 90%;
+				
 				div {
 					margin-top: .4em;
 				}
@@ -504,7 +508,6 @@ div.cell {
 	display: inline-block;
 	color: white;
 	font-weight: bold;
-	font-family: Futura;
 	font-size: 22px;
 	line-height: 34px;
 	text-align: center;
@@ -512,6 +515,7 @@ div.cell {
 	height: 25px;
 	position: absolute;
 	left: 5px;
+	font-family: 'Oswald', sans-serif;
 	
 	&:before {
 		content: "";
@@ -535,7 +539,6 @@ div.cell {
 	display: inline-block;
 	color: white;
 	font-weight: bold;
-	font-family: Futura;
 	font-size: 22px;
 	line-height: 30px;
 	text-align: center;
@@ -543,6 +546,7 @@ div.cell {
 	height: 28px;
 	margin: 0;
 	padding: 0;
+	font-family: 'Oswald', sans-serif;
 	
 	/*
 	position: relative;
@@ -811,6 +815,7 @@ div.image-callout {
 				height: 103%;
 				top: 50%;
 				left: 50%;
+				border-radius: 15px;
 				background: #116;
 				opacity: 0;
 				transform: translateX(-50%) translateY(-50%);				
@@ -822,14 +827,73 @@ div.image-callout {
 			}
 
 			&:hover:after {
-				width: 80%;
+				width: 103%;
 				opacity: 1;
 			}
 
 			&:active:after {
-				width: 101%;
+				width: 90%;
 				opacity: 1;
+				border-radius: 0;
 			}
+		}
+		
+		.arrow-button {
+			border: none;
+			font-family: inherit;
+			font-size: inherit;
+			color: inherit;
+			background: none;
+			cursor: pointer;
+			padding: 0 20px;
+			height: 90%;
+			display: inline-block;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: 700;
+			outline: none;
+			position: relative;
+			transition: background 0.1s;
+
+			border: 3px solid #55A;
+			border-radius: 15px;
+			color: #55A;
+			margin: 0 5px;
+			top: 5%;
+
+			overflow: hidden;
+		}
+		
+		#previous-button:before {
+			content: "\f053";
+			position: absolute;
+			left: 130%;
+			transition: all 0.3s;
+		}
+		
+		#previous-button:hover:before {
+			left: 50%;
+		}
+		
+		#previous-button:active {
+			color: white;
+			background: black;
+		}
+		
+		#next-button:before {
+			content: "\f054";
+			position: absolute;
+			left: -30%;
+			transition: all 0.3s;
+		}
+
+		#next-button:hover:before {
+			left: 25%;
+		}
+		
+		#next-button:active {
+			color: white;
+			background: black;
 		}
 		
 		div#direct-buttons {
