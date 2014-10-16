@@ -265,9 +265,9 @@ define(["Layout",
 						break;
 						
 					case "interactive":
-						var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
-						var h = rect.height;
-						elem.height(h);
+						//var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
+						//var h = rect.height;
+						//elem.height(h);
 						break;
 					
 					case "video":
