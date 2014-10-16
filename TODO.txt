@@ -1,5 +1,9 @@
 
 
+// TODO: interactive slide-over
+
+// TODO: chapter and part intros
+
 // TODO: hard-code callout line directions in editor? [3_2]
 
 // TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
@@ -7,6 +11,7 @@
 // TODO: flowchart spread
 
 // TODO: remove embedded "line-height" tags from the text
+// TODO: convert things like [dg] in the text
 
 // TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
 
@@ -28,8 +33,6 @@
 // TODO: keywords (searchable) for spreads
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
-
-// TODO: interactive slide-over
 
 // TODO: layouts don't seem to be full-screen on iOS Safari
 
@@ -201,3 +204,4 @@
 // DONE: "chapter" background color for layout (including margins)
 // DONE: callout lines on dark should be white [20_4]
 // DONE: space between paragraphs in textblocks [14_5]
+// DONE: ability to add extra images to sidebars

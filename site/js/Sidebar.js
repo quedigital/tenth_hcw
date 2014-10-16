@@ -17,6 +17,13 @@ define([], function () {
 			interior.css("backgroundColor", hints.backgroundColor);
 		}
 		
+		// embedding extra images
+		var re = /(&lt;\s*img [^\>]*src\s*=\s*"(.*?)"[^']*?&gt;)/g;
+		var matches = options.text.match(re);
+		if (matches) {
+			options.text = options.text.replace(re, "<img src=\"$2\"/>")
+		}
+		
 		$("<p>").html(options.text).appendTo(interior);
 		
 		if (options.image) {
