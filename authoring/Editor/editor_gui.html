@@ -387,6 +387,16 @@
 									<td><input data-bind="value: backgroundColor" type="text"></input></td>
 								</tr>
 							</tbody>
+							<tbody data-bind="attr: { 'data-id': id }, if: $root.getCellType($data.firebase.name())==='interactive'">
+								<tr>
+									<td>interactive type</td>
+									<td><select data-bind="options: ['fullscreen','inplace'], value: theme"></select></td>
+								</tr>
+								<tr>
+									<td>interactive size</td>
+									<td><input data-bind="value: size" type="string"></input></td>
+								</tr>
+							</tbody>
 							<tbody data-bind="attr: { 'data-id': id }">
 								<tr>
 									<td><div class="split-left">callout line target id</div><button class="split-right" data-bind="click: $root.setCalloutTarget">Set</button></td>

@@ -1,8 +1,8 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../Common/js/phaser.min",
-		"utils": "../../Common/js/utils"
+		"Phaser": "../../common/js/phaser.min",
+		"utils": "../../common/js/utils",
 	},
 	
 	shim: {
@@ -340,7 +340,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	
 	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
 	game.state.add('game', GameState, true);
-	
+
 	function fillRGB (r1, g1, b1, a1, region) {
 		var sx = 0;
 		var sy = 0;

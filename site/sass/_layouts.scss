@@ -400,6 +400,11 @@ html, body, p, h1 {
 			top: 0;
 			left: 0;
 		}
+		
+		.interactive-contents {
+			text-align: center;
+			overflow: hidden;
+		}
 				
 		.pullover {
 			position: absolute;
@@ -435,44 +440,60 @@ html, body, p, h1 {
 	}
 }
 
-.interactive-contents {
+.interactive-contents.full-screen {
 	margin: 0 auto;
 	
-	/*
-	transform: scale(.5);
-	transform-origin: 50% 0;
-	
-	-webkit-transition: transform .5s ease;
-	*/
-	
-	&.full-screen {
-		position: fixed;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 10;
+
+	&:before {
+		content: "";
+		position: absolute;
 		top: 0;
+		left: 0;
 		right: 0;
 		bottom: 0;
-		left: 0;
-		z-index: 10;
-	
-		&:before {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-color: rgba(255, 255, 255, .5);
-			pointer-events: none;
-			z-index: -1;
-		}
-	}	
+		background-color: rgba(0, 0, 0, .75);
+		pointer-events: none;
+		z-index: -1;
+	}
 	
 	&.expanded {
 		transform: scale(1.0);
 	}
 	
+	#interactive-close {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	
 	iframe {
 		display: block;
 		margin: 0 auto;
+		transform-origin: 0 0;
+		padding: 10px;
+		background-color: #FFF13F;
+	}
+}
+
+button.basic {
+	width: 40px;
+	height: 40px;
+	outline: none;
+	border: none;
+	background-color: black;
+	padding: 0;
+	color: #ddd;
+	cursor: pointer;
+	
+	&:hover {
+		background-color: #666;
+		color: white;
 	}
 }
 

@@ -109,7 +109,7 @@ define(["Layout",
 					cellDOM.append(sidebar.elem);
 					break;
 				case "interactive":
-					var interactive = new Interactive(cell);
+					var interactive = new Interactive(cell, hint);
 					cellDOM.append(interactive.elem);
 					break;
 				case "video":
@@ -265,6 +265,8 @@ define(["Layout",
 						break;
 						
 					case "interactive":
+						var interactive = elem.find(".interactive").data("interactive");
+						interactive.format();
 						//var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
 						//var h = rect.height;
 						//elem.height(h);

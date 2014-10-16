@@ -1,7 +1,5 @@
 
 
-// TODO: interactive slide-over
-
 // TODO: chapter and part intros
 
 // TODO: hard-code callout line directions in editor? [3_2]
@@ -205,3 +203,5 @@
 // DONE: callout lines on dark should be white [20_4]
 // DONE: space between paragraphs in textblocks [14_5]
 // DONE: ability to add extra images to sidebars
+// DONE: interactive slide-over
+// DONE: interactive in-place

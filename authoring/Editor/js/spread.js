@@ -545,6 +545,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 								"bounds": true,
 								"anchor": true,
 								"theme": true,
+								"size": true,			// 1024,768 [for interactives]
 								"backgroundColor": true,
 								"marginTop": true,
 								"row": true,
