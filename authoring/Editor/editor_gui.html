@@ -154,7 +154,7 @@
 												<label>Cell Type</label>
 											</div>
 											<div>
-												<select data-bind="options: ['step','image', 'sidebar', 'interactive', 'video'], value: type"></select>
+												<select data-bind="options: ['step', 'image', 'sidebar', 'interactive', 'video', 'text'], value: type"></select>
 											</div>
 										</div>
 										<div class="control" data-bind="visible: type() === 'step'">
@@ -184,7 +184,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="step-text" data-bind="if: type() === 'step'">
+									<div class="step-text" data-bind="if: type() === 'step' || type() === 'text'">
 										<div class="editable-text" contenteditable="true" data-bind="editableText: text"></div>
 									</div>
 									<div class="callout-text" data-bind="if: type() === 'sidebar'">
@@ -254,7 +254,7 @@
 					<div class="section group">
 						<div class="col span_1_of_2">
 							<label for="inputSpreadStyle">Layout Style</label>
-							<select data-bind="options: ['grid', 'fixed'], value: style, valueAllowUnset: true"></select>
+							<select data-bind="options: ['grid', 'fixed', 'text'], value: style, valueAllowUnset: true"></select>
 						</div>
 						<div class="col span_1_of_2">
 							<div class="small-right">				

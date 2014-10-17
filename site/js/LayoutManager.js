@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, Helpers, tinycolor) {
+define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, TextLayout, Helpers, tinycolor) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -62,17 +62,24 @@ define(["GridLayout", "FixedLayout", "Helpers", "tinycolor", "waypoints"], funct
 	
 		var layoutDOM = $("<div>").attr("class", "spread").appendTo(spreadDOM);
 	
-		layoutDOM.append("<h1>" + content.title);
-	
 		switch (layout.style) {
 			case "grid":
+				layoutDOM.append("<h1>" + content.title);
+	
 				var grid = new GridLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(grid);
 				break;
 		
 			case "fixed":
+				layoutDOM.append("<h1>" + content.title);
+	
 				var fixed = new FixedLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(fixed);
+				break;
+				
+			case "text":
+				var text = new TextLayout(layoutDOM, layout, content, this);
+				this.layoutArray.push(text);
 				break;
 		}		
 	}

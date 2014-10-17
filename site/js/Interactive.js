@@ -1,5 +1,4 @@
 define([], function () {
-	var WIDTH = 1024, HEIGHT = 700;
 	var MARGIN = 10;
 
 	Interactive = function (options, hints) {
@@ -8,6 +7,9 @@ define([], function () {
 		this.elem.data("interactive", this);
 
 		var style = hints.theme || "full-screen";
+
+		this.size_w = parseInt(hints.size.substr(0, hints.size.indexOf(",")));
+		this.size_h = parseInt(hints.size.substr(hints.size.indexOf(",") + 1));	
 		
 		switch (style) {
 			case "fullscreen":		
@@ -17,7 +19,7 @@ define([], function () {
 		
 				var contents = $("<div>").addClass("interactive-contents").css("display", "none");
 		
-				var iframe = $("<iframe>").attr( { width: WIDTH, height: HEIGHT, frameBorder: 0 } );
+				var iframe = $("<iframe>").attr( { width: this.size_w, height: this.size_h, frameBorder: 0 } );
 				contents.append(iframe);
 		
 				var close = $("<button>").addClass("fa fa-times fa-2x basic").attr("id", "interactive-close");
@@ -37,9 +39,7 @@ define([], function () {
 				
 				var w = hints.width * 100 + "%";
 				
-				var size_w = parseInt(hints.size.substr(0, hints.size.indexOf(",")));
-				var size_h = parseInt(hints.size.substr(hints.size.indexOf(",") + 1));
-				this.ratio = size_h / size_w;
+				this.ratio = this.size_h / this.size_w;
 				
 				var contents = $("<div>").addClass("interactive-contents");
 				contents.width(w);
@@ -79,8 +79,8 @@ define([], function () {
 		var w = $(window).width();// - MARGIN * 2;
 		var h = $(window).height();// - MARGIN * 2;
 		
-		var scale_w = w / WIDTH;
-		var scale_h = h / HEIGHT;
+		var scale_w = w / this.size_w;
+		var scale_h = h / this.size_h;
 		var scale = Math.min(scale_w, scale_h);
 		
 		this.iframe.css("transform", "scale(" + scale + ")");

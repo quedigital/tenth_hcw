@@ -1260,10 +1260,11 @@ div.image-callout span {
   border-radius: 0 0 15px 0;
   border-right: 1px solid #aaa;
   border-bottom: 1px solid #aaa;
+  font-size: 1.5rem;
 }
 
 /* Loading spinner: */
-/* line 1050, ../sass/_layouts.scss */
+/* line 1051, ../sass/_layouts.scss */
 .spinner {
   margin: 300px auto;
   width: 32px;
@@ -1272,7 +1273,7 @@ div.image-callout span {
   display: none;
 }
 
-/* line 1058, ../sass/_layouts.scss */
+/* line 1059, ../sass/_layouts.scss */
 .cube1, .cube2 {
   background-color: black;
   width: 20px;
@@ -1284,60 +1285,60 @@ div.image-callout span {
   animation: cubemove 1.8s infinite ease-in-out;
 }
 
-/* line 1070, ../sass/_layouts.scss */
+/* line 1071, ../sass/_layouts.scss */
 .cube2 {
   -webkit-animation-delay: -0.9s;
   animation-delay: -0.9s;
 }
 
 @-webkit-keyframes cubemove {
-  /* line 1076, ../sass/_layouts.scss */
+  /* line 1077, ../sass/_layouts.scss */
   25% {
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
   }
 
-  /* line 1077, ../sass/_layouts.scss */
+  /* line 1078, ../sass/_layouts.scss */
   50% {
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
   }
 
-  /* line 1078, ../sass/_layouts.scss */
+  /* line 1079, ../sass/_layouts.scss */
   75% {
     -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
   }
 
-  /* line 1079, ../sass/_layouts.scss */
+  /* line 1080, ../sass/_layouts.scss */
   100% {
     -webkit-transform: rotate(-360deg);
   }
 }
 
 @keyframes cubemove {
-  /* line 1083, ../sass/_layouts.scss */
+  /* line 1084, ../sass/_layouts.scss */
   25% {
     transform: translateX(42px) rotate(-90deg) scale(0.5);
     -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
   }
 
-  /* line 1086, ../sass/_layouts.scss */
+  /* line 1087, ../sass/_layouts.scss */
   50% {
     transform: translateX(42px) translateY(42px) rotate(-179deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
   }
 
-  /* line 1089, ../sass/_layouts.scss */
+  /* line 1090, ../sass/_layouts.scss */
   50.1% {
     transform: translateX(42px) translateY(42px) rotate(-180deg);
     -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
   }
 
-  /* line 1092, ../sass/_layouts.scss */
+  /* line 1093, ../sass/_layouts.scss */
   75% {
     transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
     -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
   }
 
-  /* line 1095, ../sass/_layouts.scss */
+  /* line 1096, ../sass/_layouts.scss */
   100% {
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
@@ -1345,9 +1346,112 @@ div.image-callout span {
 }
 
 /* ^ Loading spinner */
-/* line 1103, ../sass/_layouts.scss */
+/* line 1104, ../sass/_layouts.scss */
 .testrect {
   position: absolute;
   border: 1px solid yellow;
   pointer-events: none;
+}
+
+/* line 1110, ../sass/_layouts.scss */
+.spread.page {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+/* line 1114, ../sass/_layouts.scss */
+.spread.page header {
+  padding: 1rem 0 2rem 0;
+}
+/* line 1117, ../sass/_layouts.scss */
+.spread.page header div.chapter {
+  width: 30%;
+  float: left;
+  color: white;
+  text-align: center;
+}
+/* line 1123, ../sass/_layouts.scss */
+.spread.page header div.chapter p:first-child {
+  padding: 0;
+  margin: 0;
+  font-size: 2rem;
+  line-height: 2rem;
+  letter-spacing: .3rem;
+  text-transform: uppercase;
+}
+/* line 1132, ../sass/_layouts.scss */
+.spread.page header div.chapter p:nth-child(2) {
+  font-size: 12rem;
+  font-weight: 700;
+  line-height: 12rem;
+  font-family: 'Oswald', sans-serif;
+  padding: 0;
+  margin: 0;
+}
+/* line 1142, ../sass/_layouts.scss */
+.spread.page header h1 {
+  width: 70%;
+  float: left;
+  font-weight: 700;
+  color: black;
+  font-size: 6rem;
+  line-height: 6rem;
+  text-align: center;
+}
+/* line 1152, ../sass/_layouts.scss */
+.spread.page header:after {
+  clear: both;
+  display: block;
+  content: "";
+}
+/* line 1159, ../sass/_layouts.scss */
+.spread.page section.page {
+  background-color: white;
+  padding: 2rem 1rem;
+  box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.7) inset;
+  line-height: 1.7rem;
+}
+/* line 1166, ../sass/_layouts.scss */
+.spread.page section.page section {
+  padding-bottom: 1.5rem;
+}
+/* line 1169, ../sass/_layouts.scss */
+.spread.page section.page section p:nth-child(n+2) {
+  text-indent: 2rem;
+}
+/* line 1174, ../sass/_layouts.scss */
+.spread.page section.page a {
+  text-decoration: none;
+  color: #3879D9;
+}
+/* line 1178, ../sass/_layouts.scss */
+.spread.page section.page a:hover {
+  color: #04a;
+}
+/* line 1183, ../sass/_layouts.scss */
+.spread.page section.page footer {
+  font-size: .83rem;
+  vertical-align: super;
+}
+/* line 1188, ../sass/_layouts.scss */
+.spread.page section.page blockquote {
+  font-style: italic;
+}
+/* line 1191, ../sass/_layouts.scss */
+.spread.page section.page blockquote footer {
+  font-weight: 700;
+  text-align: right;
+}
+/* line 1195, ../sass/_layouts.scss */
+.spread.page section.page blockquote footer cite {
+  font-style: normal;
+}
+/* line 1199, ../sass/_layouts.scss */
+.spread.page section.page blockquote footer:before {
+  content: "—";
+  display: inline;
+  padding-right: 3px;
+}
+/* line 1207, ../sass/_layouts.scss */
+.spread.page section.page .italic {
+  font-style: italic;
 }

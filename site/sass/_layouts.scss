@@ -1042,6 +1042,7 @@ div.image-callout {
 		border-radius: 0 0 15px 0;
 		border-right: 1px solid #aaa;
 		border-bottom: 1px solid #aaa;
+		font-size: 1.5rem;
 	}
 }
 
@@ -1104,4 +1105,107 @@ div.image-callout {
 	position: absolute;
 	border: 1px solid yellow;
 	pointer-events: none;
+}
+
+.spread.page {
+	max-width: 1080px;
+	margin: 0 auto;
+	
+	header {
+		padding: 1rem 0 2rem 0;
+		
+		div.chapter {
+			width: 30%;
+			float: left;
+			color: white;
+			text-align: center;
+		
+			p:first-child {
+				padding: 0;
+				margin: 0;
+				font-size: 2rem;
+				line-height: 2rem;
+				letter-spacing: .3rem;
+				text-transform: uppercase;
+			}
+		
+			p:nth-child(2) {
+				font-size: 12rem;
+				font-weight: 700;
+				line-height: 12rem;
+				font-family: 'Oswald', sans-serif;
+				padding: 0;
+				margin: 0;
+			}
+		}
+	
+		h1 {
+			width: 70%;
+			float: left;
+			font-weight: 700;
+			color: black;
+			font-size: 6rem;
+			line-height: 6rem;
+			text-align: center;
+		}
+		
+		&:after {
+			clear: both;
+			display: block;
+			content: "";
+		}
+	}
+	
+	section.page {
+		background-color: white;
+		padding: 2rem 1rem;
+		box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.7) inset;
+		
+		line-height: 1.7rem;
+		
+		section {
+			padding-bottom: 1.5rem;
+			
+			p:nth-child(n+2) {
+				text-indent: 2rem;
+			}			
+		}
+		
+		a {
+			text-decoration: none;
+			color: #3879D9;
+			
+			&:hover {
+				color: #04a;
+			}
+		}
+		
+		footer {
+			font-size: .83rem;
+			vertical-align: super;
+		}
+		
+		blockquote {
+			font-style: italic;
+			
+			footer {
+				font-weight: 700;
+				text-align: right;
+				
+				cite {
+					font-style: normal;
+				}
+				
+				&:before {
+					content: "—";
+					display: inline;
+					padding-right: 3px;
+				}
+			}
+		}
+		
+		.italic {
+			font-style: italic;
+		}
+	}
 }
