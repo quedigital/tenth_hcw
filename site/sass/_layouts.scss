@@ -4,6 +4,8 @@
           box-sizing: border-box;
 }
 
+$interactive-color: #FFF13F;
+
 html, body {
 	background-color: #ffe;
 	font-family: 'Archivo Narrow', sans-serif;
@@ -387,10 +389,6 @@ html, body, p, h1 {
 	}
 	
 	.interactive {
-		/*
-		width: 1024px;
-		height: 768px;
-		*/
 		min-height: 50px;
 		
 		margin: 0 auto;
@@ -404,12 +402,45 @@ html, body, p, h1 {
 		.interactive-contents {
 			text-align: center;
 			overflow: hidden;
+			border: 10px solid $interactive-color;
+			position: relative;
+			transition: border .2s linear;
+			
+			&:hover {
+				border: 10px solid white;
+			}
+			
+			&:hover:after {
+				content: "interactive";
+				background-color: $interactive-color;
+				padding: 0 3em 0 .5em;
+				border-radius: .5em 0 0 .5em;
+				font-size: 150%;
+				position: absolute;
+				top: 10%;
+				right: -20em;
+				color: black;
+				transition: right .5s linear;
+			}
+			
+			&:not(:hover):after {
+				content: "interactive";
+				background-color: $interactive-color;
+				padding: 0 3em 0 .5em;
+				border-radius: .5em 0 0 .5em;
+				font-size: 150%;
+				position: absolute;
+				top: 10%;
+				right: 0;
+				color: black;
+				transition: right .5s linear;
+			}
 		}
 				
 		.pullover {
 			position: absolute;
 			right: 0;
-			background-color: #FFF13F;
+			background-color: $interactive-color;
 			color: black;
 			text-transform: lowercase;
 			font-size: 175%;
@@ -477,7 +508,7 @@ html, body, p, h1 {
 		margin: 0 auto;
 		transform-origin: 0 0;
 		padding: 10px;
-		background-color: #FFF13F;
+		background-color: $interactive-color;
 	}
 }
 
