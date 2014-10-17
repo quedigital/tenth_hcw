@@ -5,6 +5,7 @@
 }
 
 $interactive-color: #FFF13F;
+$hcw-light-brown: #E3865E;
 
 html, body {
 	background-color: #ffe;
@@ -737,6 +738,16 @@ div.image-callout {
 			text-shadow: -1px 1px 2px #666;
 		}
 		
+		&.toc-part {
+			background-color: wheat !important;
+			color: black;
+			padding-left: .25rem;
+			
+			.title {
+				text-shadow: none;
+			}
+		}
+		
 		&.spread {
 /*			height: 0 !important;*/
 		}
@@ -768,6 +779,14 @@ div.image-callout {
 			text-shadow: 1px 1px 4px black;
 			font-weight: 400;
 			z-index: 100;
+			
+			.chapter {
+				text-align: left;
+				font-weight: 700;
+				margin-bottom: .5rem;
+				border-bottom: 2px solid rgba(0, 0, 0, .5);
+				text-transform: uppercase;
+			}
 		}
 		
 		.thumbnail {
@@ -1114,12 +1133,7 @@ div.image-callout {
 	header {
 		padding: 1rem 0 2rem 0;
 		
-		div.chapter {
-			width: 30%;
-			float: left;
-			color: white;
-			text-align: center;
-		
+		div.number {
 			p:first-child {
 				padding: 0;
 				margin: 0;
@@ -1128,7 +1142,7 @@ div.image-callout {
 				letter-spacing: .3rem;
 				text-transform: uppercase;
 			}
-		
+	
 			p:nth-child(2) {
 				font-size: 12rem;
 				font-weight: 700;
@@ -1138,15 +1152,69 @@ div.image-callout {
 				margin: 0;
 			}
 		}
-	
+		
 		h1 {
-			width: 70%;
-			float: left;
 			font-weight: 700;
 			color: black;
 			font-size: 6rem;
 			line-height: 6rem;
 			text-align: center;
+		}
+
+		&.part {
+			background-color: white;
+			
+			div.number {
+				color: $hcw-light-brown;
+				text-align: center;
+				
+				p:first-child {
+					letter-spacing: 2rem;
+				}
+			}
+
+			.chapters {
+				text-transform: uppercase;
+				text-align: center;
+				border-bottom: 1px solid black;
+				font-size: 125%;
+				letter-spacing: 1.5rem;
+				font-weight: 700;
+				color: $hcw-light-brown;
+				padding: 2rem 0 .5rem 0;
+				margin: 0 5rem;
+			}
+			
+			.chapter-listing {
+				padding-top: 1rem;
+				text-transform: uppercase;
+				font-weight: bold;
+				text-align: center;
+				
+				.number {
+					color: $hcw-light-brown;
+					padding-right: 2rem;
+					letter-spacing: .2rem;
+				}
+				
+				.title {
+					color: black;
+				}
+			}			
+		}
+				
+		&.chapter {		
+			div.number {
+				width: 30%;
+				float: left;
+				color: white;
+				text-align: center;		
+			}
+	
+			h1 {
+				width: 70%;
+				float: left;
+			}
 		}
 		
 		&:after {
@@ -1180,6 +1248,12 @@ div.image-callout {
 			}
 		}
 		
+		img.center {
+			display: block;
+			margin: 0 auto;
+			padding-bottom: 2rem;
+		}
+		
 		footer {
 			font-size: .83rem;
 			vertical-align: super;
@@ -1206,6 +1280,14 @@ div.image-callout {
 		
 		.italic {
 			font-style: italic;
+		}
+		
+		span.init-cap-words {
+			color: $hcw-light-brown;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 150%;
+			font-family: 'Oswald', sans-serif;
 		}
 	}
 }

@@ -193,6 +193,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 		self.spreads = KnockoutFire.observable(firebase, {
 			"$spread": {
 				"id": true,
+				"part": true,
 				"chapter": true,
 				"number": true,
 				"title": true,
@@ -325,6 +326,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 		var defaults = { id: "New", type: "step" };
 	
 		var schema = {
+						"part": true,
 						"chapter": true,
 						"number": true,
 						"title": true,
@@ -378,8 +380,8 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 			self.controller.onSelectionChange(selected);
 		}
 		
-		self.addNew = function (id, title, chapter, number) {
-			self.content().firebase.parent().child(id).update( { title: title, chapter: chapter, number: number });
+		self.addNew = function (id, title, part, chapter, number) {
+			self.content().firebase.parent().child(id).update( { title: title, part: part, chapter: chapter, number: number });
 		}
 		
 		self.removeByID = function (id) {

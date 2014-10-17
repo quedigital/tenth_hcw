@@ -13,9 +13,30 @@ define(["Layout",
 		
 		var h = $("<header>");
 		
-		var d = $("<div class='chapter'><p>Chapter</p><p>" + content.chapter + "</p></div><h1>" + content.title + "</h1>");
+		// part intro
+		if (content.number == -1) {
+			h.addClass("part");
+			var d = $("<div class='number'><p>Part</p><p>" + content.part + "</p></div><h1>" + content.title + "</h1>");
 		
-		h.append(d);
+			h.append(d);
+			
+			$("<div>").addClass("chapters").text("Chapters").appendTo(h);
+			
+			var ch = manager.getChaptersForPart(content.part);
+			$.each(ch, function (index, item) {
+				var d = $("<div>").addClass("chapter-listing");
+				$("<span>").addClass("number").text("Chapter " + item.chapter).appendTo(d);
+				$("<span>").addClass("title").text(item.title).appendTo(d);
+				d.appendTo(h);
+			});
+		} else
+		// chapter intro
+		if (content.number == 0) {
+			h.addClass("chapter");
+			var d = $("<div class='number'><p>Chapter</p><p>" + content.chapter + "</p></div><h1>" + content.title + "</h1>");
+		
+			h.append(d);
+		}
 		
 		this.container.append(h);
 		

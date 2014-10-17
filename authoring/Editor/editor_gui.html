@@ -87,6 +87,8 @@
 				<p class="validateTips">All form fields are required.</p>
 				<form>
 					<fieldset>
+						<label for="name">Part</label>
+						<input type="text" name="part" id="part" class="text ui-widget-content ui-corner-all">
 						<label for="name">Chapter</label>
 						<input type="text" name="chapter" id="chapter" class="text ui-widget-content ui-corner-all">
 						<label for="name">Number</label>
@@ -105,6 +107,7 @@
 	<!-- this model lives below but is actually used for the west layout div -->
 	<div id="spreadModel">
 		<div data-bind="foreach: spreads">
+			<div data-bind="sidebarItem: part"></div>
 			<div data-bind="sidebarItem: chapter"></div>
 			<div data-bind="sidebarItem: number"></div>
 			<div data-bind="sidebarItem: title"></div>
@@ -121,11 +124,15 @@
 				<div data-bind="with: content">
 					<section class="spread-header">
 						<header>
+							<div>Part</div>
 							<div>Chapter</div>
 							<div>Number</div>
 							<div>Title</div>
 						</header>
 						<div class="row">
+							<div>
+								<span data-bind="text: part"></span>
+							</div>
 							<div>
 								<span data-bind="text: chapter"></span>
 							</div>

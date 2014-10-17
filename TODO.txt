@@ -1,10 +1,10 @@
 
 
-// TODO: chapter and part intros
-
-// TODO: hard-code callout line directions in editor? [3_2]
+// TODO: make Part chapter listings clickable
 
 // TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
+
+// TODO: hard-code callout line directions in editor? [3_2]
 
 // TODO: flowchart spread
 
@@ -205,3 +205,6 @@
 // DONE: ability to add extra images to sidebars
 // DONE: interactive slide-over
 // DONE: interactive in-place
+// DONE: chapter and part intros
+// DONE: put chapter intros into the chapter header TOC and make them clickable
+// DONE: find place for Part text

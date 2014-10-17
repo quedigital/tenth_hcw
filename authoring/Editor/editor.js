@@ -151,8 +151,8 @@ require(["knockout", "spread", "w2ui", "jquery.hotkeys", "jquery.layout", "jquer
 		this.selectedCells = selected;
 	}
 	
-	Editor.prototype.addNewSpread = function (id, title, chapter, number) {
-		this.content.addNew(id, title, chapter, number);
+	Editor.prototype.addNewSpread = function (id, title, part, chapter, number) {
+		this.content.addNew(id, title, part, chapter, number);
 		this.layout.addNew(id);
 	}
 	
@@ -469,6 +469,7 @@ require(["knockout", "spread", "w2ui", "jquery.hotkeys", "jquery.layout", "jquer
 		
 		var valid = true;
 		
+		var part = $("#dialog-form #part");
 		var chapter = $("#dialog-form #chapter");
 		var number = $("#dialog-form #number");
 		var title = $("#dialog-form #title");
@@ -488,7 +489,7 @@ require(["knockout", "spread", "w2ui", "jquery.hotkeys", "jquery.layout", "jquer
 		
 		if (valid) {
 			var id = chapter.val() + "_" + number.val();
-			editor.addNewSpread(id, title.val(), chapter.val(), number.val());
+			editor.addNewSpread(id, title.val(), part.val(), chapter.val(), number.val());
 			
 			dialog.dialog("close");
 		}

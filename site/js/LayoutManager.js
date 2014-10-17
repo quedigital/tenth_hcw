@@ -244,5 +244,18 @@ define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "wayp
 		$("#fixed-layout-controls").css("visibility", (args.items.length ? "visible" : "hidden"));
 	}
 	
+	LayoutManager.prototype.getChaptersForPart = function (part) {
+		var ch = [];
+		
+		for (var i = 0; i < this.contents.length; i++) {
+			var c = this.contents[i];
+			if (c.part == part && c.number == 0) {
+				ch.push( { chapter: c.chapter, title: c.title } );
+			}
+		}
+		
+		return ch;
+	}
+	
 	return LayoutManager;
 });

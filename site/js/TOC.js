@@ -17,8 +17,11 @@ define(["Helpers"], function (Helpers) {
 		$.each(this.contents, function (index, content) {
 			var color = Helpers.getColorForChapter(content.chapter);
 			
-			if (content.chapter != lastChapter) {
-				$("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", color).appendTo(toc);
+			if (content.chapter != lastChapter) {				
+				if (content.number > 0) {
+					var ch = $("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", color);
+					ch.appendTo(toc);
+				}
 			}
 			
 			var entry = $("<div>").addClass("entry spread").appendTo(toc);
@@ -30,8 +33,20 @@ define(["Helpers"], function (Helpers) {
 //			var thumbnail = $("<div>").addClass("thumbnail").appendTo(entry);
 			
 			$("<p>").addClass("number").text(content.chapter + "." + content.number).appendTo(entry);
+
+			var t = $("<p>").addClass("title").text(content.title);
 			
-			$("<p>").addClass("title").text(content.title).appendTo(entry);
+			if (content.number == -1) {
+				entry.addClass("toc-part");
+				var ch = $("<p>").addClass("chapter").text("Part " + content.part);
+				t.prepend(ch);
+			} else if (content.number == 0) {
+				entry.addClass("toc-chapter");
+				var ch = $("<p>").addClass("chapter").text("Chapter " + content.chapter);
+				t.prepend(ch);
+			}
+			
+			t.appendTo(entry);
 			
 			lastChapter = content.chapter;
 			
