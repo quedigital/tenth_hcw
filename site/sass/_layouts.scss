@@ -1186,10 +1186,13 @@ div.image-callout {
 			}
 			
 			.chapter-listing {
-				padding-top: 1rem;
+				display: block;
+				text-decoration: none;
+				margin-top: 1rem;
 				text-transform: uppercase;
 				font-weight: bold;
 				text-align: center;
+				cursor: pointer;
 				
 				.number {
 					color: $hcw-light-brown;
@@ -1199,6 +1202,12 @@ div.image-callout {
 				
 				.title {
 					color: black;
+				}
+				
+				&:hover {
+					.number, .title {
+						color: #04a;
+					}
 				}
 			}			
 		}

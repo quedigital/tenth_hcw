@@ -28,6 +28,9 @@ define(["Layout",
 				$("<span>").addClass("number").text("Chapter " + item.chapter).appendTo(d);
 				$("<span>").addClass("title").text(item.title).appendTo(d);
 				d.appendTo(h);
+				d.click(function () {
+					manager.dom.trigger("open-spread", { id: item.id, replace: true } );
+				});
 			});
 		} else
 		// chapter intro

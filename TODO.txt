@@ -1,8 +1,11 @@
 
 
-// TODO: make Part chapter listings clickable
+// TODO: hide controls for "text" layouts
 
 // TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
+
+// TODO: search pane (hideable?) used for other spreads to jump to
+// TODO: keywords (searchable) for spreads
 
 // TODO: hard-code callout line directions in editor? [3_2]
 
@@ -26,9 +29,6 @@
 // TODO: during infinite scroll, remove past spreads from memory
 
 // TODO: change URL location to reflect current spread? (history.pushState)
-
-// TODO: search pane (hideable?) used for other spreads to jump to
-// TODO: keywords (searchable) for spreads
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
@@ -208,3 +208,4 @@
 // DONE: chapter and part intros
 // DONE: put chapter intros into the chapter header TOC and make them clickable
 // DONE: find place for Part text
+// DONE: make Part chapter listings clickable

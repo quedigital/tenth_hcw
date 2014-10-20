@@ -250,7 +250,7 @@ define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "wayp
 		for (var i = 0; i < this.contents.length; i++) {
 			var c = this.contents[i];
 			if (c.part == part && c.number == 0) {
-				ch.push( { chapter: c.chapter, title: c.title } );
+				ch.push( { id: c.id, chapter: c.chapter, title: c.title } );
 			}
 		}
 		
