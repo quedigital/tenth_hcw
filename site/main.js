@@ -41,7 +41,7 @@ requirejs.config({
 			"jquery.colorbox": {
 				export: "$",
 				deps: ['jquery']
-			},
+			}
 		}
 });
 

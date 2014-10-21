@@ -1,9 +1,6 @@
 
 
-// TODO: sidebar images should lightbox too
 // TODO: hide controls for "text" layouts
-
-// TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
 
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
@@ -213,3 +210,5 @@
 // DONE: captions for full-screen images?
 // DONE: full-screen images, click to close
 // DONE: full-screen images, same background color as spread
+// DONE: sidebar images should lightbox too
+// DONE: on desktop: images can be zoomed on desktop (mousewheel? double-click?)

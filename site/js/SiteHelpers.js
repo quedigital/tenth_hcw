@@ -1,4 +1,4 @@
-define(["jquery", "jquery.colorbox"], function ($) {
+define(["jquery", "jquery.colorbox", "wheelzoom"], function ($) {
 	function showImageInLightbox ($img, text, identifier, background) {
 		var img = $("<img>").attr("src", $img.attr("src")).css("width", "100%");
 		
@@ -25,9 +25,13 @@ define(["jquery", "jquery.colorbox"], function ($) {
 			s.append(id);
 		}
 
-		var cb = $.colorbox({ inline: true, href: img, innerHeight: hh, innerWidth: ww, title: s, className: "colorBox" });
+		var cb = $.colorbox({ inline: true, href: img, innerHeight: hh, innerWidth: ww, title: s, className: "colorBox",
+				onComplete: function () { wheelzoom(img); }
+			});
+			
 		$("#cboxLoadedContent").css("background", background);
-		$(".colorBox").click(function () { $.colorbox.close(); });
+//		$(".colorBox").click(function () { $.colorbox.close(); });
+//		wheelzoom(img);		
 	}
 
 	var SiteHelpers = {
