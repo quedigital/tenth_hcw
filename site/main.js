@@ -7,6 +7,7 @@ requirejs.config({
 		"waypoints": "waypoints.min",
 		"waypoints-sticky": "waypoints-sticky.min",
 		"jquery.columnizer": "jquery.columnizer",
+		"jquery.colorbox": "jquery.colorbox-min",
 	},
 	
 	shim: {
@@ -34,6 +35,10 @@ requirejs.config({
 				deps: ['jquery']
 			},
 			"jquery.columnizer": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.colorbox": {
 				export: "$",
 				deps: ['jquery']
 			},

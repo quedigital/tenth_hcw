@@ -1,7 +1,7 @@
-define([], function () {
+define(["jquery", "SiteHelpers"], function ($, SiteHelpers) {
 
 	// title, text, image
-	CellImage = function (options, hints) {
+	CellImage = function (options, hints, title, identifier, background) {
 		this.elem = $("<div>").addClass("cell-image");
 
 		this.elem.data("CellImage", this);
@@ -13,9 +13,14 @@ define([], function () {
 			var w = hints.imageWidth || 1.0;
 			
 			img.css("width", w * 100 + "%");
+
+			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, title, identifier, background));
+			
+			this.img = img;
 		}
 		
 		this.hints = hints;
+		this.options = options;
 	}
 	
 	CellImage.prototype = Object.create(null);
@@ -40,14 +45,9 @@ define([], function () {
 		if (!isNaN(hint.imageWidth)) {
 			image_w = Math.max(.1, Math.min(.9, hint.imageWidth));
 		}
-
-		elem.find(".image img").width(w * image_w);
 		
-		/*
-		x = (elem.parent().width() - w) * .5;
-		x = 0;
-		elem.css({ left: x, top: y, width: "auto" });
-		*/
+//		this.img.width(w * image_w);
+		this.img.width((100 * image_w) + "%");		
 	}
 	
 	return CellImage;

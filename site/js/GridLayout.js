@@ -94,6 +94,9 @@ define(["Layout",
 
 			switch (cell.type) {
 				case "step":
+					// add the background so we can use it for the lightbox
+					$.extend(hint, { background: this.layout.background });
+					
 					var step = new Step(cell, hint);
 					cellDOM.append(step.elem);
 					
@@ -101,7 +104,7 @@ define(["Layout",
 					
 					break;
 				case "image":
-					var image = new CellImage(cell, hint);
+					var image = new CellImage(cell, hint, this.content.title, "image " + cell.id, this.layout.background);
 					cellDOM.append(image.elem);					
 					break;
 				case "sidebar":

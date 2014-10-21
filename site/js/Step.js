@@ -1,4 +1,4 @@
-define(["Helpers"], function (Helpers) {
+define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 	var DEFAULT_FONT_SIZE = 12, MARGIN = 30;
 	var SIDE_MARGIN = 15, INCREMENT = 10;
 	
@@ -21,11 +21,12 @@ define(["Helpers"], function (Helpers) {
 			this.elem.addClass("no-number");
 		}
 		
-		// TODO: use a div with a background-image to allow for easier scaling?
 		if (options.image) {
 			var img = $("<img>").attr("src", options.image);
 			var div = $("<div>").addClass("image").append(img);
 			this.elem.append(div);
+			
+			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, options.text, undefined, hints.background));
 		}
 		
 		// adding support for resizing the text to fit Fixed layouts
@@ -109,7 +110,7 @@ define(["Helpers"], function (Helpers) {
 				step.css("margin-left", img.outerWidth() + MARGIN);
 				break;
 		}
-	
+		
 		// allow some CSS hinting
 		if (hint.marginTop) {
 			img.css("marginTop", hint.marginTop + "px");

@@ -1,4 +1,4 @@
-define(["jquery"], function () {
+define(["jquery"], function ($) {
 	function findByID (id, data) {
 		var found = $.map(data, function (elem) {
 			return (elem.id == id) ? elem : null;
@@ -150,7 +150,7 @@ define(["jquery"], function () {
 		
 		var c = (parseInt(ch) - 1) % colors.length;
 		return colors[c];		
-	}	
+	}
 	
 	var Helpers = {
 		findByID: findByID,

@@ -1,5 +1,6 @@
 
 
+// TODO: sidebar images should lightbox too
 // TODO: hide controls for "text" layouts
 
 // TODO: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
@@ -209,3 +210,6 @@
 // DONE: put chapter intros into the chapter header TOC and make them clickable
 // DONE: find place for Part text
 // DONE: make Part chapter listings clickable
+// DONE: captions for full-screen images?
+// DONE: full-screen images, click to close
+// DONE: full-screen images, same background color as spread

@@ -1,4 +1,4 @@
-define([], function () {
+define(["SiteHelpers"], function (SiteHelpers) {
 
 	// title, text, image
 	Sidebar = function (options, hints) {
@@ -43,7 +43,12 @@ define([], function () {
 		
 		this.hints = hints;
 		
-		this.setShrinkable(hints.shrinkable || false);		
+		this.setShrinkable(hints.shrinkable || false);
+		
+		this.elem.find("img").each(function (index, item) {
+			var img = $(item);
+			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, options.title, undefined, hints.backgroundColor));
+		});
 	}
 	
 	Sidebar.prototype = Object.create(null);
