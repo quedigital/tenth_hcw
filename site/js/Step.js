@@ -78,17 +78,14 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 				img.addClass("clear-right");
 				break;
 			case "R":
-				var step = elem.find(".step");
 				img.addClass("clear-right");
-				img.insertBefore(step);
-				step.css("margin-right", img.outerWidth() + MARGIN);
 				break;
 			case "BR":
 				// try to position the image at the bottom, knowing the text will reflow and throw us off
 				var h1 = elem.find(".span-text").height();
 				var h2 = img.height();
 				var h = h1 * .6;
-				$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem.find(".step"));
+				$("<div>").addClass("spacer").css({ float: "right", height: h }).prependTo(elem);
 				img.addClass("clear-right");
 				break;
 			case "B":
@@ -100,14 +97,11 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 				var h1 = elem.find(".span-text").height();
 				var h2 = img.height();
 				var h = h1 * .6;
-				$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem.find(".step"));
+				$("<div>").addClass("spacer").css({ float: "left", height: h }).prependTo(elem);
 				img.addClass("clear-left");						
 				break;
 			case "L":
-				var step = elem.find(".step");
 				img.addClass("clear-left");
-				img.insertBefore(step);
-				step.css("margin-left", img.outerWidth() + MARGIN);
 				break;
 		}
 		
