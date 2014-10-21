@@ -894,140 +894,149 @@ div.image-callout {
 		vertical-align: top;
 		position: absolute;
 	}
+}
+
+#fixed-layout-controls {
+	position: fixed;
+	bottom: 0;
+	z-index: 10;
+	text-align: center;
+	height: 70px;
+	white-space: nowrap;
+	background-color: #efeffe;
+	border-radius: 15px 15px 0 0;
+	max-width: 100%;
+	padding: 0 0;
+	overflow-x: scroll;
+	box-shadow: 0 -3px 5px rgba(0, 0, 0, .5);
 	
-	#fixed-layout-controls {
-		text-align: center;
+	.btn {
+		border: none;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+		background: none;
+		cursor: pointer;
+		padding: 0 20px;
+		height: 90%;
+		display: inline-block;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 700;
+		outline: none;
+		position: relative;
+		transition: all 0.3s;
+
+		border: 3px solid #55A;
+		border-radius: 15px;
+		color: #55A;
+		margin: 0 5px;
+		top: 5%;
+
+		overflow: hidden;
+		
+		&:after {
+			content: '';
+			position: absolute;
+			z-index: -1;
+			transition: all 0.3s;
+			
+			width: 0;
+			height: 103%;
+			top: 50%;
+			left: 50%;
+			border-radius: 15px;
+			background: #116;
+			opacity: 0;
+			transform: translateX(-50%) translateY(-50%);				
+		}
+		
+		&:hover,
+		&:active {
+			color: white;
+		}
+
+		&:hover:after {
+			width: 103%;
+			opacity: 1;
+		}
+
+		&:active:after {
+			width: 90%;
+			opacity: 1;
+			border-radius: 0;
+		}
+	}
+	
+	.arrow-button {
+		border: none;
+		font-family: inherit;
+		font-size: inherit;
+		color: inherit;
+		background: none;
+		cursor: pointer;
+		padding: 0 20px;
+		height: 90%;
+		display: inline-block;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		font-weight: 700;
+		outline: none;
+		position: relative;
+		transition: background 0.1s;
+
+		border: 3px solid #55A;
+		border-radius: 15px;
+		color: #55A;
+		margin: 0 5px;
+		top: 5%;
+
+		overflow: hidden;
+	}
+	
+	#previous-button:before {
+		content: "\f053";
+		position: absolute;
+		left: 130%;
+		transition: all 0.3s;
+	}
+	
+	#previous-button:hover:before {
+		left: 50%;
+	}
+	
+	#previous-button:active {
+		color: white;
+		background: black;
+	}
+	
+	#next-button:before {
+		content: "\f054";
+		position: absolute;
+		left: -30%;
+		transition: all 0.3s;
+	}
+
+	#next-button:hover:before {
+		left: 25%;
+	}
+	
+	#next-button:active {
+		color: white;
+		background: black;
+	}
+	
+	div#direct-buttons {
+		display: inline;
 		height: 100%;
 		white-space: nowrap;
-		
-		.btn {
-			border: none;
-			font-family: inherit;
-			font-size: inherit;
-			color: inherit;
-			background: none;
-			cursor: pointer;
-			padding: 0 20px;
-			height: 90%;
-			display: inline-block;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			font-weight: 700;
-			outline: none;
-			position: relative;
-			transition: all 0.3s;
-
-			border: 3px solid #55A;
-			border-radius: 15px;
-			color: #55A;
-			margin: 0 5px;
-			top: 5%;
-
-			overflow: hidden;
-			
-			&:after {
-				content: '';
-				position: absolute;
-				z-index: -1;
-				transition: all 0.3s;
-				
-				width: 0;
-				height: 103%;
-				top: 50%;
-				left: 50%;
-				border-radius: 15px;
-				background: #116;
-				opacity: 0;
-				transform: translateX(-50%) translateY(-50%);				
-			}
-			
-			&:hover,
-			&:active {
-				color: white;
-			}
-
-			&:hover:after {
-				width: 103%;
-				opacity: 1;
-			}
-
-			&:active:after {
-				width: 90%;
-				opacity: 1;
-				border-radius: 0;
-			}
-		}
-		
-		.arrow-button {
-			border: none;
-			font-family: inherit;
-			font-size: inherit;
-			color: inherit;
-			background: none;
-			cursor: pointer;
-			padding: 0 20px;
-			height: 90%;
-			display: inline-block;
-			text-transform: uppercase;
-			letter-spacing: 1px;
-			font-weight: 700;
-			outline: none;
-			position: relative;
-			transition: background 0.1s;
-
-			border: 3px solid #55A;
-			border-radius: 15px;
-			color: #55A;
-			margin: 0 5px;
-			top: 5%;
-
-			overflow: hidden;
-		}
-		
-		#previous-button:before {
-			content: "\f053";
-			position: absolute;
-			left: 130%;
-			transition: all 0.3s;
-		}
-		
-		#previous-button:hover:before {
-			left: 50%;
-		}
-		
-		#previous-button:active {
-			color: white;
-			background: black;
-		}
-		
-		#next-button:before {
-			content: "\f054";
-			position: absolute;
-			left: -30%;
-			transition: all 0.3s;
-		}
-
-		#next-button:hover:before {
-			left: 25%;
-		}
-		
-		#next-button:active {
-			color: white;
-			background: black;
-		}
-		
-		div#direct-buttons {
-			display: inline;
-			height: 100%;
-			white-space: nowrap;
-		}
-		
-		button#previous-button, button#next-button {
-			font-family: FontAwesome;
-			background-color: #3F4756;
-			color: white;
-			border: none;
-		}
+	}
+	
+	button#previous-button, button#next-button {
+		font-family: FontAwesome;
+		background-color: #3F4756;
+		color: white;
+		border: none;
 	}
 }
 

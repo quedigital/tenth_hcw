@@ -1,7 +1,5 @@
 
 
-// TODO: hide controls for "text" layouts
-
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
 
@@ -16,6 +14,7 @@
 
 // TODO: animate callout lines (grid and fixed)
 
+// TODO: reveal grid steps one at a time while scrolling?
 // TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
 			(with focus highlight on current step)
 // TODO: waypoint triggering is still a little wonky
@@ -30,9 +29,7 @@
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
-// TODO: layouts don't seem to be full-screen on iOS Safari
-
-// TODO: spread count (by chapter?)
+// TODO: layouts don't seem to be full-screen on iOS Safari; remove search bar from iOS Chrome?
 
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
@@ -212,3 +209,5 @@
 // DONE: full-screen images, same background color as spread
 // DONE: sidebar images should lightbox too
 // DONE: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
+// DONE: hide controls for "text" layouts
+// DONE: fixed layout controls as fixed element, maximizing screen space (and search bar only opens when magnifying glass is clicked)

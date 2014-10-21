@@ -229,19 +229,31 @@ define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "wayp
 	}
 	
 	LayoutManager.prototype.onReceivedControls = function (event, args) {
-		$("#direct-buttons button.direct").remove();
-		for (var i = 0; i < args.items.length; i++) {
-			var lbl = args.items[i];
-			if (!lbl) {
-				lbl = "&nbsp;";
+		var ctrls = $("#fixed-layout-controls");
+		ctrls.removeClass("animated bounceOutDown");
+		ctrls.addClass("animated bounceOutDown");
+
+		setTimeout(function () {
+			$("#direct-buttons button.direct").remove();
+			for (var i = 0; i < args.items.length; i++) {
+				var lbl = args.items[i];
+				if (!lbl) {
+					lbl = "&nbsp;";
+				}
+				var b = $("<button>").addClass("btn direct").html(lbl);
+				$("#direct-buttons").append(b);
+				var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
+				b.click(func);
 			}
-			var b = $("<button>").addClass("btn direct").html(lbl);
-			$("#direct-buttons").append(b);
-			var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
-			b.click(func);
-		}
+			
+			if (args.items.length > 0) {				
+				ctrls.css("left", ($(window).width() - ctrls.width()) * .5);
+				ctrls.removeClass("animated bounceOutDown");
+				ctrls.addClass("animated bounceInUp");
+			}
+		}, 600);
 		
-		$("#fixed-layout-controls").css("visibility", (args.items.length ? "visible" : "hidden"));
+		//$("#fixed-layout-controls").css("visibility", (args.items.length ? "visible" : "hidden"));
 	}
 	
 	LayoutManager.prototype.getChaptersForPart = function (part) {

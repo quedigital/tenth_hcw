@@ -58,7 +58,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 										spacing_open: 8, spacing_closed: 8,
 										west__size: "220",
 										east__initHidden: true,
-										south__size: "82",
+										/*south__size: "82",*/
 									});
 	
 	pageLayout.panes.center.css( { border: "none", padding: 0 } );
@@ -71,13 +71,13 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	westLayout.panes.south.css( { border: "none", padding: 0 } );
 
 	var centerLayout = $("#main-content").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, south__size: "70",
+									spacing_open: 0, spacing_close: 0, /*south__size: "70",*/
 									onresize_end: function () {
 										throttledReflow();
 									}
 								} );
 	centerLayout.panes.center.css( { border: "none", padding: 0 } );
-	centerLayout.panes.south.css( { border: "none", padding: 0 } );
+/*	centerLayout.panes.south.css( { border: "none", padding: 0 } );*/
 
 /*
 	var bottomLayout = $("#bottom-bar").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,

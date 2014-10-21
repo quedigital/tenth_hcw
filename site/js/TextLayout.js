@@ -78,5 +78,11 @@ define(["Layout",
 		this.container.find("a").attr("target", "_blank");
 	}
 
+	TextLayout.prototype.activate = function () {
+		Layout.prototype.activate.call(this);
+		
+		this.container.trigger("controls", { layout: this, items: {} });
+	}
+
 	return TextLayout;
 });
