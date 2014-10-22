@@ -34,8 +34,6 @@ define(["Layout",
 		var img = $("<img>").addClass("background").attr("src", layout.background);
 		this.img = img;
 		
-		this.sizeToFitContainingPane();
-				
 		$(image_holder).append(img);
 		
 		$("<div>").addClass("highlight").appendTo(image_holder);		
@@ -71,6 +69,9 @@ define(["Layout",
 	
 	FixedLayout.prototype.sizeToFitContainingPane = function () {
 		// size to fit containing pane (not window)
+		var image_w = this.img[0].naturalWidth;
+		var image_h = this.img[0].naturalHeight;
+		
 		var pane = $(this.container).parents(".ui-layout-pane");
 		var h = pane.height();
 		var w = pane.width();
@@ -78,7 +79,7 @@ define(["Layout",
 		var ch = $("#content-holder");
 		var padding = ch.outerWidth() - ch.width();
 		
-		if (w / h > 4 / 3) {
+		if (image_w / image_h < w / h) {
 			this.img.height(h - padding);
 		} else {
 			this.img.width(w - padding);
@@ -88,6 +89,8 @@ define(["Layout",
 	}
 	
 	FixedLayout.prototype.onImagesLoaded = function () {
+		this.sizeToFitContainingPane();
+				
 		this.positionCells();		
 		this.layoutComplete();	
 	}

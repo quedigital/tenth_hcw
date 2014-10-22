@@ -1,11 +1,17 @@
 
 
+// TODO: "panzoom" layout type
+
+// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
+
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
 
 // TODO: hard-code callout line directions in editor? [3_2]
 
 // TODO: flowchart spread
+
+// TODO: BUG: fixed layout reflow ("reflowing fixed") leaves page controls visible
 
 // TODO: remove embedded "line-height" tags from the text
 // TODO: convert things like [dg] in the text
