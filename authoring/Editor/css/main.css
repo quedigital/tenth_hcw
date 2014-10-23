@@ -551,7 +551,7 @@ input {
 }
 /* line 315, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
-  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.5);
 }
 /* line 321, ../sass/_editor.scss */
 #layout #cell-property-table {

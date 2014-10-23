@@ -124,7 +124,7 @@ html, body, p, h1 {
 	}
 }
 
-.spread.fixed {
+.spread.fixed, .spread.panzoom {
 	margin-left: auto;
 	margin-right: auto;
 	
@@ -333,6 +333,39 @@ html, body, p, h1 {
 		}
 	}
 	
+	.fixed_region {
+		position: absolute;		
+	}
+	
+	.fixed-region.label {
+		position: absolute;
+		display: inline-block;
+		background: black;
+		color: white;
+		font-weight: bold;
+		font-size: 16px;
+		line-height: 1rem;
+		border-radius: 1rem;
+		text-align: center;
+		margin: 0;
+		padding: .5rem .5rem;
+		font-family: 'Oswald', sans-serif;
+		white-space: nowrap;
+
+		transition: transform .5s ease-in-out;
+		
+		&.zoomed {
+		}
+		
+		&:hover {
+			box-shadow: 0 6px 8px rgba(0, 0, 0, .5);
+			transform: scale(1.5);
+			transition: transform .1s linear;
+			cursor: pointer;
+			z-index: 1;
+		}
+	}	
+	
 	.step.extracted {
 		max-width: 800px;
 		margin: 0 auto;
@@ -469,6 +502,35 @@ html, body, p, h1 {
 	.video video {
 		display: block;
 		margin: 0 auto;
+	}
+}
+
+.spread.panzoom {
+	.text_holder {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 200px;
+		height: 80%;
+		background: rgba(200, 50, 50, .75);
+		padding: 1rem;
+		margin-top: 10%;
+		margin-left: 1em;
+		color: white;
+	}
+	
+	.viewport {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		
+		.image_wrapper {
+			transition: transform .5s ease-in-out, transform-origin .5s ease-in-out;
+			
+			&.zoomedIn {
+				cursor: pointer;
+			}
+		}
 	}
 }
 

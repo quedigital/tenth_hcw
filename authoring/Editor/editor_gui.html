@@ -261,7 +261,7 @@
 					<div class="section group">
 						<div class="col span_1_of_2">
 							<label for="inputSpreadStyle">Layout Style</label>
-							<select data-bind="options: ['grid', 'fixed', 'text'], value: style, valueAllowUnset: true"></select>
+							<select data-bind="options: ['grid', 'fixed', 'panzoom', 'text'], value: style, valueAllowUnset: true"></select>
 						</div>
 						<div class="col span_1_of_2">
 							<div class="small-right">				
@@ -291,7 +291,7 @@
 						</div>
 					</div>
 				
-					<div data-bind="if: style()==='fixed'">
+					<div data-bind="if: style()==='fixed' || style()==='panzoom'">
 						<label for="inputID">Background Image</label>
 						<input data-bind="value: background" type="text"></input>
 						<div class="upload_div" data-bind="uploadToS3: background"></div>
@@ -364,7 +364,7 @@
 									<td><input type="checkbox" data-bind="checked: nonblocking" /></td>
 								</tr>
 							</tbody>
-							<tbody data-bind="attr: { 'data-id': id }, if: $parent.style()==='fixed'">
+							<tbody data-bind="attr: { 'data-id': id }, if: $parent.style()==='fixed' || $parent.style()==='panzoom'">
 								<tr>
 									<td>anchor</td>
 									<td><select data-bind="options: ['TL','T','TR','R','BR','B','BL','L','before','after'], value: anchor"></select></td>

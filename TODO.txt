@@ -1,9 +1,11 @@
 
 
-// TODO: "panzoom" layout type
-
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
+// TODO: 10_4 #14 "B" image placement is not working
+// TODO: 13_1 #4 "placing the image in the  middle of the text"
+
+// TODO: make fixed/panzoom bar scroll and highlight current step
 // TODO: search pane (hideable?) used for other spreads to jump to
 // TODO: keywords (searchable) for spreads
 
@@ -217,3 +219,4 @@
 // DONE: on desktop: images can be zoomed on desktop (mousewheel? double-click?)
 // DONE: hide controls for "text" layouts
 // DONE: fixed layout controls as fixed element, maximizing screen space (and search bar only opens when magnifying glass is clicked)
+// DONE: "panzoom" layout type

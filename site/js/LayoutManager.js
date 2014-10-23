@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, TextLayout, Helpers, tinycolor) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -75,6 +75,13 @@ define(["GridLayout", "FixedLayout", "TextLayout", "Helpers", "tinycolor", "wayp
 	
 				var fixed = new FixedLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(fixed);
+				break;
+
+			case "panzoom":
+				layoutDOM.append("<h1>" + content.title);
+	
+				var panzoom = new PanZoomLayout(layoutDOM, layout, content, this);
+				this.layoutArray.push(panzoom);
 				break;
 				
 			case "text":
