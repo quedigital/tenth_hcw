@@ -21,7 +21,7 @@ html, body, p, h1 {
 
 .layout {
 	overflow: visible;
-	margin: 25px 0;
+	margin: 0;
 	padding: 25px 0;
 	
 	&.loading {
@@ -91,6 +91,10 @@ html, body, p, h1 {
 	
 	&.no-number {
 		padding-left: 0;
+	}
+	
+	.image {
+		margin: 10px;
 	}
 	
 	.clear-left {
@@ -905,15 +909,32 @@ div.image-callout {
 }
 
 #toc-footer {
-	#search-icon {
+	#search-area {
 		width: 100%;
 		height: 100%;
+		line-height: 70px;
 		background-color: #3A3A3A;
-/*		margin-right: -4px;*/
-		background-image: url(images/magnifying-glass.png);
-		background-repeat: no-repeat;
-		background-size: 20%;
-		background-position: 90% center;
+		
+		i {
+			color: white;
+			padding: 10px;
+			width: 20%;
+			text-align: center;
+		}
+		
+		#search-box {
+			background: none;
+			border: 2px solid #aaf;
+			font-size: 110%;
+			line-height: 1.5rem;
+			height: 2rem;
+			width: 70%;
+			border-radius: 15px;
+			color: white;
+			vertical-align: middle;
+			padding: 8px;
+			outline: none;
+		}
 	}
 }
 
@@ -1198,6 +1219,53 @@ div.image-callout {
 	position: absolute;
 	border: 1px solid yellow;
 	pointer-events: none;
+}
+
+#results-pane {
+	position: fixed;
+	bottom: 70px;
+	z-index: 10;
+	min-width: 300px;
+	max-width: 50%;
+	display: none;
+	
+	#results-header {
+		background: red;
+		height: 2rem;
+		line-height: 2rem;
+		border-radius: 0 25px 0 0;
+		font-size: 150%;
+	}
+	
+	#results-scroller {
+		background: white;
+		padding: 1rem 0;
+		max-height: 500px;
+		width: auto;
+		overflow: scroll;
+		
+		.all-results {
+		}
+		
+		.result {
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			padding: 0 1em;
+			cursor: pointer;
+			width: auto;
+			overflow: hidden;
+			
+			&:hover {
+				background: #116;
+				color: white;
+			}
+		}
+	}
+	
+	#results-summary {
+		background: orange;
+		padding-left: 1rem;
+	}
 }
 
 .spread.page {

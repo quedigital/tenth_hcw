@@ -53,8 +53,12 @@ define(["jquery"], function ($) {
 		else {
 			if (numa < numb) return -1;
 			else if (numa > numb) return 1;
-			else return 0;
+			else {
+				if (a.number < b.number) return -1;
+				else if (a.number > b.number) return 1;
+			}
 		}
+		return 0;
 	}
 	
 	function sortByPriority (a, b) {

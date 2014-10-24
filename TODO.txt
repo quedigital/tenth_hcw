@@ -1,12 +1,22 @@
 
 
+// TODO: search results shows number of results and bit of context
+// TODO: animate search result pane appearance
+
+// TODO: try debounce for window resize limiting
+
+// TODO: fixed layout controls on left side of pane??
+
+// TODO: click on fixed layout images to zoom them too
+
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
-// TODO: 10_4 #14 "B" image placement is not working
-// TODO: 13_1 #4 "placing the image in the  middle of the text"
+// TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
+
+// TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
 
 // TODO: make fixed/panzoom bar scroll and highlight current step
-// TODO: search pane (hideable?) used for other spreads to jump to
+
 // TODO: keywords (searchable) for spreads
 
 // TODO: hard-code callout line directions in editor? [3_2]
@@ -220,3 +230,5 @@
 // DONE: hide controls for "text" layouts
 // DONE: fixed layout controls as fixed element, maximizing screen space (and search bar only opens when magnifying glass is clicked)
 // DONE: "panzoom" layout type
+// DONE: 13_1 #4 "placing the image in the  middle of the text" [I don't have a good way of doing bottom-left or bottom-right image align]
+// DONE: search pane (hideable?) used for other spreads to jump to

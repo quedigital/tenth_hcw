@@ -35,7 +35,9 @@
 	<div id="toc" class="ui-layout-center">
 	</div>
 	<div id="toc-footer" class="ui-layout-south">
-		<div id="search-icon">
+		<div id="search-area">
+			<i class="fa fa-search fa-lg"></i>
+			<input id="search-box" placeholder="Search" type="text"/>
 		</div>
 	</div>
 </div>
@@ -74,6 +76,19 @@
 <div id="loading-spinner" class="spinner">
 	<div class="cube1"></div>
 	<div class="cube2"></div>
+</div>
+
+<div id="results-pane">
+	<div id="results-header">
+		Search:
+	</div>
+	<div id="results-scroller">
+		<div id="all-results" class="results">
+		</div>
+	</div>
+	<div id="results-summary" class="summary">
+		<p>14 records found</p>
+	</div>
 </div>
 
 </body>

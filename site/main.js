@@ -8,6 +8,7 @@ requirejs.config({
 		"waypoints-sticky": "waypoints-sticky.min",
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
+		"lunr": "lunr.min",
 	},
 	
 	shim: {

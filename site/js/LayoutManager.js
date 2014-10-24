@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor, SearchManager) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -17,7 +17,9 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		$("#fixed-layout-controls #next-button").click($.proxy(this.onClickNextStep, this));
 		this.dom.on("controls", $.proxy(this.onReceivedControls, this));
 		
-		this.dom.parent().scroll($.proxy(this.onScroll, this));		
+		this.dom.parent().scroll($.proxy(this.onScroll, this));
+		
+		this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);
 	}
 	
 	LayoutManager.prototype = Object.create({});
@@ -28,6 +30,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
 		this.contents.sort(Helpers.sortByChapterAndNumber);
+		
+		this.searchManager.setData(this.contents);
 	}
 	
 	LayoutManager.prototype.clearSpreads = function () {
