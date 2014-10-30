@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor, SearchManager) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, SwipeLayout, TextLayout, Helpers, tinycolor, SearchManager) {
 
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
@@ -86,6 +86,13 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	
 				var panzoom = new PanZoomLayout(layoutDOM, layout, content, this);
 				this.layoutArray.push(panzoom);
+				break;
+				
+			case "swipe":
+				layoutDOM.append("<h1>" + content.title);
+	
+				var swipe = new SwipeLayout(layoutDOM, layout, content, this);
+				this.layoutArray.push(swipe);
 				break;
 				
 			case "text":

@@ -12,7 +12,7 @@ define(["jquery", "SiteHelpers"], function ($, SiteHelpers) {
 			
 			var w = hints.imageWidth || 1.0;
 			
-			img.css("width", w * 100 + "%");
+			img.css( { width: w * 100 + "%" } );
 
 			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, title, identifier, background));
 			

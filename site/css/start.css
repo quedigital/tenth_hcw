@@ -1,0 +1,462 @@
+/* ==========================================================================
+   HTML5 Boilerplate styles - h5bp.com (generated via initializr.com)
+   ========================================================================== */
+/* line 9, ../sass/_initializr.scss */
+html,
+button,
+input,
+select,
+textarea {
+  color: #222;
+}
+
+/* line 13, ../sass/_initializr.scss */
+body {
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/* line 18, ../sass/_initializr.scss */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 23, ../sass/_initializr.scss */
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/* line 28, ../sass/_initializr.scss */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/* line 37, ../sass/_initializr.scss */
+img {
+  vertical-align: middle;
+}
+
+/* line 41, ../sass/_initializr.scss */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 47, ../sass/_initializr.scss */
+textarea {
+  resize: vertical;
+}
+
+/* line 51, ../sass/_initializr.scss */
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/* line 96, ../sass/_initializr.scss */
+.ir {
+  background-color: transparent;
+  border: 0;
+  overflow: hidden;
+  *text-indent: -9999px;
+}
+
+/* line 103, ../sass/_initializr.scss */
+.ir:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 150%;
+}
+
+/* line 110, ../sass/_initializr.scss */
+.hidden {
+  display: none !important;
+  visibility: hidden;
+}
+
+/* line 115, ../sass/_initializr.scss */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+/* line 127, ../sass/_initializr.scss */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+/* line 136, ../sass/_initializr.scss */
+.invisible {
+  visibility: hidden;
+}
+
+/* line 141, ../sass/_initializr.scss */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+/* line 146, ../sass/_initializr.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 150, ../sass/_initializr.scss */
+.clearfix {
+  *zoom: 1;
+}
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+@media print {
+  /* line 159, ../sass/_initializr.scss */
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    /* Black prints faster: h5bp.com/s */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* line 167, ../sass/_initializr.scss */
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  /* line 171, ../sass/_initializr.scss */
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  /* line 175, ../sass/_initializr.scss */
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  /* line 185, ../sass/_initializr.scss */
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  /* line 190, ../sass/_initializr.scss */
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  /* line 195, ../sass/_initializr.scss */
+  thead {
+    display: table-header-group;
+    /* h5bp.com/t */
+  }
+
+  /* line 200, ../sass/_initializr.scss */
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  /* line 204, ../sass/_initializr.scss */
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+}
+
+  /* line 214, ../sass/_initializr.scss */
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* line 220, ../sass/_initializr.scss */
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+/* line 1, ../sass/_welcome.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 7, ../sass/_welcome.scss */
+html, body {
+  background-color: #ffe;
+  font-family: 'Archivo Narrow', sans-serif;
+  font-weight: 300;
+  font-size: 110%;
+  height: 100%;
+}
+
+/* line 15, ../sass/_welcome.scss */
+html, body, p, h1 {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 20, ../sass/_welcome.scss */
+section.panel {
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+
+/* line 26, ../sass/_welcome.scss */
+div.center {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/* line 31, ../sass/_welcome.scss */
+#splash {
+  background-color: #88090B;
+  padding: 50px;
+}
+/* line 35, ../sass/_welcome.scss */
+#splash div.outer {
+  padding: 10px;
+  height: 100%;
+}
+/* line 40, ../sass/_welcome.scss */
+#splash #outer2 {
+  background-color: #55B849;
+}
+/* line 44, ../sass/_welcome.scss */
+#splash #outer1 {
+  background-color: black;
+}
+/* line 48, ../sass/_welcome.scss */
+#splash #interior {
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: table;
+  background: linear-gradient(to bottom, #ffffff 60%, #bae0bc 100%);
+}
+/* line 56, ../sass/_welcome.scss */
+#splash #interior .top {
+  width: 100%;
+  height: 20%;
+  display: table;
+  background-color: #700;
+  color: white;
+  position: relative;
+}
+/* line 64, ../sass/_welcome.scss */
+#splash #interior .top #table-block {
+  display: table-cell;
+  padding: 1em 0;
+  margin-bottom: 1em;
+}
+/* line 70, ../sass/_welcome.scss */
+#splash #interior .top header {
+  width: 25%;
+  margin: 0 auto;
+  font-size: 1.2vw;
+}
+/* line 75, ../sass/_welcome.scss */
+#splash #interior .top header h2, #splash #interior .top header h3 {
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+/* line 83, ../sass/_welcome.scss */
+#splash #interior .top .image-holder {
+  position: absolute;
+  top: 100%;
+  left: 60%;
+  width: 10%;
+}
+/* line 89, ../sass/_welcome.scss */
+#splash #interior .top .image-holder img {
+  width: 100%;
+  margin-top: -50%;
+}
+/* line 96, ../sass/_welcome.scss */
+#splash #interior .container {
+  display: table;
+  width: 100%;
+  min-width: 700px;
+  min-height: 300px;
+}
+/* line 102, ../sass/_welcome.scss */
+#splash #interior .container .col {
+  display: table-cell;
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* line 109, ../sass/_welcome.scss */
+#splash #interior .container #left {
+  width: 25%;
+  background: url(../images/tower.png) no-repeat;
+  background-size: contain;
+  background-position: top left;
+}
+/* line 116, ../sass/_welcome.scss */
+#splash #interior .container #right {
+  width: 25%;
+  background: url(../images/tablet.png) no-repeat;
+  background-size: 50%;
+  background-position: bottom right;
+}
+/* line 123, ../sass/_welcome.scss */
+#splash #interior .container #middle {
+  width: 50%;
+}
+/* line 125, ../sass/_welcome.scss */
+#splash #interior .container #middle #midb {
+  position: relative;
+  height: 100%;
+  text-align: center;
+  padding: 1em;
+}
+/* line 131, ../sass/_welcome.scss */
+#splash #interior .container #middle #midb img.title {
+  width: 70%;
+}
+/* line 135, ../sass/_welcome.scss */
+#splash #interior .container #middle #midb h3 {
+  text-align: right;
+  text-transform: uppercase;
+  font-weight: 400;
+  float: right;
+  width: 50%;
+  font-size: 1.2vw;
+}
+/* line 144, ../sass/_welcome.scss */
+#splash #interior .container #middle #midb .image-holder {
+  float: left;
+  width: 40%;
+}
+/* line 148, ../sass/_welcome.scss */
+#splash #interior .container #middle #midb .image-holder img.phone {
+  width: 100%;
+}
+/* line 157, ../sass/_welcome.scss */
+#splash #bottom {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  height: 50px;
+  text-shadow: 1px 1px 1px black;
+}
+
+/* line 170, ../sass/_welcome.scss */
+.main {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* line 176, ../sass/_welcome.scss */
+#intro {
+  background-color: #eff;
+}
+/* line 179, ../sass/_welcome.scss */
+#intro section {
+  position: relative;
+  overflow: hidden;
+  padding: 50px;
+  width: 100%;
+  height: 100%;
+  background: #1abc9c;
+}
+/* line 191, ../sass/_welcome.scss */
+#intro .panels,
+#intro .log,
+#intro .menu,
+#intro pre {
+  position: absolute;
+  top: 200px;
+  bottom: 50px;
+  right: 50px;
+  left: 400px;
+  overflow: scroll;
+}
+/* line 201, ../sass/_welcome.scss */
+#intro .log,
+#intro .menu {
+  right: auto;
+  left: 50px;
+  width: 300px;
+}
+/* line 207, ../sass/_welcome.scss */
+#intro pre {
+  left: 50px;
+  padding: 50px;
+}
+/* line 212, ../sass/_welcome.scss */
+#intro .menu a {
+  display: block;
+  width: 100%;
+  padding: 25px;
+  background: #f1c40f;
+  margin: 0 0 25px 0;
+  border: none;
+}
+/* line 224, ../sass/_welcome.scss */
+#intro .menu a.active,
+#intro .menu a:active,
+#intro .menu a:hover {
+  background: #f39c12;
+}
+
+/* line 229, ../sass/_welcome.scss */
+#help {
+  background-color: #ffe;
+}

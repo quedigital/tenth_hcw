@@ -43,6 +43,10 @@ requirejs.config({
 				export: "$",
 				deps: ['jquery']
 			},
+			"jquery.panelSnap": {
+				export: "$",
+				deps: ['jquery']
+			},
 		}
 });
 

@@ -5,6 +5,8 @@ define(["lunr", "jquery"], function (lunr) {
 		
 		inputter.on("input", $.proxy(this.onChangeSearch, this));
 		
+		pane.find("#close-button").click($.proxy(this.closePane, this));
+		
 		var idx = lunr(function () {
 			this.field('title', { boost: 10 })
 			this.field('body')
@@ -92,6 +94,10 @@ define(["lunr", "jquery"], function (lunr) {
 		
 		this.manager.dom.trigger("open-spread", { id: id, replace: true } );
 		
+		this.pane.hide(0);
+	}
+	
+	SearchManager.prototype.closePane = function () {
 		this.pane.hide(0);
 	}
 	

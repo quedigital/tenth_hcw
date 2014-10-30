@@ -2,53 +2,39 @@ define(["Layout",
 		"jqueryui",
 		"imagesloaded.pkgd.min",
 		"Step",
-		"FixedRegion",
+		"SwipeRegion",
 		"Sidebar",
 		"CellImage",
 		"Helpers",
 		"debug",
 		"tinycolor",
-		], function (Layout, jqueryui, imagesLoaded, Step, FixedRegion, Sidebar, CellImage, Helpers, debug, tinycolor) {
+		"jquery.panelSnap"
+		], function (Layout, jqueryui, imagesLoaded, Step, SwipeRegion, Sidebar, CellImage, Helpers, debug, tinycolor) {
 		
-	PanZoomLayout = function (container, layout, content, manager) {	
+	SwipeLayout = function (container, layout, content, manager) {	
 		Layout.call(this, container, manager, content);
 		
 		this.layout = layout;
 		this.content = content;
 
-		this.container.addClass("panzoom");
+		this.container.addClass("swipe");
+		
+		this.widget = $("<div>").addClass("widget");
+		this.container.append(this.widget);
 		
 		var image_holder = $("<div>").addClass("image_holder");
 		this.image_holder = image_holder;
 		
-		var nextButton = $("<div>").addClass("nav-button next").html("&#xf054;");
-		nextButton.click($.proxy(this.gotoNext, this));
-		image_holder.append(nextButton);
-
-		var prevButton = $("<div>").addClass("nav-button prev").html("&#xf053;");
-		prevButton.click($.proxy(this.gotoPrevious, this));
-		image_holder.append(prevButton);
-		
-		this.container.append(image_holder);
-
-		var viewport = $("<div>").addClass("viewport");
-		this.viewport = viewport;
-		image_holder.append(viewport);
-		
-		var image_wrapper = $("<div>").addClass("image_wrapper");
-		this.image_wrapper = image_wrapper;
-		viewport.append(image_wrapper);
-		
 		var img = $("<img>").addClass("background").attr("src", layout.background);
 		this.img = img;
-		
-		image_wrapper.append(img);
 
-		var text_holder = $("<div>").addClass("text_holder animated flipInY").css("display", "none");
+		var text_holder = $("<div>").addClass("text_holder");
 		this.text_holder = text_holder;
-		viewport.append(text_holder);
-				
-		$("<div>").addClass("highlight").appendTo(image_holder);		
+		
+		this.widget.append(image_holder);
+		this.widget.append(text_holder);
+		
+//		$("<div>").addClass("highlight").appendTo(image_holder);		
 
 		if (this.layout.textcolor) {
 			this.container.css("color", this.layout.textcolor);
@@ -67,8 +53,8 @@ define(["Layout",
 			}
 		}
 		
-		this.elements = [];
-		
+		this.elements = {};
+
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
@@ -76,14 +62,15 @@ define(["Layout",
 		this.currentStep = undefined;
 	}
 	
-	PanZoomLayout.prototype = Object.create(Layout.prototype);
-	PanZoomLayout.prototype.constructor = PanZoomLayout;
+	SwipeLayout.prototype = Object.create(Layout.prototype);
+	SwipeLayout.prototype.constructor = SwipeLayout;
 	
-	PanZoomLayout.prototype.sizeToFitContainingPane = function () {
-		// size to fit containing pane (not window)
-		var image_w = this.img[0].naturalWidth;
-		var image_h = this.img[0].naturalHeight;
-		
+	SwipeLayout.prototype.repositionTextHolder = function () {
+//		this.text_holder.css("display", "block");
+//		this.text_holder.position( { my: "right top", at: "left top", of: this.image_holder, collision: "none" } );
+	}
+	
+	SwipeLayout.prototype.sizeToFitContainingPane = function () {
 		var pane = $(this.container).parents(".ui-layout-pane");
 		var h = pane.height();
 		var w = pane.width();
@@ -91,29 +78,40 @@ define(["Layout",
 		var ch = $("#content-holder");
 		var padding = ch.outerWidth() - ch.width();
 		
-		if (image_w / image_h < w / h) {
-			this.img.height(h - padding);
-		} else {
-			this.img.width(w - padding);
-		}
-
-		this.image_holder.height(h - padding);
+		var desired_h = Math.min(600, h - padding);
+		
+		this.widget.height(desired_h);
+		
+		/*
+		this.image_holder.height(desired_h);
+		
+		this.text_holder.css("height", this.image_holder.css("height"));
+		*/
 	}
 	
-	PanZoomLayout.prototype.onImagesLoaded = function () {
+	SwipeLayout.prototype.onImagesLoaded = function () {
 		this.sizeToFitContainingPane();
-				
-		this.positionCells();		
+		
+		this.positionCells();
+		
+		// TODO: capture snapping events and change text holder, etc. accordingly
+		var options = { slideSpeed: 500, onSnapFinish: $.proxy(this.onSnapFinish, this) };
+		var snapper = this.image_holder.panelSnap(options);
+		// kludgy way to get panelSnap instance
+		this.panelSnapInstance = snapper.data("plugin_panelSnap");
+
+		this.repositionTextHolder();
+		
 		this.layoutComplete();	
 	}
 	
-	PanZoomLayout.prototype.reflow = function () {
-		console.log("reflowing panzoom");
+	SwipeLayout.prototype.reflow = function () {
+		console.log("reflowing swipe");
 		this.sizeToFitContainingPane();
-		this.positionCells();
+		this.positionCells();		
 	}
 	
-	PanZoomLayout.prototype.getImageScale = function (img) {
+	SwipeLayout.prototype.getImageScale = function (img) {
 		if (Helpers.isVectorImage(img)) {
 			var currentSize = { width: img.width(), height: img.height() };
 			return currentSize.width / 1000;
@@ -124,11 +122,16 @@ define(["Layout",
 			return currentSize.width / originalSize.width;
 		}
 	}
-	
-	PanZoomLayout.prototype.buildCells = function () {
+
+	SwipeLayout.prototype.buildCells = function () {
 		var cells = $.map(this.content.cells, function (el) { return el });
 		
 		cells.sort(Helpers.sortByPriority);
+		
+		// first, add the full image
+		var full_image = new SwipeRegion(undefined, undefined, this.img);
+		this.image_holder.append(full_image.elem);
+		this.elements["full"] = full_image;
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -146,21 +149,14 @@ define(["Layout",
 					if (hint.anchor == "before" || hint.anchor == "after") {
 						var step = new Step(cell, hint);
 					} else {
-						var step = new FixedRegion(cell, hint);
+						var step = new SwipeRegion(cell, hint, this.img);
 					
-						step.elem.css("visibility", "hidden");
-			
-						this.image_holder.append(step.elem);
-					
-						if (step.label)
-							step.label.click($.proxy(this.onClickStep, this, step));
-							
-						step.elem.on("touchend", $.proxy(step.onTouch, step));
+						this.image_holder.append(step.elem);					
 					}
 										
 					step.elem.attr("data-id", cell.id);
 					
-					this.elements[i] = step;
+					this.elements[cell.id] = step;
 					
 					elem = step.elem;
 					
@@ -175,10 +171,10 @@ define(["Layout",
 					} else {					
 						sidebar.elem.css("visibility", "hidden");
 												
-						this.image_holder.append(sidebar.elem);
+						this.container.append(sidebar.elem);
 					}
 					
-					this.elements[i] = sidebar;
+					this.elements[cell.id] = sidebar;
 					
 					elem = sidebar.elem;
 					
@@ -186,7 +182,7 @@ define(["Layout",
 				case "image":
 					var image = new CellImage(cell, hint);
 					
-					this.elements[i] = image;
+					this.elements[cell.id] = image;
 					
 					elem = image.elem;
 					
@@ -196,36 +192,36 @@ define(["Layout",
 			if (hint.anchor == "before" || hint.anchor == "after") {
 				elem.addClass("extracted");
 				if (hint.anchor == "before") {
-					elem.insertBefore(this.image_holder);
+					elem.insertBefore(this.widget);
 				} else if (hint.anchor == "after") {
 					var next = this.image_holder.next();
 					if (!next.length) {
-						elem.insertAfter(this.image_holder);
+						elem.insertAfter(this.widget);
 					} else {
-						next = this.image_holder.siblings().last();
+						next = this.widget.siblings().last();
 						elem.insertAfter(next);
 					}
 				}
 			}
-		}
-		
-//		autoSizeText({ minSize: 12 });
+		}		
 	}
-	
-	PanZoomLayout.prototype.positionCells = function () {
+
+	SwipeLayout.prototype.positionCells = function () {
 		this.clearRects();
 		
 		var img = this.container.find(".background");
 		
-		this.container.width(img.width());
+//		this.container.width(img.width());
 		
-		var ch = $("#content-holder");
-		var padding = ch.outerWidth() - ch.width();
-		
+//		var ch = $("#content-holder");
+//		var padding = ch.outerWidth() - ch.width();
+		/*
 		var currentSize = { width: img.width(), height: img.height() };
 		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
+		*/
 		
-		this.scale = this.getImageScale(img);
+		// format the first full image element
+		this.elements["full"].format();
 		
 		var cells = $.map(this.content.cells, function (el) { return el });
 		
@@ -235,7 +231,7 @@ define(["Layout",
 			var cell = cells[i];
 			var hint = Helpers.findByID(cell.id, this.layout.hints);
 
-			var rect = { left: Math.round(hint.bounds[0] * this.scale), top: Math.round(hint.bounds[1] * this.scale), width: Math.round(hint.bounds[2] * this.scale), height: Math.round(hint.bounds[3] * this.scale) };
+//			var rect = { left: Math.round(hint.bounds[0] * this.scale), top: Math.round(hint.bounds[1] * this.scale), width: Math.round(hint.bounds[2] * this.scale), height: Math.round(hint.bounds[3] * this.scale) };
 
 			if (debug.isDebugMode()) {
 				this.drawRect(rect);
@@ -243,14 +239,14 @@ define(["Layout",
 			
 			switch (cell.type) {
 				case "step":
-					var step = this.elements[i];
+					var step = this.elements[cell.id];
 					
 					if (step) {
 						if (step instanceof Step) {
 							step.format(hint);
-						} else if (step instanceof FixedRegion) {
+						} else if (step instanceof SwipeRegion) {
 							step.elem.css("visibility", "hidden");
-							step.setRect(rect);
+//							step.setRect(rect);
 							step.format();
 							step.elem.css("visibility", "visible");
 						}
@@ -258,7 +254,7 @@ define(["Layout",
 
 					break;
 				case "sidebar":
-					var sidebar = this.elements[i];
+					var sidebar = this.elements[cell.id];
 					
 					if (!sidebar.isExtracted()) {												
 						sidebar.setSize(rect.width, rect.height);					
@@ -274,24 +270,24 @@ define(["Layout",
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".fixed_step" });		
 	}
-
-	PanZoomLayout.prototype.clearRects = function () {
+			
+	SwipeLayout.prototype.clearRects = function () {
 		this.container.find(".testrect").remove();
 	}
 	
-	PanZoomLayout.prototype.drawRect = function (rect) {
+	SwipeLayout.prototype.drawRect = function (rect) {
 		var r = $("<div>").addClass("testrect");
 		r.css({ top: rect.top, left: rect.left, width: rect.width, height: rect.height });
 		
 		this.viewport.append(r);
 	}
 	
-	PanZoomLayout.prototype.getNumSteps = function () {
+	SwipeLayout.prototype.getNumSteps = function () {
 		var count = 0;
 		
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				count++;
 			}
 		}
@@ -299,12 +295,12 @@ define(["Layout",
 		return count;
 	}
 	
-	PanZoomLayout.prototype.getStepIndex = function (step) {
+	SwipeLayout.prototype.getStepIndex = function (step) {
 		var count = 0;
 		
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				if (el == step) return count;
 				else count++;
 			}
@@ -313,12 +309,12 @@ define(["Layout",
 		return undefined;
 	}
 
-	PanZoomLayout.prototype.getStepByIndex = function (index) {
+	SwipeLayout.prototype.getStepByIndex = function (index) {
 		var count = 0;
 		
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				if (count == index) return el;
 				else count++;
 			}
@@ -327,7 +323,7 @@ define(["Layout",
 		return undefined;
 	}
 	
-	PanZoomLayout.prototype.zoomNextStep = function () {
+	SwipeLayout.prototype.zoomNextStep = function () {
 		var next = undefined;
 		
 		if (this.currentStep == undefined) {
@@ -344,7 +340,7 @@ define(["Layout",
 		this.zoomToStep(next);
 	}
 
-	PanZoomLayout.prototype.zoomPreviousStep = function () {
+	SwipeLayout.prototype.zoomPreviousStep = function () {
 		var prev = undefined;
 		
 		if (this.currentStep == undefined) {
@@ -362,27 +358,27 @@ define(["Layout",
 		this.zoomToStep(prev);
 	}
 	
-	PanZoomLayout.prototype.gotoNext = function () {
+	SwipeLayout.prototype.gotoNext = function () {
 		this.zoomNextStep();
 	}
 
-	PanZoomLayout.prototype.gotoPrevious = function () {
+	SwipeLayout.prototype.gotoPrevious = function () {
 		this.zoomPreviousStep();
 	}
 	
-	PanZoomLayout.prototype.activate = function () {
+	SwipeLayout.prototype.activate = function () {
 		Layout.prototype.activate.call(this);
 		
 		var items = [];
 		
 		// count all the non-extracted elements
 		var count = 0;
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el && el instanceof FixedRegion) {
-				if (el.options.title) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el && el instanceof SwipeRegion) {
+				if (el.options && el.options.title) {
 					items.push(el.options.title);
-				} else {
+				} else if (el.options && el.options.number) {
 					items.push(el.options.number);
 				}
 			}
@@ -391,35 +387,36 @@ define(["Layout",
 		this.container.trigger("controls", { layout: this, items: items });
 	}
 	
-	PanZoomLayout.prototype.onClickStep = function (step) {
-		this.zoomToStep(step);
+	SwipeLayout.prototype.onClickStep = function (step) {
+		this.zoomToStep(step, false);
 		return false;
 	}
 	
-	PanZoomLayout.prototype.gotoStep = function (n) {
+	SwipeLayout.prototype.gotoStep = function (n) {
 		var step = this.getStepByIndex(n);
-		this.zoomToStep(step);
+		if (step != this.currentStep)
+			this.zoomToStep(step);
 	}
 	
-	PanZoomLayout.prototype.addClassOnlyTo = function (step, klass) {
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+	SwipeLayout.prototype.addClassOnlyTo = function (step, klass) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				if (el != step) {
-					el.label.removeClass(klass);
+//					el.label.removeClass(klass);
 				} else {
-					el.label.addClass(klass);
+//					el.label.addClass(klass);
 				}
 			}
 		}
 	}
 	
-	PanZoomLayout.prototype.unzoomAllExcept = function (step) {
+	SwipeLayout.prototype.unzoomAllExcept = function (step) {
 		this.addClassOnlyTo(step, "zoomed");
 		
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				if (el != step) {
 					el.unzoom();
 				}
@@ -428,69 +425,64 @@ define(["Layout",
 		
 		this.hideAllLabelsExcept(step);
 	}
+	
+	SwipeLayout.prototype.onSnapFinish = function (target) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
+				if (el.elem[0] == target[0]) {
+					this.zoomToStep(el, false);
+					break;
+				}
+			}
+		}
+	}
 		
-	PanZoomLayout.prototype.zoomToStep = function (step) {
+	SwipeLayout.prototype.zoomToStep = function (step, scroll) {
+		this.repositionTextHolder();
+		
 		this.unzoomAllExcept(step);
 		
-		var container = this.image_holder;
+		if (scroll != false)
+			this.panelSnapInstance.snapToPanel(step.elem);
 		
-		// find scale to have the step's region fill the container
-		//  except for the space required by the text_holder
+		step.zoom();
 		
-		var tw = this.text_holder.width();
-		
-		var x1 = step.rect.left, y1 = step.rect.top;
-		
-		var sw = step.rect.width, sh = step.rect.height;
-		var cw = container.width() - tw, ch = container.height();
-		
-		var scalex = cw / sw, scaley = ch / sh;
-		
-		var scale = Math.min(scalex, scaley);
-		
-		var scaled_width = sw * scale, scaled_height = sh * scale;
-		var centering_x = (cw - scaled_width) * .5;
-		var centering_y = (ch - scaled_height) * .5;
-		
-		var scaler = "scale(" + scale + ")"
-		// move top-left to center:
-		var xx = (-x1 / scale) + (centering_x / scale) + (tw / scale);
-		var yy = (-y1 / scale) + (centering_y / scale);
-		var translater = "translate(" + xx + "px," + yy + "px)";
-		this.image_wrapper.css( { transform: scaler + " " + translater, "transform-origin": x1 + "px " + y1 + "px" } )
-			.addClass("zoomedIn")
-			.one("click", $.proxy(this.zoomOut, this));
-			
-		step.zoom(scale);
-			
-		this.text_holder.hide(0).html(step.options.text).delay(500).show(0);
+		if (step.options) {
+			if (scroll == false) {
+				this.text_holder.hide(0).removeClass("animated fadeOut").addClass("animated fadeInLeft").html(step.options.text).show(0);
+			}
+		} else {
+//			this.text_holder.removeClass("animated fadeInLeft").addClass("animated fadeOut");
+			this.text_holder.removeClass("animated fadeInLeft").html("");
+		}
 		
 		this.currentStep = step;		
 	}
 	
-	PanZoomLayout.prototype.hideAllLabelsExcept = function (step) {
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
+	SwipeLayout.prototype.hideAllLabelsExcept = function (step) {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
 				if (el != step) {
-					el.label.css("display", "none");
+//					el.label.css("display", "none");
 				} else {
-					el.label.css("display", "block");
+//					el.label.css("display", "block");
 				}
 			}
 		}
 	}
 	
-	PanZoomLayout.prototype.showAllLabels = function () {
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el instanceof FixedRegion) {
-				el.label.css("display", "block");
+	SwipeLayout.prototype.showAllLabels = function () {
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
+//				el.label.css("display", "block");
 			}
 		}
 	}
 	
-	PanZoomLayout.prototype.zoomOut = function () {
+	SwipeLayout.prototype.zoomOut = function () {
 		this.addClassOnlyTo(null, "zoomed");
 		
 		if (this.currentStep) {
@@ -505,5 +497,5 @@ define(["Layout",
 		this.showAllLabels();
 	}
 
-	return PanZoomLayout;
+	return SwipeLayout;
 });

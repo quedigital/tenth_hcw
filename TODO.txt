@@ -1,13 +1,19 @@
 
 
+// TODO: zoom on text page images?
+
+// TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
+
+// TODO: welcome / instructions page
+// TODO: fun entry / surprise page ("How does your phone know...?")
+
 // TODO: search results shows number of results and bit of context
 // TODO: animate search result pane appearance
+// TODO: keywords (searchable) for spreads
 
-// TODO: try debounce for window resize limiting
+// TODO: try debounce for window resize limiting (or google resizestop)
 
 // TODO: fixed layout controls on left side of pane??
-
-// TODO: click on fixed layout images to zoom them too
 
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
@@ -17,8 +23,6 @@
 
 // TODO: make fixed/panzoom bar scroll and highlight current step
 
-// TODO: keywords (searchable) for spreads
-
 // TODO: hard-code callout line directions in editor? [3_2]
 
 // TODO: flowchart spread
@@ -27,8 +31,6 @@
 
 // TODO: remove embedded "line-height" tags from the text
 // TODO: convert things like [dg] in the text
-
-// TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
 
 // TODO: animate callout lines (grid and fixed)
 
@@ -44,8 +46,6 @@
 // TODO: during infinite scroll, remove past spreads from memory
 
 // TODO: change URL location to reflect current spread? (history.pushState)
-
-// TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: layouts don't seem to be full-screen on iOS Safari; remove search bar from iOS Chrome?
 
@@ -232,3 +232,5 @@
 // DONE: "panzoom" layout type
 // DONE: 13_1 #4 "placing the image in the  middle of the text" [I don't have a good way of doing bottom-left or bottom-right image align]
 // DONE: search pane (hideable?) used for other spreads to jump to
+// DONE: click on fixed layout images to zoom them too
+// DONE: use panelsnap to cycle through fixed layout steps

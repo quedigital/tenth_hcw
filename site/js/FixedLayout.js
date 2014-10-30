@@ -6,10 +6,11 @@ define(["Layout",
 		"Sidebar",
 		"CellImage",
 		"Helpers",
+		"SiteHelpers",
 		"debug",
 		"tinycolor",
 		"jquery.columnizer",
-		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, Helpers, debug, tinycolor) {
+		], function (Layout, jqueryui, imagesLoaded, Step, FixedStep, Sidebar, CellImage, Helpers, SiteHelpers, debug, tinycolor) {
 	FixedLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager, content);
 		
@@ -32,6 +33,7 @@ define(["Layout",
 		this.container.append(image_holder);
 
 		var img = $("<img>").addClass("background").attr("src", layout.background);
+		img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, content.title, undefined));
 		this.img = img;
 		
 		$(image_holder).append(img);
