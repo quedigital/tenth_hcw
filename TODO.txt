@@ -2,7 +2,10 @@
 
 // TODO: zoom on text page images?
 
-// TODO: on small screens: fixed layout zooms in just enough for text to fit in its boundary?
+// TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
+// TODO: make fixed/panzoom bar scroll and highlight current step
+
+// TODO: scroll to make sure fixed (or zoom or swipe) layout is on-screen when changing steps
 
 // TODO: welcome / instructions page
 // TODO: fun entry / surprise page ("How does your phone know...?")
@@ -18,10 +21,6 @@
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
 // TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
-
-// TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
-
-// TODO: make fixed/panzoom bar scroll and highlight current step
 
 // TODO: hard-code callout line directions in editor? [3_2]
 
@@ -234,3 +233,4 @@
 // DONE: search pane (hideable?) used for other spreads to jump to
 // DONE: click on fixed layout images to zoom them too
 // DONE: use panelsnap to cycle through fixed layout steps
+// DONE: on small screens: fixed layout zooms in just enough for text to fit in its boundary? [new swipe layout]

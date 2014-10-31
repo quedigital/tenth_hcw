@@ -8,7 +8,8 @@ define(["Layout",
 		"Helpers",
 		"debug",
 		"tinycolor",
-		"jquery.panelSnap"
+		"jquery.panelSnap",
+		"FixedControls"
 		], function (Layout, jqueryui, imagesLoaded, Step, SwipeRegion, Sidebar, CellImage, Helpers, debug, tinycolor) {
 		
 	SwipeLayout = function (container, layout, content, manager) {	
@@ -33,7 +34,10 @@ define(["Layout",
 		
 		this.widget.append(image_holder);
 		this.widget.append(text_holder);
-		
+
+		this.controls = $("<div>").addClass("controls");
+		this.container.append(this.controls);
+				
 //		$("<div>").addClass("highlight").appendTo(image_holder);		
 
 		if (this.layout.textcolor) {
@@ -59,16 +63,12 @@ define(["Layout",
 		
 		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
 		
-		this.currentStep = undefined;
+//		this.currentStep = this.getStepByIndex(0);
+		this.zoomToStep(this.getStepByIndex(0), false);
 	}
 	
 	SwipeLayout.prototype = Object.create(Layout.prototype);
 	SwipeLayout.prototype.constructor = SwipeLayout;
-	
-	SwipeLayout.prototype.repositionTextHolder = function () {
-//		this.text_holder.css("display", "block");
-//		this.text_holder.position( { my: "right top", at: "left top", of: this.image_holder, collision: "none" } );
-	}
 	
 	SwipeLayout.prototype.sizeToFitContainingPane = function () {
 		var pane = $(this.container).parents(".ui-layout-pane");
@@ -79,14 +79,10 @@ define(["Layout",
 		var padding = ch.outerWidth() - ch.width();
 		
 		var desired_h = Math.min(600, h - padding);
+		var desired_w = Math.min(1080, w - padding);
 		
+		this.widget.width(desired_w);
 		this.widget.height(desired_h);
-		
-		/*
-		this.image_holder.height(desired_h);
-		
-		this.text_holder.css("height", this.image_holder.css("height"));
-		*/
 	}
 	
 	SwipeLayout.prototype.onImagesLoaded = function () {
@@ -100,8 +96,6 @@ define(["Layout",
 		// kludgy way to get panelSnap instance
 		this.panelSnapInstance = snapper.data("plugin_panelSnap");
 
-		this.repositionTextHolder();
-		
 		this.layoutComplete();	
 	}
 	
@@ -131,7 +125,7 @@ define(["Layout",
 		// first, add the full image
 		var full_image = new SwipeRegion(undefined, undefined, this.img);
 		this.image_holder.append(full_image.elem);
-		this.elements["full"] = full_image;
+		this.elements["0"] = full_image;
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -203,13 +197,21 @@ define(["Layout",
 					}
 				}
 			}
-		}		
+		}
+		
+		var items = this.getItemNames();
+		$(this.controls).swipeControls( { 	items: items,
+											selectFirstItem: true,
+											onClickStep: $.proxy(this.gotoStep, this),
+											onClickPrevious: $.proxy(this.gotoPrevious, this),
+											onClickNext: $.proxy(this.gotoNext, this),
+										 } );
 	}
 
 	SwipeLayout.prototype.positionCells = function () {
 		this.clearRects();
 		
-		var img = this.container.find(".background");
+//		var img = this.container.find(".background");
 		
 //		this.container.width(img.width());
 		
@@ -221,7 +223,7 @@ define(["Layout",
 		*/
 		
 		// format the first full image element
-		this.elements["full"].format();
+		this.elements["0"].format();
 		
 		var cells = $.map(this.content.cells, function (el) { return el });
 		
@@ -366,9 +368,7 @@ define(["Layout",
 		this.zoomPreviousStep();
 	}
 	
-	SwipeLayout.prototype.activate = function () {
-		Layout.prototype.activate.call(this);
-		
+	SwipeLayout.prototype.getItemNames = function () {
 		var items = [];
 		
 		// count all the non-extracted elements
@@ -383,13 +383,16 @@ define(["Layout",
 				}
 			}
 		}
-			
-		this.container.trigger("controls", { layout: this, items: items });
+		
+		return items;
 	}
 	
-	SwipeLayout.prototype.onClickStep = function (step) {
-		this.zoomToStep(step, false);
-		return false;
+	SwipeLayout.prototype.activate = function () {
+		Layout.prototype.activate.call(this);
+		
+		var items = this.getItemNames();
+		
+		this.container.trigger("controls", { layout: this, items: items });
 	}
 	
 	SwipeLayout.prototype.gotoStep = function (n) {
@@ -438,9 +441,7 @@ define(["Layout",
 		}
 	}
 		
-	SwipeLayout.prototype.zoomToStep = function (step, scroll) {
-		this.repositionTextHolder();
-		
+	SwipeLayout.prototype.zoomToStep = function (step, scroll) {		
 		this.unzoomAllExcept(step);
 		
 		if (scroll != false)
@@ -450,14 +451,38 @@ define(["Layout",
 		
 		if (step.options) {
 			if (scroll == false) {
-				this.text_holder.hide(0).removeClass("animated fadeOut").addClass("animated fadeInLeft").html(step.options.text).show(0);
+				var label = step.getLabelAsDOM();
+				var text = $("<p>").html(step.options.text);
+				this.text_holder.hide(0).empty().removeClass("animated fadeOut").addClass("animated fadeInLeft").append(label).append(text).show(0);
 			}
 		} else {
-//			this.text_holder.removeClass("animated fadeInLeft").addClass("animated fadeOut");
-			this.text_holder.removeClass("animated fadeInLeft").html("");
+			if (scroll == false) {
+				this.text_holder.hide(0).removeClass("animated fadeInLeft").addClass("animated fadeInLeft");
+				// show instructions?
+				var labels = this.getAllLabels();
+				labels.addClass("index");
+				this.text_holder.html("<p>Scroll through the steps:</p>" + labels[0].outerHTML).show(0);
+			}
+		}
+	
+		this.currentStep = step;
+	
+		var n = this.getStepIndex(this.currentStep);
+		$(this.controls).swipeControls("current", n);
+	}
+
+	SwipeLayout.prototype.getAllLabels = function () {
+		var elements = $("<div>");
+		
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el instanceof SwipeRegion) {
+				var dom = el.getLabelAsDOM();
+				elements.append(dom);
+			}
 		}
 		
-		this.currentStep = step;		
+		return elements;
 	}
 	
 	SwipeLayout.prototype.hideAllLabelsExcept = function (step) {

@@ -1,5 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints"], function (GridLayout, FixedLayout, PanZoomLayout, SwipeLayout, TextLayout, Helpers, tinycolor, SearchManager) {
-
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints", "FixedControls"], function (GridLayout, FixedLayout, PanZoomLayout, SwipeLayout, TextLayout, Helpers, tinycolor, SearchManager) {
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
 		
@@ -247,31 +246,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 	}
 	
 	LayoutManager.prototype.onReceivedControls = function (event, args) {
-		var ctrls = $("#fixed-layout-controls");
-		ctrls.removeClass("animated bounceOutDown");
-		ctrls.addClass("animated bounceOutDown");
-
-		setTimeout(function () {
-			$("#direct-buttons button.direct").remove();
-			for (var i = 0; i < args.items.length; i++) {
-				var lbl = args.items[i];
-				if (!lbl) {
-					lbl = "&nbsp;";
-				}
-				var b = $("<button>").addClass("btn direct").html(lbl);
-				$("#direct-buttons").append(b);
-				var func = function (n) { args.layout.gotoStep(n); }.bind(this, i);
-				b.click(func);
-			}
-			
-			if (args.items.length > 0) {				
-				ctrls.css("left", ($(window).width() - ctrls.width()) * .5);
-				ctrls.removeClass("animated bounceOutDown");
-				ctrls.addClass("animated bounceInUp");
-			}
-		}, 600);
-		
-		//$("#fixed-layout-controls").css("visibility", (args.items.length ? "visible" : "hidden"));
+		$("#fixed-layout-controls").fixedControls(this, args);
 	}
 	
 	LayoutManager.prototype.getChaptersForPart = function (part) {

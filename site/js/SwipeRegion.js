@@ -1,6 +1,10 @@
 define(["jquery", "Helpers"], function ($, Helpers) {
 	// number, text, image, anchor
 	SwipeRegion = function (options, hints, img) {
+		this.number = options && options.number;
+		this.options = options;
+		this.hints = hints;		
+		
 		this.elem = $("<section>").addClass("swipe_region");
 		
 		this.elem.data("step", this);
@@ -14,24 +18,13 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.image_wrapper.append(this.image_scaler);
 		this.image_scaler.append(this.img);
 
-		if (options && options.title != undefined) {
-			this.label = $("<p>").addClass("fixed-region label")
-				.text(options.title)
-				.appendTo(this.image_scaler);
-		} else if (options && options.number != undefined) {
-			this.label = $("<span>").addClass(options.number == 1 ? "diamond" : "block")
-				.addClass("shape")
-				.append("<span>" + options.number)
-				.appendTo(this.image_scaler);
-		}
+		this.label = this.getLabelAsDOM();
+		if (this.label)
+			this.label.hide(0).appendTo(this.image_scaler);
 		
 		var bounds = $("<div>").addClass("bounds");
 		this.elem.append(bounds);
 		this.bounds = bounds;
-
-		this.number = options && options.number;
-		this.options = options;
-		this.hints = hints;		
 	}
 	
 	SwipeRegion.prototype = Object.create(null);
@@ -43,6 +36,21 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		} else {
 			return false;
 		}
+	}
+	
+	SwipeRegion.prototype.getLabelAsDOM = function () {
+		var label;
+		
+		if (this.options && this.options.title != undefined) {
+			label = $("<p>").addClass("swipe-region label")
+				.text(options.title);
+		} else if (this.options && this.options.number != undefined) {
+			label = $("<span>").addClass("block")
+				.addClass("shape")
+				.append("<span>" + this.options.number);
+		}
+		
+		return label;
 	}
 	
 	SwipeRegion.prototype.setRect = function (rect) {
@@ -106,11 +114,13 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				var invScale = (1 / scale) * 2;
 				this.label.css({ left: x, top: y, transform: "scale(" + invScale + ")" });
 			}
-//			this.label.position( { my: "center", at: this.hints.callout_target_pos, of: this.img, collision: "none" } );
 		}
 	}
 	
 	SwipeRegion.prototype.zoom = function () {
+		if (this.label) {
+			this.label.hide(0).removeClass("animated fadeIn").delay(750).addClass("animated fadeIn").show(0);
+		}
 	}
 	
 	SwipeRegion.prototype.unzoom = function () {

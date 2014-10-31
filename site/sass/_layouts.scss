@@ -138,6 +138,11 @@ html, body, p, h1 {
 		background-color: black;
 	}
 	
+	.step {
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+	
 	.image_holder {
 		position: relative;
 		
@@ -526,6 +531,7 @@ html, body, p, h1 {
 		margin-top: 10%;
 		margin-left: 1em;
 		color: white;
+		overflow-y: scroll;
 	}
 	
 	.viewport {
@@ -544,11 +550,20 @@ html, body, p, h1 {
 }
 
 .spread.swipe {
+	width: 100%;
+	max-width: 1080px;
+	
 	.widget {
-		width: 80%;
-		margin: 25px auto;
-		max-width: 900px;
+		width: 100%;
+		margin: 25px auto 0 auto;
 		background: inherit;
+		overflow: hidden;		
+	}
+
+	.controls {
+		width: 100%;
+		height: 50px;
+		margin-bottom: 25px;
 	}
 	
 	.text_holder {
@@ -558,6 +573,20 @@ html, body, p, h1 {
 		background: rgba(200, 50, 50, .75);
 		padding: 1rem;
 		color: white;
+		overflow-y: scroll;
+		
+		.block {
+			position: relative;
+			top: auto;
+			left: auto;
+		}
+		
+		.index {
+			.block {
+				display: block;
+				margin: 10px;
+			}
+		}
 	}
 
 	.image_wrapper {
@@ -569,6 +598,7 @@ html, body, p, h1 {
 		width: 80%;
 		height: 100%;
 		border: 2px solid black;
+		border-bottom: none;
 	}
 	
 	.shape {
@@ -581,6 +611,90 @@ html, body, p, h1 {
 	section.swipe_region {
 		overflow: hidden;
 	}	
+}
+
+.fixed-controls {
+	display: table;
+	background-color: #222;
+	
+	.nav-buttons {
+		display: table-cell;
+		width: 90px;
+		text-align: center;
+	}
+	
+	.main-buttons {
+		display: table-cell;
+		padding-top: 6px;
+		text-align: center;
+	}
+	
+	.btn {
+		border: none;
+		cursor: pointer;
+		background: none;
+		margin: 5px;
+		display: inline-block;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		outline: none;
+		position: relative;
+
+		color: white;
+		font-weight: bold;
+		font-size: 22px;
+		line-height: 30px;
+		text-align: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		font-family: 'Oswald', sans-serif;
+
+		&:before {
+			content: "";
+			background-color: black;
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
+
+		span {
+			position: absolute;
+			top: -1px;
+			left: 0;
+			width: 100%;
+			text-align: center;
+		}
+		
+		span.up {
+			top: -3px;
+		}
+		
+		&:hover {
+			color: black;
+			
+			&:before {
+				background-color: white;
+			}
+		}
+		
+		&:active {
+			&:before {
+				background-color: #666;
+			}
+		}
+		
+		/* diamond */
+		&.selected {
+			&:before {
+				background-color: red;
+				transform: rotate(45deg);
+			}
+	
+			span {
+			}	
+		}
+	}
 }
 
 .interactive-contents.full-screen {
@@ -1042,59 +1156,40 @@ div.image-callout {
 	
 	.btn {
 		border: none;
-		font-family: inherit;
-		font-size: inherit;
-		color: inherit;
-		background: none;
 		cursor: pointer;
-		padding: 0 20px;
-		height: 90%;
+		background: none;
+		margin: 5px;
 		display: inline-block;
 		text-transform: uppercase;
 		letter-spacing: 1px;
-		font-weight: 700;
 		outline: none;
 		position: relative;
+
 		transition: all 0.3s;
+		color: white;
+		font-weight: bold;
+		font-size: 22px;
+		line-height: 30px;
+		text-align: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		font-family: 'Oswald', sans-serif;
 
-		border: 3px solid #55A;
-		border-radius: 15px;
-		color: #55A;
-		margin: 0 5px;
-		top: 5%;
+		&:before {
+			content: "";
+			background-color: black;
+			display: block;
+			width: 100%;
+			height: 100%;
+		}
 
-		overflow: hidden;
-		
-		&:after {
-			content: '';
+		span {
 			position: absolute;
-			z-index: -1;
-			transition: all 0.3s;
-			
-			width: 0;
-			height: 103%;
-			top: 50%;
-			left: 50%;
-			border-radius: 15px;
-			background: #116;
-			opacity: 0;
-			transform: translateX(-50%) translateY(-50%);				
-		}
-		
-		&:hover,
-		&:active {
-			color: white;
-		}
-
-		&:hover:after {
-			width: 103%;
-			opacity: 1;
-		}
-
-		&:active:after {
-			width: 90%;
-			opacity: 1;
-			border-radius: 0;
+			top: -1px;
+			left: 0;
+			width: 100%;
+			text-align: center;
 		}
 	}
 	
