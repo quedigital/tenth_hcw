@@ -1,6 +1,6 @@
-define(["jquery", "Helpers"], function ($, Helpers) {
+define(["jquery", "Helpers", "SiteHelpers"], function ($, Helpers, SiteHelpers) {
 	// number, text, image, anchor
-	SwipeRegion = function (options, hints, img) {
+	SwipeRegion = function (content, layout, options, hints, img) {
 		this.number = options && options.number;
 		this.options = options;
 		this.hints = hints;		
@@ -10,6 +10,8 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.elem.data("step", this);
 				
 		this.img = img.clone();
+
+		this.img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, this.img, content.title, undefined, layout.background));
 		
 		this.image_wrapper = $("<div>").addClass("image_wrapper");
 		this.elem.append(this.image_wrapper);
@@ -19,8 +21,9 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		this.image_scaler.append(this.img);
 
 		this.label = this.getLabelAsDOM();
-		if (this.label)
-			this.label.hide(0).appendTo(this.image_scaler);
+		if (this.label) {
+			this.label.css("visibility", "hidden").hide(0).appendTo(this.image_scaler);
+		}
 		
 		var bounds = $("<div>").addClass("bounds");
 		this.elem.append(bounds);
@@ -117,14 +120,17 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		}
 	}
 	
-	SwipeRegion.prototype.zoom = function () {
+	SwipeRegion.prototype.showLabel = function () {
 		if (this.label) {
-			this.label.hide(0).removeClass("animated fadeIn").delay(750).addClass("animated fadeIn").show(0);
+			// NOTE: using both visibility and hide seems redundant but... I punted
+			this.label.css("visibility", "hidden").hide(0).removeClass("animated fadeIn").delay(750).addClass("animated fadeIn").css("visibility", "visible").show(0);
 		}
 	}
 	
-	SwipeRegion.prototype.unzoom = function () {
-//		this.label.css("transform", "");
+	SwipeRegion.prototype.hideLabel = function () {
+		if (this.label) {
+			this.label.css("visibility", "hidden").hide(0);
+		}
 	}
 	
 	return SwipeRegion;	

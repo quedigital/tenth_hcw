@@ -269,7 +269,7 @@ html, body, p, h1 {
 		
 		.textholder {
 			pointer-events: none;
-			overflow: hidden;
+			overflow: hidden;			
 		}
 
 		
@@ -585,8 +585,24 @@ html, body, p, h1 {
 			.block {
 				display: block;
 				margin: 10px;
+				transition: background-color .5s linear, color .5s linear;
+				cursor: pointer;
+			
+				&:hover {
+					color: black;
+					
+					&:before {
+						background-color: white !important;
+					}
+				}
 			}
 		}
+		
+		h1 {
+			font-size: 150%;
+			color: black;
+			background: none;
+		}		
 	}
 
 	.image_wrapper {
@@ -649,13 +665,14 @@ html, body, p, h1 {
 		height: 28px;
 		padding: 0;
 		font-family: 'Oswald', sans-serif;
-
+		
 		&:before {
 			content: "";
 			background-color: black;
 			display: block;
 			width: 100%;
 			height: 100%;
+			transition: transform .5s linear, background-color .5s linear;
 		}
 
 		span {
@@ -966,6 +983,11 @@ div.image-callout {
 		
 		&.toc-chapter {
 			padding-left: .25rem;
+			color: black;
+			
+			.title {
+				text-shadow: none;
+			}
 		}
 		
 		&.toc-part {
@@ -1463,11 +1485,14 @@ div.image-callout {
 			color: black;
 			font-size: 6rem;
 			line-height: 6rem;
-			text-align: center;
 		}
 
 		&.part {
 			background-color: white;
+			
+			h1 {
+				text-align: center;
+			}
 			
 			div.number {
 				color: $hcw-light-brown;
@@ -1540,7 +1565,7 @@ div.image-callout {
 	
 	section.page {
 		background-color: white;
-		padding: 2rem 1rem;
+		padding: 2rem 3rem;
 		box-shadow: 0 12px 36px -12px rgba(0, 0, 0, 0.7) inset;
 		
 		line-height: 1.7rem;
@@ -1562,6 +1587,15 @@ div.image-callout {
 			}
 		}
 		
+		h1 {
+			font-size: 200%;
+			font-family: Oswald, sans-serif;
+			font-weight: 400;
+			margin-top: 2rem;
+			
+			clear: both;
+		}
+		
 		.center {
 			display: block;
 			margin: 0 auto;
@@ -1574,6 +1608,11 @@ div.image-callout {
 		
 		.right {
 			float: right;
+		}
+		
+		.drop-cap {
+			margin: -5px 5px 0 0;
+			float: left;
 		}
 		
 		img {
@@ -1597,6 +1636,7 @@ div.image-callout {
 			display: table-caption;
 			caption-side: bottom;
 			padding: 0 5px 5px;
+			margin: 0 10px;
 		}
 		
 		footer {

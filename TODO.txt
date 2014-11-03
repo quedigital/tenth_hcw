@@ -1,11 +1,13 @@
 
 
-// TODO: zoom on text page images?
+// TODO: what to do with swipe layouts with non-numeric headings?
+
+// TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
+
+// TODO: auto-hide TOC with better thumb control
 
 // TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
 // TODO: make fixed/panzoom bar scroll and highlight current step
-
-// TODO: scroll to make sure fixed (or zoom or swipe) layout is on-screen when changing steps
 
 // TODO: welcome / instructions page
 // TODO: fun entry / surprise page ("How does your phone know...?")
@@ -41,6 +43,8 @@
 // TODO: eliminate memory leaks
 
 // TODO: slide show layout?
+
+// TODO: a "what's new" tab or menu item
 
 // TODO: during infinite scroll, remove past spreads from memory
 
@@ -234,3 +238,8 @@
 // DONE: click on fixed layout images to zoom them too
 // DONE: use panelsnap to cycle through fixed layout steps
 // DONE: on small screens: fixed layout zooms in just enough for text to fit in its boundary? [new swipe layout]
+// TODONT: zoom on text page images? no. [not high enough resolution, generally]
+// DONE: clickable links in the swipe layout "top" screen
+// DONE: zoomable images for swipe layout
+// DONE: scroll to make sure fixed (or zoom or swipe) layout is on-screen when changing steps
+// DONE: scrolling a swipe layout doesn't reveal the numbers at the proper time
