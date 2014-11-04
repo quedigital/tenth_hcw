@@ -5,6 +5,7 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		
 		this.container.data("layout", this);
 		
+		this.elements = [];
 		this.calloutLines = [];
 		
 		this.isReady = false;

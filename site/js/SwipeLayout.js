@@ -200,6 +200,7 @@ define(["Layout",
 		
 		var items = this.getItemNames();
 		$(this.controls).swipeControls( { 	items: items,
+											buttonClass: "numeric",
 											selectFirstItem: true,
 											onClickStep: $.proxy(this.gotoStep, this),
 											onClickPrevious: $.proxy(this.gotoPrevious, this),
@@ -434,7 +435,6 @@ define(["Layout",
 	}
 		
 	SwipeLayout.prototype.zoomToStep = function (step, scroll) {
-		
 		if (scroll != false) {
 			this.panelSnapInstance.snapToPanel(step.elem);
 			this.makeSureWidgetIsOnScreen();

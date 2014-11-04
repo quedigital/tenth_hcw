@@ -525,13 +525,26 @@ html, body, p, h1 {
 		top: 0;
 		left: 0;
 		width: 200px;
-		height: 80%;
+		height: auto;
+		max-height: 90%;
 		background: rgba(200, 50, 50, .75);
 		padding: 1rem;
-		margin-top: 10%;
+		margin-top: 20px;
 		margin-left: 1em;
 		color: white;
-		overflow-y: scroll;
+		overflow-y: scroll;		
+
+		/* force scrollbars on Mac? (Chrome only) */
+		&::-webkit-scrollbar {
+		  -webkit-appearance: none;
+		  width: 7px;
+		}
+		
+		&::-webkit-scrollbar-thumb {
+		  border-radius: 4px;
+		  background-color: rgba(0, 0, 0, .5);
+		  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+		}
 	}
 	
 	.viewport {
@@ -633,25 +646,79 @@ html, body, p, h1 {
 
 .fixed-controls {
 	display: table;
+	width: 100%;
+	table-layout: fixed;
 	background-color: #222;
 	
 	.nav-buttons {
 		display: table-cell;
-		width: 90px;
+		width: 125px;
 		text-align: center;
+		vertical-align: middle;
 	}
 	
 	.main-buttons {
 		display: table-cell;
-		padding-top: 6px;
 		text-align: center;
+		vertical-align: middle;
+		
+		.container {
+			white-space: nowrap;
+			overflow-x: scroll;
+/*			min-height: 55px;*/
+		}	
 	}
 	
 	.btn {
+		vertical-align: middle;
+	}
+	
+	.btn.wordlabel {
 		border: none;
 		cursor: pointer;
 		background: none;
 		margin: 5px;
+		display: inline-block;
+		outline: none;
+		position: relative;
+		text-transform: none;
+
+		transition: all 0.3s;
+		color: white;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 1.4em;
+		text-align: center;
+		max-width: 125px;
+		padding: 5px;
+		font-family: 'Oswald', sans-serif;
+
+		span {
+			white-space: normal;
+		}
+		
+		&:hover {
+			background-color: white;
+			color: black;
+			border-radius: 15px;
+		}
+		
+		&:active {
+			transition: all 0s;
+			background-color: #333;
+		}
+		
+		&.selected {
+			background-color: red;
+			color: white;
+		}
+	}
+
+	.btn.numeric, .btn.symbol {
+		border: none;
+		cursor: pointer;
+		background: none;
+		margin: 6px 5px;
 		display: inline-block;
 		text-transform: uppercase;
 		letter-spacing: 1px;
@@ -697,8 +764,9 @@ html, body, p, h1 {
 			}
 		}
 		
-		&:active {
+		&:active {			
 			&:before {
+				transform: all 0s;
 				background-color: #666;
 			}
 		}
@@ -1180,40 +1248,27 @@ div.image-callout {
 	
 	.btn {
 		border: none;
+		border-right: 1px solid white;
 		cursor: pointer;
 		background: none;
-		margin: 5px;
+		margin: 0;
 		display: inline-block;
-		text-transform: uppercase;
-		letter-spacing: 1px;
 		outline: none;
 		position: relative;
 
 		transition: all 0.3s;
+		background-color: black;
 		color: white;
 		font-weight: bold;
-		font-size: 22px;
-		line-height: 30px;
+		font-size: 14px;
+		line-height: 1.4em;
 		text-align: center;
-		width: 28px;
-		height: 28px;
-		padding: 0;
+		max-width: 75px;
+		padding: 5px;
 		font-family: 'Oswald', sans-serif;
 
-		&:before {
-			content: "";
-			background-color: black;
-			display: block;
-			width: 100%;
-			height: 100%;
-		}
-
 		span {
-			position: absolute;
-			top: -1px;
-			left: 0;
-			width: 100%;
-			text-align: center;
+			white-space: normal;
 		}
 	}
 	

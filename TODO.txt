@@ -1,8 +1,14 @@
 
 
-// TODO: what to do with swipe layouts with non-numeric headings?
-
 // TODO: click or mouse over grid cells to show faint highlight & any callout
+
+// TODO: hide spread header when it overlaps a swipe layout?
+
+// TODO: swipe layout textholder needs "more (down)" indicator?
+
+// TODO: panzoom/swipe controls need "more (right)" indicator
+
+// TODO: panzoom.makeSureWidgetIsOnScreen
 
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 
@@ -247,3 +253,5 @@
 // DONE: scrolling a swipe layout doesn't reveal the numbers at the proper time
 // DONE: Editor: swipe & panzoom layouts only show one layout cell at a time
 // DONE: Editor: "sync cells" button (between content & layout) [should be automatic; wasn't working for panzoom & swipe for lack of default fields]
+// DONE: what to do with swipe layouts with non-numeric headings?
+// DONE: keep panzoom/swipe selected button in the middle

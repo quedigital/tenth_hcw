@@ -21,6 +21,7 @@ define(["Layout",
 		var image_holder = $("<div>").addClass("image_holder");
 		this.image_holder = image_holder;
 		
+		/*
 		var nextButton = $("<div>").addClass("nav-button next").html("&#xf054;");
 		nextButton.click($.proxy(this.gotoNext, this));
 		image_holder.append(nextButton);
@@ -28,8 +29,12 @@ define(["Layout",
 		var prevButton = $("<div>").addClass("nav-button prev").html("&#xf053;");
 		prevButton.click($.proxy(this.gotoPrevious, this));
 		image_holder.append(prevButton);
+		*/
 		
 		this.container.append(image_holder);
+
+		this.controls = $("<div>").addClass("controls");
+		this.container.append(this.controls);
 
 		var viewport = $("<div>").addClass("viewport");
 		this.viewport = viewport;
@@ -67,8 +72,6 @@ define(["Layout",
 			}
 		}
 		
-		this.elements = [];
-		
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
@@ -85,7 +88,7 @@ define(["Layout",
 		var image_h = this.img[0].naturalHeight;
 		
 		var pane = $(this.container).parents(".ui-layout-pane");
-		var h = pane.height();
+		var h = pane.height() - this.controls.outerHeight();
 		var w = pane.width();
 		
 		var ch = $("#content-holder");
@@ -209,7 +212,33 @@ define(["Layout",
 			}
 		}
 		
-//		autoSizeText({ minSize: 12 });
+		var items = this.getItemNames();
+		$(this.controls).swipeControls( { 	items: items,
+											buttonClass: "wordlabel",
+												selectFirstItem: true,
+												onClickStep: $.proxy(this.gotoStep, this),
+												onClickPrevious: $.proxy(this.gotoPrevious, this),
+												onClickNext: $.proxy(this.gotoNext, this),
+										 } );
+	}
+
+	PanZoomLayout.prototype.getItemNames = function () {
+		var items = [];
+		
+		// count all the non-extracted elements
+		var count = 0;
+		for (var each in this.elements) {
+			var el = this.elements[each];
+			if (el && el instanceof FixedRegion) {
+				if (el.options && el.options.title) {
+					items.push(el.options.title);
+				} else if (el.options && el.options.number) {
+					items.push(el.options.number);
+				}
+			}
+		}
+		
+		return items;
 	}
 	
 	PanZoomLayout.prototype.positionCells = function () {
@@ -388,7 +417,8 @@ define(["Layout",
 			}
 		}
 			
-		this.container.trigger("controls", { layout: this, items: items });
+//		this.container.trigger("controls", { layout: this, items: items });
+		this.container.trigger("controls", { layout: this, items: [] });
 	}
 	
 	PanZoomLayout.prototype.onClickStep = function (step) {
@@ -397,8 +427,10 @@ define(["Layout",
 	}
 	
 	PanZoomLayout.prototype.gotoStep = function (n) {
-		var step = this.getStepByIndex(n);
-		this.zoomToStep(step);
+		var step = this.getStepByIndex(n - 1);
+		if (this.currentStep != step) {
+			this.zoomToStep(step);
+		}
 	}
 	
 	PanZoomLayout.prototype.addClassOnlyTo = function (step, klass) {
@@ -430,7 +462,17 @@ define(["Layout",
 	}
 		
 	PanZoomLayout.prototype.zoomToStep = function (step) {
+		if (step == undefined) {
+			this.zoomOut();
+			$(this.controls).swipeControls("current", 0);			
+			return;
+		}
+		
 		this.unzoomAllExcept(step);
+
+		/* TODO:
+		this.makeSureWidgetIsOnScreen();
+		*/
 		
 		var container = this.image_holder;
 		
@@ -465,7 +507,10 @@ define(["Layout",
 			
 		this.text_holder.hide(0).html(step.options.text).delay(500).show(0);
 		
-		this.currentStep = step;		
+		this.currentStep = step;
+		
+		var n = this.getStepIndex(this.currentStep);
+		$(this.controls).swipeControls("current", n + 1);			
 	}
 	
 	PanZoomLayout.prototype.hideAllLabelsExcept = function (step) {
