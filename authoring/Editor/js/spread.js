@@ -615,7 +615,12 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 					defaults = { id: id, width: 1 };
 					break;
 				case "fixed":
+				case "panzoom":
+				case "swipe":
 					defaults = { id: id, bounds: [10, 10, 100, 100], anchor: "TL" };
+					break;
+				default:
+					defaults = { id: id };
 					break;
 			}
 			self.layout().firebase.child("hints/" + id).set(defaults);

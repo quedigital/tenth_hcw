@@ -2,6 +2,8 @@
 
 // TODO: what to do with swipe layouts with non-numeric headings?
 
+// TODO: click or mouse over grid cells to show faint highlight & any callout
+
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 
 // TODO: auto-hide TOC with better thumb control
@@ -243,3 +245,5 @@
 // DONE: zoomable images for swipe layout
 // DONE: scroll to make sure fixed (or zoom or swipe) layout is on-screen when changing steps
 // DONE: scrolling a swipe layout doesn't reveal the numbers at the proper time
+// DONE: Editor: swipe & panzoom layouts only show one layout cell at a time
+// DONE: Editor: "sync cells" button (between content & layout) [should be automatic; wasn't working for panzoom & swipe for lack of default fields]

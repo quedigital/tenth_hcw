@@ -299,7 +299,7 @@
 						<input data-bind="value: bgcolor" type="text"></input>
 						<label for="inputID">Text Color</label>
 						<input data-bind="value: textcolor" type="text"></input>
-						<div class="fixer layoutUI" data-bind="fixedThing: hints">
+						<div class="fixer layoutUI" data-bind="fixedThing: hints, css: style()">
 							<div data-bind="foreach: hints">
 								<div class="bounds" data-bind="boundsThing: bounds, attr: { 'data-id': id }">
 									<span class="cell-id" data-bind="text: id"></span>

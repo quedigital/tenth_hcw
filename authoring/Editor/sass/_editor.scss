@@ -318,6 +318,12 @@ input {
 		}
 	}
 	
+	.fixer.swipe, .fixer.panzoom {
+		.bounds:not(.selected) {
+			display: none;
+		}
+	}
+	
 	#cell-property-table {
 		display: none;
 	}

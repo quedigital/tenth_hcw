@@ -90,8 +90,7 @@ define(["Layout",
 		
 		this.positionCells();
 		
-		// TODO: capture snapping events and change text holder, etc. accordingly
-		var options = { slideSpeed: 500, onSnapStart: $.proxy(this.makeSureLayoutIsOnScreen, this), onSnapFinish: $.proxy(this.onSnapFinish, this) };
+		var options = { slideSpeed: 500, onSnapStart: $.proxy(this.makeSureWidgetIsOnScreen, this), onSnapFinish: $.proxy(this.onSnapFinish, this) };
 		var snapper = this.image_holder.panelSnap(options);
 		// kludgy way to get panelSnap instance
 		this.panelSnapInstance = snapper.data("plugin_panelSnap");
@@ -417,7 +416,7 @@ define(["Layout",
 		}
 	}
 	
-	SwipeLayout.prototype.makeSureLayoutIsOnScreen = function () {
+	SwipeLayout.prototype.makeSureWidgetIsOnScreen = function () {
 		var wt = this.widget.offset().top;
 		
 		if (wt < 0) {
@@ -432,15 +431,14 @@ define(["Layout",
 				$("#content").animate({ scrollTop: cst + off }, 500);
 			}
 		}
-		
-		// TODO: also make sure the bottom of the widget isn't off-screen
 	}
 		
 	SwipeLayout.prototype.zoomToStep = function (step, scroll) {
-		this.makeSureLayoutIsOnScreen();
 		
-		if (scroll != false)
+		if (scroll != false) {
 			this.panelSnapInstance.snapToPanel(step.elem);
+			this.makeSureWidgetIsOnScreen();
+		}
 		
 		if (step.options) {
 			if (scroll == false) {
