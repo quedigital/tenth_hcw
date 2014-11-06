@@ -428,11 +428,15 @@
 										</tr>
 										<tr>
 											<td>my</td>
-											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: my"></select></input></td>
+											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: my"></select></td>
 										</tr>
 										<tr>
 											<td>at</td>
-											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: at"></select></input></td>
+											<td><select data-bind="options: [null, 'TL','T','TR','R','BR','B','BL','L'], value: at"></select></td>
+										</tr>
+										<tr>
+											<td>at (free)</td>
+											<td><input data-bind="value: at_free" type="string"></input></td>
 										</tr>
 										<tr>
 											<td><div class="split-left">target</div><button class="split-right" data-bind="click: function () { $root.setImageCalloutTargetPosition($parent, $data) }">Set</button></td>

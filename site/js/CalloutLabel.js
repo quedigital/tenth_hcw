@@ -17,6 +17,10 @@ define(["Helpers"], function (Helpers) {
 		var my = Helpers.convertAlignToJQueryAlign(options.my);
 		var at = Helpers.convertAlignToJQueryAlign(options.at);
 		
+		if (options.at_free != undefined && options.at_free != "") {
+			at = options.at_free;
+		}
+		
 		this.elem.position({ my: my, at: at, of: cell.find("img"), collision: "none" });
 		
 		this.line = new CalloutLine(container, this.span, cell, options.target, { style: "label", my: options.my, at: options.at } );

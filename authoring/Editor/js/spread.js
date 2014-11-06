@@ -559,6 +559,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 								callouts: {
 									"$callout": {
 										at: true,
+										at_free: true,
 										my: true,
 										target: true,
 									}
