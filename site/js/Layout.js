@@ -33,9 +33,6 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
 			var id = cell.id;
-			if (id == "9") {
-				var a = 5;
-			}
 			var hint = Helpers.findByID(id, hints);
 			if (hint.callout_target_id) {
 				var target_id = hint.callout_target_id;

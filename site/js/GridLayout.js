@@ -3,11 +3,12 @@ define(["Layout",
 		"imagesloaded.pkgd.min",
 		"debug",
 		"Step",
+		"tinycolor",
 		"Interactive",
 		"Video",
 		"CalloutLine",
 		"CalloutLabel",
-		"waypoints"], function (Layout, Helpers, imagesLoaded, debug, Step) {
+		], function (Layout, Helpers, imagesLoaded, debug, Step, tinycolor) {
 	
 	GridLayout = function (container, layout, content, manager) {
 		Layout.call(this, container, manager, content);
@@ -27,8 +28,6 @@ define(["Layout",
 			this.container.css("color", this.layout.textcolor);
 		}
 		
-		this.okToShowWaypoints = false;
-		
 		this.buildCells();
 		
 		imagesLoaded(this.container, $.proxy(this.positionCells, this));
@@ -41,48 +40,9 @@ define(["Layout",
 		this.positionCells();
 	}
 	
-	// plan: if the first waypoint is above 40%, show that after a short delay on page load (what if we're infinite-scrolling?)
-	//       if other waypoints are above 40%, show them after short delays
-	//       show other waypoints when scrolled
-	
-	var lastWaypointTime;
-	var calloutLineDelay = 1500;
-	
-	GridLayout.prototype.showNextWaypoint = function () {
-		var now = +new Date;
-		
-		if (this.okToShowWaypoints && (lastWaypointTime == undefined || now > lastWaypointTime + calloutLineDelay) ) {
-			var wp = this.queuedWaypoints.shift();
-			if (wp) {
-				var cell = wp.step.elem.parents(".cell");
-				
-				cell.find(".diamond, .block").removeClass("animated rubberBand bounce").addClass("animated rubberBand bounce");
-				
-				setTimeout(function () {
-					cell.find(".callout-line").hide().css("visibility", "visible").show("blind", { direction: "left", duration: 1000 });
-				}, 750);
-			}
-			lastWaypointTime = now;
-		} else {
-			var next = calloutLineDelay - (now - lastWaypointTime);
-			if (this.queuedWaypoints.length)
-				setTimeout($.proxy(this.showNextWaypoint, this), next);
-		}
-	}
-	
-	GridLayout.prototype.onScrolledToStep = function (step, direction) {
-		if (direction == "down") {
-			this.queuedWaypoints.push( { step: step, direction: direction } );
-			this.showNextWaypoint();
-		}
-	}
-	
 	GridLayout.prototype.buildCells = function () {
 		var cells = $.map(this.content.cells, function (el) { return el });
 		var hints = $.map(this.layout.hints, function (el) { return el });
-		
-		this.queuedWaypoints = [];
-		this.container.find(".cell").waypoint("destroy");
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -100,7 +60,19 @@ define(["Layout",
 					var step = new Step(cell, hint);
 					cellDOM.append(step.elem);
 					
-					cellDOM.waypoint($.proxy(this.onScrolledToStep, this, step), { offset: "40%", context: "#content" });
+					if (hint.callout_target_id) {
+						step.elem.addClass("with-callout");
+						var backColor = tinycolor(this.container.css("background"));
+						if (!backColor.isValid()) {
+							backColor = tinycolor.tinycolor("#ffffff");
+						}
+						backColor = backColor.brighten();
+						backColor.setAlpha(.5);
+						this.activeColor = backColor.toString();
+						step.elem.css("background-color", this.activeColor);
+						step.elem.hover($.proxy(this.onHoverStep, this, step), $.proxy(this.onHoverOutStep, this, step));
+						step.elem.click($.proxy(this.showCalloutForStep, this, step));
+					}
 					
 					break;
 				case "image":
@@ -295,10 +267,7 @@ define(["Layout",
 		this.addLineCallouts({ fromSelector: ".cell" });
 		this.addImageCallouts();
 		
-		this.layoutComplete();
-		
-		this.okToShowWaypoints = true;
-		lastWaypointTime = +new Date + calloutLineDelay * .5;
+		this.layoutComplete();		
 	}
 	
 	GridLayout.prototype.addImageCallouts = function () {
@@ -325,6 +294,25 @@ define(["Layout",
 		Layout.prototype.activate.call(this);
 		
 		this.container.trigger("controls", { layout: this, items: {} });
+	}
+	
+	GridLayout.prototype.onHoverStep = function (step) {
+		step.elem.css("background-color", "");
+		this.showCalloutForStep(step);
+	}
+	
+	GridLayout.prototype.onHoverOutStep = function (step) {
+		step.elem.css("background-color", this.activeColor);
+		var line = step.elem.find(".callout-line");
+		line.removeClass("rotateInDownLeft").addClass("fadeOut").hide(0);
+	}
+	
+	GridLayout.prototype.showCalloutForStep = function (step) {
+		var line = step.elem.find(".callout-line");
+		line.hide(0);
+		line.css("visibility", "visible");
+		line.addClass("animated rotateInDownLeft");
+		line.show(0);
 	}
 	
 	return GridLayout;

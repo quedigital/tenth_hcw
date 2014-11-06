@@ -1,6 +1,6 @@
 
 
-// TODO: click or mouse over grid cells to show faint highlight & any callout
+// TODO: fix bug where panzoom (11_2) doesn't show full image for first "slide"
 
 // TODO: swipe layout doesn't size quite small enough when view dimensions are wide (PC)
 
@@ -253,3 +253,4 @@
 // DONE: make fixed/panzoom bar scroll and highlight current step
 // DONE: auto-hide TOC with better thumb control
 // TODONT: fixed layout controls on left side of pane?? [not using fixed layouts per se]
+// DONE: click or mouse over grid cells to show faint highlight & any callout

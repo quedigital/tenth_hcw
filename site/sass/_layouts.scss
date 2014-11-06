@@ -431,9 +431,22 @@ html, body, p, h1 {
 	padding-bottom: 50px;
 	max-width: 1080px;
 	margin: 0 auto;
-
+	
 	.step {
 		position: relative;
+		
+		&.with-callout {
+			cursor: pointer;
+			border: 2px dashed gray;
+			border-radius: 15px;
+			
+			transition: border .1s linear, background-color .5s ease-in-out;
+			
+			&:hover {
+				border: 2px solid rgba(0, 0, 0, 0);
+				background-color: inherit;
+			}
+		}
 	}
 	
 	.interactive {
