@@ -12,8 +12,10 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 		if (options.title && options.title.length) {
 			$("<h2>").html(options.title).appendTo(this.elem);
 		}
+
+		this.number = options.number;
 		
-		if (options.number != undefined && parseInt(options.number) > 0) {
+		if (this.hasNumber()) {
 			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
@@ -32,9 +34,8 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 		// adding support for resizing the text to fit Fixed layouts
 		var d = $("<div>").addClass("textblock");
 		
-		$("<span>").addClass("span-text").html(options.text).appendTo(d);
+		this.spanText = $("<p>").addClass("span-text").html(options.text).appendTo(d);
 		
-		this.number = options.number;
 		this.anchor = hints.anchor;
 		this.rect = hints.rect;
 		this.options = options;
@@ -52,6 +53,15 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 	Step.prototype.constructor = Step;
 	
 	function reflow (elem) {
+	}
+	
+	Step.prototype.hasNumber = function () {
+		return (this.number != undefined && parseInt(this.number) > 0);
+	}
+	
+	Step.prototype.styleFirstWords = function () {
+		this.spanText.addClass("intro");
+		this.spanText.wrapStart(4, "intro");
 	}
 	
 	Step.prototype.format = function () {

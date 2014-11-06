@@ -156,6 +156,20 @@ define(["jquery"], function ($) {
 		return colors[c];		
 	}
 	
+	$.fn.wrapStart = function (numWords, klass) { 
+		var node = this.contents().filter(function () { 
+				return this.nodeType == 3 
+			}).first(),
+			text = node.text(),
+			first = text.split(" ", numWords).join(" ");
+
+		if (!node.length)
+			return;
+
+		node[0].nodeValue = text.slice(first.length);
+		node.before('<span class="' + klass + '">' + first + '</span>');
+	};
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,

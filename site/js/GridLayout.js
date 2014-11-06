@@ -44,6 +44,8 @@ define(["Layout",
 		var cells = $.map(this.content.cells, function (el) { return el });
 		var hints = $.map(this.layout.hints, function (el) { return el });
 		
+		var firstStep = false;
+		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
 			var hint = hints[i];
@@ -72,6 +74,11 @@ define(["Layout",
 						step.elem.css("background-color", this.activeColor);
 						step.elem.hover($.proxy(this.onHoverStep, this, step), $.proxy(this.onHoverOutStep, this, step));
 						step.elem.click($.proxy(this.showCalloutForStep, this, step));
+					}
+					
+					if (!firstStep && !step.hasNumber()) {
+						step.styleFirstWords();
+						firstStep = true;
 					}
 					
 					break;

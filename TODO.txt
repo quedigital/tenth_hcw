@@ -1,6 +1,6 @@
 
 
-// TODO: init caps for spread intros
+// TODO: embed image sizes to speed up layout
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
 
@@ -254,3 +254,4 @@
 // DONE: click or mouse over grid cells to show faint highlight & any callout
 // DONE: fix bug where panzoom (11_2) doesn't show full image for first "slide"
 // DONE: swipe layout doesn't size quite small enough when view dimensions are wide (PC) [same as above, I think]
+// DONE: init caps for spread intros
