@@ -213,17 +213,6 @@ define(["Layout",
 	SwipeLayout.prototype.positionCells = function () {
 		this.clearRects();
 		
-//		var img = this.container.find(".background");
-		
-//		this.container.width(img.width());
-		
-//		var ch = $("#content-holder");
-//		var padding = ch.outerWidth() - ch.width();
-		/*
-		var currentSize = { width: img.width(), height: img.height() };
-		var originalSize = { width: img[0].naturalWidth, height: img[0].naturalHeight };
-		*/
-		
 		// format the first full image element
 		this.elements["0"].format();
 		

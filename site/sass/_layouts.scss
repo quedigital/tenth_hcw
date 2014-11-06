@@ -146,6 +146,9 @@ html, body, p, h1 {
 	.image_holder {
 		position: relative;
 		
+		/* this fixed the jerky scrolling on iOS: */
+		-webkit-overflow-scrolling: auto;
+		
 		img {
 			cursor: -webkit-zoom-in;
 		}

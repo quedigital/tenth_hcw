@@ -71,17 +71,19 @@ define(["jquery", "Helpers", "SiteHelpers"], function ($, Helpers, SiteHelpers) 
 			image_w = 1000;
 			image_h = image_h / imageScale;
 			*/
+		} else {
+			imageScale = image_w / 1000;
 		}
 
+		// center our rect in the parent
+		var view_w = this.elem.parent().width();
+		var view_h = this.elem.parent().height();
+		
 		if (!this.hints) {
 			this.rect = { left: 0, top: 0, width: image_w, height: image_h };		
 		} else {
 			this.rect = { left: this.hints.bounds[0] * imageScale, top: this.hints.bounds[1] * imageScale, width: this.hints.bounds[2] * imageScale, height: this.hints.bounds[3] * imageScale };
 		}
-		
-		// center our rect in the parent
-		var view_w = this.elem.parent().width();
-		var view_h = this.elem.parent().height();
 		
 		this.elem.css( { width: view_w, height: view_h } );
 		
@@ -99,8 +101,8 @@ define(["jquery", "Helpers", "SiteHelpers"], function ($, Helpers, SiteHelpers) 
 		var centering_x = (view_w - scaled_width) * .5;
 		var centering_y = (view_h - scaled_height) * .5;
 		
-		var xx = (-x1 / scale) + (centering_x / scale);
-		var yy = (-y1 / scale) + (centering_y / scale);
+		var xx = Math.round((-x1 / scale) + (centering_x / scale));
+		var yy = Math.round((-y1 / scale) + (centering_y / scale));
 
 		var transform_origin = x1 + "px " + y1 + "px";
 		var scaler = "scale(" + scale + ")";
