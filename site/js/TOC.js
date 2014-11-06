@@ -95,7 +95,29 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	TOC.prototype.showSpreadSelection = function (id) {
-		var entry = $("#toc .entry[data-id='" + id + "']");
+		this.lastID = id;
+		
+		this.scrollToCurrentSpread();
+		
+		var c = Helpers.findByID(id, this.contents);
+		$("#header #chapter").text(c.chapter);
+		$("#header #page").text(c.number);
+	}
+	
+	TOC.prototype.onCurrentSpread = function (event, id) {
+		if (id && id != this.lastID) {
+			this.showSpreadSelection(id);
+		}
+	}
+	
+	TOC.prototype.jumpToCurrentSpread = function () {
+		this.scrollToCurrentSpread(false);
+	}
+	
+	TOC.prototype.scrollToCurrentSpread = function (animate) {
+		if (animate == undefined) animate = true;
+		
+		var entry = $("#toc .entry[data-id='" + this.lastID + "']");
 		
 		$("#toc .entry").removeClass("selected");
 		
@@ -106,17 +128,10 @@ define(["Helpers"], function (Helpers) {
 		var y = entry.position().top;
 		var st = toc.scrollTop() + y - (h * .5) + (entry.height() * .5);
 
-		toc.animate({ scrollTop: st }, 500);
-		
-		var c = Helpers.findByID(id, this.contents);
-		$("#header #chapter").text(c.chapter);
-		$("#header #page").text(c.number);
-	}
-	
-	TOC.prototype.onCurrentSpread = function (event, id) {
-		if (id && id != this.lastID) {
-			this.showSpreadSelection(id);
-			this.lastID = id;
+		if (animate) {
+			toc.animate({ scrollTop: st }, 500);
+		} else {
+			toc.scrollTop(st);
 		}
 	}
 	

@@ -2,20 +2,16 @@
 
 // TODO: click or mouse over grid cells to show faint highlight & any callout
 
-// TODO: hide spread header when it overlaps a swipe layout?
+// TODO: swipe layout doesn't size quite small enough when view dimensions are wide (PC)
 
-// TODO: swipe layout textholder needs "more (down)" indicator?
+// TODO: make mousewheel/swipe advance panzoom layouts?
 
-// TODO: panzoom/swipe controls need "more (right)" indicator
-
-// TODO: panzoom.makeSureWidgetIsOnScreen
+// TODO: panzoom/swipe controls need "more (right/left)" indicator? (or just scrollbars?)
+// TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 
-// TODO: auto-hide TOC with better thumb control
-
 // TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
-// TODO: make fixed/panzoom bar scroll and highlight current step
 
 // TODO: welcome / instructions page
 // TODO: fun entry / surprise page ("How does your phone know...?")
@@ -25,8 +21,6 @@
 // TODO: keywords (searchable) for spreads
 
 // TODO: try debounce for window resize limiting (or google resizestop)
-
-// TODO: fixed layout controls on left side of pane??
 
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
@@ -255,3 +249,7 @@
 // DONE: Editor: "sync cells" button (between content & layout) [should be automatic; wasn't working for panzoom & swipe for lack of default fields]
 // DONE: what to do with swipe layouts with non-numeric headings?
 // DONE: keep panzoom/swipe selected button in the middle
+// DONE: panzoom.makeSureWidgetIsOnScreen
+// DONE: make fixed/panzoom bar scroll and highlight current step
+// DONE: auto-hide TOC with better thumb control
+// TODONT: fixed layout controls on left side of pane?? [not using fixed layouts per se]

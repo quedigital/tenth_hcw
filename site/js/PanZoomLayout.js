@@ -470,11 +470,9 @@ define(["Layout",
 		
 		this.unzoomAllExcept(step);
 
-		/* TODO:
-		this.makeSureWidgetIsOnScreen();
-		*/
-		
 		var container = this.image_holder;
+		
+		this.makeSureElementIsOnScreen(this.image_holder, $("#content"), this.controls);
 		
 		// find scale to have the step's region fill the container
 		//  except for the space required by the text_holder

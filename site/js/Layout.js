@@ -88,5 +88,22 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 		this.isActive = false;
 	}
 
+	Layout.prototype.makeSureElementIsOnScreen = function (element, scroller, optional) {
+		var wt = element.offset().top;
+		
+		if (wt < 0) {
+			var cst = scroller.scrollTop();
+			scroller.animate({ scrollTop: cst + wt }, 500);
+		} else {
+			var h = element.height() + (optional ? optional.height() : 0);
+			var ch = scroller.height();
+			var off = wt + h - ch;
+			if (off > 0) {
+				var cst = scroller.scrollTop();
+				scroller.animate({ scrollTop: cst + off }, 500);
+			}
+		}
+	}		
+
 	return Layout;
 });

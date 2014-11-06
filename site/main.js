@@ -9,6 +9,8 @@ requirejs.config({
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
 		"lunr": "lunr.min",
+		"jquery.layout": "jquery.layout-latest",
+		"jquery.layout.slideOffscreen": "jquery.layout.slideOffscreen-1.1",
 	},
 	
 	shim: {
@@ -19,9 +21,13 @@ requirejs.config({
 				export: "$" ,
 				deps: ['jquery']
 			},
-			"jquery.layout-latest": {
+			"jquery.layout": {
 				export: "$",
 				deps: ['jquery']
+			},
+			"jquery.layout.slideOffscreen": {
+				export: "$",
+				deps: ['jquery.layout']
 			},
 			"waypoints": {
 				export: "$",
@@ -50,7 +56,7 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui", "jquery.layout-latest"], function (inobounce, LayoutManager, TOC, Helpers, $) {
+require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui", "jquery.layout", "jquery.layout.slideOffscreen"], function (inobounce, LayoutManager, TOC, Helpers, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -59,21 +65,36 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	}
 
 	var pageLayout = $("body").layout({
-										applyDefaultStyles: true, resizable: false, slidable: true, closable: true,
+										applyDefaultStyles: false, resizable: false, slidable: false, closable: false,
 										spacing_open: 8, spacing_closed: 8,
-										west__size: "220",
+										west: {
+											size: 220,
+											slidable: true,
+											closable: true,
+											slideTrigger_open: "mouseover",
+											slideTrigger_close: "mouseout",
+											initClosed: true,
+											// NOTE: if spacing > 0, Mac scrollbar disappears (!) but spacing = 0 has no dropshadow
+											spacing_open: 0,
+											spacing_closed: 20,
+/*											onopen_start: showCurrentInTOC,*/
+										},
 										east__initHidden: true,
+//										west__fxName: "slideOffscreen"
 										/*south__size: "82",*/
 									});
 	
 	pageLayout.panes.center.css( { border: "none", padding: 0 } );
 	pageLayout.panes.west.css( { border: "none", padding: 0 } );
 	
-	var westLayout = $("#toc-container").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, north__size: "70", south__size: "70" } );
+	var westLayout = $("#toc-container").layout( { applyDefaultStyles: false, resizable: false, slidable: true, closable: true,
+									spacing_open: 0, north__size: "70", south__size: "70" } );
+									
+	/*
 	westLayout.panes.north.css( { border: "none", padding: 0 } );
 	westLayout.panes.center.css( { border: "none", padding: 0 } );
 	westLayout.panes.south.css( { border: "none", padding: 0 } );
+	*/
 
 	var centerLayout = $("#main-content").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
 									spacing_open: 0, spacing_close: 0, /*south__size: "70",*/
@@ -95,6 +116,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 //	pageLayout.resizeAll();
 	
 	var layoutManager = new LayoutManager("#content-holder");
+	var toc;
 
 	var throttledReflow = Helpers.throttle(layoutManager.reflow, 3000, layoutManager);
 		
@@ -104,7 +126,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.setData(data.layouts, data.contents);
 		
 		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
-		var toc = new TOC(layoutManager, tocContainer, data.contents);
+		toc = new TOC(layoutManager, tocContainer, data.contents);
 		
 		toc.openToRandomSpread();
 		
@@ -124,4 +146,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.reflow();
 	});
 	*/
+	
+	function showCurrentInTOC () {
+	}
 });

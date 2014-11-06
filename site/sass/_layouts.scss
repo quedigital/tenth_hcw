@@ -529,7 +529,7 @@ html, body, p, h1 {
 		max-height: 90%;
 		background: rgba(200, 50, 50, .75);
 		padding: 1rem;
-		margin-top: 20px;
+		margin-top: 42px;
 		margin-left: 1em;
 		color: white;
 		overflow-y: scroll;		
@@ -587,6 +587,19 @@ html, body, p, h1 {
 		padding: 1rem;
 		color: white;
 		overflow-y: scroll;
+		overflow-x: hidden;
+
+		/* force scrollbars on Mac? (Chrome only) */
+		&::-webkit-scrollbar {
+		  -webkit-appearance: none;
+		  width: 7px;
+		}
+		
+		&::-webkit-scrollbar-thumb {
+		  border-radius: 4px;
+		  background-color: rgba(0, 0, 0, .5);
+		  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+		}
 		
 		.block {
 			position: relative;
@@ -623,6 +636,7 @@ html, body, p, h1 {
 	
 	.image_holder {
 		overflow-y: scroll;
+		overflow-x: hidden;
 		float: right;
 		width: 80%;
 		height: 100%;
@@ -665,7 +679,6 @@ html, body, p, h1 {
 		.container {
 			white-space: nowrap;
 			overflow-x: scroll;
-/*			min-height: 55px;*/
 		}	
 	}
 	
@@ -1201,7 +1214,8 @@ div.image-callout {
 
 #content {
 	position: relative;
-	overflow: scroll;
+	overflow-y: scroll;
+	overflow-x: hidden;
 	height: 100%;
 }
 
@@ -1747,4 +1761,27 @@ div.image-callout {
 			display: block;
 		}
 	}
+}
+
+/* had to adjust z-index to get the drop-shadow to work */
+#toc-container {
+	z-index: 1 !important;
+}
+
+.ui-layout-resizer-west-open {
+	background-color: rgba(0, 0, 0, .5);
+	box-shadow: 5px 0px 30px 5px rgba(0, 0, 0, .75);
+	z-index: 0 !important;
+}
+
+.ui-layout-west {
+	.ui-layout-pane-center, .ui-layout-pane-south, .ui-layout-pane-north {
+		border: none;
+		padding: 0;
+	}
+}
+
+.ui-layout-toggler-west-closed {
+	background-image: url(images/toggler.png);
+	pointer-events: none;
 }

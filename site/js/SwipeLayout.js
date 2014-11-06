@@ -79,7 +79,7 @@ define(["Layout",
 		var padding = ch.outerWidth() - ch.width();
 		
 		var desired_h = Math.min(600, h - padding);
-		var desired_w = Math.min(1080, w - padding);
+		var desired_w = Math.min(1080, w - padding * 2);
 		
 		this.widget.width(desired_w);
 		this.widget.height(desired_h);
@@ -90,7 +90,9 @@ define(["Layout",
 		
 		this.positionCells();
 		
-		var options = { slideSpeed: 500, onSnapStart: $.proxy(this.makeSureWidgetIsOnScreen, this), onSnapFinish: $.proxy(this.onSnapFinish, this) };
+		var preSnapFunc = $.proxy(this.makeSureElementIsOnScreen, this, this.widget, $("#content"), this.controls);
+		
+		var options = { slideSpeed: 500, onSnapStart: preSnapFunc, onSnapFinish: $.proxy(this.onSnapFinish, this) };
 		var snapper = this.image_holder.panelSnap(options);
 		// kludgy way to get panelSnap instance
 		this.panelSnapInstance = snapper.data("plugin_panelSnap");
@@ -417,27 +419,10 @@ define(["Layout",
 		}
 	}
 	
-	SwipeLayout.prototype.makeSureWidgetIsOnScreen = function () {
-		var wt = this.widget.offset().top;
-		
-		if (wt < 0) {
-			var cst = $("#content").scrollTop();
-			$("#content").animate({ scrollTop: cst + wt }, 500);
-		} else {
-			var h = this.widget.height() + this.controls.height();
-			var ch = $("#content").height();
-			var off = wt + h - ch;
-			if (off > 0) {
-				var cst = $("#content").scrollTop();
-				$("#content").animate({ scrollTop: cst + off }, 500);
-			}
-		}
-	}
-		
 	SwipeLayout.prototype.zoomToStep = function (step, scroll) {
 		if (scroll != false) {
 			this.panelSnapInstance.snapToPanel(step.elem);
-			this.makeSureWidgetIsOnScreen();
+			this.makeSureElementIsOnScreen(this.widget, $("#content"), this.controls);
 		}
 		
 		if (step.options) {
