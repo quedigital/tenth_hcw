@@ -46,7 +46,7 @@ define([], function () {
 				
 				this.contents = contents;
 				
-				var iframe = $("<iframe>").attr( { src: options.image, width: 0, frameBorder: 0 } );
+				var iframe = $("<iframe>").attr( { src: options.image, width: this.size_w, height: this.size_h, frameBorder: 0 } );
 				contents.append(iframe);
 				
 				this.iframe = iframe;
@@ -61,13 +61,35 @@ define([], function () {
 	Interactive.prototype.constructor = Interactive;
 	
 	// resize to our desired ratio (now that we know the pixel size, during positionCells)
-	Interactive.prototype.format = function () {
-		var w = this.contents.width();
-		var h = w * this.ratio;
+	Interactive.prototype.format = function (pane) {
+		// NOTE: we don't want the scale to be greater than 1, so fit either the width or the height
+		var w, h;
 		
-		this.contents.height(h);
+		var cw = this.contents.width();
+		var ph = pane.height();
 		
-		this.iframe.width(w).height(h);
+		w = this.size_w;
+		h = this.size_h;
+		
+//		debugger;
+		
+		if (w > cw && this.ratio < 1) {
+			w = cw;
+			h = w * this.ratio;
+		}
+		
+		if (h > ph) {
+			h = ph;
+			w = h / this.ratio;
+		}
+		
+		console.log("scaled to " + w + " x " + h);
+		
+		scale = w / this.size_w;
+		
+		this.contents.width(w).height(h);
+		
+		this.iframe.css("transform-origin", "0 0").css("transform", "scale(" + scale + ")");
 	}
 		
 	Interactive.prototype.expand = function () {
@@ -76,35 +98,20 @@ define([], function () {
 		this.iframe.attr("src", this.url);
 		
 		// scale the iframe to fit in our window
-		var w = $(window).width();// - MARGIN * 2;
-		var h = $(window).height();// - MARGIN * 2;
+		var w = $(window).width();
+		var h = $(window).height();
 		
 		var scale_w = w / this.size_w;
 		var scale_h = h / this.size_h;
 		var scale = Math.min(scale_w, scale_h);
 		
 		this.iframe.css("transform", "scale(" + scale + ")");
-		
-		/*
-		this.elem.find(".contents").css("display", "block").toggleClass("expanded");
-		
-		var me = this;
-		
-		setTimeout(function () {
-			var gridLayout = me.elem.parents(".grid").data("grid");
-			gridLayout.positionCells();
-		}, 500);
-		*/
 	}
 	
 	Interactive.prototype.minimize = function () {
 		this.contents.removeClass("animated bounceInUp");
 		this.contents.addClass("animated bounceOutDown");
 		
-//		this.contents.css("display", "none").removeClass("full-screen");
-		
-//		this.iframe.attr("src", "");
-
 		var me = this;
 		
 		setTimeout(function () {

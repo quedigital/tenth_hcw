@@ -475,6 +475,7 @@ html, body, p, h1 {
 		
 		.interactive-contents {
 			text-align: center;
+			margin: 0 auto;
 			overflow: hidden;
 			border: 10px solid $interactive-color;
 			position: relative;
@@ -1027,6 +1028,18 @@ div.cell {
 
 span.glossary {
 	font-weight: bold;
+}
+
+span.red {
+	color: red;
+}
+
+span.green {
+	color: green;
+}
+
+span.blue {
+	color: blue;
 }
 
 .spacer {

@@ -231,7 +231,8 @@ define(["Layout",
 			var el = this.elements[each];
 			if (el && el instanceof FixedRegion) {
 				if (el.options && el.options.title) {
-					items.push(el.options.title);
+					var t = $("<div>").html(el.options.title).text();
+					items.push(t);
 				} else if (el.options && el.options.number) {
 					items.push(el.options.number);
 				}
@@ -402,22 +403,6 @@ define(["Layout",
 	PanZoomLayout.prototype.activate = function () {
 		Layout.prototype.activate.call(this);
 		
-		var items = [];
-		
-		// count all the non-extracted elements
-		var count = 0;
-		for (var i = 0; i < this.elements.length; i++) {
-			var el = this.elements[i];
-			if (el && el instanceof FixedRegion) {
-				if (el.options.title) {
-					items.push(el.options.title);
-				} else {
-					items.push(el.options.number);
-				}
-			}
-		}
-			
-//		this.container.trigger("controls", { layout: this, items: items });
 		this.container.trigger("controls", { layout: this, items: [] });
 	}
 	

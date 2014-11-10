@@ -1,58 +1,53 @@
 
+// TODO: styling of panzoom with numbers
+// TODO: wrapping long text (8.9)
+
+// TODO: "articles you might like" banner
+// TODO: welcome / instructions page
+// TODO: fun entry / surprise page ("How does your phone know...?")
+
+// TODO: [search] use pre-readied index
+// TODO: [search] load index via webworkers
+
+// TODO: use fastclick.js for interactives?
 
 // TODO: embed image sizes to speed up layout
+// TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
 
 // TODO: panzoom/swipe controls need "more (right/left)" indicator? (or just scrollbars?)
 // TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
+// TODO: [ipad] image zooming in lightbox doesn't work
+
+// TODO: hard-code callout line directions in editor? [3_2]
+// TODO: animate callout lines (grid and fixed)
+
+// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
+// TODO: try debounce for window resize limiting (or google resizestop)
+
+// TODO: layouts don't seem to be full-screen on iOS Safari; how to remove browser search bar from iOS Chrome?
+
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
+// TODO: eliminate memory leaks
+// TODO: during infinite scroll, remove past spreads from memory (or only load one spread at a time)
 
-// TODO: make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
-
-// TODO: welcome / instructions page
-// TODO: fun entry / surprise page ("How does your phone know...?")
+// TODO: change URL location to reflect current spread? (history.pushState)
 
 // TODO: search results shows number of results and bit of context
 // TODO: animate search result pane appearance
 // TODO: keywords (searchable) for spreads
 
-// TODO: try debounce for window resize limiting (or google resizestop)
-
-// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
-
-// TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
-
-// TODO: hard-code callout line directions in editor? [3_2]
-
-// TODO: flowchart spread
-
-// TODO: BUG: fixed layout reflow ("reflowing fixed") leaves page controls visible
-
 // TODO: remove embedded "line-height" tags from the text
 // TODO: convert things like [dg] in the text
 
-// TODO: animate callout lines (grid and fixed)
+// TODO: [fixed layouts] make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
+// TODO: BUG: [fixed layout] reflow ("reflowing fixed") leaves page controls visible
 
-// TODO: reveal grid steps one at a time while scrolling?
-// TODO: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
-			(with focus highlight on current step)
-// TODO: waypoint triggering is still a little wonky
-			
-// TODO: eliminate memory leaks
-
-// TODO: slide show layout?
+// TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
 
 // TODO: a "what's new" tab or menu item
-
-// TODO: during infinite scroll, remove past spreads from memory
-
-// TODO: change URL location to reflect current spread? (history.pushState)
-
-// TODO: layouts don't seem to be full-screen on iOS Safari; remove search bar from iOS Chrome?
-
-// TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: marginTop not working? [not being used]
 
@@ -255,3 +250,10 @@
 // DONE: fix bug where panzoom (11_2) doesn't show full image for first "slide"
 // DONE: swipe layout doesn't size quite small enough when view dimensions are wide (PC) [same as above, I think]
 // DONE: init caps for spread intros
+// DONE: reveal grid steps one at a time while scrolling? [hover/click]
+// DONE: triggering steps and callouts needs to keep up with scrolling better and maybe only show one callout line at a time
+			(with focus highlight on current step) [not using anymore]
+// DONE: waypoint triggering is still a little wonky [not using anymore]
+// TODONT: slide show layout? [not needed, I guess]
+// DONE: flowchart spread
+// DONE: color coding 9.1

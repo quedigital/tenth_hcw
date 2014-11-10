@@ -7,7 +7,7 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 		
 		if (options.title != undefined) {
 			this.label = $("<p>").addClass("fixed-region label")
-				.text(options.title)
+				.html(options.title)
 				.appendTo(this.elem);
 		} else if (options.number != undefined) {
 			this.label = $("<span>").addClass(options.number == 1 ? "diamond" : "block")

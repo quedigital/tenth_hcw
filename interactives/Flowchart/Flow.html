@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="easel.js"></script>
+<script type="text/javascript" src="Tween.js"></script>
+<script type="text/javascript" src="Ease.js"></script>
+<script type="text/javascript" src="Flow.js"></script>
+
+<meta charset="UTF-8">
+
+<style>
+	html, body {
+		font-family: GillSans;
+		overflow: hidden;
+		-webkit-tap-highlight-color: rgba(0,0,0,0);
+	}
+	
+	body {
+		background-color: #2A535F;
+	}
+	
+	#container {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		-webkit-transform: translateZ(0);
+		-webkit-backface-visibility: hidden;
+		-webkit-transform: translate3d(0,0,0);
+		-webkit-perspective: 1000;
+	}
+
+	/* transition times are set in code */
+	.set {
+	}
+	
+	.diamond {
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		background-color: #E2EFED;
+		border: 1px solid black;
+		-webkit-transform: rotate(45deg);
+		box-shadow: 6px 3px 10px #333;
+	}
+	
+	.trapezoid {
+		position: absolute;
+		border-top: 100px solid #ebefd0;
+		border-left: 25px solid transparent;
+		border-right: 25px solid transparent;
+		height: 0;
+		width: 100%;
+	}	
+	
+	.decision {
+		position: absolute;
+		width: 100px;
+		margin-left: -50px;
+	}
+	
+	.decision p {
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		height: 100px;
+		margin: 0;
+		padding: 0;
+		padding-left: 16px;
+		padding-right: 12px;
+		position: relative;
+		font-size: 16px;
+		color: #E12B26;
+	}
+	
+	.rectangle {
+		position: absolute;
+		width: 80px;
+		background-color: #e7d1e3;
+		border: 1px solid black;
+	}
+	
+	.rectangle p {
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		margin: 0;
+		padding: 0;
+		padding-left: 16px;
+		padding-right: 12px;
+		position: relative;
+		font-size: 16px;
+		color: #E12B26;		
+	}
+	
+	.note {
+		position: absolute;
+		color: white;
+		padding: 0;
+		margin: 0;
+	}
+	
+	.note p {
+		margin: 0;
+	}
+	
+	.output {
+		position: absolute;
+	}
+	
+	.output p {
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+		height: 100px;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		font-size: 16px;
+		color: #E12B26;
+		left: 25px;
+	}
+	
+	p.one-line-kludge {
+		display: block;
+		margin-top: 15px;
+	}
+	
+	.decision p.one-line-kludge {
+		padding-top: 30px;
+	}
+	
+	.arrow {
+		position: absolute;
+	}
+	
+	.arrow-n,
+	.arrow-e,
+	.arrow-s,
+	.arrow-w {
+		border-style: solid;
+		border-color: transparent;
+		border-width: 0.53em;
+		/* Use font-size to control the size of the arrow. */
+		font-size: 16px;
+		height: 0;
+		line-height: 0;
+		width: 0;
+		position: absolute;
+	}
+	
+	.arrow-n {
+		border-bottom-width: 1em;
+		border-bottom-style: solid;
+		border-bottom-color: #EF4725;
+	}
+	
+	.arrow-e {
+		border-left-width: 1em;
+		border-left-style: solid;
+		border-left-color: #EF4725;
+	}
+					
+	.arrow-s {
+		border-top-width: 1em;
+		border-top-style: solid;
+		border-top-color: #EF4725;
+		margin-left: -6px;
+	}
+	
+	.arrow-w {
+		border-right-width: 1em;
+		border-right-style: solid;
+		border-right-color: #EF4725;
+	}
+	
+	.noteline {
+		position: absolute;
+	}
+	
+	.noteline-top {
+		border-top: 2px solid white;
+	}
+	
+	.noteline-right {
+		border-right: 2px solid white;
+	}
+
+	.noteline-bottom {
+		border-bottom: 2px solid white;
+	}
+
+	.noteline-left {
+		border-left: 2px solid white;
+	}
+
+	.arrowline {
+		position: absolute;
+	}
+
+	.arrowline-top {
+		border-top: 4px solid #EF4725;
+	}
+	
+	.arrowline-right {
+		border-right: 4px solid #EF4725;
+	}
+
+	.arrowline-bottom {
+		border-bottom: 4px solid #EF4725;
+	}
+
+	.arrowline-left {
+		border-left: 4px solid #EF4725;
+	}
+	
+	#variable_text p {
+		color: #ffd503;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+	}
+	
+	#cont {
+		position: absolute;
+		left: 512px;
+		top: 430px;
+		border-radius: 30px;
+		width: 120px;
+		height: 50px;
+		border: 3px solid white;
+		background-color: green;
+		text-align: center;
+		font-size: 24px;
+		line-height: 48px;
+		color: white;
+		padding: 0;
+		margin: 0;
+		z-index: 2;
+		margin-left: -60px;
+		box-shadow: 4px 4px 18px #222;
+		cursor: pointer;
+	}
+	
+	#cont:active {
+		background-color: #060;
+	}
+	
+	#yes {
+		position: absolute;
+		left: 260px;
+		top: 50px;
+		border-radius: 35px;
+		width: 60px;
+		height: 60px;
+		border: 3px solid white;
+		background-color: green;
+		text-align: center;
+		font-size: 24px;
+		line-height: 58px;
+		color: white;
+		padding: 0;
+		margin: 0;
+		z-index: 1;
+		margin-left: -30px;
+		box-shadow: 4px 4px 18px #222;
+		-webkit-transition: left 1.0s ease-in-out, top 1.0s ease-in-out;
+		cursor: pointer;
+	}
+	
+	#yes:active {
+		background-color: #060;
+	}
+	
+	#no {
+		position: absolute;
+		left: 360px;
+		top: 50px;
+		border-radius: 35px;
+		width: 60px;
+		height: 60px;
+		border: 3px solid white;
+		background-color: red;
+		text-align: center;
+		font-size: 24px;
+		line-height: 58px;
+		color: white;
+		padding: 0;
+		margin: 0;
+		z-index: 1;
+		margin-left: -30px;
+		box-shadow: 4px 4px 18px #222;
+		-webkit-transition: left 1.0s ease-in-out, top 1.0s ease-in-out;
+		cursor: pointer;
+	}
+	
+	#no:active {
+		background-color: #600;
+	}
+	
+	#startover {
+		position: absolute;
+		border-radius: 35px;
+		width: 60px;
+		height: 60px;
+		border: 3px solid white;
+		background-color: blue;
+		text-align: center;
+		font-size: 20px;
+		color: white;
+		padding: 0;
+		margin: 0;
+		z-index: 1;
+		margin-left: -30px;
+		box-shadow: 4px 4px 18px #222;
+		cursor: pointer;
+	}
+	
+	#startover:active {
+		background-color: #006;
+	}
+	
+	#startover p {
+		margin: 5px 0;
+		padding: 0;
+	}
+	
+	.animatedTransitions {
+		-webkit-transition: all 1s ease-in-out;
+	}
+	
+	.animatedOpacity {
+		-webkit-transition: opacity 1.0s ease-in-out;
+	}
+	
+	.animatedOpacityOn {
+		-webkit-transition: opacity 1.0s ease-in-out;
+		-webkit-transition-delay: .5s;
+	}
+	
+	.animatedOpacityOff {
+		-webkit-transition: opacity .5s ease-in-out;
+	}
+	
+	.animateMotion {
+		-webkit-transition: left .5s ease-in-out, top .5s ease-in-out;
+	}
+	
+	.yesnolabel {
+		position: absolute;
+		color: #ffd503;
+		text-shadow: black 0.2em 0.2em 0.2em;
+	}
+</style>
+</head>
+<body>
+<div id="startover"><p>Start Over</p></div>
+<div id="cont">Continue</div>
+<div id="yes">Yes</div>
+<div id="no">No</div>
+<div id="container">
+</div>
+<div class="yesnolabel">YES</div>
+</body>
+</html>

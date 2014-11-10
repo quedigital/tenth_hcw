@@ -248,10 +248,8 @@ define(["Layout",
 						
 					case "interactive":
 						var interactive = elem.find(".interactive").data("interactive");
-						interactive.format();
-						//var rect = elem.find(".interactive .contents")[0].getBoundingClientRect();
-						//var h = rect.height;
-						//elem.height(h);
+						var pane = $(this.container).parents(".ui-layout-pane");
+						interactive.format(pane);
 						break;
 					
 					case "video":
