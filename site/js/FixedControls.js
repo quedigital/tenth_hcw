@@ -102,8 +102,10 @@ define(["jquery"], function () {
 					lbl = "&nbsp;";
 				}
 				b = $("<button>").addClass("btn direct");
-				if (options.buttonClass)
-					b.addClass(options.buttonClass);
+				var buttonClass = "wordlabel";
+				if (lbl == parseInt(lbl).toString())
+					buttonClass = "numeric";
+				b.addClass(buttonClass);
 				$("<span>").html(lbl).appendTo(b);
 		
 				c.append(b);

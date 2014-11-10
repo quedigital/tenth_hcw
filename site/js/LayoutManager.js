@@ -163,10 +163,10 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 		// if we run out of scrolling height (and we're not loading something already), load the next spread
 		if (amount_left <= 0 && $(".layout.loading").length == 0) {
 			var id = $("#next-ad").data("next-id");
-			this.dom.trigger("next-spread", id);
+//			this.dom.trigger("next-spread", id);
 		} else if (scrollTop <= 0 && $(".layout.loading").length == 0) {
 			var id = $("#prev-ad").data("prev-id");
-			this.dom.trigger("previous-spread", id);
+//			this.dom.trigger("previous-spread", id);
 		}
 		
 		this.identifyCurrentSpread();

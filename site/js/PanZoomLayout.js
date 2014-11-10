@@ -214,11 +214,10 @@ define(["Layout",
 		
 		var items = this.getItemNames();
 		$(this.controls).swipeControls( { 	items: items,
-											buttonClass: "wordlabel",
-												selectFirstItem: true,
-												onClickStep: $.proxy(this.gotoStep, this),
-												onClickPrevious: $.proxy(this.gotoPrevious, this),
-												onClickNext: $.proxy(this.gotoNext, this),
+											selectFirstItem: true,
+											onClickStep: $.proxy(this.gotoStep, this),
+											onClickPrevious: $.proxy(this.gotoPrevious, this),
+											onClickNext: $.proxy(this.gotoNext, this),
 										 } );
 	}
 

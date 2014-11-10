@@ -87,7 +87,11 @@ html, body, p, h1 {
 }
 
 .step {
-	padding-left: 2.75em;
+	padding: 1em 1em 1em 2.75em;
+	
+	h2 {
+		margin: 0;
+	}
 	
 	&.no-number {
 		padding-left: 0;
@@ -150,7 +154,7 @@ html, body, p, h1 {
 		-webkit-overflow-scrolling: auto;
 		
 		img {
-			cursor: -webkit-zoom-in;
+			cursor: -webkit-zoom-out;
 		}
 		
 		.nav-button {
@@ -272,7 +276,7 @@ html, body, p, h1 {
 		
 		.textholder {
 			pointer-events: none;
-			overflow: hidden;			
+			overflow: hidden;
 		}
 
 		
@@ -428,6 +432,10 @@ html, body, p, h1 {
 	.step.extracted:last-child {
 		padding-bottom: 25px;
 	}
+	
+	.block, .diamond {
+		cursor: pointer;
+	}
 }
 
 .spread.grid {
@@ -559,7 +567,8 @@ html, body, p, h1 {
 		margin-top: 42px;
 		margin-left: 1em;
 		color: white;
-		overflow-y: scroll;		
+		overflow-y: scroll;
+		word-wrap: break-word;			
 
 		/* force scrollbars on Mac? (Chrome only) */
 		&::-webkit-scrollbar {
@@ -895,7 +904,7 @@ div.sidebar {
 		font-weight: bold;
 		padding: .5em .5em;
 		margin: 0;
-		font-size: 16px;
+		font-size: 18px;
 		line-height: 24px;
 		background-color: #e0d988;
 		border-bottom: 2px solid black;
@@ -905,7 +914,7 @@ div.sidebar {
 	.interior {
 		p {
 			padding: .75em .5em .75em .5em;
-			font-size: 14px;
+			font-size: 16px;
 			line-height: 1.5em;
 		}
 		
@@ -965,8 +974,10 @@ div.cell {
 	text-align: center;
 	width: 25px;
 	height: 25px;
+	
 	position: absolute;
-	left: 5px;
+	top: 1em;
+	left: 13px;
 	font-family: 'Oswald', sans-serif;
 	
 	&:before {
@@ -1000,14 +1011,9 @@ div.cell {
 	padding: 0;
 	font-family: 'Oswald', sans-serif;
 	
-	/*
-	position: relative;
-	margin-left: -38px;
-	margin-right: 10px;
-	*/
 	position: absolute;
-	left: 5px;
-	top: -8px;
+	left: 13px;
+	top: .6em;
 	
 	&:before {
 		content: "";
@@ -1031,15 +1037,15 @@ span.glossary {
 }
 
 span.red {
-	color: red;
+	color: #FF032B;
 }
 
 span.green {
-	color: green;
+	color: #008146;
 }
 
 span.blue {
-	color: blue;
+	color: #277BBB;
 }
 
 .spacer {
@@ -1405,15 +1411,125 @@ div.image-callout {
 	display: none;
 }
 
-.ad {
-	height: 150px;
-	background-color: black;
-	color: white;
-	margin-top: 25px;
-	display: inline-block;
+.ad-banner {
 	width: 100%;
-	line-height: 150px;
-	text-align: center;
+	max-width: 1080px;
+	margin-top: 25px;
+	display: block;
+	margin: 0 auto;
+	
+	&:after {
+		clear: both;
+		content: "";
+		display: block;
+	}
+	
+	& > header {
+		background-color: black;
+		
+		h1 {
+			text-transform: uppercase;
+			color: white;
+			font-size: 140%;
+			padding: .25rem .5rem;
+		}
+	}
+	
+	.wide-ad {
+		background-color: white;
+		position: relative;
+		
+		header {
+			position: absolute;
+			bottom: 0;
+						
+			h1 {
+				font-family: Oswald;
+				font-size: 250%;
+				color: white;
+				padding: .1em .5em;
+				text-shadow: 0px 2px 6px black
+			}
+		}
+		
+		.preview-image {
+			width: 100%;
+			height: 200px;
+		}		
+	}
+	
+	.ad-area {
+		.ad:nth-child(1) {
+			&:before {
+				background: linear-gradient(135deg, #cb60b3 0%,#ad1283 50%,#de47ac 100%);
+			}
+		}
+		
+		.ad:nth-child(2) {
+			&:before {
+				background: linear-gradient(135deg, #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+			}
+		}
+		
+		.ad:nth-child(3) {
+			&:before {
+				background: linear-gradient(135deg, #627d4d 0%,#1f3b08 100%);
+			}
+		}
+	}
+	
+	.small-ad {
+		width: 33.3%;
+		border-top: 1px solid #ccc;
+		float: left;
+		
+		header {
+			position: absolute;
+			top: 0;
+						
+			h1 {
+				font-family: Oswald;
+				font-size: 150%;
+				color: white;
+				padding: .1em .5em;
+				text-shadow: 0px 1px 3px black
+			}
+		}
+		
+		.preview-image {
+			width: 100%;
+			height: 150px
+		}
+	}
+	
+	.ad {
+		position: relative;
+		cursor: pointer;
+		
+		&:before {
+			display: block;
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: linear-gradient(135deg, #842143 0%,#af4282 37%,#ea2803 51%,#ff6600 75%,#c72200 100%);
+			opacity: .5;
+			transition: opacity .25s linear;
+		}
+		
+		&:hover {
+			&:before {
+				opacity: .75;
+			}
+		}
+	}
+	
+	.preview-image {
+		background-image: url(https://s3.amazonaws.com/HCW10/Images/1_3/atom.svg);
+		background-size: contain;
+	}
 }
 
 #current-spread-name {

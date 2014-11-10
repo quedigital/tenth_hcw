@@ -1,8 +1,8 @@
 
-// TODO: styling of panzoom with numbers
-// TODO: wrapping long text (8.9)
+// TODO: show cursor -webkit-zoom-out only if zoomed in
 
 // TODO: "articles you might like" banner
+// TODO: top-left title & settings / bookmark control
 // TODO: welcome / instructions page
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
@@ -16,13 +16,13 @@
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
 
-// TODO: panzoom/swipe controls need "more (right/left)" indicator? (or just scrollbars?)
+// TODO: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
 // TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
 // TODO: [ipad] image zooming in lightbox doesn't work
 
 // TODO: hard-code callout line directions in editor? [3_2]
-// TODO: animate callout lines (grid and fixed)
+// TODO: animate callout lines (grid) being drawn
 
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 // TODO: try debounce for window resize limiting (or google resizestop)
@@ -39,7 +39,7 @@
 // TODO: animate search result pane appearance
 // TODO: keywords (searchable) for spreads
 
-// TODO: remove embedded "line-height" tags from the text
+// TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
 // TODO: convert things like [dg] in the text
 
 // TODO: [fixed layouts] make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
@@ -257,3 +257,6 @@
 // TODONT: slide show layout? [not needed, I guess]
 // DONE: flowchart spread
 // DONE: color coding 9.1
+// DONE: wrapping long text (8.9)
+// DONE: styling of panzoom with numbers
+

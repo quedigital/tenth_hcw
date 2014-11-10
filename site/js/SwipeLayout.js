@@ -202,7 +202,6 @@ define(["Layout",
 		
 		var items = this.getItemNames();
 		$(this.controls).swipeControls( { 	items: items,
-											buttonClass: "numeric",
 											selectFirstItem: true,
 											onClickStep: $.proxy(this.gotoStep, this),
 											onClickPrevious: $.proxy(this.gotoPrevious, this),

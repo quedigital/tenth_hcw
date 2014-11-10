@@ -62,6 +62,8 @@ define(["Helpers"], function (Helpers) {
 			
 			entry.click($.proxy(me.onClickEntry, me));
 		});
+		
+		$("#next-ad .wide-ad").click($.proxy(this.onClickNextAd, this));
 	}
 	
 	TOC.prototype = Object.create(null);
@@ -179,7 +181,7 @@ define(["Helpers"], function (Helpers) {
 		var nextSpread = this.getNextSpread(id);
 		
 		if (nextSpread) {
-			$("#next-ad").text("Next Up: " + nextSpread.title);
+			$("#next-ad .wide-ad h1").text(nextSpread.title);
 			$("#next-ad").data("next-id", nextSpread.id);
 		}
 	}
@@ -231,6 +233,14 @@ define(["Helpers"], function (Helpers) {
 
 	TOC.prototype.onAutoLoadPreviousSpread = function (event, id) {
 		this.openSpread( { id: id, replace: false, previous: true } );
+	}
+	
+	TOC.prototype.onClickNextAd = function (event) {
+		var t = $(event.currentTarget);
+
+		var id = t.parent("#next-ad").data("next-id");
+		
+		this.openSpread( { id: id, replace: false } );
 	}
 	
 	return TOC;
