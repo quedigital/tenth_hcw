@@ -50,19 +50,18 @@ html, body, p, h1 {
 	background-color: #dd9;
 }
 
-.layout 
-	{
-		.spread {
+.layout {
+	.spread {
 		position: relative;
-	
+
 		/* this allowed adding margins after extracted sidebars */
 		display: table;
 		width: 100%;
-	
+
 		h1 {
 			padding: .25em;
 		}
-	
+
 		canvas {
 			position: absolute;
 			overflow: visible;
@@ -70,16 +69,16 @@ html, body, p, h1 {
 			pointer-events: none;
 			user-select: none;
 		}
-	
+
 		.callout-line-target {
 			position: absolute;
 		}	
 	}
-	
+
 	.callout-line {
 		-webkit-filter: drop-shadow(1px 1px 2px #333);
 	}
-	
+
 	/* drop shadow for white callout lines */
 	&.dark .callout-line {
 		-webkit-filter: drop-shadow(1px 1px 2px black);
@@ -91,6 +90,7 @@ html, body, p, h1 {
 	
 	h2 {
 		margin: 0;
+		line-height: 1.2em;
 	}
 	
 	&.no-number {
@@ -252,20 +252,6 @@ html, body, p, h1 {
 				box-shadow: 4px 4px 8px rgba(0, 0, 0, .5);
 			}
 		}
-		
-		/*		
-		&:not(.selected) h2 {
-			background-color: #ddf;
-			border: 2px solid black;
-			border-radius: 15px;
-			text-align: center;
-			padding: .25em 1em;
-			box-shadow: 4px 4px 8px rgba(0, 0, 0, .5);
-			text-shadow: -1px 1px 1px #999;
-			font-weight: 100;
-			z-index: 1;
-		}
-		*/
 		
 		.bounds {
 			position: absolute;
@@ -1216,6 +1202,11 @@ div.image-callout {
 		.number {
 			font-size: 24px;
 		}
+		
+		#settingsButton {
+			position: absolute;
+			right: 0;
+		}
 	}
 }
 
@@ -1414,9 +1405,8 @@ div.image-callout {
 .ad-banner {
 	width: 100%;
 	max-width: 1080px;
-	margin-top: 25px;
 	display: block;
-	margin: 0 auto;
+	margin: 25px auto;
 	
 	&:after {
 		clear: both;
@@ -1426,6 +1416,7 @@ div.image-callout {
 	
 	& > header {
 		background-color: black;
+		margin-top: 15px;
 		
 		h1 {
 			text-transform: uppercase;
@@ -1485,7 +1476,7 @@ div.image-callout {
 		
 		header {
 			position: absolute;
-			top: 0;
+			bottom: 0;
 						
 			h1 {
 				font-family: Oswald;
@@ -1529,8 +1520,13 @@ div.image-callout {
 	.preview-image {
 		background-image: url(https://s3.amazonaws.com/HCW10/Images/1_3/atom.svg);
 		background-size: contain;
-	}
+	}	
 }
+
+#prev-ad .wide-ad header {
+	bottom: auto;
+	top: 0;
+}	
 
 #current-spread-name {
 	position: fixed;
@@ -1799,7 +1795,7 @@ div.image-callout {
 		section {
 			padding-bottom: 1.5rem;
 			
-			p:nth-child(n+2) {
+			p:nth-of-type(n+2) {
 				text-indent: 2rem;
 			}			
 		}
@@ -1818,8 +1814,13 @@ div.image-callout {
 			font-family: Oswald, sans-serif;
 			font-weight: 400;
 			margin-top: 2rem;
+			padding: .25em 0;
 			
 			clear: both;
+		}
+		
+		h1 + figure + p, h1 + p {
+			text-indent: 0 !important;
 		}
 		
 		.center {
@@ -1863,13 +1864,29 @@ div.image-callout {
 			caption-side: bottom;
 			padding: 0 5px 5px;
 			margin: 0 10px;
+			font-weight: bold;
+			
+			h1 {
+				font-weight: bold;
+				font-size: 125%;
+				margin: 0;
+			}
 		}
 		
 		footer {
 			font-size: .83rem;
-			vertical-align: super;
+			vertical-align: super;			
 		}
-		
+
+		& > div > footer {
+			&:before {
+				content: "";
+				display: block;
+				width: 8em;
+				border-top: 1px solid black;
+			}
+		}
+			
 		blockquote {
 			font-style: italic;
 			
@@ -1889,15 +1906,15 @@ div.image-callout {
 			}
 		}
 		
-		span.italic {
+		.italic {
 			font-style: italic;
 		}
 		
-		span.bold {
+		.bold {
 			font-weight: bold;
 		}
 		
-		span.super {
+		.super {
 			vertical-align: super;
 			font-size: 60%;
 		}
@@ -1914,6 +1931,22 @@ div.image-callout {
 			clear: both;
 			content: "";
 			display: block;
+		}
+		
+		ol {
+			counter-reset: li;
+			
+			& > li {
+				position: relative;
+				list-style: none;
+				
+				&:before {
+					content: counter(li) ". ";
+					counter-increment: li;
+					font-weight: bold;
+					color: $hcw-light-brown;
+				}
+			}
 		}
 	}
 }
@@ -1939,4 +1972,25 @@ div.image-callout {
 .ui-layout-toggler-west-closed {
 	background-image: url(images/toggler.png);
 	pointer-events: none;
+}
+
+#settings {
+	position: fixed;
+	background-color: white;
+	border-radius: 15px;
+	padding: 15px;
+	border: 5px solid blue;
+	display: none;
+	width: 400px;
+	height: 200px;
+	text-align: center;
+	
+	button {
+		position: absolute;
+		width: 50%;
+		left: 50%;
+		margin-left: -25%;
+		bottom: 15px;
+		display: block;
+	}
 }

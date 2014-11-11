@@ -77,7 +77,6 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 											// NOTE: if spacing > 0, Mac scrollbar disappears (!) but spacing = 0 has no dropshadow
 											spacing_open: 0,
 											spacing_closed: 20,
-/*											onopen_start: showCurrentInTOC,*/
 										},
 										east__initHidden: true,
 //										west__fxName: "slideOffscreen"
@@ -126,7 +125,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.setData(data.layouts, data.contents);
 		
 		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
-		toc = new TOC(layoutManager, tocContainer, data.contents);
+		toc = new TOC(layoutManager, tocContainer, data.contents, data.layouts);
 		
 		toc.openToRandomSpread();
 		
@@ -147,6 +146,13 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	});
 	*/
 	
-	function showCurrentInTOC () {
-	}
+	$("#settingsButton").click(function () {
+		$("#settings").position({ my: "center center", at: "center center", of: ".ui-layout-container", collision: "none" }).show(0);
+	});
+	
+	$("#settings #okButton").click(function () { $("#settings").hide(0).css( { left: 0, top: 0 } ) });
+	
+	$("#check1").change(function () {
+		layoutManager.setContinuousScrolling(this.checked);
+	});
 });

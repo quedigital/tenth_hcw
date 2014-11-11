@@ -1,9 +1,10 @@
 define(["Helpers"], function (Helpers) {
 
-	TOC = function (manager, container, contents) {
+	TOC = function (manager, container, contents, layouts) {
 		this.layoutManager = manager;
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
+		this.layouts = layouts;
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
 		this.lastID = undefined;
@@ -63,7 +64,8 @@ define(["Helpers"], function (Helpers) {
 			entry.click($.proxy(me.onClickEntry, me));
 		});
 		
-		$("#next-ad .wide-ad").click($.proxy(this.onClickNextAd, this));
+		$("#next-ad .ad").click($.proxy(this.onClickNextAd, this));
+		$("#prev-ad .ad").click($.proxy(this.onClickPreviousAd, this));
 	}
 	
 	TOC.prototype = Object.create(null);
@@ -144,9 +146,6 @@ define(["Helpers"], function (Helpers) {
 	}
 	
 	TOC.prototype.onSpreadVisible = function (layout, options) {
-//		$("#content-holder").css("visibility", "visible");
-//		$(".layout").addClass("animated zoomInDown").css("visibility", "visible");
-		
 		$("#loading-spinner").addClass("animated fadeOutRightBig");
 		
 		var layoutDIV = layout.container.parents(".layout");
@@ -160,7 +159,7 @@ define(["Helpers"], function (Helpers) {
 		if (options.previous) {
 			this.updatePreviousSpreadName(options.id);
 		} else {
-			this.updateNextSpreadName(options.id);
+			this.updateNextSpreadBanner(options.id);
 		}
 		
 		$("#next-ad").css({ display: "block" });
@@ -173,25 +172,44 @@ define(["Helpers"], function (Helpers) {
 		
 		if (options.previous) {
 			// scroll to top of next spread (to keep our place)
-			$("#content").scrollTop(layoutDIV.offset().top + layoutDIV.outerHeight() - $("#prev-ad").outerHeight() - 30);
+//			$("#content").scrollTop(layoutDIV.offset().top + layoutDIV.outerHeight() - $("#prev-ad").outerHeight() - 30);
+			$("#content").scrollTop(layoutDIV.offset().top);
 		}
 	}
 	
-	TOC.prototype.updateNextSpreadName = function (id) {
+	TOC.prototype.updateNextSpreadBanner = function (id) {
 		var nextSpread = this.getNextSpread(id);
 		
 		if (nextSpread) {
 			$("#next-ad .wide-ad h1").text(nextSpread.title);
-			$("#next-ad").data("next-id", nextSpread.id);
+			var layout = this.layouts[nextSpread.id];
+			var img = getRandomImageFromSpread(nextSpread, layout);
+			$("#next-ad .wide-ad .preview-image").css("backgroundImage", "url(" + img + ")");
+			$("#next-ad .ad").data("next-id", nextSpread.id);
 		}
+		
+		var me = this;
+		var spreads = getRelatedSpreads(this.contents, id, 3);
+		$.each(spreads, function (index, item) {
+			var spread = me.contents[item];
+			var small = $(".ad-area .small-ad").eq(index);
+			small.find("h1").text(spread.title);
+			var layout = me.layouts[spread.id];
+			var img = getRandomImageFromSpread(spread, layout);
+			small.find(".preview-image").css("backgroundImage", "url(" + img + ")");
+			small.data("next-id", spread.id);
+		});
 	}
 
 	TOC.prototype.updatePreviousSpreadName = function (id) {
 		var prevSpread = this.getPreviousSpread(id);
 		
 		if (prevSpread) {
-			$("#prev-ad").text("Read More: " + prevSpread.title);
-			$("#prev-ad").data("prev-id", prevSpread.id);
+			$("#prev-ad .wide-ad h1").text(prevSpread.title);
+			var layout = this.layouts[prevSpread.id];
+			var img = getRandomImageFromSpread(prevSpread, layout);
+			$("#prev-ad .wide-ad .preview-image").css("backgroundImage", "url(" + img + ")");
+			$("#prev-ad .ad").data("next-id", prevSpread.id);
 		}
 	}
 	
@@ -238,9 +256,61 @@ define(["Helpers"], function (Helpers) {
 	TOC.prototype.onClickNextAd = function (event) {
 		var t = $(event.currentTarget);
 
-		var id = t.parent("#next-ad").data("next-id");
+		var id = t.data("next-id");
 		
 		this.openSpread( { id: id, replace: false } );
+	}
+
+	TOC.prototype.onClickPreviousAd = function (event) {
+		var t = $(event.currentTarget);
+
+		var id = t.data("next-id");
+		
+		this.openSpread( { id: id, replace: false, previous: true } );
+	}
+	
+	function getRandomImageFromSpread (spread, layout) {
+		var cells = Helpers.objectToArrayWithKey(spread.cells);
+		
+		if (layout.style == "grid") {
+			while (cells.length) {
+				var r = Math.floor(Math.random() * cells.length);
+				var c = cells[r];
+				if (c.image) return c.image;
+				else cells.splice(r, 1);
+			}
+		} else if (layout.style == 'text') {
+			// pick a random image from the HTML
+			var s = $("<div>").html(spread.cells[1].text);			
+			var t = s.text();
+			var reg = /<img\s+[^>]*src="([^"]*)"[^>]*>/g;
+			var matches = [];
+			while (match = reg.exec(t)) {
+				matches.push(match[1]);
+			}
+			var img = matches[Math.floor(Math.random() * matches.length)];
+			return img;
+		} else {
+			return layout.background;
+		}
+	}
+	
+	function getRelatedSpreads (contents, id, quantity) {
+		// for now, just return 3 random spreads; later, use keywords, etc.
+		var n = contents.length;
+		var choices = [];
+
+		while (choices.length < 3) {		
+			var r = Math.floor(Math.random() * n);
+		
+			var candidate_id = contents[r].id;
+		
+			if (candidate_id != id && choices.indexOf(r) == -1) {
+				choices.push(r);
+			}
+		}
+		
+		return choices;
 	}
 	
 	return TOC;

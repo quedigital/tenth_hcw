@@ -30,6 +30,8 @@
 				<div class="tiny">page</div>
 				<div id="page" class="number"></div>
 			</div>
+			<button class="fa fa-cogs" id="settingsButton">
+			</button>
 		</div>
 	</div>
 	<div id="toc" class="ui-layout-center">
@@ -49,7 +51,16 @@
 			</div>
 			<div id="content-holder">
 				<div id="prev-ad" class="ad-banner">
-					<p>Previously: Another Spread!</p>
+					<header>
+						<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+					</header>
+					<div class="wide-ad ad">
+						<header>
+							<h1>How an Egg Cooks</h1>
+						</header>
+						<div class="preview-image">
+						</div>
+					</div>
 				</div>
 				<div id="next-ad" class="ad-banner">
 					<header>
@@ -127,6 +138,13 @@
 	<div id="results-summary" class="summary">
 		<p>14 records found</p>
 	</div>
+</div>
+
+<div id="settings">
+	<div class="questions">
+		<input id="check1" type="checkbox" value="continuous">Continuous scrolling?</input>
+	</div>
+	<button id="okButton">Ok</button>
 </div>
 
 </body>

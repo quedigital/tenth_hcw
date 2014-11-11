@@ -159,9 +159,17 @@ define(["jquery"], function ($) {
 	$.fn.wrapStart = function (numWords, klass) { 
 		var node = this.contents().filter(function () { 
 				return this.nodeType == 3 
-			}).first(),
-			text = node.text(),
-			first = text.split(" ", numWords).join(" ");
+			}).first();
+		var text = node.text();
+		var words = text.split(" ", numWords);
+		for (var i = 0; i < words.length; i++) {
+			if (words[i].indexOf(":") != -1) {
+				words = words.slice(0, i + 1);
+				break;
+			}
+		}
+		
+		var first = words.join(" ");
 
 		if (!node.length)
 			return;
