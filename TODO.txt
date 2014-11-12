@@ -1,6 +1,8 @@
 
 // TODO: put in duck interactive
 
+// TODO: overlay panzoom extracted steps onto viewport (until zoomed)
+
 // TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // TODO: hard-code callout line directions in editor? [3_2]
 
@@ -17,6 +19,8 @@
 
 // TODO: <span intro> is incorrect for 8_4
 // TODO: <span intro> for extracted PanZoom steps
+
+// TODO: checkmarks for spreads "read"
 
 // [search:]
 // TODO: use pre-readied index
@@ -269,3 +273,4 @@
 // DONE: animate callout lines (grid) being drawn
 // DONE: indicator for grid steps with callouts
 // DONE: indicator for panzoom first step
+// DONE: deleted jquery.ui.layout and re-did sliding toc

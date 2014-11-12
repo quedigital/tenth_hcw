@@ -87,7 +87,7 @@ define(["Layout",
 		var image_w = this.img[0].naturalWidth;
 		var image_h = this.img[0].naturalHeight;
 		
-		var pane = $(this.container).parents(".ui-layout-pane");
+		var pane = $(this.container).parents("#scrollarea");
 		var h = pane.height() - this.controls.outerHeight();
 		var w = pane.width();
 		

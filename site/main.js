@@ -9,8 +9,6 @@ requirejs.config({
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
 		"lunr": "lunr.min",
-		"jquery.layout": "jquery.layout-latest",
-		"jquery.layout.slideOffscreen": "jquery.layout.slideOffscreen-1.1",
 	},
 	
 	shim: {
@@ -56,63 +54,13 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui", "jquery.layout", "jquery.layout.slideOffscreen"], function (inobounce, LayoutManager, TOC, Helpers, $) {
+require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (inobounce, LayoutManager, TOC, Helpers, $) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
 	} else {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
 	}
-
-	var pageLayout = $("body").layout({
-										applyDefaultStyles: false, resizable: false, slidable: false, closable: false,
-										spacing_open: 8, spacing_closed: 8,
-										west: {
-											size: 220,
-											slidable: true,
-											closable: true,
-											slideTrigger_open: "mouseover",
-											slideTrigger_close: "mouseout",
-											initClosed: true,
-											// NOTE: if spacing > 0, Mac scrollbar disappears (!) but spacing = 0 has no dropshadow
-											spacing_open: 0,
-											spacing_closed: 20,
-										},
-										east__initHidden: true,
-//										west__fxName: "slideOffscreen"
-										/*south__size: "82",*/
-									});
-	
-	pageLayout.panes.center.css( { border: "none", padding: 0 } );
-	pageLayout.panes.west.css( { border: "none", padding: 0 } );
-	
-	var westLayout = $("#toc-container").layout( { applyDefaultStyles: false, resizable: false, slidable: true, closable: true,
-									spacing_open: 0, north__size: "70", south__size: "70" } );
-									
-	/*
-	westLayout.panes.north.css( { border: "none", padding: 0 } );
-	westLayout.panes.center.css( { border: "none", padding: 0 } );
-	westLayout.panes.south.css( { border: "none", padding: 0 } );
-	*/
-
-	var centerLayout = $("#main-content").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, /*south__size: "70",*/
-									onresize_end: function () {
-										throttledReflow();
-									}
-								} );
-	centerLayout.panes.center.css( { border: "none", padding: 0 } );
-/*	centerLayout.panes.south.css( { border: "none", padding: 0 } );*/
-
-/*
-	var bottomLayout = $("#bottom-bar").layout( { applyDefaultStyles: true, resizable: false, slidable: false, closable: false,
-									spacing_open: 0, spacing_close: 0, west__size: "220" } );
-	bottomLayout.panes.west.css( { border: "none", padding: 0 } );
-	bottomLayout.panes.center.css( { border: "none", padding: 0 } );
-*/
-	
-	// recalculate layout after padding changes	
-//	pageLayout.resizeAll();
 	
 	var layoutManager = new LayoutManager("#content-holder");
 	var toc;
@@ -125,7 +73,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.setData(data.layouts, data.contents);
 		
 		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
-		toc = new TOC(layoutManager, tocContainer, data.contents, data.layouts);
+		toc = new TOC($("#toc-container"), layoutManager, tocContainer, data.contents, data.layouts);
 		
 		toc.openToRandomSpread();
 		
@@ -147,7 +95,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	*/
 	
 	$("#settingsButton").click(function () {
-		$("#settings").position({ my: "center center", at: "center center", of: ".ui-layout-container", collision: "none" }).show(0);
+		$("#settings").position({ my: "center center", at: "center center", of: "#content", collision: "none" }).show(0);
 	});
 	
 	$("#settings #okButton").click(function () { $("#settings").hide(0).css( { left: 0, top: 0 } ) });

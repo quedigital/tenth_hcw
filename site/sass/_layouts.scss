@@ -19,6 +19,10 @@ html, body, p, h1 {
 	padding: 0;
 }
 
+body {
+	overflow: hidden;
+}
+
 .layout {
 	overflow: visible;
 	margin: 0;
@@ -99,6 +103,7 @@ html, body, p, h1 {
 	
 	.image {
 		margin: 10px;
+		padding: 10px;
 		cursor: -webkit-zoom-in;
 	}
 	
@@ -1186,6 +1191,8 @@ div.image-callout {
 }
 
 #toc-header {
+	height: 65px;
+	
 	#header {
 		background-color: #3a3a3a;
 		width: 100%;
@@ -1296,6 +1303,7 @@ div.image-callout {
 }
 
 #fixed-layout-controls {
+	display: none;
 	position: fixed;
 	bottom: 0;
 	z-index: 10;
@@ -1543,7 +1551,7 @@ div.image-callout {
 
 #current-spread-name {
 	position: fixed;
-	z-index: 5;
+	z-index: 1;
 	transition: top 1s ease-in-out;
 	top: -50px;
 	display: none;
@@ -1964,29 +1972,6 @@ div.image-callout {
 	}
 }
 
-/* had to adjust z-index to get the drop-shadow to work */
-#toc-container {
-	z-index: 1 !important;
-}
-
-.ui-layout-resizer-west-open {
-	background-color: rgba(0, 0, 0, .5);
-	box-shadow: 5px 0px 30px 5px rgba(0, 0, 0, .75);
-	z-index: 0 !important;
-}
-
-.ui-layout-west {
-	.ui-layout-pane-center, .ui-layout-pane-south, .ui-layout-pane-north {
-		border: none;
-		padding: 0;
-	}
-}
-
-.ui-layout-toggler-west-closed {
-	background-image: url(images/toggler.png);
-	pointer-events: none;
-}
-
 #settings {
 	position: fixed;
 	background-color: white;
@@ -2005,5 +1990,51 @@ div.image-callout {
 		margin-left: -25%;
 		bottom: 15px;
 		display: block;
+	}
+}
+
+#scrollarea {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#toc-container {
+	visibility: hidden;
+	width: 20%;
+	max-width: 275px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+	
+	#toggler {
+		display: table;
+		text-align: center;
+		
+		cursor: pointer;
+		
+		background-color: rgba(0, 0, 0, .75);
+		box-shadow: 6px 0px 10px 3px rgba(0, 0, 0, 0.5);
+		z-index: 0 !important;
+		
+		position: absolute;
+		top: 0;
+		left: 100%;
+		width: 25px;
+		height: 100%;
+		
+		i {
+			display: table-cell;
+			vertical-align: middle;
+			color: white;
+			
+			&:active {
+				color: black;
+			}
+		}
 	}
 }

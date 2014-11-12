@@ -19,8 +19,12 @@
 </head>
 <body>
 
-<div id="toc-container" class="ui-layout-west">
-	<div id="toc-header" class="ui-layout-north">
+<div id="current-spread-name">
+	<h1>Current Spread Name</h1>
+</div>
+
+<div id="toc-container">
+	<div id="toc-header">
 		<div id="header">
 			<div class="half left">
 				<div class="tiny">chapter</div>
@@ -34,79 +38,71 @@
 			</button>
 		</div>
 	</div>
-	<div id="toc" class="ui-layout-center">
+	<div id="toc">
 	</div>
-	<div id="toc-footer" class="ui-layout-south">
+	<div id="toc-footer">
 		<div id="search-area">
 			<i class="fa fa-search fa-lg"></i>
 			<input id="search-box" placeholder="Search" type="text"/>
 		</div>
 	</div>
+	<div id="toggler">
+		<i class="fa-chevron-circle-left fa"></i>
+	</div>
 </div>
-<div id="main-content" class="ui-layout-center">
-	<div id="main-center" class="ui-layout-center">
-		<div id="content">
-			<div id="current-spread-name">
-				<h1>Current Spread Name</h1>
-			</div>
-			<div id="content-holder">
-				<div id="prev-ad" class="ad-banner">
+
+<div id="scrollarea">
+	<div id="content">
+		<div id="content-holder">
+			<div id="prev-ad" class="ad-banner">
+				<header>
+					<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+				</header>
+				<div class="wide-ad ad">
 					<header>
-						<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+						<h1>How an Egg Cooks</h1>
 					</header>
-					<div class="wide-ad ad">
-						<header>
-							<h1>How an Egg Cooks</h1>
-						</header>
-						<div class="preview-image">
-						</div>
+					<div class="preview-image">
 					</div>
 				</div>
-				<div id="next-ad" class="ad-banner">
+			</div>
+			<div id="next-ad" class="ad-banner">
+				<header>
+					<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+				</header>
+				<div class="wide-ad ad">
 					<header>
-						<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+						<h1>How an Egg Cooks</h1>
 					</header>
-					<div class="wide-ad ad">
+					<div class="preview-image">
+					</div>
+				</div>
+				<div class="ad-area">
+					<div class="small-ad ad">
 						<header>
-							<h1>How an Egg Cooks</h1>
+							<h1>Another Spread</h1>
 						</header>
 						<div class="preview-image">
 						</div>
 					</div>
-					<div class="ad-area">
-						<div class="small-ad ad">
-							<header>
-								<h1>Another Spread</h1>
-							</header>
-							<div class="preview-image">
-							</div>
+					<div class="small-ad ad">
+						<header>
+							<h1>Another Spread</h1>
+						</header>
+						<div class="preview-image">
 						</div>
-						<div class="small-ad ad">
-							<header>
-								<h1>Another Spread</h1>
-							</header>
-							<div class="preview-image">
-							</div>
-						</div>
-						<div class="small-ad ad">
-							<header>
-								<h1>Another Spread</h1>
-							</header>
-							<div class="preview-image">
-							</div>
+					</div>
+					<div class="small-ad ad">
+						<header>
+							<h1>Another Spread</h1>
+						</header>
+						<div class="preview-image">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!--
-	<div id="main-south" class="ui-layout-south">
-		<div id="search-text">
-			Search
-		</div>
-	</div>
-	-->
 </div>
 
 <div id="fixed-layout-controls">

@@ -1,7 +1,9 @@
 define(["Helpers"], function (Helpers) {
 
-	TOC = function (manager, container, contents, layouts) {
+	TOC = function (mainContainer, manager, container, contents, layouts) {
+		this.mainContainer = mainContainer;
 		this.layoutManager = manager;
+		this.container = container;
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
 		this.layouts = layouts;
@@ -66,10 +68,24 @@ define(["Helpers"], function (Helpers) {
 		
 		$("#next-ad .ad").click($.proxy(this.onClickNextAd, this));
 		$("#prev-ad .ad").click($.proxy(this.onClickPreviousAd, this));
+		
+		$("#toggler").click($.proxy(this.onClickToggler, this));
+		
+		this.sizeToFitWindow();
 	}
 	
 	TOC.prototype = Object.create(null);
 	TOC.prototype.constructor = TOC;
+	
+	TOC.prototype.sizeToFitWindow = function () {
+		var h1 = $("#toc-header").height();
+		var h2 = $("#toc-footer").height();
+		var h = $(window).height();
+		
+		this.container.height(h - h1 - h2);
+		
+		this.mainContainer.css("visibility", "visible");
+	}
 	
 	TOC.prototype.onClickEntry = function (event) {
 		var id = $(event.target).data("id");
@@ -267,6 +283,16 @@ define(["Helpers"], function (Helpers) {
 		var id = t.data("next-id");
 		
 		this.openSpread( { id: id, replace: false, previous: true } );
+	}
+	
+	TOC.prototype.onClickToggler = function (event) {
+		if (this.mainContainer.offset().left) {
+			this.mainContainer.animate( { left: 0 }, 500 );
+			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");
+		} else {
+			this.mainContainer.animate( { left: -this.mainContainer.width() }, 500 );
+			$("#toggler i").removeClass("fa-chevron-circle-left").addClass("fa-chevron-circle-right");
+		}
 	}
 	
 	function getRandomImageFromSpread (spread, layout) {

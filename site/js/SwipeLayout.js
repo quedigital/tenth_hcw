@@ -71,7 +71,7 @@ define(["Layout",
 	SwipeLayout.prototype.constructor = SwipeLayout;
 	
 	SwipeLayout.prototype.sizeToFitContainingPane = function () {
-		var pane = $(this.container).parents(".ui-layout-pane");
+		var pane = $(this.container).parents("#scrollarea");
 		var h = pane.height();
 		var w = pane.width();
 		
