@@ -65,14 +65,16 @@ define(["Layout",
 					if (hint.callout_target_id) {
 						step.elem.addClass("with-callout");
 						
-						var indicator = $("<div class='callout-icon-container'><span class='top'></span><span class='right'></span><span class='bottom'></span><span class='left'></span></div>");
+						if (step.shape) {
+							var indicator = $("<div class='callout-icon-container'><span class='top'></span><span class='right'></span><span class='bottom'></span><span class='left'></span></div>");
 						
-						/* To add an optional delay so they aren't all moving in sync
-						var s = Math.floor(Math.random() * 8) + 1;
-						indicator.find("span").css("-webkit-animation-delay", s + "s"); 
-						*/
+							/* To add an optional delay so they aren't all moving in sync
+							var s = Math.floor(Math.random() * 8) + 1;
+							indicator.find("span").css("-webkit-animation-delay", s + "s"); 
+							*/
 						
-						step.elem.append(indicator);
+							step.shape.append(indicator);
+						}
 						
 						/*
 						var backColor = tinycolor(this.container.css("background"));

@@ -14,6 +14,12 @@ define(["jquery", "Helpers"], function ($, Helpers) {
 				.addClass("shape")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
+			
+			if (options.number == 1) {	
+				this.indicator = $("<div class='callout-icon-container'><span class='top'></span><span class='right'></span><span class='bottom'></span><span class='left'></span></div>");
+				this.label.append(this.indicator);
+			}
+			
 		} else {
 			this.elem.addClass("no-number");
 		}

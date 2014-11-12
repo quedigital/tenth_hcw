@@ -590,6 +590,11 @@ html, body, p, h1 {
 			}
 		}
 	}
+	
+	.image_wrapper:not(.zoomedIn) .shape:hover {
+		transform: scale(1.5);
+		transition: transform .25s ease-in-out;
+	}
 }
 
 .spread.swipe {
@@ -983,7 +988,7 @@ div.cell {
 		-webkit-transform: rotate(45deg);
 	}
 	
-	span {
+	& > span {
 		position: absolute;
 		top: -5px;
 		left: 0;

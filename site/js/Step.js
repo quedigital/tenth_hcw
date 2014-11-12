@@ -16,7 +16,7 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 		this.number = options.number;
 		
 		if (this.hasNumber()) {
-			$("<span>").addClass(options.number == 1 ? "diamond" : "block")
+			this.shape = $("<span>").addClass(options.number == 1 ? "diamond" : "block")
 				.append("<span>" + options.number)
 				.appendTo(this.elem);
 		} else {

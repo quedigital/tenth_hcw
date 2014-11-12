@@ -268,3 +268,4 @@
 // DONE: "articles you might like" banner
 // DONE: animate callout lines (grid) being drawn
 // DONE: indicator for grid steps with callouts
+// DONE: indicator for panzoom first step

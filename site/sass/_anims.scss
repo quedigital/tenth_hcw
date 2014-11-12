@@ -4,6 +4,10 @@
 	}
 }
 
+.image_wrapper.zoomedIn .callout-icon-container {
+	display: none;
+}
+
 .callout-icon-container {
 	width: 34px;
 	height: 34px;
@@ -12,18 +16,26 @@
 	display: block;
 	position: absolute;
 	border-color: rgb(247, 214, 83);
+	pointer-events: none;
 	
-	.diamond ~ & {
-		top: 19px;
-		left: 9px;
+	.diamond > & {
+		top: -3px;
+		left: -4px;
 		width: 32px;
 		height: 32px;
 		transform: rotate(45deg);
 	}
 	
+	.block > & {
+		top: -3px;
+		left: -3px;
+	}
+	
 	.top {
 		position: absolute;
 		top: 0;
+		left: 0;
+		width: 100%;
 		border-top: 2px solid;
 		border-color: inherit;
 		-webkit-animation: top-anim 8s infinite;
@@ -31,6 +43,7 @@
 	
 	.right {
 		position: absolute;
+		top: 0;
 		right: 0;
 		height: 100%;
 		border-right: 2px solid;
@@ -41,6 +54,7 @@
 	.bottom {
 		position: absolute;
 		bottom: 0;
+		left: 0;
 		width: 100%;
 		border-bottom: 2px solid;
 		border-color: inherit;
@@ -49,6 +63,7 @@
 	
 	.left {
 		position: absolute;
+		top: 0;
 		left: 0;
 		height: 100%;
 		border-left: 2px solid;
