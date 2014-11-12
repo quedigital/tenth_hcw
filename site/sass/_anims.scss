@@ -1,0 +1,176 @@
+.step.with-callout:hover {
+	.callout-icon-container {
+		display: none;
+	}
+}
+
+.callout-icon-container {
+	width: 34px;
+	height: 34px;
+	top: 10px;
+	left: 10px;
+	display: block;
+	position: absolute;
+	border-color: rgb(247, 214, 83);
+	
+	.diamond ~ & {
+		top: 19px;
+		left: 9px;
+		width: 32px;
+		height: 32px;
+		transform: rotate(45deg);
+	}
+	
+	.top {
+		position: absolute;
+		top: 0;
+		border-top: 2px solid;
+		border-color: inherit;
+		-webkit-animation: top-anim 8s infinite;
+	}
+	
+	.right {
+		position: absolute;
+		right: 0;
+		height: 100%;
+		border-right: 2px solid;
+		border-color: inherit;
+		-webkit-animation: right-anim 8s infinite;
+	}
+	
+	.bottom {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		border-bottom: 2px solid;
+		border-color: inherit;
+		-webkit-animation: bottom-anim 8s infinite;
+	}
+	
+	.left {
+		position: absolute;
+		left: 0;
+		height: 100%;
+		border-left: 2px solid;
+		border-color: inherit;
+		-webkit-animation: left-anim 8s infinite;
+	}
+}
+
+@-webkit-keyframes top-anim {
+	0% {
+		width: 0%;
+		opacity: 1;
+	}
+	
+	10% {
+		width: 100%;
+		opacity: 1;
+	}
+	
+	20% {
+		width: 100%;
+		opacity: 1;
+	}
+	
+	40% {
+		width: 100%;
+		opacity: 0;
+	}
+	
+	100% {
+		width: 100%;
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes right-anim {
+	0% {
+		height: 0%;
+		opacity: 1;
+	}
+	
+	10% {
+		height: 0%;
+		opacity: 1;
+	}
+	
+	20% {
+		height: 100%;
+		opacity: 1;
+	}
+	
+	40% {
+		height: 100%;
+		opacity: 0;
+	}
+	
+	100% {
+		height: 100%;
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes bottom-anim {
+	0% {
+		left: 100%;
+		width: 0%;
+		opacity: 1;
+	}
+	
+	50% {
+		left: 100%;
+		width: 0%;
+		opacity: 1;
+	}
+	
+	60% {
+		left: 0;
+		width: 100%;
+		opacity: 1;
+	}
+
+	80% {
+		left: 0;
+		width: 100%;
+		opacity: 1;
+	}
+	
+	100% {
+		left: 0;
+		width: 100%;
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes left-anim {
+	0% {
+		top: 100%;
+		height: 0%;
+		opacity: 1;
+	}
+	
+	60% {
+		top: 100%;
+		height: 0%;
+		opacity: 1;
+	}
+	
+	70% {
+		top: 0;
+		height: 100%;
+		opacity: 1;
+	}
+	
+	80% {
+		top: 0;
+		height: 100%;
+		opacity: 1;
+	}
+	
+	100% {
+		top: 0;
+		height: 100%;
+		opacity: 0;
+	}
+}

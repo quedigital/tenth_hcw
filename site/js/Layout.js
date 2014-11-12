@@ -46,11 +46,15 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 				var el = this.container.find(options.fromSelector + "[data-id=" + id + "]");
 				var sourceDOM = el.find(".block, .diamond, .bounds, .textblock");
 				
-				var line = new CalloutLine(sourceDOM.parent(), sourceDOM, targetDOM, hint.callout_target_pos);
+				var step = sourceDOM.parent();
+				
+				var line = new CalloutLine(step, sourceDOM, targetDOM, hint.callout_target_pos);
 				// lines will be displayed during scrolling or clicking
-				line.elem.css("visibility", "hidden");
+//				line.elem.css("visibility", "hidden");
 				
 				this.calloutLines.push(line);
+				
+				step.data("callout-line", line);
 			}
 		}	
 	}

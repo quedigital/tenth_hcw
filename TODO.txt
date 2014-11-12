@@ -1,4 +1,9 @@
 
+// TODO: put in duck interactive
+
+// TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
+// TODO: hard-code callout line directions in editor? [3_2]
+
 // TODO: show cursor -webkit-zoom-out only if zoomed in
 
 // TODO: glossary click/hover bubbles
@@ -9,9 +14,6 @@
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: [ipad] image zooming in lightbox doesn't work
-
-// TODO: hard-code callout line directions in editor? [3_2]
-// TODO: animate callout lines (grid) being drawn
 
 // TODO: <span intro> is incorrect for 8_4
 // TODO: <span intro> for extracted PanZoom steps
@@ -264,3 +266,5 @@
 // DONE: wrapping long text (8.9)
 // DONE: styling of panzoom with numbers
 // DONE: "articles you might like" banner
+// DONE: animate callout lines (grid) being drawn
+// DONE: indicator for grid steps with callouts

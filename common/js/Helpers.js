@@ -178,6 +178,107 @@ define(["jquery"], function ($) {
 		node.before('<span class="' + klass + '">' + first + '</span>');
 	};
 	
+	function animateCanvasPath (points, canvas) {
+		var d = 0;
+		
+		var context = canvas.getContext("2d");
+		
+		clearCanvas(canvas, context);
+		context.beginPath();
+		
+		for (var i = 1; i < points.length; i++) {
+			var pt0 = points[i - 1];
+			var pt1 = points[i];
+			var d2 = (pt0.x - pt1.x) * (pt0.x - pt1.x) + (pt0.y - pt1.y) * (pt0.y - pt1.y);
+			d += Math.sqrt(d2);
+		}
+		
+		var speed = 30;
+		var details = { context: context, points: points, speed: speed, distance: d, last: 0, current: speed };
+		
+		drawPath(details);
+		
+		return details;
+	}
+	
+	function drawSegment (context, pt0, pt1) {
+		moveTo(context, pt0.x, pt0.y);
+		lineTo(context, pt1.x, pt1.y);
+	}
+	
+	function getPointAlongSegment (pt0, pt1, d, t) {
+		var dir = { x: pt1.x - pt0.x, y: pt1.y - pt0.y };
+		var vx = dir.x / d;
+		var vy = dir.y / d;
+		var newX = pt0.x + vx * t;
+		var newY = pt0.y + vy * t;
+		return { x: newX, y: newY };
+	}
+	
+	// only draw the current portion (spanning multiple segments, if necessary)
+	function drawPath (details) {
+		var total_d = 0;
+		
+		for (var i = 1; i < details.points.length; i++) {
+			var pt0 = details.points[i - 1];
+			var pt1 = details.points[i];
+			var d2 = (pt0.x - pt1.x) * (pt0.x - pt1.x) + (pt0.y - pt1.y) * (pt0.y - pt1.y);
+			var this_d = Math.sqrt(d2);
+			
+			if (total_d + this_d < details.last) {
+				// skip, we're past this
+			} else {
+				// start of segment
+				var startT = details.last - total_d;
+				var start = pt0;
+				if (startT > 0)
+					start = getPointAlongSegment(pt0, pt1, this_d, startT);
+				
+				var endEarly = false;
+				
+				var end = pt1;
+				if (total_d + this_d > details.current) {
+					var endT = details.current - total_d;
+					end = getPointAlongSegment(pt0, pt1, this_d, endT);
+					
+					endEarly = true;
+				}
+				
+				drawSegment(details.context, start, end);
+				
+				if (endEarly) break;
+			}
+			
+			total_d += this_d;
+		}
+		
+		if (details.current >= details.distance) {
+			// done
+		} else {
+			details.last = details.current;
+			details.current += details.speed;
+			details.interval = setTimeout($.proxy(drawPath, this, details), 50);
+		}		
+	}
+
+	function clearCanvas (canvas, context) {
+		context.save();
+
+		context.setTransform(1, 0, 0, 1, 0, 0);
+		context.clearRect(0, 0, canvas.width, canvas.height);
+
+		context.restore();
+	}
+	
+	function moveTo (context, x, y) {
+		context.moveTo(Math.floor(x), Math.floor(y));
+	}
+
+	function lineTo (context, x, y) {
+		context.lineTo(Math.floor(x), Math.floor(y));
+		context.stroke();
+	}
+		
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
@@ -191,6 +292,7 @@ define(["jquery"], function ($) {
 		throttle: throttle,
 		isScrolledOff: isScrolledOff,
 		getColorForChapter: getColorForChapter,
+		animateCanvasPath: animateCanvasPath,
 	};
 	
 	return Helpers;

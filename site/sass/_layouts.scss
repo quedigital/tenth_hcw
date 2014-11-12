@@ -444,6 +444,7 @@ html, body, p, h1 {
 		
 		&.with-callout {
 			cursor: pointer;
+			/*
 			border: 2px dashed gray;
 			border-radius: 15px;
 			
@@ -453,6 +454,13 @@ html, body, p, h1 {
 				border: 2px solid rgba(0, 0, 0, 0);
 				background-color: inherit;
 			}
+			*/
+		}
+		
+		i.callout-icon {
+			position: absolute;
+			top: 0;
+			left: 0;
 		}
 	}
 	

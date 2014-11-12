@@ -64,6 +64,17 @@ define(["Layout",
 					
 					if (hint.callout_target_id) {
 						step.elem.addClass("with-callout");
+						
+						var indicator = $("<div class='callout-icon-container'><span class='top'></span><span class='right'></span><span class='bottom'></span><span class='left'></span></div>");
+						
+						/* To add an optional delay so they aren't all moving in sync
+						var s = Math.floor(Math.random() * 8) + 1;
+						indicator.find("span").css("-webkit-animation-delay", s + "s"); 
+						*/
+						
+						step.elem.append(indicator);
+						
+						/*
 						var backColor = tinycolor(this.container.css("background"));
 						if (!backColor.isValid()) {
 							backColor = tinycolor.tinycolor("#ffffff");
@@ -72,6 +83,7 @@ define(["Layout",
 						backColor.setAlpha(.5);
 						this.activeColor = backColor.toString();
 						step.elem.css("background-color", this.activeColor);
+						*/
 						step.elem.hover($.proxy(this.onHoverStep, this, step), $.proxy(this.onHoverOutStep, this, step));
 						step.elem.click($.proxy(this.showCalloutForStep, this, step));
 					}
@@ -302,22 +314,21 @@ define(["Layout",
 	}
 	
 	GridLayout.prototype.onHoverStep = function (step) {
-		step.elem.css("background-color", "");
 		this.showCalloutForStep(step);
 	}
 	
 	GridLayout.prototype.onHoverOutStep = function (step) {
-		step.elem.css("background-color", this.activeColor);
 		var line = step.elem.find(".callout-line");
-		line.removeClass("rotateInDownLeft").addClass("fadeOut").hide(0);
+		line.removeClass("animated").addClass("fadeOut animated").show(0);
 	}
 	
 	GridLayout.prototype.showCalloutForStep = function (step) {
-		var line = step.elem.find(".callout-line");
-		line.hide(0);
-		line.css("visibility", "visible");
-		line.addClass("animated rotateInDownLeft");
-		line.show(0);
+		var lineElem = step.elem.find(".callout-line");
+		lineElem.removeClass("animated fadeOut").show(0);
+		
+		var line = step.elem.data("callout-line");
+		if (line)
+			line.animate();
 	}
 	
 	return GridLayout;

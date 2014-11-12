@@ -1,4 +1,4 @@
-define([], function () {
+define(["Helpers"], function (Helpers) {
 
 	// title, text, image
 	CalloutLine = function (container, from, to, coords, options) {
@@ -152,47 +152,20 @@ define([], function () {
 		// all coordinates are relative to the viewport, so translate them back
 		context.translate(-x0 + BORDER, -y0 + BORDER);
 		
-		// draw the actual lines
-				
-		context.lineWidth = 2;
-		
 		// use the color of the container for the line color
 		context.strokeStyle = container.parents(".spread").css("color");
 		
-		moveTo(context, startX, startY);
-		
-		switch (dir) {
-			case "horizontal":
-				lineTo(context, viewTarget.left, startY);
-				break;
-			
-			case "vertical":
-				lineTo(context, startX, viewTarget.top);
-				break;
-				
-			case "VH":
-				lineTo(context, startX, viewTarget.top);
-				lineTo(context, viewTarget.left, viewTarget.top);
-				break;
-				
-			case "HV":
-				lineTo(context, viewTarget.left, startY);
-				lineTo(context, viewTarget.left, viewTarget.top);
-				break;
-				
-			case "S":
-				var nextDX = (viewTarget.left - startX) * .5;
-				nextDX = nextDX > 0 ? Math.max(5, nextDX) : Math.min(-5, nextDX);
-				lineTo(context, startX + nextDX, startY);
-				lineTo(context, startX + nextDX, viewTarget.top);
-				lineTo(context, viewTarget.left, viewTarget.top);
-				break;
-		}
-		
-		context.stroke();
-		
 		this.canvas = canvas;
 		this.target = target;
+		
+		this.dir = dir;
+		
+		this.startX = startX;
+		this.startY = startY;
+		this.targetX = viewTarget.left;
+		this.targetY = viewTarget.top;
+		
+		this.drawn = false;
 	}
 	
 	CalloutLine.prototype = Object.create(null);
@@ -205,12 +178,58 @@ define([], function () {
 			this.target.remove();
 	}
 	
+	CalloutLine.prototype.animate = function () {
+		var context = this.canvas[0].getContext("2d");
+		
+		var startX = this.startX, startY = this.startY, targetX = this.targetX, targetY = this.targetY;
+		
+		context.lineWidth = 2;
+		
+		var points = [];
+		
+		points.push( { x: startX, y: startY } );
+		
+		switch (this.dir) {
+			case "horizontal":
+				points.push( { x: targetX, y: startY } );
+				break;
+			
+			case "vertical":
+				points.push( { x: startX, y: targetY } );
+				break;
+				
+			case "VH":
+				points.push( { x: startX, y: targetY } );
+				points.push( { x: targetX, y: targetY } );
+				break;
+				
+			case "HV":
+				points.push( { x: targetX, y: startY } );
+				points.push( { x: targetX, y: targetY } );
+				break;
+				
+			case "S":
+				var nextDX = (targetX - startX) * .5;
+				nextDX = nextDX > 0 ? Math.max(5, nextDX) : Math.min(-5, nextDX);
+				points.push( { x: startX + nextDX, y: startY } );
+				points.push( { x: startX + nextDX, y: targetY } );
+				points.push( { x: targetX, y: targetY } );
+				break;
+		}
+		
+		if (!this.drawn) {
+			Helpers.animateCanvasPath(points, this.canvas[0]);
+			this.drawn = true;
+		}
+	}
+
 	function moveTo (context, x, y) {
 		context.moveTo(Math.floor(x), Math.floor(y));
 	}
 
 	function lineTo (context, x, y) {
 		context.lineTo(Math.floor(x), Math.floor(y));
+		Helpers.animateCanvasLine(points, context);
 	}
 	
 	return CalloutLine;
