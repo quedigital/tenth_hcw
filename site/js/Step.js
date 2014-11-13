@@ -26,6 +26,7 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 		if (options.image) {
 			var img = $("<img>").attr("src", options.image);
 			var div = $("<div>").addClass("image").append(img);
+			div.addClass("align-" + hints.image);
 			this.elem.append(div);
 			
 			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, options.text, undefined, hints.background));

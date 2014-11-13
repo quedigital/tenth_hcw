@@ -62,34 +62,28 @@ define([], function () {
 	
 	// resize to our desired ratio (now that we know the pixel size, during positionCells)
 	Interactive.prototype.format = function (pane) {
-		// NOTE: we don't want the scale to be greater than 1, so fit either the width or the height
 		var w, h;
+
+		// NOTE: not sure where interactive-contents is being resized (so we have to use its parent)		
+//		var cw = this.contents.width();
+		this.contents.parent().css( { width: "auto", height: "auto" } );
 		
-		var cw = this.contents.width();
+		var cw = this.contents.parent().innerWidth();
 		var ph = pane.height();
 		
-		w = this.size_w;
-		h = this.size_h;
+		// NOTE: we don't want the scale to be greater than 1, so fit either the width or the height
 		
-//		debugger;
+		// NEW THEORY: use all available width (works for Ducks 1_1)
 		
-		if (w > cw && this.ratio < 1) {
-			w = cw;
-			h = w * this.ratio;
-		}
-		
-		if (h > ph) {
-			h = ph;
-			w = h / this.ratio;
-		}
-		
-		console.log("scaled to " + w + " x " + h);
+		w = cw - 20;
+		h = w * this.ratio;
 		
 		scale = w / this.size_w;
 		
-		this.contents.width(w).height(h);
+		this.contents.parent().width(w).height(h);
+		this.contents.width("100%").height("100%");
 		
-		this.iframe.css("transform-origin", "0 0").css("transform", "scale(" + scale + ")");
+		this.iframe.css( { transformOrigin: "0 0", transform: "scale(" + scale + ")" } );
 	}
 		
 	Interactive.prototype.expand = function () {

@@ -65,7 +65,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	var layoutManager = new LayoutManager("#content-holder");
 	var toc;
 
-	var throttledReflow = Helpers.throttle(layoutManager.reflow, 3000, layoutManager);
+	var debouncedReflow = Helpers.debounce($.proxy(layoutManager.reflow, layoutManager), 250);
 		
 	window.layoutManager = layoutManager;
 	
@@ -88,11 +88,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.reflow();
 	});
 	
-	/*
-	$(window).resize(function () {
-		layoutManager.reflow();
-	});
-	*/
+	$(window).resize(debouncedReflow);
 	
 	$("#settingsButton").click(function () {
 		$("#settings").position({ my: "center center", at: "center center", of: "#content", collision: "none" }).show(0);

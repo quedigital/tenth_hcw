@@ -406,7 +406,12 @@ define(["Layout",
 	}
 	
 	PanZoomLayout.prototype.onClickStep = function (step) {
-		this.zoomToStep(step);
+		if (this.currentStep == step) {
+			this.zoomToStep(undefined);
+		} else {
+			this.zoomToStep(step);
+		}
+		
 		return false;
 	}
 	

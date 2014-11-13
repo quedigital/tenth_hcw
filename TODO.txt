@@ -1,12 +1,32 @@
 
-// TODO: put in duck interactive
+
+// TODO: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
+
+// TODO: make panzoom textbox wider
+
+// TODO: make first step of panzoom more obvious for clicking or have a lead-in "Show me how" from extracted paragraph
+
+// TODO: make lightbox bigger when zooming in (to show more, ex: 10_1)
+
+// TODO: adjust grid step image's margin and padding based on alignment (ex: 1_1 #6, move image to top, class "align-L")
+
+// TODO: comments / ratings per page
+// TODO: checkmarks for spreads "read"
+// TODO: Google Analytics
+
+// TODO: for interactives, how often (and why?) are they reloaded?
+// TODO: also, they seem to be loaded twice when they're embedded
+
+// TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: animate banner ad hiding or moving (so transition is less jarring)
+// TODO: don't show previous banner before chapter 1 (ie, don't loop back to end)
+// TODO: always show prev/next banner before/after current spread
 
 // TODO: overlay panzoom extracted steps onto viewport (until zoomed)
 
 // TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // TODO: hard-code callout line directions in editor? [3_2]
-
-// TODO: show cursor -webkit-zoom-out only if zoomed in
 
 // TODO: glossary click/hover bubbles
 
@@ -19,8 +39,6 @@
 
 // TODO: <span intro> is incorrect for 8_4
 // TODO: <span intro> for extracted PanZoom steps
-
-// TODO: checkmarks for spreads "read"
 
 // [search:]
 // TODO: use pre-readied index
@@ -36,7 +54,6 @@
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
 
-// TODO: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
 // TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
@@ -274,3 +291,10 @@
 // DONE: indicator for grid steps with callouts
 // DONE: indicator for panzoom first step
 // DONE: deleted jquery.ui.layout and re-did sliding toc
+// DONE: put in duck interactive
+// DONE: close sidebar after chapter is clicked
+// DONE: re-consider interactive cell sizing
+// DONE: resize sidebar when window resizes
+// DONE: zoom out of panzoom by clicking anywhere
+// DONE: show cursor -webkit-zoom-out only if zoomed in
+// DONE: table for ch2 intro

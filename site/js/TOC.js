@@ -70,6 +70,9 @@ define(["Helpers"], function (Helpers) {
 		$("#prev-ad .ad").click($.proxy(this.onClickPreviousAd, this));
 		
 		$("#toggler").click($.proxy(this.onClickToggler, this));
+		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+		
+		$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
 		this.sizeToFitWindow();
 	}
@@ -85,6 +88,10 @@ define(["Helpers"], function (Helpers) {
 		this.container.height(h - h1 - h2);
 		
 		this.mainContainer.css("visibility", "visible");
+		
+		if (this.mainContainer.offset().left < 0) {
+			this.mainContainer.css("left", -this.mainContainer.width());
+		}
 	}
 	
 	TOC.prototype.onClickEntry = function (event) {
@@ -98,6 +105,8 @@ define(["Helpers"], function (Helpers) {
 			
 			$("#content").scrollTop(0);
 			this.openSpread( { id: id, replace: true } );
+			
+			this.closeToggler();
 		}
 	}
 	
@@ -287,12 +296,24 @@ define(["Helpers"], function (Helpers) {
 	
 	TOC.prototype.onClickToggler = function (event) {
 		if (this.mainContainer.offset().left) {
-			this.mainContainer.animate( { left: 0 }, 500 );
-			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");
+			this.openToggler();
 		} else {
-			this.mainContainer.animate( { left: -this.mainContainer.width() }, 500 );
-			$("#toggler i").removeClass("fa-chevron-circle-left").addClass("fa-chevron-circle-right");
+			this.closeToggler();
 		}
+	}
+
+	TOC.prototype.openToggler = function (event) {
+		this.mainContainer.stop();
+		
+		this.mainContainer.animate( { left: 0 }, 500 );
+		$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
+	}
+	
+	TOC.prototype.closeToggler = function (event) {
+		this.mainContainer.stop();
+		
+		this.mainContainer.animate( { left: -this.mainContainer.width() }, 500 );
+		$("#toggler i").removeClass("fa-chevron-circle-left").addClass("fa-chevron-circle-right");
 	}
 	
 	function getRandomImageFromSpread (spread, layout) {

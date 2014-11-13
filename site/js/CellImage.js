@@ -3,7 +3,7 @@ define(["jquery", "SiteHelpers"], function ($, SiteHelpers) {
 	// title, text, image
 	CellImage = function (options, hints, title, identifier, background) {
 		this.elem = $("<div>").addClass("cell-image");
-
+		
 		this.elem.data("CellImage", this);
 
 		if (options.image) {
