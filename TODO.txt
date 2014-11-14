@@ -1,7 +1,5 @@
 
 
-// TODO: keeping the selected panzoom item visible in the scrolling area isn't working anymore
-
 // TODO: 14_4 #3 callout from step without block, etc.
 
 // TODO: get resizing to work smoothly
@@ -295,3 +293,4 @@
 // DONE: make panzoom textbox wider
 // DONE: try debounce for window resize limiting (or google resizestop)
 // DONE: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
+// DONE: keeping the selected panzoom item visible in the scrolling area isn't working anymore

@@ -43,16 +43,18 @@ define(["jquery"], function () {
 			b.addClass("selected");
 			
 			// scroll so it's in the middle
-			var mw = this.find(".main-buttons").width();
-			var nw = this.find(".nav-buttons").width();
 			var w = b.width();
-			var l = b.position().left;
+			var p = b.position().left;
 			var c = this.find(".container");
 			var sl = c.scrollLeft();
-			var off = (l + w > mw + nw) || (l < nw);
+			var off = (p + w > c.width()) || (p < 40);
 			if (off) {
-				var middle = (l + sl) - (mw * .5) - (w * .5);
-				c.animate({ scrollLeft: middle }, 500);
+				var mb = $(".main-buttons").width();
+				var middle = (mb * .5) - (w * .5);
+				var offset = p - middle;
+				var g = sl + offset;
+				// NOTE: not sure why I'm adding 10 but oh well
+				c.animate({ scrollLeft: g + 10 }, 500);
 			}
 		} else if (command == "refresh") {
 			var c = this.find(".container");
