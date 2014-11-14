@@ -303,7 +303,7 @@ define(["Layout",
 		this.addLineCallouts({ fromSelector: ".fixed_step" });
 		
 		// position preamble so it slightly overlaps image
-		this.preamble.height(this.preamble.find(".preamble-text").height() - 50);
+//		this.preamble.height(this.preamble.find(".preamble-text").height() - 50);
 		
 		$(this.controls).panzoomControls("refresh");
 	}

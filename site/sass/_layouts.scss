@@ -559,10 +559,11 @@ body {
 
 .spread.panzoom {
 	.preamble {
-		height: 50px;
-		
+		margin: 0 25px -50px 25px;
+		position: relative;
+		z-index: 2;
+				
 		.preamble-text {
-			position: absolute;
 			height: auto;
 			background: rgb(200, 50, 50);
 			left: 25px;
@@ -598,9 +599,11 @@ body {
 		}
 		
 		&.zoomedIn {
+			margin: 0;
+			
 			.preamble-text {
-				position: static;
 				box-shadow: none;
+				padding-bottom: 25px;
 			}
 			
 			.preamble-footer {
