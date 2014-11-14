@@ -201,11 +201,11 @@ define(["Layout",
 		}
 		
 		var items = this.getItemNames();
-		$(this.controls).swipeControls( { 	items: items,
-											selectFirstItem: true,
-											onClickStep: $.proxy(this.gotoStep, this),
-											onClickPrevious: $.proxy(this.gotoPrevious, this),
-											onClickNext: $.proxy(this.gotoNext, this),
+		$(this.controls).panzoomControls( { 	items: items,
+												selectFirstItem: true,
+												onClickStep: $.proxy(this.gotoStep, this),
+												onClickPrevious: $.proxy(this.gotoPrevious, this),
+												onClickNext: $.proxy(this.gotoNext, this),
 										 } );
 	}
 
@@ -432,7 +432,7 @@ define(["Layout",
 		this.currentStep = step;
 	
 		var n = this.getStepIndex(this.currentStep);
-		$(this.controls).swipeControls("current", n);
+		$(this.controls).panzoomControls("current", n);
 	}
 
 	SwipeLayout.prototype.getAllLabels = function () {

@@ -1,10 +1,14 @@
 
 
-// TODO: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
+// TODO: keeping the selected panzoom item visible in the scrolling area isn't working anymore
 
-// TODO: make panzoom textbox wider
+// TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: get resizing to work smoothly
+// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
 // TODO: make first step of panzoom more obvious for clicking or have a lead-in "Show me how" from extracted paragraph
+// TODO: overlay panzoom extracted steps onto viewport (until zoomed)
 
 // TODO: make lightbox bigger when zooming in (to show more, ex: 10_1)
 
@@ -17,13 +21,9 @@
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
 
-// TODO: 14_4 #3 callout from step without block, etc.
-
 // TODO: animate banner ad hiding or moving (so transition is less jarring)
 // TODO: don't show previous banner before chapter 1 (ie, don't loop back to end)
 // TODO: always show prev/next banner before/after current spread
-
-// TODO: overlay panzoom extracted steps onto viewport (until zoomed)
 
 // TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // TODO: hard-code callout line directions in editor? [3_2]
@@ -56,9 +56,6 @@
 
 // TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
-// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
-// TODO: try debounce for window resize limiting (or google resizestop)
-
 // TODO: layouts don't seem to be full-screen on iOS Safari; how to remove browser search bar from iOS Chrome?
 
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
@@ -70,9 +67,6 @@
 // TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
 // TODO: convert things like [dg] in the text
 // TODO: for figures, change <span bold> to <figcaption><h1>
-
-// TODO: [fixed layouts] make prev/next buttons visible on-screen (slide in?) and not affect scroll width (?)
-// TODO: BUG: [fixed layout] reflow ("reflowing fixed") leaves page controls visible
 
 // TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
 
@@ -298,3 +292,6 @@
 // DONE: zoom out of panzoom by clicking anywhere
 // DONE: show cursor -webkit-zoom-out only if zoomed in
 // DONE: table for ch2 intro
+// DONE: make panzoom textbox wider
+// DONE: try debounce for window resize limiting (or google resizestop)
+// DONE: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)

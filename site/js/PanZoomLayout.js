@@ -213,11 +213,11 @@ define(["Layout",
 		}
 		
 		var items = this.getItemNames();
-		$(this.controls).swipeControls( { 	items: items,
-											selectFirstItem: true,
-											onClickStep: $.proxy(this.gotoStep, this),
-											onClickPrevious: $.proxy(this.gotoPrevious, this),
-											onClickNext: $.proxy(this.gotoNext, this),
+		$(this.controls).panzoomControls( { 	items: items,
+												selectFirstItem: true,
+												onClickStep: $.proxy(this.gotoStep, this),
+												onClickPrevious: $.proxy(this.gotoPrevious, this),
+												onClickNext: $.proxy(this.gotoNext, this),
 										 } );
 	}
 
@@ -301,7 +301,9 @@ define(["Layout",
 		}
 		
 		this.removeAllCallouts();
-		this.addLineCallouts({ fromSelector: ".fixed_step" });		
+		this.addLineCallouts({ fromSelector: ".fixed_step" });
+		
+		$(this.controls).panzoomControls("refresh");
 	}
 
 	PanZoomLayout.prototype.clearRects = function () {
@@ -453,7 +455,7 @@ define(["Layout",
 	PanZoomLayout.prototype.zoomToStep = function (step) {
 		if (step == undefined) {
 			this.zoomOut();
-			$(this.controls).swipeControls("current", 0);			
+			$(this.controls).panzoomControls("current", 0);			
 			return;
 		}
 		
@@ -497,7 +499,7 @@ define(["Layout",
 		this.currentStep = step;
 		
 		var n = this.getStepIndex(this.currentStep);
-		$(this.controls).swipeControls("current", n + 1);			
+		$(this.controls).panzoomControls("current", n + 1);			
 	}
 	
 	PanZoomLayout.prototype.hideAllLabelsExcept = function (step) {

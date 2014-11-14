@@ -35,7 +35,7 @@ define(["jquery"], function () {
 		return this;
 	}
 	
-	$.fn.swipeControls = function (command, arg) {
+	$.fn.panzoomControls = function (command, arg) {
 		if (command == "current") {
 			var b = this.find(".btn.direct").eq(arg);
 			
@@ -54,6 +54,20 @@ define(["jquery"], function () {
 				var middle = (l + sl) - (mw * .5) - (w * .5);
 				c.animate({ scrollLeft: middle }, 500);
 			}
+		} else if (command == "refresh") {
+			var c = this.find(".container");
+			
+			c.css("margin", 0);
+			this.find(".scroller").css("display", "none");
+			
+			if (c[0].offsetWidth < c[0].scrollWidth) {
+				// need scrolling
+				c.css("margin", "0 40px");
+				this.find(".scroller").css("display", "block");
+				this.data("scrollAmount", c[0].offsetWidth * .3);
+			} else {
+				// don't need scrolling
+			}			
 		} else {
 			var options = $.extend({}, command);
 		
@@ -61,6 +75,8 @@ define(["jquery"], function () {
 		
 			this.addClass("fixed-controls").empty();
 		
+			// nav buttons
+			
 			var n = $("<div>").addClass("nav-buttons").appendTo(this);
 			b = $("<button>").addClass("btn symbol");
 			$("<span>").addClass("up").html("<i class='fa fa-chevron-left'></i>").appendTo(b);
@@ -75,9 +91,21 @@ define(["jquery"], function () {
 			}
 			n.append(b);
 		
+			// main buttons
 			var m = $("<div>").addClass("main-buttons").appendTo(this);
-
+			
 			var c = $("<div>").addClass("container").appendTo(m);
+			
+			// (optional) scrolling buttons
+			b = $("<button>").addClass("btn symbol scroller").attr("id", "scrollLeft");
+			$("<span>").addClass("up").html("<i class='fa fa-caret-left'></i>").appendTo(b);
+			b.click($.proxy(scrollLeft, this, c));
+			m.append(b);
+			
+			b = $("<button>").addClass("btn symbol scroller").text("R").attr("id", "scrollRight");
+			$("<span>").addClass("up").html("<i class='fa fa-caret-right'></i>").appendTo(b);			
+			b.click($.proxy(scrollRight, this, c));
+			m.append(b);
 			
 			var func;
 			if (options.onClickStep) {
@@ -114,7 +142,23 @@ define(["jquery"], function () {
 					var newfunc = func.bind(this, i + 1);
 					b.click(newfunc);
 				}
-			}	
+			}			
 		}
+	}
+	
+	function scrollLeft (elem) {
+		var amt = this.data("scrollAmount");
+		
+		console.log(amt);
+		
+		elem.stop();
+		elem.animate( { scrollLeft: elem.scrollLeft() - amt }, 250);
+	}
+	
+	function scrollRight (elem) {
+		var amt = this.data("scrollAmount");
+		
+		elem.stop();
+		elem.animate( { scrollLeft: elem.scrollLeft() + amt }, 250);
 	}
 });

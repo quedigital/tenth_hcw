@@ -562,7 +562,8 @@ body {
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 200px;
+		width: 25%;
+		min-width: 200px;
 		height: auto;
 		max-height: 90%;
 		background: rgba(200, 50, 50, .75);
@@ -705,6 +706,7 @@ body {
 	background-color: #222;
 	
 	.nav-buttons {
+		background-color: #333;
 		display: table-cell;
 		width: 125px;
 		text-align: center;
@@ -712,13 +714,30 @@ body {
 	}
 	
 	.main-buttons {
+		position: relative;
 		display: table-cell;
 		text-align: center;
 		vertical-align: middle;
 		
+		.scroller {
+			position: absolute !important;
+			top: 50%;
+			margin-top: -14px !important;
+			display: none;
+		}
+		
+		#scrollLeft {
+			left: 0;
+		}
+		
+		#scrollRight {
+			right: 0;
+		}
+			
 		.container {
 			white-space: nowrap;
 			overflow-x: scroll;
+			margin: 0;
 		}	
 	}
 	
