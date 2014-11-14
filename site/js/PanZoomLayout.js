@@ -20,16 +20,14 @@ define(["Layout",
 		
 		var image_holder = $("<div>").addClass("image_holder");
 		this.image_holder = image_holder;
-		
-		/*
-		var nextButton = $("<div>").addClass("nav-button next").html("&#xf054;");
-		nextButton.click($.proxy(this.gotoNext, this));
-		image_holder.append(nextButton);
 
-		var prevButton = $("<div>").addClass("nav-button prev").html("&#xf053;");
-		prevButton.click($.proxy(this.gotoPrevious, this));
-		image_holder.append(prevButton);
-		*/
+		this.preamble = $("<div>").addClass("preamble");
+		var preamble_text = $("<div>").addClass("preamble-text").appendTo(this.preamble);
+		this.preamble_main = $("<div>").addClass("preamble-main").appendTo(preamble_text);
+		var preamble_footer = $("<div>").addClass("preamble-footer").html("Show me <span class='red'>how</span>…").appendTo(preamble_text);
+		this.preamble.appendTo(this.container);
+		
+		preamble_footer.click($.proxy(this.gotoStep, this, 1));
 		
 		this.container.append(image_holder);
 
@@ -199,7 +197,8 @@ define(["Layout",
 			if (hint.anchor == "before" || hint.anchor == "after") {
 				elem.addClass("extracted");
 				if (hint.anchor == "before") {
-					elem.insertBefore(this.image_holder);
+//					elem.insertBefore(this.image_holder);
+					elem.appendTo(this.preamble_main);
 				} else if (hint.anchor == "after") {
 					var next = this.image_holder.next();
 					if (!next.length) {
@@ -302,6 +301,9 @@ define(["Layout",
 		
 		this.removeAllCallouts();
 		this.addLineCallouts({ fromSelector: ".fixed_step" });
+		
+		// position preamble so it slightly overlaps image
+		this.preamble.height(this.preamble.find(".preamble-text").height() - 50);
 		
 		$(this.controls).panzoomControls("refresh");
 	}
@@ -459,6 +461,8 @@ define(["Layout",
 			return;
 		}
 		
+		this.showPreamble(false);
+		
 		this.unzoomAllExcept(step);
 
 		var container = this.image_holder;
@@ -537,6 +541,14 @@ define(["Layout",
 		this.text_holder.css("display", "none");
 		
 		this.showAllLabels();
+		
+		this.showPreamble(true);
+	}
+	
+	PanZoomLayout.prototype.showPreamble = function (val) {
+//		this.preamble.css("visibility", val ? "visible" : "hidden");
+		this.preamble.removeClass("zoomedIn");
+		if (!val) this.preamble.addClass("zoomedIn");
 	}
 
 	return PanZoomLayout;

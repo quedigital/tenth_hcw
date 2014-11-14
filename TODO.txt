@@ -1,14 +1,15 @@
 
 
+// TODO: rename 9_2b to 9_2
+
 // TODO: 14_4 #3 callout from step without block, etc.
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
-// TODO: make first step of panzoom more obvious for clicking or have a lead-in "Show me how" from extracted paragraph
-// TODO: overlay panzoom extracted steps onto viewport (until zoomed)
-
 // TODO: make lightbox bigger when zooming in (to show more, ex: 10_1)
+
+// TODO: check styling of sidebars: are they consistent in the book? do ours match?
 
 // TODO: adjust grid step image's margin and padding based on alignment (ex: 1_1 #6, move image to top, class "align-L")
 
@@ -294,3 +295,5 @@
 // DONE: try debounce for window resize limiting (or google resizestop)
 // DONE: panzoom/swipe controls need "more (right/left)" indicator/scroll buttons? (or just scrollbars?)
 // DONE: keeping the selected panzoom item visible in the scrolling area isn't working anymore
+// DONE: make first step of panzoom more obvious for clicking or have a lead-in "Show me how" from extracted paragraph
+// DONE: overlay panzoom extracted steps onto viewport (until zoomed)

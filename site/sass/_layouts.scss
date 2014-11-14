@@ -558,6 +558,57 @@ body {
 }
 
 .spread.panzoom {
+	.preamble {
+		height: 50px;
+		
+		.preamble-text {
+			position: absolute;
+			height: auto;
+			background: rgb(200, 50, 50);
+			left: 25px;
+			right: 25px;
+			margin-top: 25px;
+			z-index: 2;
+			color: white;
+			box-shadow: 3px 3px 16px black;
+
+			.step.extracted {
+				max-width: none;
+			}
+			
+			.preamble-footer {
+				background-color: $hcw-light-brown;
+				color: black;
+				padding: 10px 25px;
+				text-transform: uppercase;
+				
+				span.red {
+					color: #AE240C;
+					font-weight: bold;
+				}
+				
+				cursor: pointer;
+				
+				transition: background-color .1s linear;
+				
+				&:hover {
+					background-color: #EDBBA6;
+				}
+			}
+		}
+		
+		&.zoomedIn {
+			.preamble-text {
+				position: static;
+				box-shadow: none;
+			}
+			
+			.preamble-footer {
+				display: none;
+			}
+		}
+	}
+	
 	.text_holder {
 		position: absolute;
 		top: 0;
@@ -593,7 +644,7 @@ body {
 		overflow: hidden;
 		
 		.image_wrapper {
-			transition: transform .5s ease-in-out, transform-origin .5s ease-in-out;			
+			transition: transform 2s ease-in-out, transform-origin 2s ease-in-out;			
 		}
 	}
 	
