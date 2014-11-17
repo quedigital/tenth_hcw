@@ -8,6 +8,7 @@ requirejs.config({
 		"waypoints-sticky": "waypoints-sticky.min",
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
+		"jquery.qtip": "jquery.qtip.min",
 		"lunr": "lunr.min",
 	},
 	
@@ -40,6 +41,10 @@ requirejs.config({
 				deps: ['jquery']
 			},
 			"jquery.columnizer": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.qtip": {
 				export: "$",
 				deps: ['jquery']
 			},

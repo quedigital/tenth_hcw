@@ -1124,6 +1124,16 @@ div.cell {
 
 span.glossary {
 	font-weight: bold;
+	padding: .1em .25em;
+	cursor: pointer;
+	transition: background-color .25s linear, color .25s linear;
+	border-radius: 25px;
+	
+	&:hover {
+		background-color: white;
+		color: black;
+		border-radius: 25px;
+	}
 }
 
 span.red {
@@ -2170,4 +2180,9 @@ div.image-callout {
 			}
 		}
 	}
+}
+
+.myCustomTooltip .qtip-content{
+	font-size: 22px;
+	line-height: 1.4em;
 }

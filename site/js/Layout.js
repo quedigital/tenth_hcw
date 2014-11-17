@@ -1,4 +1,4 @@
-define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
+define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers, CalloutLine, Glossary) {
 	Layout = function (container, manager, content) {
 		this.container = container;
 		this.manager = manager;
@@ -64,6 +64,8 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 	}
 	
 	Layout.prototype.layoutComplete = function () {
+		this.initializeGlossaryTerms();
+		
 		if (this.manager) {
 			this.manager.onLayoutComplete(this);
 		}
@@ -105,6 +107,38 @@ define(["Helpers", "CalloutLine"], function (Helpers, CalloutLine) {
 			}
 		}
 	}		
+	
+	Layout.prototype.initializeGlossaryTerms = function () {
+		var terms = this.container.find(".glossary");
+		
+		$.each(terms, function (index, item) {
+			var t = $(item).text();
+			var def = Glossary.getDefinition(t);
+			$(item).attr("title", def);
+		});
 
+		terms.qtip( {	style:	{
+									classes: "qtip-green qtip-rounded myCustomTooltip"
+								},
+						position: {
+									my: "top center",
+									at: "bottom center",
+									viewport: $("#scrollarea")
+								},
+						show: {
+									delay: 500,
+									effect: function (offset) {
+										$(this).removeClass("animated fadeOutUp").addClass("animated bounceInDown").show(0);
+									},
+								},
+						hide: {
+									delay: 500,
+									effect: function () {
+										$(this).removeClass("animated bounceInDown").addClass("animated fadeOutUp").delay(500);
+									}
+							},
+					} );
+	}
+	
 	return Layout;
 });
