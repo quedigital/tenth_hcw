@@ -1,8 +1,24 @@
 
 
+// TODO: comments / ratings per page
+// TODO: checkmarks for spreads "read"
+// TODO: Google Analytics
+
+// TODO: glossary click/hover bubbles
+
+// TODO: top-left title & settings / bookmark / what's new control area
+// TODO: a "what's new" tab or menu item
+// TODO: welcome / instructions page
+// TODO: fun entry / surprise page ("How does your phone know...?")
+
+// TODO: animate banner ad hiding or moving (so transition is less jarring)
+// TODO: always show prev/next banner before/after current spread
+
 // TODO: rename 9_2b to 9_2
 
 // TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: better loading indicator
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
@@ -13,26 +29,11 @@
 
 // TODO: adjust grid step image's margin and padding based on alignment (ex: 1_1 #6, move image to top, class "align-L")
 
-// TODO: comments / ratings per page
-// TODO: checkmarks for spreads "read"
-// TODO: Google Analytics
-
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
 
-// TODO: animate banner ad hiding or moving (so transition is less jarring)
-// TODO: don't show previous banner before chapter 1 (ie, don't loop back to end)
-// TODO: always show prev/next banner before/after current spread
-
 // TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // TODO: hard-code callout line directions in editor? [3_2]
-
-// TODO: glossary click/hover bubbles
-
-// TODO: top-left title & settings / bookmark / what's new control area
-// TODO: a "what's new" tab or menu item
-// TODO: welcome / instructions page
-// TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: [ipad] image zooming in lightbox doesn't work
 
@@ -297,3 +298,5 @@
 // DONE: keeping the selected panzoom item visible in the scrolling area isn't working anymore
 // DONE: make first step of panzoom more obvious for clicking or have a lead-in "Show me how" from extracted paragraph
 // DONE: overlay panzoom extracted steps onto viewport (until zoomed)
+// DONE: "About This Book" and "Introduction to the Tenth Edition"
+// DONE: don't show previous banner before chapter 1 (ie, don't loop back to end)

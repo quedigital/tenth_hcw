@@ -21,7 +21,7 @@ define(["Helpers"], function (Helpers) {
 			var color = Helpers.getColorForChapter(content.chapter);
 			
 			if (content.chapter != lastChapter) {				
-				if (content.number > 0) {
+				if (content.chapter > 0 && content.number > 0) {
 					var ch = $("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", color);
 					ch.appendTo(toc);
 				}
@@ -187,8 +187,17 @@ define(["Helpers"], function (Helpers) {
 			this.updateNextSpreadBanner(options.id);
 		}
 		
-		$("#next-ad").css({ display: "block" });
-		$("#prev-ad").css({ display: "block" });
+		if ($("#next-ad .wide-ad h1").text()) {
+			$("#next-ad").css({ display: "block" });
+		} else {
+			$("#next-ad").css({ display: "none" });
+		}
+		
+		if ($("#prev-ad .wide-ad h1").text()) {
+			$("#prev-ad").css({ display: "block" });
+		} else {
+			$("#prev-ad").css({ display: "none" });
+		}
 		
 		if (options.replace) {
 			// scroll to top of this spread
@@ -209,7 +218,8 @@ define(["Helpers"], function (Helpers) {
 			$("#next-ad .wide-ad h1").text(nextSpread.title);
 			var layout = this.layouts[nextSpread.id];
 			var img = getRandomImageFromSpread(nextSpread, layout);
-			$("#next-ad .wide-ad .preview-image").css("backgroundImage", "url(" + img + ")");
+			img = (img == undefined) ? "none" : "url(" + img + ")";
+			$("#next-ad .wide-ad .preview-image").css("backgroundImage", img);
 			$("#next-ad .ad").data("next-id", nextSpread.id);
 		}
 		
@@ -221,7 +231,8 @@ define(["Helpers"], function (Helpers) {
 			small.find("h1").text(spread.title);
 			var layout = me.layouts[spread.id];
 			var img = getRandomImageFromSpread(spread, layout);
-			small.find(".preview-image").css("backgroundImage", "url(" + img + ")");
+			img = (img == undefined) ? "none" : "url(" + img + ")";
+			small.find(".preview-image").css("backgroundImage", img);
 			small.data("next-id", spread.id);
 		});
 	}
@@ -233,8 +244,11 @@ define(["Helpers"], function (Helpers) {
 			$("#prev-ad .wide-ad h1").text(prevSpread.title);
 			var layout = this.layouts[prevSpread.id];
 			var img = getRandomImageFromSpread(prevSpread, layout);
-			$("#prev-ad .wide-ad .preview-image").css("backgroundImage", "url(" + img + ")");
+			img = (img == undefined) ? "none" : "url(" + img + ")";
+			$("#prev-ad .wide-ad .preview-image").css("backgroundImage", img);
 			$("#prev-ad .ad").data("next-id", prevSpread.id);
+		} else {
+			$("#prev-ad .wide-ad h1").text("");
 		}
 	}
 	
@@ -258,13 +272,7 @@ define(["Helpers"], function (Helpers) {
 		for (var i = 0; i < this.contents.length; i++) {
 			var c = this.contents[i];
 			if (c.id == id) {
-				var prev;
-				if (i == 0) {
-					prev = this.contents[this.contents.length - 1];
-				} else {
-					prev = this.contents[i - 1];
-				}
-				return prev;
+				return this.contents[i - 1];
 			}
 		}
 		return undefined;
