@@ -1,9 +1,10 @@
 
 
-// TODO: for some reason, my Mac suddenly takes 20 seconds to index the search data, not ~4 seconds (!)
+// TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
 
-// TODO: animate banner ad hiding or moving (so transition is less jarring)
-// TODO: always show prev/next banner before/after current spread
+// TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: rename 9_2b to 9_2
 
 // TODO: top-left title & settings / bookmark / what's new control area
 // TODO: a "what's new" tab or menu item
@@ -16,11 +17,12 @@
 // TODO: welcome / instructions page
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
-// TODO: rename 9_2b to 9_2
+// TODO: animate banner ad hiding or moving (so transition is less jarring)
+// TODO: always show prev/next banner before/after current spread
+
+// TODO: for some reason, my Mac suddenly takes 20 seconds to index the search data, not ~4 seconds (!)
 
 // TODO: add glossary definitions for all terms in text
-
-// TODO: 14_4 #3 callout from step without block, etc.
 
 // TODO: better loading indicator
 
@@ -36,7 +38,6 @@
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
 
-// TODO: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // TODO: hard-code callout line directions in editor? [3_2]
 
 // TODO: [ipad] image zooming in lightbox doesn't work
@@ -305,3 +306,5 @@
 // DONE: "About This Book" and "Introduction to the Tenth Edition"
 // DONE: don't show previous banner before chapter 1 (ie, don't loop back to end)
 // DONE: glossary click/hover bubbles
+// DONE: change "ad" to "read" so ad blockers hopefully aren't triggered
+// DONE: 2_1 #2 doesn't put callout line canvas in the right place (!)

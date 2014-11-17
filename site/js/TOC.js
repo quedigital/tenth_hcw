@@ -66,8 +66,8 @@ define(["Helpers"], function (Helpers) {
 			entry.click($.proxy(me.onClickEntry, me));
 		});
 		
-		$("#next-ad .ad").click($.proxy(this.onClickNextAd, this));
-		$("#prev-ad .ad").click($.proxy(this.onClickPreviousAd, this));
+		$("#next-read .read").click($.proxy(this.onClickNextAd, this));
+		$("#prev-read .read").click($.proxy(this.onClickPreviousAd, this));
 		
 		$("#toggler").click($.proxy(this.onClickToggler, this));
 		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
@@ -100,8 +100,8 @@ define(["Helpers"], function (Helpers) {
 			id = $(event.target).parents(".entry").data("id");
 			
 		if (id) {
-			$("#next-ad").css({ display: "none" });
-			$("#prev-ad").css({ display: "none" });
+			$("#next-read").css({ display: "none" });
+			$("#prev-read").css({ display: "none" });
 			
 			$("#content").scrollTop(0);
 			this.openSpread( { id: id, replace: true } );
@@ -175,9 +175,9 @@ define(["Helpers"], function (Helpers) {
 		
 		var layoutDIV = layout.container.parents(".layout");
 		if (options.previous) {
-			layoutDIV.insertAfter($("#prev-ad"));
+			layoutDIV.insertAfter($("#prev-read"));
 		} else {
-			layoutDIV.insertBefore($("#next-ad"));
+			layoutDIV.insertBefore($("#next-read"));
 		}
 		layoutDIV.removeClass("loading");
 				
@@ -187,16 +187,16 @@ define(["Helpers"], function (Helpers) {
 			this.updateNextSpreadBanner(options.id);
 		}
 		
-		if ($("#next-ad .wide-ad h1").text()) {
-			$("#next-ad").css({ display: "block" });
+		if ($("#next-read .wide-read h1").text()) {
+			$("#next-read").css({ display: "block" });
 		} else {
-			$("#next-ad").css({ display: "none" });
+			$("#next-read").css({ display: "none" });
 		}
 		
-		if ($("#prev-ad .wide-ad h1").text()) {
-			$("#prev-ad").css({ display: "block" });
+		if ($("#prev-read .wide-read h1").text()) {
+			$("#prev-read").css({ display: "block" });
 		} else {
-			$("#prev-ad").css({ display: "none" });
+			$("#prev-read").css({ display: "none" });
 		}
 		
 		if (options.replace) {
@@ -206,7 +206,6 @@ define(["Helpers"], function (Helpers) {
 		
 		if (options.previous) {
 			// scroll to top of next spread (to keep our place)
-//			$("#content").scrollTop(layoutDIV.offset().top + layoutDIV.outerHeight() - $("#prev-ad").outerHeight() - 30);
 			$("#content").scrollTop(layoutDIV.offset().top);
 		}
 	}
@@ -215,19 +214,19 @@ define(["Helpers"], function (Helpers) {
 		var nextSpread = this.getNextSpread(id);
 		
 		if (nextSpread) {
-			$("#next-ad .wide-ad h1").text(nextSpread.title);
+			$("#next-read .wide-read h1").text(nextSpread.title);
 			var layout = this.layouts[nextSpread.id];
 			var img = getRandomImageFromSpread(nextSpread, layout);
 			img = (img == undefined) ? "none" : "url(" + img + ")";
-			$("#next-ad .wide-ad .preview-image").css("backgroundImage", img);
-			$("#next-ad .ad").data("next-id", nextSpread.id);
+			$("#next-read .wide-read .preview-image").css("backgroundImage", img);
+			$("#next-read .read").data("next-id", nextSpread.id);
 		}
 		
 		var me = this;
 		var spreads = getRelatedSpreads(this.contents, id, 3);
 		$.each(spreads, function (index, item) {
 			var spread = me.contents[item];
-			var small = $(".ad-area .small-ad").eq(index);
+			var small = $(".read-area .small-read").eq(index);
 			small.find("h1").text(spread.title);
 			var layout = me.layouts[spread.id];
 			var img = getRandomImageFromSpread(spread, layout);
@@ -241,14 +240,14 @@ define(["Helpers"], function (Helpers) {
 		var prevSpread = this.getPreviousSpread(id);
 		
 		if (prevSpread) {
-			$("#prev-ad .wide-ad h1").text(prevSpread.title);
+			$("#prev-read .wide-read h1").text(prevSpread.title);
 			var layout = this.layouts[prevSpread.id];
 			var img = getRandomImageFromSpread(prevSpread, layout);
 			img = (img == undefined) ? "none" : "url(" + img + ")";
-			$("#prev-ad .wide-ad .preview-image").css("backgroundImage", img);
-			$("#prev-ad .ad").data("next-id", prevSpread.id);
+			$("#prev-read .wide-read .preview-image").css("backgroundImage", img);
+			$("#prev-read .read").data("next-id", prevSpread.id);
 		} else {
-			$("#prev-ad .wide-ad h1").text("");
+			$("#prev-read .wide-read h1").text("");
 		}
 	}
 	

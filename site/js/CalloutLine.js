@@ -71,7 +71,7 @@ define(["Helpers"], function (Helpers) {
 					startX = viewSource.left + Math.floor(elemSource.width());
 				else
 					startX = viewSource.left;
-				startY = 1;
+				startY = viewSource.top + 1;
 			} else if (dx < 10) {
 				dir = "vertical";
 				startX = viewSource.left + Math.floor(elemSource.width() * .5) + 1;

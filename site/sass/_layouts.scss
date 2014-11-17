@@ -1511,15 +1511,15 @@ div.image-callout {
 	}
 }
 
-#prev-ad {
+#prev-read {
 	display: none;
 }
 
-#next-ad {
+#next-read {
 	display: none;
 }
 
-.ad-banner {
+.read-banner {
 	width: 100%;
 	max-width: 1080px;
 	display: block;
@@ -1543,7 +1543,7 @@ div.image-callout {
 		}
 	}
 	
-	.wide-ad {
+	.wide-read {
 		background-color: white;
 		position: relative;
 		
@@ -1566,27 +1566,27 @@ div.image-callout {
 		}		
 	}
 	
-	.ad-area {
-		.ad:nth-child(1) {
+	.read-area {
+		.read:nth-child(1) {
 			&:before {
 				background: linear-gradient(135deg, #cb60b3 0%,#ad1283 50%,#de47ac 100%);
 			}
 		}
 		
-		.ad:nth-child(2) {
+		.read:nth-child(2) {
 			&:before {
 				background: linear-gradient(135deg, #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
 			}
 		}
 		
-		.ad:nth-child(3) {
+		.read:nth-child(3) {
 			&:before {
 				background: linear-gradient(135deg, #627d4d 0%,#1f3b08 100%);
 			}
 		}
 	}
 	
-	.small-ad {
+	.small-read {
 		width: 33.3%;
 		border-top: 1px solid #ccc;
 		float: left;
@@ -1610,7 +1610,7 @@ div.image-callout {
 		}
 	}
 	
-	.ad {
+	.read {
 		position: relative;
 		cursor: pointer;
 		
@@ -1640,7 +1640,7 @@ div.image-callout {
 	}	
 }
 
-#prev-ad .wide-ad header {
+#prev-read .wide-read header {
 	bottom: auto;
 	top: 0;
 }	
