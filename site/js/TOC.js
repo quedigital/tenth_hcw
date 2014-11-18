@@ -1,4 +1,4 @@
-define(["Helpers"], function (Helpers) {
+define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 
 	TOC = function (mainContainer, manager, container, contents, layouts) {
 		this.mainContainer = mainContainer;
@@ -20,6 +20,8 @@ define(["Helpers"], function (Helpers) {
 		$.each(this.contents, function (index, content) {
 			var color = Helpers.getColorForChapter(content.chapter);
 			
+			if (content.number == -1) color = "wheat";
+			
 			if (content.chapter != lastChapter) {				
 				if (content.chapter > 0 && content.number > 0) {
 					var ch = $("<div>").addClass("entry chapter").text("Chapter " + content.chapter).css("backgroundColor", color);
@@ -28,12 +30,12 @@ define(["Helpers"], function (Helpers) {
 			}
 			
 			var entry = $("<div>").addClass("entry spread").appendTo(toc);
+			entry.hover(function () { var tc = tinycolor(color); $(this).css("backgroundColor", tc.darken(20).toString()); },
+						function () { $(this).css("backgroundColor", color); } );
 			
 			entry.css("backgroundColor", color);
 			
 			entry.data("id", content.id).attr("data-id", content.id);
-			
-//			var thumbnail = $("<div>").addClass("thumbnail").appendTo(entry);
 			
 			$("<p>").addClass("number").text(content.chapter + "." + content.number).appendTo(entry);
 
@@ -71,6 +73,15 @@ define(["Helpers"], function (Helpers) {
 		
 		$("#toggler").click($.proxy(this.onClickToggler, this));
 		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+		
+		$(".menu-button i").click($.proxy(this.onClickMenuButton, this));
+		$(".menuCloser").click($.proxy(this.onCloseMenu, this));
+		
+		$(".alert .opener").click($.proxy(this.onClickNewsButton, this));
+
+		$("#slideThree").change(function () {
+			manager.setContinuousScrolling(this.checked);
+		});
 		
 		$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
@@ -129,8 +140,8 @@ define(["Helpers"], function (Helpers) {
 		this.scrollToCurrentSpread();
 		
 		var c = Helpers.findByID(id, this.contents);
-		$("#header #chapter").text(c.chapter);
-		$("#header #page").text(c.number);
+		$("span#chapter").text(c.chapter);
+		$("span#page").text(c.number);
 	}
 	
 	TOC.prototype.onCurrentSpread = function (event, id) {
@@ -321,6 +332,27 @@ define(["Helpers"], function (Helpers) {
 		
 		this.mainContainer.animate( { left: -this.mainContainer.width() }, 500 );
 		$("#toggler i").removeClass("fa-chevron-circle-left").addClass("fa-chevron-circle-right");
+		
+		this.closeMenus();
+	}
+	
+	TOC.prototype.onClickMenuButton = function (event) {
+		$("#menu").toggle("slide", { direction: "up" });
+		this.mainContainer.find("#news").hide("slide", { direction: "up" });
+	}
+	
+	TOC.prototype.onCloseMenu = function (event) {
+		$(event.currentTarget).parents(".menu").hide("slide", { direction: "up" });
+	}
+	
+	TOC.prototype.onClickNewsButton = function (event) {
+		$("#news").toggle("slide", { direction: "up" });
+		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
+	}
+	
+	TOC.prototype.closeMenus = function () {
+		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
+		this.mainContainer.find("#news").hide("slide", { direction: "up" });
 	}
 	
 	function getRandomImageFromSpread (spread, layout) {

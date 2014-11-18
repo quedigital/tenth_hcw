@@ -171,8 +171,12 @@ define(["jquery"], function ($) {
 	function getColorForChapter (ch) {
 		var colors = ["#FF3E54", "#f75", "#f94", "#fc4", "#fe4", "#df4", "#7f4", "#0f4", "#0fb"];
 		
-		var c = (parseInt(ch) - 1) % colors.length;
-		return colors[c];		
+		if (ch == 0) {
+			return "rgb(160, 160, 255)";
+		} else {
+			var c = (parseInt(ch) - 1) % colors.length;
+			return colors[c];
+		}
 	}
 	
 	$.fn.wrapStart = function (numWords, klass) { 

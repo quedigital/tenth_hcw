@@ -93,15 +93,5 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.reflow();
 	});
 	
-	$(window).resize(debouncedReflow);
-	
-	$("#settingsButton").click(function () {
-		$("#settings").position({ my: "center center", at: "center center", of: "#content", collision: "none" }).show(0);
-	});
-	
-	$("#settings #okButton").click(function () { $("#settings").hide(0).css( { left: 0, top: 0 } ) });
-	
-	$("#check1").change(function () {
-		layoutManager.setContinuousScrolling(this.checked);
-	});
+	$(window).resize(debouncedReflow);	
 });

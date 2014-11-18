@@ -6,15 +6,15 @@
 
 // TODO: rename 9_2b to 9_2
 
-// TODO: top-left title & settings / bookmark / what's new control area
-// TODO: a "what's new" tab or menu item
-
 // TODO: comments / ratings per page
+// TODO: hover overlay help system
+// TODO: welcome / instructions page
+
 // TODO: checkmarks for spreads "read"
 // TODO: Google Analytics
 
-// TODO: hover overlay help system
-// TODO: welcome / instructions page
+// TODO: a "what's new" tab or menu item sourced from Firebase
+
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: animate banner ad hiding or moving (so transition is less jarring)
@@ -308,3 +308,4 @@
 // DONE: glossary click/hover bubbles
 // DONE: change "ad" to "read" so ad blockers hopefully aren't triggered
 // DONE: 2_1 #2 doesn't put callout line canvas in the right place (!)
+// DONE: top-left title & settings / bookmark / what's new control area

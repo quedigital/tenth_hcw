@@ -27,17 +27,71 @@
 
 <div id="toc-container">
 	<div id="toc-header">
-		<div id="header">
-			<div class="half left">
-				<div class="tiny">chapter</div>
-				<div id="chapter" class="number"></div>
+		<div id="menu-header">
+			<div class="menu-button">
+				<i class="fa fa-bars"></i>
 			</div>
-			<div class="half left">
-				<div class="tiny">page</div>
-				<div id="page" class="number"></div>
+			<div class="title">
 			</div>
-			<button class="fa fa-cogs" id="settingsButton">
-			</button>
+			<div class="alert">
+				<span class="opener fa-stack fa-lg">
+					<i class="fa fa-circle fa-stack-2x"></i>
+					<i class="fa fa-circle-thin fa-stack-2x"></i>
+					<i class="fa fa-stack-1x count">1</i>
+				</span>
+			</div>
+		</div>
+		<div id="news" class="menu">
+			<div class="contents">
+				<h1>What's New</h1>
+				<ul>
+					<li><a href="">News item 1</a></li>
+					<li><a href="">News item 2</a></li>
+				</ul>
+			</div>
+			<div class="footer">
+				<button id="menu-close" class="menuCloser"><i class="fa fa-times"></i></button>
+			</div>
+		</div>
+		<div id="menu" class="menu">
+			<div class="contents">
+				<table border=1>
+					<tr>
+						<th>chapter</th>
+						<th>spread</th>
+					</tr>
+					<tr>
+						<td><span id="chapter" class="number">1</span></td>
+						<td><span id="page" class="number">12</span></td>
+					</tr>
+				</table>
+				<div>
+					<div class="label">
+						Continuous scrolling?
+					</div>
+					<div class="slideThree">	
+						<input type="checkbox" value="None" id="slideThree" name="check" />
+						<label for="slideThree"></label>
+					</div>
+				</div>
+				<div>
+					<div class="label">
+						Favorite?
+					</div>
+					<div class="checkstar">
+						<input type="checkbox" value="None" id="checkstar" name="check" />
+						<label for="checkstar">
+							<span class="fa-stack">
+								<i class="fa fa-star-o fa-stack-1x"></i>
+								<i class="fa fa-star fa-stack-1x"></i>
+							</span>						
+						</label>
+					</div>
+				</div>
+			</div>
+			<div class="footer">
+				<button id="menu-close" class="menuCloser"><i class="fa fa-times"></i></button>
+			</div>
 		</div>
 	</div>
 	<div id="toc">
@@ -136,13 +190,6 @@
 	<div id="results-summary" class="summary">
 		<p>14 records found</p>
 	</div>
-</div>
-
-<div id="settings">
-	<div class="questions">
-		<input id="check1" type="checkbox" value="continuous">Continuous scrolling?</input>
-	</div>
-	<button id="okButton">Ok</button>
 </div>
 
 </body>
