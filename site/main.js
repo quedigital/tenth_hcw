@@ -4,11 +4,11 @@ requirejs.config({
 		"jquery": "jquery-1.11.0",
 		"jqueryui": "jquery-ui-1.10.4.custom.min",
 		"Helpers": "../../common/js/Helpers",
-		"waypoints": "waypoints.min",
-		"waypoints-sticky": "waypoints-sticky.min",
+		"jquery.autosize": "jquery.autosize.min",
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
 		"jquery.qtip": "jquery.qtip.min",
+		"jquery.json": "jquery.json.min",
 		"lunr": "lunr.min",
 	},
 	
@@ -28,11 +28,7 @@ requirejs.config({
 				export: "$",
 				deps: ['jquery.layout']
 			},
-			"waypoints": {
-				export: "$",
-				deps: ['jquery']
-			},
-			"waypoints-sticky": {
+			"jquery.autosize": {
 				export: "$",
 				deps: ['jquery']
 			},
@@ -56,6 +52,10 @@ requirejs.config({
 				export: "$",
 				deps: ['jquery']
 			},
+			"jquery.json": {
+				export: "$",
+				deps: ['jquery']
+			}
 		}
 });
 

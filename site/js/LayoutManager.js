@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "waypoints", "FixedControls"], function (GridLayout, FixedLayout, PanZoomLayout, SwipeLayout, TextLayout, Helpers, tinycolor, SearchManager) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "RatingsSystem", "FixedControls"], function (GridLayout, FixedLayout, PanZoomLayout, SwipeLayout, TextLayout, Helpers, tinycolor, SearchManager) {
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
 		
@@ -21,6 +21,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 		this.dom.parent().scroll($.proxy(this.onScroll, this));
 		
 		this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);
+		
+		$("#opinion").ratingsSystem("initialize");
 	}
 	
 	LayoutManager.prototype = Object.create({});
@@ -37,7 +39,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 	
 	LayoutManager.prototype.clearSpreads = function () {
 		$(".layout").remove();
-		$.waypoints("destroy");
 		this.layoutArray = [];
 	}
 	
@@ -116,8 +117,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 			this.showCallback(layout, this.showCallbackOptions);
 		}
 		
-		$.waypoints("refresh");
-		
 		if (this.showCallbackOptions.replace) {
 			layout.activate();
 		}
@@ -176,6 +175,33 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 		this.identifyCurrentSpread();
 		
 		this.updateSpreadHeader();
+		
+		/*
+		var op = $("#opinion");
+		var end = this.endOfCurrentSpreadOnScreen();
+		var vis = op.hasClass("onScreen");
+		console.log(end);
+		if (end != vis) {
+			if (end) {
+				console.log("show it");
+				op.addClass("onScreen");
+			} else {
+				console.log("hide it");
+				op.removeClass("onScreen");
+			}
+		}
+		*/
+	}
+	
+	LayoutManager.prototype.endOfCurrentSpreadOnScreen = function () {
+		var layout = this.getCurrentLayout();
+		if (layout) {
+			var end = layout.container.position().top + layout.container.outerHeight();
+			var st = this.dom.parent().scrollTop();
+			var h = this.dom.parent().height();
+			return (end > st) && (end < st + h);
+		}
+		return false;
 	}
 	
 	LayoutManager.prototype.identifyCurrentSpread = function () {
@@ -219,6 +245,10 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 	}
 	
 	LayoutManager.prototype.onSpreadChange = function () {
+		var layout = this.getCurrentLayout();
+		if (layout) {
+			$("#opinion").ratingsSystem("update", { bottomOf: layout.container, title: layout.title, id: layout.id } );
+		}
 	}
 	
 	LayoutManager.prototype.updateSpreadHeader = function () {

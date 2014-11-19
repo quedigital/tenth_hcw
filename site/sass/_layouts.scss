@@ -1308,6 +1308,7 @@ div.image-callout {
 			width: 20%;
 			height: 100%;
 			color: rgb(121, 81, 56);
+			position: relative;
 			
 			i {
 				font-size: 150%;
@@ -1320,6 +1321,16 @@ div.image-callout {
 				&:active {
 					color: rgb(243, 247, 104);
 				}
+			}
+			
+			p {
+				position: absolute;
+				bottom: 0;
+				line-height: 1.4em;
+				text-align: center;
+				width: 100%;
+				text-transform: uppercase;
+				font-size: 12px;
 			}
 		}
 		
@@ -2422,4 +2433,153 @@ div.image-callout {
 .myCustomTooltip .qtip-content{
 	font-size: 22px;
 	line-height: 1.4em;
+}
+
+#opinion {
+	background-color: white;
+	position: absolute;
+	width: 350px;
+	right: -350px;
+	top: -500px;
+	padding: 10px 40px 10px 1.5em;
+	z-index: 1;
+	transition: right .5s ease-in-out;
+	
+	&:hover {
+		right: 0;
+	}
+	
+	.pulltab {
+		position: absolute;
+		left: -1.5em;
+		top: 0;
+		width: 1.5em;
+		height: 100%;
+		background-color: red;
+		border-radius: 25px 0 0 25px;
+		
+		p {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			white-space: nowrap;
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			width: 1.5em;
+			color: white;
+			font-family: FontAwesome;
+			color: yellow;
+		}
+	}
+	
+	&.onScreen {
+	}
+	
+	h1 {
+		font-size: 150%;
+		line-height: 1.1em;
+		
+		span {
+			color: $hcw-light-brown;
+		}
+	}
+	
+	a {
+		cursor: pointer;
+		font-size: 75%;
+		color: red;
+		display: inline-block;
+		padding: .25em 1em;
+		margin-top: .5em;
+		border: 1px solid red;
+		
+		&:hover {
+			color: #600;
+			background-color: rgb(236, 208, 217);
+		}
+	}
+	
+	#ratingLabel {
+		display: inline-block;
+		font-size: 80%;
+		padding-right: .5em;
+	}
+	
+	.rating {
+		display: inline-block;
+		font-size: 120%;
+		unicode-bidi: bidi-override;
+		direction: rtl;
+		text-align: left;
+		margin-top: .25em;
+		
+		span.star {
+			font-family: FontAwesome;
+			font-weight: normal;
+			font-style: normal;
+			display: inline-block;
+			cursor: pointer;				
+			
+			&:before {
+				content: "\f006";
+				padding-right: 5px;
+				color: #777777;
+			}
+			
+			&.selected:before {
+				content: "\f005" !important;
+				color: #EAEA48 !important;
+			}
+			
+			&:hover {
+				& ~ span.star:before, &:before {
+					content: "\f005";
+					color: #e3cf7a;
+				}
+			}
+		}
+	}
+	
+	.commentEntry {
+		display: none;
+		margin-top: 1em;
+		
+		input {
+			font-size: 100%;
+		}
+		
+		textarea {
+			width: 100%;
+		}
+		
+		button {
+			height: 40px;
+			margin-top: 10px;
+		}
+		
+		button + button {
+			margin-left: 10px;
+		}
+	}
+	
+	.comments {
+		display: none;
+		margin-top: 1em;
+		font-size: 80%;
+		font-family: 'Archivo Narrow', sans-serif;
+		max-height: 200px;
+		border: 1px solid #ddd;
+		overflow-y: scroll;
+		
+		.scroller {
+			padding: .25em .5em;
+			
+			p {
+				padding-left: 1em;
+				text-indent: -1em;
+			}
+		}
+	}	
 }

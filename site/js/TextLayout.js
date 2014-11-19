@@ -47,14 +47,15 @@ define(["Layout",
 				
 		this.container.append(this.page);
 		
-		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));		
+		this.loadPage();
+		
+		imagesLoaded(this.page, $.proxy(this.onImagesLoaded, this));		
 	}
 	
 	TextLayout.prototype = Object.create(Layout.prototype);
 	TextLayout.prototype.constructor = TextLayout;
 
 	TextLayout.prototype.onImagesLoaded = function () {
-		this.loadPage();
 		this.layoutComplete();	
 	}
 	

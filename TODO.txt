@@ -2,7 +2,16 @@
 
 // TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
 
+// TODO: store and load ratings in Firebase
+// TODO: store and load comments in Firebase
+
+// TODO: BUG: preamble is in front of TOC
+
+// TODO: BUG: imagesLoaded isn't working with TextLayouts
+// TODO: BUG: 22_1 #3 width is set to 110% ?!
 // TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: 17_1, image callouts not working
 
 // TODO: rename 9_2b to 9_2
 

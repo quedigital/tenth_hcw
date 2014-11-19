@@ -3,6 +3,9 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		this.container = container;
 		this.manager = manager;
 		
+		this.title = content.title;
+		this.id = content.id;
+		
 		this.container.data("layout", this);
 		
 		this.elements = [];
