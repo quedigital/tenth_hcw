@@ -16,6 +16,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		
 			this.find("#addComment").click($.proxy(addComment, this, this));
 			this.find("#showComments").click($.proxy(showComments, this, this));
+			this.find("#send-button").click($.proxy(postComment, this, this));
 			this.find("#cancel-button").click($.proxy(addComment, this, this));
 			
 		} else if (command == "update") {
@@ -32,14 +33,38 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		return this;
 	}
 	
+	function postComment (elem) {
+		var options = { name: $(elem).find("#name").val(), comment: $(elem).find("#comment").val() };
+		
+		Database.addComment(currentID, options, $.proxy(showComments, this, elem));		
+	}
+	
 	function addComment (elem) {
-		resetForm(elem);
-		$(elem).find(".commentEntry").toggle("fade", { direction: "down" });
-		$(elem).find(".comments").hide("fade", { direction: "up" });
+		if ($(elem).find(".commentEntry").is(":visible")) {
+			$(elem).find(".commentEntry").hide("fade");
+		} else {
+			resetForm(elem);
+			$(elem).find(".commentEntry").show("fade", { direction: "down" });
+			$(elem).find(".comments").hide("fade", { direction: "up" });
+		}
 	}
 	
 	function showComments (elem) {
-		$(elem).find(".comments").toggle("fade", { direction: "down" });
+		if ($(elem).find(".comments").is(":visible")) {
+			$(elem).find(".comments").hide("fade");
+		} else {
+			var comments = Database.getComments(currentID, $.proxy(updateCommentsUI, this, this));		
+		}
+	}
+	
+	function updateCommentsUI (elem, comments) {
+		var scroller = elem.find(".scroller").empty();
+	
+		for (var each in comments) {
+			scroller.append("<p><span>" + comments[each].name + ": </span><span>" + comments[each].comment + "</span></p>");
+		}
+	
+		$(elem).find(".comments").show("fade", { direction: "down" });
 		$(elem).find(".commentEntry").hide("fade", { direction: "up" });
 	}
 	
@@ -68,14 +93,18 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		var avgRating = Database.getAverageRating(options.id, $.proxy(updateAverageRatingUI, this, elem));
 		
 		var myRating = Database.getMyRating(options.id);
+		updateMyRatingUI(elem, myRating);
+				
+		elem.css( { visibility: "visible", display: "none", top: options.bottom - elem.outerHeight() } );
+	}
+	
+	function updateMyRatingUI (elem, myRating) {
 		var stars = elem.find(".star");
 		if (myRating) {
 			stars.removeClass("selected").slice(5 - myRating, 5).addClass("selected");
 		} else {
 			stars.removeClass("selected");
 		}
-				
-		elem.css( { visibility: "visible", display: "none", top: options.bottom - elem.outerHeight() } );
 	}
 	
 	function updateAverageRatingUI (elem, avgRating) {

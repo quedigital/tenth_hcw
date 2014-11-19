@@ -2783,6 +2783,10 @@ div.image-callout span {
   padding-left: 1em;
   text-indent: -1em;
 }
+/* line 2583, ../sass/_layouts.scss */
+#opinion .comments .scroller p span:first-child {
+  font-weight: bold;
+}
 
 /* line 2, ../sass/_anims.scss */
 .step.with-callout:hover .callout-icon-container {

@@ -2579,6 +2579,10 @@ div.image-callout {
 			p {
 				padding-left: 1em;
 				text-indent: -1em;
+				
+				span:first-child {
+					font-weight: bold;
+				}
 			}
 		}
 	}	

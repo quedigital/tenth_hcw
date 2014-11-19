@@ -1,5 +1,8 @@
 
 
+// TODO: "be the first to comment" message
+// TODO: sort commments reverse chronologically
+
 // TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
 
 // TODO: store and load comments in Firebase
@@ -16,7 +19,6 @@
 
 // TODO: rename 9_2b to 9_2
 
-// TODO: comments / ratings per page
 // TODO: hover overlay help system
 // TODO: welcome / instructions page
 
@@ -320,3 +322,4 @@
 // DONE: 2_1 #2 doesn't put callout line canvas in the right place (!)
 // DONE: top-left title & settings / bookmark / what's new control area
 // DONE: store and load ratings in Firebase
+// DONE: comments / ratings per page
