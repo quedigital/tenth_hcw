@@ -50,7 +50,7 @@ requirejs.config({
 			},
 			"knockoutfire": {
 				deps: ["knockout", "firebase"]
-			}
+			},
 	},
 });
 

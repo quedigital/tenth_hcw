@@ -72,7 +72,7 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 		$("#prev-read .read").click($.proxy(this.onClickPreviousAd, this));
 		
 		$("#toggler").click($.proxy(this.onClickToggler, this));
-//		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
 		
 		$(".menu-button i").click($.proxy(this.onClickMenuButton, this));
 		$(".menuCloser").click($.proxy(this.onCloseMenu, this));

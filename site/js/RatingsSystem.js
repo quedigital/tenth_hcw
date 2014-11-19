@@ -65,12 +65,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		
 		elem.find("h1").html("What did you think of <span>" + options.title + "</span>");
 		
-		var avgRating = Database.getAverageRating(options.id);
-		
-		var s = "";
-		for (var i = 0; i < avgRating; i++) {
-			s += "&#xf005;<br/>";
-		}
+		var avgRating = Database.getAverageRating(options.id, $.proxy(updateAverageRatingUI, this, elem));
 		
 		var myRating = Database.getMyRating(options.id);
 		var stars = elem.find(".star");
@@ -79,14 +74,33 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		} else {
 			stars.removeClass("selected");
 		}
+				
+		elem.css( { visibility: "visible", display: "none", top: options.bottom - elem.outerHeight() } );
+	}
+	
+	function updateAverageRatingUI (elem, avgRating) {
+		var s = "";
+		
+		if (avgRating == undefined) {
+			s += "&#xf006;<br/>&#xf006;<br/>&#xf006;<br/>&#xf006;<br/>&#xf006;<br/>";
+		} else {		
+			for (var i = 0; i < avgRating; i++) {
+				s += "&#xf005;<br/>";
+			}
+		}
 		
 		var p = elem.find(".pulltab p");
+		elem.css("display", "block");
+		
 		p.html(s);
 		
-		var diff = (p.parent().height() - p.height()) * .5;
-		p.css("marginTop", diff);
+		var ph = p.parent().height();
+		var h = p.height();
 		
-		elem.css( { visibility: "visible", display: "none", top: options.bottom - elem.outerHeight() } );
+		elem.css("display", "none");
+		
+		var diff = (ph - h) * .5;
+		p.css("marginTop", diff);
 	}
 	
 });

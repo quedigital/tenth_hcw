@@ -10,6 +10,7 @@ requirejs.config({
 		"jquery.qtip": "jquery.qtip.min",
 		"jquery.json": "jquery.json.min",
 		"lunr": "lunr.min",
+		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",		
 	},
 	
 	shim: {
@@ -55,7 +56,10 @@ requirejs.config({
 			"jquery.json": {
 				export: "$",
 				deps: ['jquery']
-			}
+			},
+			"firebase": {
+				export: "Firebase"
+			},
 		}
 });
 
