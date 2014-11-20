@@ -1,11 +1,20 @@
 
 
-// TODO: "be the first to comment" message
-// TODO: sort commments reverse chronologically
+// TODO: a "what's new" tab or menu item sourced from Firebase
+
+// TODO: hover overlay help system
+
+// TODO: checkmarks for spreads "read"
+
+// TODO: Google Analytics
+
+// TODO: welcome / instructions page
+
+// TODO: fun entry / surprise page ("How does your phone know...?")
+
+// TODO: close search results when toc closes
 
 // TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
-
-// TODO: store and load comments in Firebase
 
 // TODO: BUG: preamble is in front of TOC
 
@@ -18,16 +27,6 @@
 // TODO: 17_1, image callouts not working
 
 // TODO: rename 9_2b to 9_2
-
-// TODO: hover overlay help system
-// TODO: welcome / instructions page
-
-// TODO: checkmarks for spreads "read"
-// TODO: Google Analytics
-
-// TODO: a "what's new" tab or menu item sourced from Firebase
-
-// TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: animate banner ad hiding or moving (so transition is less jarring)
 // TODO: always show prev/next banner before/after current spread
@@ -323,3 +322,7 @@
 // DONE: top-left title & settings / bookmark / what's new control area
 // DONE: store and load ratings in Firebase
 // DONE: comments / ratings per page
+// DONE: "be the first to comment" message
+// DONE: store and load comments in Firebase
+// DONE: sort commments reverse chronologically
+// DONE: add "moderated" field to comments

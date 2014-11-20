@@ -71,13 +71,16 @@ define(["firebase", "jquery.json"], function () {
 	}
 	
 	function getComments (id, callback) {
-		var allRatings = commentsRef.child(id).once("value", $.proxy(onReceivedComments, this, callback));
-	}
-	
-	function onReceivedComments (callback, dataSnapshot) {
-		var vals = dataSnapshot.val();
-		
-		callback(vals);
+		var allRatings = commentsRef.child(id).orderByKey().once("value", function (snapshot) {
+			var vals = [];
+			snapshot.forEach(function (child) {
+				var childData = child.val();
+				if (childData.moderated) {
+					vals.push(childData);
+				}
+			});
+			callback(vals);
+		});
 	}
 	
 	function addComment (id, options, callback) {

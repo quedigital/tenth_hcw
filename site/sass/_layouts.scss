@@ -2445,8 +2445,10 @@ div.image-callout {
 	z-index: 1;
 	transition: right .5s ease-in-out;
 	
-	&:hover {
-		right: 0;
+	#close-button {
+		position: absolute;
+		top: 10px;
+		right: 10px;
 	}
 	
 	.pulltab {
@@ -2545,6 +2547,10 @@ div.image-callout {
 	.commentEntry {
 		display: none;
 		margin-top: 1em;
+		
+		p span {
+			font-size: 14px;
+		}
 		
 		input {
 			font-size: 100%;
