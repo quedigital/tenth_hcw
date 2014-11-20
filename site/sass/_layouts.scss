@@ -2430,9 +2430,28 @@ div.image-callout {
 	}
 }
 
-.myCustomTooltip .qtip-content{
-	font-size: 22px;
-	line-height: 1.4em;
+.myCustomTooltip {
+	.qtip-content {
+		font-size: 22px;
+		line-height: 1.4em;
+	
+		button.full {
+			display: block;
+			width: 5em;
+			margin: 1em auto 0 auto;
+		}
+	}
+	
+	.qtip-title {
+		font-size: 200%;
+		line-height: 1.4em;
+	}
+}
+
+#qtip-overlay div {
+	opacity: 0 !important;
+	filter: alpha(opacity=0) !important;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" !important;	
 }
 
 #opinion {

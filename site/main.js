@@ -9,6 +9,8 @@ requirejs.config({
 		"jquery.colorbox": "jquery.colorbox-min",
 		"jquery.qtip": "jquery.qtip.min",
 		"jquery.json": "jquery.json.min",
+		"jquery.scrollTo": "jquery.scrollTo.min",
+		"jquery.dim-background": "jquery.dim-background.min",
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",		
 	},
@@ -54,6 +56,14 @@ requirejs.config({
 				deps: ['jquery']
 			},
 			"jquery.json": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.scrollTo": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.dim-background": {
 				export: "$",
 				deps: ['jquery']
 			},

@@ -114,7 +114,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 	
 	LayoutManager.prototype.onLayoutComplete = function (layout) {
 		if (this.showCallback) {
-			this.showCallback(layout, this.showCallbackOptions);
+			this.showCallback(layout);
 		}
 		
 		if (this.showCallbackOptions.replace) {

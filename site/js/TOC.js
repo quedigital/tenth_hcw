@@ -1,4 +1,4 @@
-define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
+define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpers, tinycolor) {
 
 	TOC = function (mainContainer, manager, container, contents, layouts) {
 		this.mainContainer = mainContainer;
@@ -10,6 +10,8 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 		this.contents.sort(Helpers.sortByChapterAndNumber);
 		
 		this.lastID = undefined;
+		
+		this.leaveOpen = false;
 		
 		var me = this;
 		
@@ -67,6 +69,10 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 			
 			entry.click($.proxy(me.onClickEntry, me));
 		});
+		
+		$("#news-widget").NewsItems();
+		$("#news-widget").on("newsitemsbegin", $.proxy(this.onBeginNewsItem, this));
+		$("#news-widget").on("newsitemsend", $.proxy(this.onEndNewsItem, this));
 		
 		$("#next-read .read").click($.proxy(this.onClickNextAd, this));
 		$("#prev-read .read").click($.proxy(this.onClickPreviousAd, this));
@@ -127,7 +133,7 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 //		$("#content-holder").css("visibility", "hidden");
 		$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
 		
-		this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this));
+		this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this, options));
 		
 		if (options.replace) {
 			this.updatePreviousSpreadName(options.id);
@@ -142,6 +148,10 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 		var c = Helpers.findByID(id, this.contents);
 		$("span#chapter").text(c.chapter);
 		$("span#page").text(c.number);
+	}
+	
+	TOC.prototype.getCurrentSpreadID = function () {
+		return this.lastID;
 	}
 	
 	TOC.prototype.onCurrentSpread = function (event, id) {
@@ -181,7 +191,7 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 		this.openSpread( { id: this.contents[rand].id, replace: true } );
 	}
 	
-	TOC.prototype.onSpreadVisible = function (layout, options) {
+	TOC.prototype.onSpreadVisible = function (options, layout) {
 		$("#loading-spinner").addClass("animated fadeOutRightBig");
 		
 		var layoutDIV = layout.container.parents(".layout");
@@ -218,6 +228,10 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 		if (options.previous) {
 			// scroll to top of next spread (to keep our place)
 			$("#content").scrollTop(layoutDIV.offset().top);
+		}
+		
+		if (options.callback) {
+			options.callback();
 		}
 	}
 	
@@ -328,6 +342,8 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 	}
 	
 	TOC.prototype.closeToggler = function (event) {
+		if (this.leaveOpen) return;
+		
 		this.mainContainer.stop();
 		
 		this.mainContainer.animate( { left: -this.mainContainer.width() }, 500 );
@@ -353,6 +369,25 @@ define(["Helpers", "tinycolor"], function (Helpers, tinycolor) {
 	TOC.prototype.closeMenus = function () {
 		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
 		this.mainContainer.find("#news").hide("slide", { direction: "up" });
+	}
+	
+	TOC.prototype.onBeginNewsItem = function (event, data) {
+		// leave TOC open while news item plays back
+		this.leaveOpen = true;
+		
+		var item = data.item;
+		
+		if (item.spread) {
+			if (item.spread != this.getCurrentSpreadID()) {
+				this.openSpread( { id: item.spread, replace: true, callback: data.callback } );
+			} else {
+				data.callback();
+			}
+		}
+	}
+	
+	TOC.prototype.onEndNewsItem = function () {
+		this.leaveOpen = false;
 	}
 	
 	function getRandomImageFromSpread (spread, layout) {

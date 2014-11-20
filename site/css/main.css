@@ -2633,13 +2633,31 @@ div.image-callout span {
   color: black;
 }
 
-/* line 2433, ../sass/_layouts.scss */
+/* line 2434, ../sass/_layouts.scss */
 .myCustomTooltip .qtip-content {
   font-size: 22px;
   line-height: 1.4em;
 }
-
 /* line 2438, ../sass/_layouts.scss */
+.myCustomTooltip .qtip-content button.full {
+  display: block;
+  width: 5em;
+  margin: 1em auto 0 auto;
+}
+/* line 2445, ../sass/_layouts.scss */
+.myCustomTooltip .qtip-title {
+  font-size: 200%;
+  line-height: 1.4em;
+}
+
+/* line 2451, ../sass/_layouts.scss */
+#qtip-overlay div {
+  opacity: 0 !important;
+  filter: alpha(opacity=0) !important;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" !important;
+}
+
+/* line 2457, ../sass/_layouts.scss */
 #opinion {
   background-color: white;
   position: absolute;
@@ -2650,13 +2668,13 @@ div.image-callout span {
   z-index: 1;
   transition: right .5s ease-in-out;
 }
-/* line 2448, ../sass/_layouts.scss */
+/* line 2467, ../sass/_layouts.scss */
 #opinion #close-button {
   position: absolute;
   top: 10px;
   right: 10px;
 }
-/* line 2454, ../sass/_layouts.scss */
+/* line 2473, ../sass/_layouts.scss */
 #opinion .pulltab {
   position: absolute;
   left: -1.5em;
@@ -2666,7 +2684,7 @@ div.image-callout span {
   background-color: red;
   border-radius: 25px 0 0 25px;
 }
-/* line 2463, ../sass/_layouts.scss */
+/* line 2482, ../sass/_layouts.scss */
 #opinion .pulltab p {
   display: block;
   position: absolute;
@@ -2681,16 +2699,16 @@ div.image-callout span {
   font-family: FontAwesome;
   color: yellow;
 }
-/* line 2482, ../sass/_layouts.scss */
+/* line 2501, ../sass/_layouts.scss */
 #opinion h1 {
   font-size: 150%;
   line-height: 1.1em;
 }
-/* line 2486, ../sass/_layouts.scss */
+/* line 2505, ../sass/_layouts.scss */
 #opinion h1 span {
   color: #e3865e;
 }
-/* line 2491, ../sass/_layouts.scss */
+/* line 2510, ../sass/_layouts.scss */
 #opinion a {
   cursor: pointer;
   font-size: 75%;
@@ -2700,18 +2718,18 @@ div.image-callout span {
   margin-top: .5em;
   border: 1px solid red;
 }
-/* line 2500, ../sass/_layouts.scss */
+/* line 2519, ../sass/_layouts.scss */
 #opinion a:hover {
   color: #600;
   background-color: #ecd0d9;
 }
-/* line 2506, ../sass/_layouts.scss */
+/* line 2525, ../sass/_layouts.scss */
 #opinion #ratingLabel {
   display: inline-block;
   font-size: 80%;
   padding-right: .5em;
 }
-/* line 2512, ../sass/_layouts.scss */
+/* line 2531, ../sass/_layouts.scss */
 #opinion .rating {
   display: inline-block;
   font-size: 120%;
@@ -2720,7 +2738,7 @@ div.image-callout span {
   text-align: left;
   margin-top: .25em;
 }
-/* line 2520, ../sass/_layouts.scss */
+/* line 2539, ../sass/_layouts.scss */
 #opinion .rating span.star {
   font-family: FontAwesome;
   font-weight: normal;
@@ -2728,49 +2746,49 @@ div.image-callout span {
   display: inline-block;
   cursor: pointer;
 }
-/* line 2527, ../sass/_layouts.scss */
+/* line 2546, ../sass/_layouts.scss */
 #opinion .rating span.star:before {
   content: "\f006";
   padding-right: 5px;
   color: #777777;
 }
-/* line 2533, ../sass/_layouts.scss */
+/* line 2552, ../sass/_layouts.scss */
 #opinion .rating span.star.selected:before {
   content: "\f005" !important;
   color: #EAEA48 !important;
 }
-/* line 2539, ../sass/_layouts.scss */
+/* line 2558, ../sass/_layouts.scss */
 #opinion .rating span.star:hover ~ span.star:before, #opinion .rating span.star:hover:before {
   content: "\f005";
   color: #e3cf7a;
 }
-/* line 2547, ../sass/_layouts.scss */
+/* line 2566, ../sass/_layouts.scss */
 #opinion .commentEntry {
   display: none;
   margin-top: 1em;
 }
-/* line 2551, ../sass/_layouts.scss */
+/* line 2570, ../sass/_layouts.scss */
 #opinion .commentEntry p span {
   font-size: 14px;
 }
-/* line 2555, ../sass/_layouts.scss */
+/* line 2574, ../sass/_layouts.scss */
 #opinion .commentEntry input {
   font-size: 100%;
 }
-/* line 2559, ../sass/_layouts.scss */
+/* line 2578, ../sass/_layouts.scss */
 #opinion .commentEntry textarea {
   width: 100%;
 }
-/* line 2563, ../sass/_layouts.scss */
+/* line 2582, ../sass/_layouts.scss */
 #opinion .commentEntry button {
   height: 40px;
   margin-top: 10px;
 }
-/* line 2568, ../sass/_layouts.scss */
+/* line 2587, ../sass/_layouts.scss */
 #opinion .commentEntry button + button {
   margin-left: 10px;
 }
-/* line 2573, ../sass/_layouts.scss */
+/* line 2592, ../sass/_layouts.scss */
 #opinion .comments {
   display: none;
   margin-top: 1em;
@@ -2780,16 +2798,16 @@ div.image-callout span {
   border: 1px solid #ddd;
   overflow-y: scroll;
 }
-/* line 2582, ../sass/_layouts.scss */
+/* line 2601, ../sass/_layouts.scss */
 #opinion .comments .scroller {
   padding: .25em .5em;
 }
-/* line 2585, ../sass/_layouts.scss */
+/* line 2604, ../sass/_layouts.scss */
 #opinion .comments .scroller p {
   padding-left: 1em;
   text-indent: -1em;
 }
-/* line 2589, ../sass/_layouts.scss */
+/* line 2608, ../sass/_layouts.scss */
 #opinion .comments .scroller p span:first-child {
   font-weight: bold;
 }

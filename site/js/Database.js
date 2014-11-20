@@ -2,12 +2,13 @@
 define(["firebase", "jquery.json"], function () {
 	var _initialized = false;
 	
-	var ratingsRef, commentsRef;
+	var ratingsRef, commentsRef, newsRef;
 	
 	function initialize () {
 		if (!_initialized) {
 			ratingsRef = new Firebase("https://hcw10.firebaseio.com/ratings");
 			commentsRef = new Firebase("https://hcw10.firebaseio.com/comments");
+			newsRef = new Firebase("https://hcw10.firebaseio.com/news");
 			_initialized = true;
 		}
 	}
@@ -86,13 +87,27 @@ define(["firebase", "jquery.json"], function () {
 	function addComment (id, options, callback) {
 		commentsRef.child(id).push(options, callback);
 	}
+	
+	function getNewsItems (callback) {
+		initialize();
+		
+		var allNews = newsRef.orderByKey().once("value", function (snapshot) {
+			var vals = [];
+			snapshot.forEach(function (child) {
+				var childData = child.val();
+				vals.push(childData);
+			});
+			callback(vals);
+		});
+	}
 
 	var Database = {
 		getMyRating: getMyRating,
 		setMyRating: setMyRating,
 		getAverageRating: getAverageRating,
 		getComments: getComments,
-		addComment: addComment
+		addComment: addComment,
+		getNewsItems: getNewsItems,
 	}
 	
 	return Database;	

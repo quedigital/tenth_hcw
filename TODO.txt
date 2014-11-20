@@ -1,6 +1,10 @@
 
 
-// TODO: a "what's new" tab or menu item sourced from Firebase
+// TODO: only show "new" news items (ie, unclicked? or by date?)
+
+// TODO: add ? help button
+
+// TODO: move "new items" icon to logo area
 
 // TODO: hover overlay help system
 
@@ -45,6 +49,8 @@
 // TODO: check styling of sidebars: are they consistent in the book? do ours match?
 
 // TODO: adjust grid step image's margin and padding based on alignment (ex: 1_1 #6, move image to top, class "align-L")
+
+// TODO: security for Firebase data?
 
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
@@ -326,3 +332,4 @@
 // DONE: store and load comments in Firebase
 // DONE: sort commments reverse chronologically
 // DONE: add "moderated" field to comments
+// DONE: a "what's new" tab or menu item sourced from Firebase
