@@ -91,15 +91,13 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	function onData (data, status, jqXHR) {
 		layoutManager.setData(data.layouts, data.contents);
 		
-		var tocContainer = $("<div>").addClass("toc-container").appendTo($("#toc"));
-		toc = new TOC($("#toc-container"), layoutManager, tocContainer, data.contents, data.layouts);
+		$("#toc-container").TOC( { layoutManager: layoutManager, contents: data.contents, layouts: data.layouts } );
+		$("#toc-container").TOC("openToRandomSpread");
 		
-		toc.openToRandomSpread();
-		
-		layoutManager.dom.bind("next-spread", $.proxy(toc.onAutoLoadNextSpread, toc));
-		layoutManager.dom.bind("previous-spread", $.proxy(toc.onAutoLoadPreviousSpread, toc));
-		layoutManager.dom.bind("current-spread", $.proxy(toc.onCurrentSpread, toc));
-		layoutManager.dom.bind("open-spread", function (event, options) { toc.openSpread(options); });
+		layoutManager.dom.bind("next-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadNextSpread", id); });
+		layoutManager.dom.bind("previous-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadPreviousSpread", id); });
+		layoutManager.dom.bind("current-spread", function (event, id) { $("#toc-container").TOC("onCurrentSpread", id); });
+		layoutManager.dom.bind("open-spread", function (event, options) { $("#toc-container").TOC("openSpread", options); });
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

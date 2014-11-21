@@ -174,23 +174,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "SwipeLayout", "TextLayout
 		
 		this.identifyCurrentSpread();
 		
-		this.updateSpreadHeader();
-		
-		/*
-		var op = $("#opinion");
-		var end = this.endOfCurrentSpreadOnScreen();
-		var vis = op.hasClass("onScreen");
-		console.log(end);
-		if (end != vis) {
-			if (end) {
-				console.log("show it");
-				op.addClass("onScreen");
-			} else {
-				console.log("hide it");
-				op.removeClass("onScreen");
-			}
-		}
-		*/
+		this.updateSpreadHeader();		
 	}
 	
 	LayoutManager.prototype.endOfCurrentSpreadOnScreen = function () {

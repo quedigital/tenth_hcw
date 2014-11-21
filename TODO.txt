@@ -1,6 +1,10 @@
 
 
-// TODO: hover overlay help system
+// TODO: clean up help system interface
+
+// TODO: flesh out help system steps
+
+// TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
 // TODO: re-write dimBackground to work with any screen element (step cells, etc.)
 
@@ -334,3 +338,5 @@
 // DONE: only show "new" news items (ie, unclicked? or by date?) [unclicked and in Firebase; they can be deleted from Firebase as they age]
 // DONE: move "new items" icon to logo area
 // DONE: add ? help button
+// DONE: refactor TOC as jquery widget
+// DONE: hover overlay help system
