@@ -2,16 +2,29 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 
 	var tour = [
 		{
-			target: "#toc-container",
-			text: "This is the table of contents",
+			target: "#options-button",
+			text: "This is the menu button. Click it to see a list of options.",
 			setup: [
+						{ target: "#toc-container", class: "TOC", type: "command", command: "closeMenus" },
 						{ target: "#toc-container", class: "TOC", type: "command", command: "open" },
 						{ target: "#toc-container", class: "TOC", type: "option", key: "leaveOpen", value: true },
 					],
 			teardown: [
 						{ target: "#toc-container", class: "TOC", type: "option", key: "leaveOpen", value: false },
 					],
-		}
+		},
+		{
+			target: "#toc-container",
+			text: "This is the table of contents. All the chapters live here in one tiny box.",
+			setup: [
+						{ target: "#toc-container", class: "TOC", type: "command", command: "closeMenus" },
+						{ target: "#toc-container", class: "TOC", type: "command", command: "open" },
+						{ target: "#toc-container", class: "TOC", type: "option", key: "leaveOpen", value: true },
+					],
+			teardown: [
+						{ target: "#toc-container", class: "TOC", type: "option", key: "leaveOpen", value: false },
+					],
+		},
 	];
 
     $.widget("que.HelpSystem", {
@@ -72,7 +85,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         
         showEndMessage: function () {
 			var content = $("<p>").html("This concludes today's tour.");
-			var btn = $('<button>', { text: 'Ok' });
+			var btn = $('<button>', { text: 'Ok', class: "full" });
 			content.append(btn);
 		
 			var me = this;
@@ -104,11 +117,14 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         
 		showTourTip: function (target, text) {
 			var content = $("<p>").html(text);
+			var div = $("<div>", { class: "two-button-holder" } );
+			content.append(div);
+			
 			var btn;
 			btn = $('<button>', { text: 'Back' });
-			content.append(btn);
+			div.append(btn);
 			btn = $('<button>', { text: 'Next' });
-			content.append(btn);
+			div.append(btn);
 		
 			var me = this;
 			
@@ -117,7 +133,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				style: { classes: "qtip-green qtip-rounded myCustomTooltip" },
 				show: { ready: true, modal: { on: true, blur: false }, delay: 1000 },
 				hide: false,
-				position: { my: "center left", at: "center right" },
+				position: { my: "center left", at: "center right", viewport: $(window), adjust: { method: "shift" } },
 				events: {
 					render: function (event, api) {
 						$("button", api.elements.content).click(function (e) {
@@ -126,7 +142,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 					},
 					hide: function (event, api) {
 						api.destroy();
-						$.undim();
+						$(target).undim();
 						me.advanceTourStep();
 					}
 				},

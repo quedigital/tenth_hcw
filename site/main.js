@@ -10,7 +10,7 @@ requirejs.config({
 		"jquery.qtip": "jquery.qtip.min",
 		"jquery.json": "jquery.json.min",
 		"jquery.scrollTo": "jquery.scrollTo.min",
-		"jquery.dim-background": "jquery.dim-background.min",
+		"jquery.dim-background": "jquery.dimBackground",
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",		
 	},

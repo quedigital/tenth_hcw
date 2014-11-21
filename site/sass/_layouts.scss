@@ -2456,6 +2456,18 @@ div.image-callout {
 		}
 	}
 	
+	div.two-button-holder {
+		margin-top: 1em;
+		
+		button:first-child {
+			float: left;
+		}
+		
+		button + button {
+			float: right;
+		}
+	}
+	
 	.qtip-title {
 		font-size: 200%;
 		line-height: 1.4em;
@@ -2635,4 +2647,12 @@ div.image-callout {
 
 #help-system {
 	display: none;
+}
+
+div.dimmer {
+	position: absolute;
+	background-color: #000;
+	opacity: 0;
+	z-index: 100;
+	transition: opacity .5s linear;
 }

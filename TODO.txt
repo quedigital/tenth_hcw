@@ -1,18 +1,18 @@
 
 
-// TODO: clean up help system interface
+// TODO: try on iPad
+
+// TODO: try on InformIT
+
+// TODO: welcome / instructions page
+
+// TODO: checkmarks for spreads "read"
 
 // TODO: flesh out help system steps
 
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
-// TODO: re-write dimBackground to work with any screen element (step cells, etc.)
-
-// TODO: checkmarks for spreads "read"
-
 // TODO: Google Analytics
-
-// TODO: welcome / instructions page
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 
@@ -340,3 +340,5 @@
 // DONE: add ? help button
 // DONE: refactor TOC as jquery widget
 // DONE: hover overlay help system
+// DONE: clean up help system interface
+// DONE: re-write dimBackground to work with any screen element (step cells, etc.)
