@@ -28,19 +28,22 @@
 <div id="toc-container">
 	<div id="toc-header">
 		<div id="menu-header">
-			<div class="menu-button">
-				<i class="fa fa-bars">
+			<div class="header-button">
+				<i id="menu-button" class="button fa fa-bars">
 				</i>
-				<p>Menu</p>
+				<p class="menu-label">Menu</p>
 			</div>
 			<div class="title">
-			</div>
-			<div class="alert">
-				<span class="opener fa-stack fa-lg">
+				<span id="news-alert" class="opener fa-stack fa-lg">
 					<i class="fa fa-circle fa-stack-2x"></i>
 					<i class="fa fa-circle-thin fa-stack-2x"></i>
 					<i class="fa fa-stack-1x count">1</i>
 				</span>
+			</div>
+			<div class="header-button">
+				<i id="help-button" class="button fa fa-question-circle">
+				</i>
+				<p class="menu-label">Help</p>
 			</div>
 		</div>
 		<div id="news" class="menu">
@@ -48,6 +51,18 @@
 				<h1>What's New</h1>
 				<div id="news-widget">
 				</div>
+			</div>
+			<div class="footer">
+				<button id="menu-close" class="menuCloser"><i class="fa fa-times"></i></button>
+			</div>
+		</div>
+		<div id="help-menu" class="menu">
+			<div class="contents">
+				<h1>Help</h1>
+				<ul>
+					<li id="how-to-use">How to Use This Web Book</li>
+					<li id="take-the-tour">Take the Tour</li>
+				</ul>
 			</div>
 			<div class="footer">
 				<button id="menu-close" class="menuCloser"><i class="fa fa-times"></i></button>
@@ -220,6 +235,9 @@
 	<div id="results-summary" class="summary">
 		<p>14 records found</p>
 	</div>
+</div>
+
+<div id="help-system">
 </div>
 
 </body>

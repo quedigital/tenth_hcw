@@ -1,4 +1,49 @@
-define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpers, tinycolor) {
+define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem"], function (Helpers, tinycolor) {
+
+    $.widget("que.TOC", {
+
+        // Options to be used as defaults
+        options: {},
+
+        // Set up widget (e.g. create element, apply theming,
+        // bind events, etc.)
+        _create: function () {
+            // _create will automatically run the first time
+            // this widget is called. Put the initial widget
+            // set-up code here, then you can access the element
+            // on which the widget was called via this.element.
+            // The options defined above can be accessed via
+            // this.options
+        },
+
+        // Destroy an instantiated plugin and clean up modifications
+        // that the widget has made to the DOM
+        _destroy: function () {
+            //this.element.removeStuff();
+        },
+        
+        doSomething: function () {
+        	console.log("ok!");
+        },
+
+        // Respond to any changes the user makes to the option method
+        _setOption: function ( key, value ) {
+			switch (key) {
+				case "someValue":
+					//this.options.someValue = doSomethingWith( value );
+					break;
+				default:
+					//this.options[ key ] = value;
+					break;
+			}
+
+            // For UI 1.8, _setOption must be manually invoked from
+            // the base widget
+            $.Widget.prototype._setOption.apply( this, arguments );
+            // For UI 1.9 the _super method can be used instead
+            //this._super( "_setOption", key, value );
+        }
+    });
 
 	TOC = function (mainContainer, manager, container, contents, layouts) {
 		this.mainContainer = mainContainer;
@@ -74,16 +119,22 @@ define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpe
 		$("#news-widget").on("newsitemsbegin", $.proxy(this.onBeginNewsItem, this));
 		$("#news-widget").on("newsitemsend", $.proxy(this.onEndNewsItem, this));
 		
+		$("#news-alert").NewsAlert();
+		
+		$("#help-system").HelpSystem( { layoutManager: manager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour" } );
+		
 		$("#next-read .read").click($.proxy(this.onClickNextAd, this));
 		$("#prev-read .read").click($.proxy(this.onClickPreviousAd, this));
 		
 		$("#toggler").click($.proxy(this.onClickToggler, this));
 		$("#toc-container").hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
 		
-		$(".menu-button i").click($.proxy(this.onClickMenuButton, this));
+		$("#menu-button").click($.proxy(this.onClickMenuButton, this));
 		$(".menuCloser").click($.proxy(this.onCloseMenu, this));
 		
-		$(".alert .opener").click($.proxy(this.onClickNewsButton, this));
+		$("#help-button").click($.proxy(this.openHelpMenu, this));
+		
+		$("#news-alert").click($.proxy(this.onClickNewsButton, this));
 
 		$("#slideThree").change(function () {
 			manager.setContinuousScrolling(this.checked);
@@ -355,6 +406,7 @@ define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpe
 	TOC.prototype.onClickMenuButton = function (event) {
 		$("#menu").toggle("slide", { direction: "up" });
 		this.mainContainer.find("#news").hide("slide", { direction: "up" });
+		this.mainContainer.find("#help-menu").hide("slide", { direction: "up" });
 	}
 	
 	TOC.prototype.onCloseMenu = function (event) {
@@ -364,11 +416,13 @@ define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpe
 	TOC.prototype.onClickNewsButton = function (event) {
 		$("#news").toggle("slide", { direction: "up" });
 		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
+		this.mainContainer.find("#help-menu").hide("slide", { direction: "up" });
 	}
 	
 	TOC.prototype.closeMenus = function () {
 		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
 		this.mainContainer.find("#news").hide("slide", { direction: "up" });
+		this.mainContainer.find("#help-menu").hide("slide", { direction: "up" });
 	}
 	
 	TOC.prototype.onBeginNewsItem = function (event, data) {
@@ -388,6 +442,14 @@ define(["Helpers", "tinycolor", "NewsItems", "jquery.scrollTo"], function (Helpe
 	
 	TOC.prototype.onEndNewsItem = function () {
 		this.leaveOpen = false;
+		
+		$("#news-alert").NewsAlert("refresh");
+	}
+	
+	TOC.prototype.openHelpMenu = function () {
+		$("#help-menu").toggle("slide", { direction: "up" });
+		this.mainContainer.find("#menu").hide("slide", { direction: "up" });
+		this.mainContainer.find("#news").hide("slide", { direction: "up" });
 	}
 	
 	function getRandomImageFromSpread (spread, layout) {

@@ -1,12 +1,8 @@
 
 
-// TODO: only show "new" news items (ie, unclicked? or by date?)
-
-// TODO: add ? help button
-
-// TODO: move "new items" icon to logo area
-
 // TODO: hover overlay help system
+
+// TODO: re-write dimBackground to work with any screen element (step cells, etc.)
 
 // TODO: checkmarks for spreads "read"
 
@@ -31,6 +27,8 @@
 // TODO: 17_1, image callouts not working
 
 // TODO: rename 9_2b to 9_2
+
+// TODO: smooth out pan-zoom transitions
 
 // TODO: animate banner ad hiding or moving (so transition is less jarring)
 // TODO: always show prev/next banner before/after current spread
@@ -333,3 +331,6 @@
 // DONE: sort commments reverse chronologically
 // DONE: add "moderated" field to comments
 // DONE: a "what's new" tab or menu item sourced from Firebase
+// DONE: only show "new" news items (ie, unclicked? or by date?) [unclicked and in Firebase; they can be deleted from Firebase as they age]
+// DONE: move "new items" icon to logo area
+// DONE: add ? help button

@@ -1,4 +1,4 @@
-define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip"], function (Database) {
+define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scrollTo"], function (Database) {
 
     $.widget("que.NewsItems", {
 
@@ -19,7 +19,7 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip"],
             
             this.items = [];
             
-            Database.getNewsItems($.proxy(this.onReceivedItems, this));
+            this.refresh();
             
             //this.element.addStuff();
             //this.element.addStuff();
@@ -39,23 +39,26 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip"],
 			
 			ul.empty();
 			
-        	var me = this;
-        	$.each(items, function (index, item) {
-        		var a = $("<a href=''>" + item.title + "</a>");
-        		a.click($.proxy(me.onClickItem, me, item));
-        		$("<li>").append(a).appendTo(ul);
-        	});
+			if (items.length) {
+				var me = this;
+				$.each(items, function (index, item) {
+					var li = $("<li>" + item.title + "</li>");
+					li.click($.proxy(me.onClickItem, me, item));
+					li.appendTo(ul);
+				});
+			} else {
+				var p = $("<p>No more news at this time.</p>");
+				p.appendTo(ul);
+			}
         },
 
 		onClickItem: function (item, event) {
-			event.preventDefault();
-			
 			this._trigger("begin", event, { item: item, callback: $.proxy(this.beginNewsPresentation, this, item) });
 		},
 		
 		beginNewsPresentation: function (item) {
 			var top_third = $("#content").height() * .3;
-		
+			
 			// once spread is open, scroll to item.target
 			$("#content").scrollTo(item.target, { axis: "y", duration: 1000, offset: { top: -top_third } });
 			
@@ -85,7 +88,7 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip"],
 						},
 						hide: function (event, api) {
 							api.destroy();
-							me.endNewsPresentation();
+							me.endNewsPresentation(item);
 						}
 					},
 				} );
@@ -93,16 +96,18 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip"],
 			}, 1000);
 		},
 		
-		endNewsPresentation: function () {
+		endNewsPresentation: function (item) {
 			$.undim();
+			
+			Database.setNewsItemRead(item.key);
+			
+			this.refresh();
+			
 			this._trigger("end");
 		},
 		
-        methodB: function ( event ) {
-            // _trigger dispatches callbacks the plugin user can
-            // subscribe to
-            //signature: _trigger( "callbackName", [eventObject], [uiObject] )
-            console.log("methodB called");
+        refresh: function () {
+            Database.getNewsItems($.proxy(this.onReceivedItems, this));            
         },
 
         methodA: function ( event ) {

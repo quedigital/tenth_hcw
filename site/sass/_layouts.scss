@@ -1304,34 +1304,34 @@ div.image-callout {
 			height: 100%;
 		}
 		
-		.menu-button {
+		.header-button {
 			width: 20%;
 			height: 100%;
 			color: rgb(121, 81, 56);
-			position: relative;
+			position: relative;			
+		}
+
+		i.button {
+			font-size: 150%;
+			cursor: pointer;
 			
-			i {
-				font-size: 150%;
-				cursor: pointer;
-				
-				&:hover {
-					color: #BE7708;
-				}
-				
-				&:active {
-					color: rgb(243, 247, 104);
-				}
+			&:hover {
+				color: #BE7708;
 			}
 			
-			p {
-				position: absolute;
-				bottom: 0;
-				line-height: 1.4em;
-				text-align: center;
-				width: 100%;
-				text-transform: uppercase;
-				font-size: 12px;
+			&:active {
+				color: rgb(243, 247, 104);
 			}
+		}
+		
+		p.menu-label {
+			position: absolute;
+			bottom: 0;
+			line-height: 1.4em;
+			text-align: center;
+			width: 100%;
+			text-transform: uppercase;
+			font-size: 12px;
 		}
 		
 		.title {
@@ -1343,30 +1343,30 @@ div.image-callout {
 			background-position: center center;
 			border-left: 1px solid rgba(155, 126, 93, 0.5);
 			border-right: 1px solid rgba(155, 126, 93, 0.5);
+			
+			position: relative;
 		}
 		
-		.alert {
-			width: 20%;
-			height: 100%;
-			font-size: 50%;
+		#news-alert {
+			display: none;
+			font-size: 60%;
 			color: rgb(233, 237, 164);
-			position: relative;
+			position: absolute;
+			top: 5px;
+			right: 5px;
 			
-			span {
-				margin-top: -4px;
-				cursor: pointer;
-				
-				&:hover {
-					.fa-circle {
-						color: #3DE422
-					}
+			cursor: pointer;
+			
+			&:hover {
+				.fa-circle {
+					color: #3DE422
 				}
-				
-				&:active {
-					.fa-circle {
-						color: #262;
-						text-shadow: 1px 1px 4px black;
-					}
+			}
+			
+			&:active {
+				.fa-circle {
+					color: #262;
+					text-shadow: 1px 1px 4px black;
 				}
 			}
 			
@@ -1379,10 +1379,10 @@ div.image-callout {
 				color: rgb(154, 163, 74);
 				text-shadow: 2px 2px 8px black;
 			}
-		}
+		}		
 	}
 	
-	#news {
+	.menu {
 		display: none;
 		position: absolute;
 		background-color: white;
@@ -1396,17 +1396,29 @@ div.image-callout {
 			padding: 10px;
 
 			ul {
+				font-size: 120%;
+				
 				& > li {
 					position: relative;
 					list-style: none;
+					cursor: pointer;
+					color: blue;
+					
+					&:hover {
+						color: green;
+					}
+					
+					&:active {
+						color: black;
+					}					
 				
 					&:before {
 						content: "";
 						position: absolute;
-						top: .3em;
+						top: .5em;
 						left: -1em;
-						width: 8px;
-						height: 8px;
+						width: .5em;
+						height: .5em;
 						display: block;
 						background-color: $hcw-light-brown;
 					}
@@ -2611,4 +2623,8 @@ div.image-callout {
 			}
 		}
 	}	
+}
+
+#help-system {
+	display: none;
 }

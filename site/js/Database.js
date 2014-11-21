@@ -88,17 +88,59 @@ define(["firebase", "jquery.json"], function () {
 		commentsRef.child(id).push(options, callback);
 	}
 	
+	// get the news items we haven't read yet
 	function getNewsItems (callback) {
 		initialize();
+
+		var viewed = getLocalNewsItemKeys();
 		
 		var allNews = newsRef.orderByKey().once("value", function (snapshot) {
 			var vals = [];
 			snapshot.forEach(function (child) {
 				var childData = child.val();
-				vals.push(childData);
+				childData.key = child.key();
+				if (viewed.indexOf(childData.key) == -1) {
+					vals.push(childData);
+				}
 			});
 			callback(vals);
 		});
+	}
+	
+	function getNewNewsItemCount (callback) {
+		// TODO: read all the news items, check their keys against the ones we've viewed (stored in localStorage)
+		var allNews = newsRef.orderByKey().once("value", function (snapshot) {
+			var viewed = getLocalNewsItemKeys();
+			var count = 0;
+			snapshot.forEach(function (child) {
+				var key = child.key();
+				if (viewed.indexOf(key) == -1) {
+					count++;
+				}
+			});
+			callback(count);
+		});
+	}
+	
+	function setNewsItemRead (key) {
+		var keys = getLocalNewsItemKeys();
+		if (keys.indexOf(key) == -1) {
+			keys.push(key);
+			var to_json = $.toJSON(keys);
+			localStorage.setItem("news", to_json);
+		}
+	}
+	
+	function getLocalNewsItemKeys () {
+		if (typeof(Storage) !== "undefined") {
+			var keys = localStorage.getItem("news");
+			if (keys) {
+				keys = $.evalJSON(keys);
+				return keys;
+			}
+		}
+		
+		return [];
 	}
 
 	var Database = {
@@ -108,6 +150,8 @@ define(["firebase", "jquery.json"], function () {
 		getComments: getComments,
 		addComment: addComment,
 		getNewsItems: getNewsItems,
+		getNewNewsItemCount: getNewNewsItemCount,
+		setNewsItemRead: setNewsItemRead
 	}
 	
 	return Database;	
