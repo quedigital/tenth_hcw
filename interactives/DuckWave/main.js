@@ -3,7 +3,8 @@ requirejs.config({
 	paths: {
 		"jquery": "../../../common/js/jquery-1.11.0.min",
 		"pixi": "../../common/js/pixi",
-		"TweenLite": "../../common/js/TweenLite.min",
+		"TweenLite": "../../common/js/tweenlite.min",
+		"DuckWave": "duckwave"
 	},
 	
 	shim: {

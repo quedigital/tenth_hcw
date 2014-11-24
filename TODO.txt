@@ -4,7 +4,13 @@
 
 // TODO: try on InformIT
 
+// TODO: use timeout to load next spreads
+
+// TODO: redo searchmanager as jquery widget
+
 // TODO: welcome / instructions page
+
+// TODO: 11_2 needs to be tweaked for panzoom layout
 
 // TODO: checkmarks for spreads "read"
 
@@ -342,3 +348,4 @@
 // DONE: hover overlay help system
 // DONE: clean up help system interface
 // DONE: re-write dimBackground to work with any screen element (step cells, etc.)
+// DONE: for iPad scrolling, I tried iScroll5 but its performance was too jerky

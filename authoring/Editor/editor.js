@@ -3,8 +3,8 @@ requirejs.config({
 	paths: {
 		"jquery": "jquery-1.11.0.min",
 		"jqueryui": "jquery-ui-1.10.4.min",
-		"domReady": "../../../common/js/domReady",
-		"Helpers": "../../../common/js/Helpers",
+		"domReady": "../../../common/js/domready",
+		"Helpers": "../../../common/js/helpers",
 		"jquery.layout": "jquery.layout-latest.min",
 		"jquery.autosize": "jquery.autosize.min",
 		"jquery.json": "jquery.json.min",

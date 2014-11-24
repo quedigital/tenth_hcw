@@ -3,16 +3,42 @@ requirejs.config({
 	paths: {
 		"jquery": "jquery-1.11.0",
 		"jqueryui": "jquery-ui-1.10.4.custom.min",
-		"Helpers": "../../common/js/Helpers",
+		"Database": "database",
+		"Helpers": "../../common/js/helpers",
+		"TOC": "toc",
+		"GridLayout": "gridlayout",
+		"FixedLayout": "fixedlayout",
+		"TextLayout": "textlayout",
+		"PanZoomLayout": "panzoomlayout",
+		"RatingsSystem": "ratingssystem",
+		"SwipeLayout": "swipelayout",
+		"FixedControls": "fixedcontrols",
+		"SearchManager": "searchmanager",
+		"LayoutManager": "layoutmanager",
+		"NewsAlert": "newsalert",
+		"NewsItems": "newsitems",
+		"HelpSystem": "helpsystem",
+		"Layout": "layout",
+		"FixedStep": "fixedstep",
+		"Sidebar": "sidebar",
+		"CellImage": "cellimage",
+		"SiteHelpers": "sitehelpers",
+		"Step": "step",
+		"Video": "video",
+		"CalloutLine": "calloutline",
+		"FixedRegion": "fixedregion",
+		"Glossary": "glossary",
+		"CalloutLabel": "calloutlabel",
+		"Interactive": "interactive",
 		"jquery.autosize": "jquery.autosize.min",
 		"jquery.columnizer": "jquery.columnizer",
 		"jquery.colorbox": "jquery.colorbox-min",
 		"jquery.qtip": "jquery.qtip.min",
 		"jquery.json": "jquery.json.min",
-		"jquery.scrollTo": "jquery.scrollTo.min",
-		"jquery.dim-background": "jquery.dimBackground",
+		"jquery.scrollTo": "jquery.scrollto.min",
+		"jquery.dim-background": "jquery.dimbackground",
 		"lunr": "lunr.min",
-		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",		
+		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
 	},
 	
 	shim: {
@@ -26,10 +52,6 @@ requirejs.config({
 			"jquery.layout": {
 				export: "$",
 				deps: ['jquery']
-			},
-			"jquery.layout.slideOffscreen": {
-				export: "$",
-				deps: ['jquery.layout']
 			},
 			"jquery.autosize": {
 				export: "$",
@@ -51,10 +73,6 @@ requirejs.config({
 				export: "$",
 				deps: ['jquery']
 			},
-			"jquery.panelSnap": {
-				export: "$",
-				deps: ['jquery']
-			},
 			"jquery.json": {
 				export: "$",
 				deps: ['jquery']
@@ -73,7 +91,7 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (inobounce, LayoutManager, TOC, Helpers, $) {
+require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (inobounce, LayoutManager, TOC, Helpers) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -85,7 +103,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 	var toc;
 
 	var debouncedReflow = Helpers.debounce($.proxy(layoutManager.reflow, layoutManager), 250);
-		
+
 	window.layoutManager = layoutManager;
 	
 	function onData (data, status, jqXHR) {
