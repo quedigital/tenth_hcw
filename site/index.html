@@ -4,7 +4,7 @@
 <head>
 	<title>How Computers Work</title>
 
-	<meta name="viewport" content="initial-scale=1, minimum-scale=1, maximum-scale=8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1">
 
 	<link rel="stylesheet" type="text/css" href="css/main.css"/>	
 	<link rel="stylesheet" type="text/css" href="css/animate.css"/>	
@@ -122,94 +122,85 @@
 	</div>
 </div>
 
-<div id="scrollarea">
-	<div id="content">
-		<div id="content-holder">
-			<div id="prev-read" class="read-banner">
+<div id="content">
+	<div id="content-holder">
+		<div id="prev-read" class="read-banner">
+			<header>
+				<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+			</header>
+			<div class="wide-read read">
 				<header>
-					<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+					<h1>How an Egg Cooks</h1>
 				</header>
-				<div class="wide-read read">
+				<div class="preview-image">
+				</div>
+			</div>
+		</div>
+		
+		<div id="opinion">
+			<div class="pulltab"><p>&#xf005;<br/>&#xf005;<br/>&#xf005;<br/></p></div>
+			<div class="mainarea">
+				<h1>What did you think?</h1>
+				<button id="close-button"><i class="fa fa-times"></i></button>
+				<p id="ratingLabel">Your rating:</p>
+				<div class="rating">
+					<span class="star" data-title="Great!" title="Now I know exactly How…"></span>
+					<span class="star" data-title="Pretty good!" title="I learned a lot about How…"></span>
+					<span class="star" data-title="Ok" title="I <em>think</em> I get How…"></span>
+					<span class="star" data-title="Meh" title="I would like to know more about How…"></span>
+					<span class="star" data-title="Nope" title="I still don't understand How…"></span>
+				</div>
+				<a id="showComments" ref="">Show comments</a>
+				<a id="addComment" ref="">Add comment</a>
+			</div>
+			<div class="commentEntry">
+				<p>Your Name: <span>(optional)</span></p>
+				<input type="text" id="name"></input>
+				<p>Comment:</p>
+				<textarea id="comment"></textarea>
+				<button id="send-button">Send</button><button id="cancel-button">Cancel</button>
+			</div>
+			<div class="comments">
+				<div class="scroller">
+				</div>
+			</div>
+		</div>
+		
+		<div id="next-read" class="read-banner">
+			<header>
+				<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
+			</header>
+			<div class="wide-read read">
+				<header>
+					<h1>How an Egg Cooks</h1>
+				</header>
+				<div class="preview-image">
+				</div>
+			</div>
+			<div class="read-area">
+				<div class="small-read read">
 					<header>
-						<h1>How an Egg Cooks</h1>
+						<h1>Another Spread</h1>
 					</header>
 					<div class="preview-image">
 					</div>
 				</div>
-			</div>
-			
-			<div id="opinion">
-				<div class="pulltab"><p>&#xf005;<br/>&#xf005;<br/>&#xf005;<br/></p></div>
-				<div class="mainarea">
-					<h1>What did you think?</h1>
-					<button id="close-button"><i class="fa fa-times"></i></button>
-					<p id="ratingLabel">Your rating:</p>
-					<div class="rating">
-						<span class="star" data-title="Great!" title="Now I know exactly How…"></span>
-						<span class="star" data-title="Pretty good!" title="I learned a lot about How…"></span>
-						<span class="star" data-title="Ok" title="I <em>think</em> I get How…"></span>
-						<span class="star" data-title="Meh" title="I would like to know more about How…"></span>
-						<span class="star" data-title="Nope" title="I still don't understand How…"></span>
-					</div>
-					<a id="showComments" ref="">Show comments</a>
-					<a id="addComment" ref="">Add comment</a>
-				</div>
-				<div class="commentEntry">
-					<p>Your Name: <span>(optional)</span></p>
-					<input type="text" id="name"></input>
-					<p>Comment:</p>
-					<textarea id="comment"></textarea>
-					<button id="send-button">Send</button><button id="cancel-button">Cancel</button>
-				</div>
-				<div class="comments">
-					<div class="scroller">
-					</div>
-				</div>
-			</div>
-			
-			<div id="next-read" class="read-banner">
-				<header>
-					<h1>Next from <span style='color: #f42'>How Computers Work</span></h1>
-				</header>
-				<div class="wide-read read">
+				<div class="small-read read">
 					<header>
-						<h1>How an Egg Cooks</h1>
+						<h1>Another Spread</h1>
 					</header>
 					<div class="preview-image">
 					</div>
 				</div>
-				<div class="read-area">
-					<div class="small-read read">
-						<header>
-							<h1>Another Spread</h1>
-						</header>
-						<div class="preview-image">
-						</div>
-					</div>
-					<div class="small-read read">
-						<header>
-							<h1>Another Spread</h1>
-						</header>
-						<div class="preview-image">
-						</div>
-					</div>
-					<div class="small-read read">
-						<header>
-							<h1>Another Spread</h1>
-						</header>
-						<div class="preview-image">
-						</div>
+				<div class="small-read read">
+					<header>
+						<h1>Another Spread</h1>
+					</header>
+					<div class="preview-image">
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-<div id="fixed-layout-controls">
-	<button id="previous-button" class="arrow-button">&#xf053;</button>
-	<button id="next-button" class="arrow-button">&#xf054;</button>
-	<div id="direct-buttons">
 	</div>
 </div>
 

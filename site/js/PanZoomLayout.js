@@ -8,6 +8,7 @@ define(["Layout",
 		"Helpers",
 		"debug",
 		"tinycolor",
+		"FixedControls",
 		], function (Layout, jqueryui, imagesLoaded, Step, FixedRegion, Sidebar, CellImage, Helpers, debug, tinycolor) {
 		
 	PanZoomLayout = function (container, layout, content, manager) {	
@@ -85,8 +86,8 @@ define(["Layout",
 		var image_w = this.img[0].naturalWidth;
 		var image_h = this.img[0].naturalHeight;
 		
-		var pane = $(this.container).parents("#scrollarea");
-		var h = pane.height() - this.controls.outerHeight();
+		var pane = $(this.container).parent();
+		var h = $(window).height();
 		var w = pane.width();
 		
 		var ch = $("#content-holder");

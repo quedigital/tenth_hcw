@@ -1,5 +1,7 @@
 
 
+// TODO: scrollToCurrentSpread needs some re-thinking
+
 // TODO: try on iPad
 
 // TODO: try on InformIT

@@ -145,7 +145,9 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 			
 			$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
 	
-			this.layoutManager.showSpreadByID(options, $.proxy(this.onSpreadVisible, this, options));
+			options.callback = $.proxy(this.onSpreadVisible, this, options);
+			
+			this.layoutManager.showSpreadByID(options);
 	
 			if (options.replace) {
 				this.updatePreviousSpreadName(options.id);
@@ -188,6 +190,8 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 		},
 	
 		scrollToCurrentSpread: function (animate) {
+			return;
+			
 			if (animate == undefined) animate = true;
 		
 			var entry = $("#toc .entry[data-id='" + this.lastID + "']");
@@ -215,7 +219,7 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 		},
 	
 		onSpreadVisible: function (options, layout) {
-			$("#loading-spinner").addClass("animated fadeOutRightBig");
+			$("#loading-spinner").css("display", "none");
 		
 			var layoutDIV = layout.container.parents(".layout");
 			if (options.previous) {
@@ -245,17 +249,13 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 		
 			if (options.replace) {
 				// scroll to top of this spread
-				$("#content").scrollTop($(".layout").offset().top - 15);			
+//				$("#content").scrollTop($(".layout").offset().top - 15);			
 			}
 		
 			if (options.previous) {
 				// scroll to top of next spread (to keep our place)
-				$("#content").scrollTop(layoutDIV.offset().top);
-			}
-		
-			if (options.callback) {
-				options.callback();
-			}
+//				$("#content").scrollTop(layoutDIV.offset().top);
+			}		
 		},
 	
 		updateNextSpreadBanner: function (id) {

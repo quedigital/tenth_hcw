@@ -126,7 +126,7 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 						position: {
 									my: "top center",
 									at: "bottom center",
-									viewport: $("#scrollarea")
+									viewport: this.container.parent(),
 								},
 						show: {
 									delay: 500,

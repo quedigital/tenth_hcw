@@ -20,7 +20,7 @@ html, body, p, h1 {
 }
 
 body {
-	overflow: hidden;
+	overflow-y: scroll;
 }
 
 .layout {
@@ -138,7 +138,7 @@ body {
 	}
 }
 
-.spread.fixed, .spread.panzoom, .spread.swipe {
+.spread.fixed, .spread.panzoom {
 	margin-left: auto;
 	margin-right: auto;
 	
@@ -662,102 +662,6 @@ body {
 		padding: 1em 40px;
 		margin: 0;
 	}
-}
-
-.spread.swipe {
-	width: 100%;
-	max-width: 1080px;
-	
-	.widget {
-		width: 100%;
-		margin: 25px auto 0 auto;
-		background: inherit;
-		overflow: hidden;		
-	}
-
-	.controls {
-		width: 100%;
-		height: 50px;
-		margin-bottom: 25px;
-	}
-	
-	.text_holder {
-		width: 20%;
-		float: left;
-		height: 100%;
-		background: rgba(200, 50, 50, .75);
-		padding: 1rem;
-		color: white;
-		overflow-y: scroll;
-		overflow-x: hidden;
-
-		/* force scrollbars on Mac? (Chrome only) */
-		&::-webkit-scrollbar {
-		  -webkit-appearance: none;
-		  width: 7px;
-		}
-		
-		&::-webkit-scrollbar-thumb {
-		  border-radius: 4px;
-		  background-color: rgba(0, 0, 0, .5);
-		  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-		}
-		
-		.block {
-			position: relative;
-			top: auto;
-			left: auto;
-		}
-		
-		.index {
-			.block {
-				display: block;
-				margin: 10px;
-				transition: background-color .5s linear, color .5s linear;
-				cursor: pointer;
-			
-				&:hover {
-					color: black;
-					
-					&:before {
-						background-color: white !important;
-					}
-				}
-			}
-		}
-		
-		h1 {
-			font-size: 150%;
-			color: black;
-			background: none;
-		}		
-	}
-
-	.image_wrapper {
-	}
-	
-	.image_holder {
-		overflow-y: scroll;
-		overflow-x: hidden;
-		float: right;
-		width: 80%;
-		height: 100%;
-		border: 2px solid black;
-		border-bottom: none;
-	}
-	
-	.shape {
-		z-index: 1;
-		box-shadow: -2px 2px 4px rgba(128, 128, 128, .7);
-		
-		/* this shadow was awfully blurry when scaled up via transform
-		-webkit-filter: drop-shadow(-4px 4px 6px rgba(0, 0, 0, .5));
-		*/
-	}
-	
-	section.swipe_region {
-		overflow: hidden;
-	}	
 }
 
 .fixed-controls {
@@ -1618,19 +1522,8 @@ div.image-callout {
 	}
 }
 
-#main-content {
-	-webkit-overflow-scrolling: touch;
-}
-
-#main-center {
-	overflow: hidden !important;
-}
-
 #content {
-	position: relative;
-	overflow-y: scroll;
 	overflow-x: hidden;
-	height: 100%;
 }
 
 #content-holder {
@@ -1657,119 +1550,6 @@ div.image-callout {
 		padding-left: 2em;
 		vertical-align: top;
 		position: absolute;
-	}
-}
-
-#fixed-layout-controls {
-	display: none;
-	position: fixed;
-	bottom: 0;
-	z-index: 10;
-	text-align: center;
-	height: 70px;
-	white-space: nowrap;
-	background-color: #efeffe;
-	border-radius: 15px 15px 0 0;
-	max-width: 100%;
-	padding: 0 0;
-	overflow-x: scroll;
-	box-shadow: 0 -3px 5px rgba(0, 0, 0, .5);
-	
-	.btn {
-		border: none;
-		border-right: 1px solid white;
-		cursor: pointer;
-		background: none;
-		margin: 0;
-		display: inline-block;
-		outline: none;
-		position: relative;
-
-		transition: all 0.3s;
-		background-color: black;
-		color: white;
-		font-weight: bold;
-		font-size: 14px;
-		line-height: 1.4em;
-		text-align: center;
-		max-width: 75px;
-		padding: 5px;
-		font-family: 'Oswald', sans-serif;
-
-		span {
-			white-space: normal;
-		}
-	}
-	
-	.arrow-button {
-		border: none;
-		font-family: inherit;
-		font-size: inherit;
-		color: inherit;
-		background: none;
-		cursor: pointer;
-		padding: 0 20px;
-		height: 90%;
-		display: inline-block;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-		font-weight: 700;
-		outline: none;
-		position: relative;
-		transition: background 0.1s;
-
-		border: 3px solid #55A;
-		border-radius: 15px;
-		color: #55A;
-		margin: 0 5px;
-		top: 5%;
-
-		overflow: hidden;
-	}
-	
-	#previous-button:before {
-		content: "\f053";
-		position: absolute;
-		left: 130%;
-		transition: all 0.3s;
-	}
-	
-	#previous-button:hover:before {
-		left: 50%;
-	}
-	
-	#previous-button:active {
-		color: white;
-		background: black;
-	}
-	
-	#next-button:before {
-		content: "\f054";
-		position: absolute;
-		left: -30%;
-		transition: all 0.3s;
-	}
-
-	#next-button:hover:before {
-		left: 25%;
-	}
-	
-	#next-button:active {
-		color: white;
-		background: black;
-	}
-	
-	div#direct-buttons {
-		display: inline;
-		height: 100%;
-		white-space: nowrap;
-	}
-	
-	button#previous-button, button#next-button {
-		font-family: FontAwesome;
-		background-color: #3F4756;
-		color: white;
-		border: none;
 	}
 }
 
@@ -2397,20 +2177,12 @@ div.image-callout {
 	}
 }
 
-#scrollarea {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-}
-
 #toc-container {
 	visibility: hidden;
 	width: 20%;
 	max-width: 275px;
 	min-width: 200px;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	bottom: 0;

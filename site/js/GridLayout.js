@@ -262,7 +262,7 @@ define(["Layout",
 						
 					case "interactive":
 						var interactive = elem.find(".interactive").data("interactive");
-						var pane = $(this.container).parents("#scrollarea");
+						var pane = $("body");
 						interactive.format(pane);
 						break;
 					

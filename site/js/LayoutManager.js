@@ -1,12 +1,9 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "RatingsSystem", "FixedControls"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor, SearchManager) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "RatingsSystem"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor, SearchManager) {
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
 		
 		this.layoutArray = [];
 		this.currentLayout = undefined;
-		
-		this.showCallback = undefined;
-		this.showCallbackOptions = undefined;
 		
 		this.currentID = undefined;
 		
@@ -14,11 +11,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		this.continuousScroll = false;
 		
-		$("#fixed-layout-controls #previous-button").click($.proxy(this.onClickPreviousStep, this));
-		$("#fixed-layout-controls #next-button").click($.proxy(this.onClickNextStep, this));
-		this.dom.on("controls", $.proxy(this.onReceivedControls, this));
-		
-		this.dom.parent().scroll($.proxy(this.onScroll, this));
+		$(window).scroll($.proxy(this.onScroll, this));
 		
 		this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);
 		
@@ -42,8 +35,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		this.layoutArray = [];
 	}
 	
-	LayoutManager.prototype.showSpreadByID = function (options, callback) {
-		this.showCallback = callback;
+	LayoutManager.prototype.showSpreadByID = function (options) {
 		this.showCallbackOptions = options;
 		
 		if (options.replace) {
@@ -105,14 +97,16 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		});
 	}
 	
-	LayoutManager.prototype.onLayoutComplete = function (layout) {
-		if (this.showCallback) {
-			this.showCallback(layout);
-		}
-		
-		if (this.showCallbackOptions.replace) {
-			layout.activate();
-		}
+	LayoutManager.prototype.onLayoutComplete = function (layout) {		
+		if (this.showCallbackOptions) {
+			if (this.showCallbackOptions.replace) {
+				layout.activate();
+			}
+			
+			if (this.showCallbackOptions.callback) {
+				this.showCallbackOptions.callback(layout);
+			}
+		}		
 	}
 	
 	LayoutManager.prototype.getLayoutByID = function (id) {
@@ -254,10 +248,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 				h1.text(layout.content.title);
 			}
 		}
-	}
-	
-	LayoutManager.prototype.onReceivedControls = function (event, args) {
-		$("#fixed-layout-controls").fixedControls(this, args);
 	}
 	
 	LayoutManager.prototype.getChaptersForPart = function (part) {
