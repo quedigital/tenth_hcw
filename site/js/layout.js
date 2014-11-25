@@ -97,18 +97,13 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 	Layout.prototype.makeSureElementIsOnScreen = function (element, scroller, optional) {
 		var wt = element.offset().top;
 		
-		if (wt < 0) {
-			var cst = scroller.scrollTop();
-			scroller.animate({ scrollTop: cst + wt }, 500);
-		} else {
-			var h = element.height() + (optional ? optional.height() : 0);
-			var ch = scroller.height();
-			var off = wt + h - ch;
-			if (off > 0) {
-				var cst = scroller.scrollTop();
-				scroller.animate({ scrollTop: cst + off }, 500);
-			}
-		}
+		var h = element.height() + (optional ? optional.height() : 0);
+		
+		var wh = $(window).height();
+		
+		var cst = wt - wh + h;
+		
+		scroller.animate({ scrollTop: cst }, 500);
 	}		
 	
 	Layout.prototype.initializeGlossaryTerms = function () {

@@ -7,7 +7,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
         },
 
         _create: function () {			
-            this.tocInterior = this.element.find("#toc");//$("<div>").addClass("toc-interior").appendTo(this.element.find("#toc"));
+            this.tocInterior = this.element.find("#toc");
             
 			this.layoutManager = this.options.layoutManager;
 		
@@ -168,7 +168,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		showSpreadSelection: function (id) {
 			this.lastID = id;
 		
-			this.scrollToCurrentSpread();
+			this.scrollTOCToCurrentSpread();
 		
 			var c = Helpers.findByID(id, this.contents);
 			$("span#chapter").text(c.chapter);
@@ -197,12 +197,10 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		},
 	
 		jumpToCurrentSpread: function () {
-			this.scrollToCurrentSpread(false);
+			this.scrollTOCToCurrentSpread(false);
 		},
 	
-		scrollToCurrentSpread: function (animate) {
-			return;
-			
+		scrollTOCToCurrentSpread: function (animate) {
 			if (animate == undefined) animate = true;
 		
 			var entry = $("#toc .entry[data-id='" + this.lastID + "']");
@@ -211,15 +209,16 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		
 			entry.addClass("selected");
 		
-			var toc = $(".toc-interior");
-			var h = toc.height();
+			var h = this.tocInterior.height();
 			var y = entry.position().top;
-			var st = toc.scrollTop() + y - (h * .5) + (entry.height() * .5);
+			
+			// NOTE: this isn't quite right:
+			var st = this.tocInterior.scrollTop() + y - (h * .5) - (entry.height() * .5);
 
 			if (animate) {
-				toc.animate({ scrollTop: st }, 500);
+				this.tocInterior.animate({ scrollTop: st }, 500);
 			} else {
-				toc.scrollTop(st);
+				this.tocInterior.scrollTop(st);
 			}
 		},
 	
@@ -266,7 +265,9 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			if (options.previous) {
 				// scroll to top of next spread (to keep our place)
 //				$("#content").scrollTop(layoutDIV.offset().top);
-			}		
+			}
+			
+			this.showSpreadSelection(options.id);
 		},
 	
 		updateNextSpreadBanner: function (id) {

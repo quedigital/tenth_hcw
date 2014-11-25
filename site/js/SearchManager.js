@@ -24,6 +24,7 @@ define(["lunr", "jquery"], function (lunr) {
 		console.log("got data " + data.length);
 		var s1 = new Date().getTime();
 		
+		/*
 		for (var i = 0; i < data.length; i++) {
 			var spread = data[i];
 			var text = "";
@@ -40,6 +41,7 @@ define(["lunr", "jquery"], function (lunr) {
 			
 			this.idx.add(doc);
 		}
+		*/
 		
 		var s2 = new Date().getTime();
 		console.log(s2 - s1);

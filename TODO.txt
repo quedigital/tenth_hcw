@@ -1,22 +1,17 @@
 
 
-// TODO: add larger left margin to make room for toc
-
-// TODO: toc is not keeping track of current spread anymore
-
 // TODO: animate banner ad hiding or moving (so transition is less jarring)
 // TODO: always show prev/next banner before/after current spread
 // TODO: use timeout to load next spreads
-
-// TODO: internal links and cross-references (as in: intro to 3_3)
-
-// TODO: scrollToCurrentSpread needs some re-thinking
 
 // TODO: flesh out help system steps
 // TODO: walk-thru: step #s, images
 // TODO: welcome / instructions page
 
 // TODO: 11_2 needs to be tweaked for panzoom layout
+// TODO: 11_1 intro has cross-reference and possibly a typo
+// TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
+// TODO: internal links and cross-references (as in: intro to 3_3)
 
 // TODO: checkmarks for spreads "read"
 
@@ -353,3 +348,10 @@
 // DONE: BUG: preamble is in front of TOC
 // DONE: try on iPad [reworked scrolling; panzoom transforms need more speed]
 // DONE: try on InformIT [changed all filenames to lowercase; seems to run fine]
+// DONE: add larger left margin to make room for toc
+// DONE: panzoom doesn't scroll or size properly
+// DONE: toc is not keeping track of current spread anymore
+// DONE: scrollToCurrentSpread needs some re-thinking
+// TODONT: don't show spread name when inside a panzoom [should be enough room now]
+// DONE: panzoom textholder needs to reset scroll when switching steps
+// DONE: scrollToCurrentSpread not called on initial loading

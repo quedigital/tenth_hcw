@@ -172,16 +172,16 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.identifyCurrentSpread = function () {
-		var t = $("#content").scrollTop();
+		var t = $("body").scrollTop();
 		
-		var h = this.dom.parent().height();
+		var h = $(window).height();
 		
 		var me = this;
 		
 		var headers = this.dom.find(".spread");
 		$.each(headers, function (index, item) {
 			var it = $(item);
-			if (it.offset().top + it.height() > h * .4) {
+			if (it.offset().top + it.height() > t + h * .4) {
 				var layout = it.parents(".layout");
 				var id = layout.attr("id");
 				if (me.currentID != id) {

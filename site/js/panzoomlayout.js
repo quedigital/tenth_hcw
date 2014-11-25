@@ -87,7 +87,7 @@ define(["Layout",
 		var image_h = this.img[0].naturalHeight;
 		
 		var pane = $(this.container).parent();
-		var h = $(window).height();
+		var h = $(window).height() - this.controls.height();
 		var w = pane.width();
 		
 		var ch = $("#content-holder");
@@ -213,7 +213,7 @@ define(["Layout",
 		}
 		
 		var items = this.getItemNames();
-		$(this.controls).panzoomControls( { 	items: items,
+		this.controls.panzoomControls( { 	items: items,
 												selectFirstItem: true,
 												onClickStep: $.proxy(this.gotoStep, this),
 												onClickPrevious: $.proxy(this.gotoPrevious, this),
@@ -306,7 +306,7 @@ define(["Layout",
 		// position preamble so it slightly overlaps image
 //		this.preamble.height(this.preamble.find(".preamble-text").height() - 50);
 		
-		$(this.controls).panzoomControls("refresh");
+		this.controls.panzoomControls("refresh");
 	}
 
 	PanZoomLayout.prototype.clearRects = function () {
@@ -404,12 +404,6 @@ define(["Layout",
 		this.zoomPreviousStep();
 	}
 	
-	PanZoomLayout.prototype.activate = function () {
-		Layout.prototype.activate.call(this);
-		
-		this.container.trigger("controls", { layout: this, items: [] });
-	}
-	
 	PanZoomLayout.prototype.onClickStep = function (step) {
 		if (this.currentStep == step) {
 			this.zoomToStep(undefined);
@@ -458,7 +452,7 @@ define(["Layout",
 	PanZoomLayout.prototype.zoomToStep = function (step) {
 		if (step == undefined) {
 			this.zoomOut();
-			$(this.controls).panzoomControls("current", 0);			
+			this.controls.panzoomControls("current", 0);			
 			return;
 		}
 		
@@ -468,7 +462,7 @@ define(["Layout",
 
 		var container = this.image_holder;
 		
-		this.makeSureElementIsOnScreen(this.image_holder, $("#content"), this.controls);
+		this.makeSureElementIsOnScreen(this.image_holder, $("body"), this.controls);
 		
 		// find scale to have the step's region fill the container
 		//  except for the space required by the text_holder
@@ -498,7 +492,9 @@ define(["Layout",
 			.one("click", $.proxy(this.zoomOut, this));
 			
 		step.zoom(scale);
-			
+		
+		this.text_holder.scrollTop(0);
+		
 		this.text_holder.hide(0).html(step.options.text).delay(500).show(0);
 		
 		this.currentStep = step;
