@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "SearchManager", "RatingsSystem"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor, SearchManager) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "RatingsSystem"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor) {
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
 		
@@ -13,8 +13,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		$(window).scroll($.proxy(this.onScroll, this));
 		
-		this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);
-		
 		$("#opinion").ratingsSystem("initialize");
 	}
 	
@@ -25,9 +23,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		this.layouts = layouts;
 		
 		this.contents = Helpers.objectToArrayWithKey(contents);
-		this.contents.sort(Helpers.sortByChapterAndNumber);
-		
-		this.searchManager.setData(this.contents);
+		this.contents.sort(Helpers.sortByChapterAndNumber);		
 	}
 	
 	LayoutManager.prototype.clearSpreads = function () {

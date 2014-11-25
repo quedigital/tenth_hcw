@@ -1,4 +1,4 @@
-define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem"], function (Helpers, tinycolor) {
+define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem"], function (Helpers, tinycolor, SearchManager) {
 
     $.widget("que.TOC", {
 
@@ -64,6 +64,8 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 				entry.click($.proxy(me.onClickEntry, me));
 			});
 
+			this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);		
+
 			$("#news-widget").NewsItems();
 			$("#news-widget").on("newsitemsbegin", $.proxy(this.onBeginNewsItem, this));
 			$("#news-widget").on("newsitemsend", $.proxy(this.onEndNewsItem, this));
@@ -110,6 +112,13 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 			this._super( "_setOption", key, value );
         },
 
+		setData: function (contents) {
+			console.log("got data!");
+			
+			var contentsArray = Helpers.objectToArrayWithKey(contents);
+			this.searchManager.setData(contentsArray);
+		},
+		
 		sizeToFitWindow: function () {
 			var h1 = $("#toc-header").height();
 			var h2 = $("#toc-footer").height();
@@ -122,6 +131,8 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 			if (this.element.offset().left < 0) {
 				this.element.css("left", -this.element.width());
 			}
+			
+			this.searchManager.sizeToFit();
 		},
         
 		onClickEntry: function (event) {
@@ -388,6 +399,7 @@ define(["Helpers", "tinycolor", "jquery.ui.widget", "NewsItems", "NewsAlert", "H
 			this.element.find("#menu").hide("slide", { direction: "up" });
 			this.element.find("#news").hide("slide", { direction: "up" });
 			this.element.find("#help-menu").hide("slide", { direction: "up" });
+			this.searchManager.closePane();
 		},
 	
 		onBeginNewsItem: function (event, data) {

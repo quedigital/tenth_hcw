@@ -91,7 +91,7 @@ requirejs.config({
 		}
 });
 
-require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (inobounce, LayoutManager, TOC, Helpers) {
+require(["LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (LayoutManager, TOC, Helpers) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -110,7 +110,7 @@ require(["inobounce.min", "LayoutManager", "TOC", "Helpers", "jquery", "jqueryui
 		layoutManager.setData(data.layouts, data.contents);
 		
 		$("#toc-container").TOC( { layoutManager: layoutManager, contents: data.contents, layouts: data.layouts } );
-		$("#toc-container").TOC("openToRandomSpread");
+		$("#toc-container").TOC("openToRandomSpread").TOC("setData", data.contents);
 		
 		layoutManager.dom.bind("next-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadNextSpread", id); });
 		layoutManager.dom.bind("previous-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadPreviousSpread", id); });

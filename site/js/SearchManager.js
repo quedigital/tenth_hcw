@@ -3,7 +3,7 @@ define(["lunr", "jquery"], function (lunr) {
 		this.pane = pane;
 		this.manager = manager;
 		
-		inputter.on("input", $.proxy(this.onChangeSearch, this));
+		inputter.on("input focus click", $.proxy(this.onChangeSearch, this));
 		
 		pane.find("#close-button").click($.proxy(this.closePane, this));
 		
@@ -71,7 +71,9 @@ define(["lunr", "jquery"], function (lunr) {
 		
 		this.pane.find(".summary").text(r.length + (r.length == 1 ? " page" : " pages") + " found.");
 		
-		this.pane.show(0);
+		this.sizeToFit();
+		
+		this.pane.show("slide", { direction: "left" });
 	}
 
 	SearchManager.prototype.getSpreadTitle = function (id) {
@@ -98,7 +100,30 @@ define(["lunr", "jquery"], function (lunr) {
 	}
 	
 	SearchManager.prototype.closePane = function () {
-		this.pane.hide(0);
+		this.pane.hide("slide", { direction: "left" });
+	}
+	
+	SearchManager.prototype.sizeToFit = function () {
+		var rehide = false;
+		
+		// size it while it's "visible" (ie, display is set to block)
+		if (!this.pane.is(":visible")) {
+			this.pane.css({ visibility: "hidden", display: "block" });
+			rehide = true;
+		}
+		
+		var b = parseInt(this.pane.css("bottom"));
+
+		var wh = $(window).height()
+		var h1 = $("#results-header").outerHeight();
+		var h2 = $("#results-summary").outerHeight();
+		
+		var h = wh - h1 - h2 - b;
+		$("#results-scroller").css("max-height", h);
+		
+		if (rehide) {
+			this.pane.css({ visibility: "visible", display: "none" });
+		}
 	}
 	
 	return SearchManager;

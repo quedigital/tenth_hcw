@@ -1,34 +1,30 @@
 
 
-// TODO: scrollToCurrentSpread needs some re-thinking
+// TODO: add larger left margin to make room for toc
 
-// TODO: try on iPad
+// TODO: toc is not keeping track of current spread anymore
 
-// TODO: try on InformIT
-
+// TODO: animate banner ad hiding or moving (so transition is less jarring)
+// TODO: always show prev/next banner before/after current spread
 // TODO: use timeout to load next spreads
 
-// TODO: redo searchmanager as jquery widget
+// TODO: internal links and cross-references (as in: intro to 3_3)
 
+// TODO: scrollToCurrentSpread needs some re-thinking
+
+// TODO: flesh out help system steps
+// TODO: walk-thru: step #s, images
 // TODO: welcome / instructions page
 
 // TODO: 11_2 needs to be tweaked for panzoom layout
 
 // TODO: checkmarks for spreads "read"
 
-// TODO: flesh out help system steps
-
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
 // TODO: Google Analytics
 
-// TODO: fun entry / surprise page ("How does your phone know...?")
-
-// TODO: close search results when toc closes
-
 // TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
-
-// TODO: BUG: preamble is in front of TOC
 
 // TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
 // TODO: BUG: 22_1 #3 width is set to 110% ?!
@@ -40,14 +36,13 @@
 
 // TODO: rename 9_2b to 9_2
 
+// TODO: add glossary definitions for all terms in text
+
 // TODO: smooth out pan-zoom transitions
 
-// TODO: animate banner ad hiding or moving (so transition is less jarring)
-// TODO: always show prev/next banner before/after current spread
+// TODO: fun entry / surprise page ("How does your phone know...?")
 
 // TODO: for some reason, my Mac suddenly takes 20 seconds to index the search data, not ~4 seconds (!)
-
-// TODO: add glossary definitions for all terms in text
 
 // TODO: better loading indicator
 
@@ -86,7 +81,7 @@
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
 
-// TODO: swipe layout textholder needs "more (down)" indicator or is the scrollbar enough?
+// TODO: panzoom layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
 // TODO: layouts don't seem to be full-screen on iOS Safari; how to remove browser search bar from iOS Chrome?
 
@@ -351,3 +346,10 @@
 // DONE: clean up help system interface
 // DONE: re-write dimBackground to work with any screen element (step cells, etc.)
 // DONE: for iPad scrolling, I tried iScroll5 but its performance was too jerky
+// DONE: Aha! INoBounce was causing scrolling not to work!!! [because it's meant for "single-page" apps]
+// DONE: z-order of toc vs preamble
+// TODONT: redo searchmanager as jquery widget [nah]
+// DONE: close search results when toc closes
+// DONE: BUG: preamble is in front of TOC
+// DONE: try on iPad [reworked scrolling; panzoom transforms need more speed]
+// DONE: try on InformIT [changed all filenames to lowercase; seems to run fine]
