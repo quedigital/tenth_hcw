@@ -1510,109 +1510,78 @@ div.image-callout {
 	position: relative;
 }
 
-#prev-read {
-	display: none;
-}
-
-#next-read {
-	display: none;
-}
-
-.read-banner {
-	width: 100%;
+.banner {
+	width: 50%;
 	max-width: 1080px;
-	display: block;
-	margin: 25px auto;
+	margin: 0 auto 30px auto;
 	
 	&:after {
-		clear: both;
 		content: "";
 		display: block;
+		clear: both;
 	}
 	
-	& > header {
-		background-color: black;
-		margin-top: 15px;
-		
-		h1 {
-			text-transform: uppercase;
-			color: white;
-			font-size: 140%;
-			padding: .25rem .5rem;
-		}
-	}
-	
-	.wide-read {
-		background-color: white;
-		position: relative;
-		
-		header {
-			position: absolute;
-			bottom: 0;
-						
-			h1 {
-				font-family: Oswald;
-				font-size: 250%;
-				color: white;
-				padding: .1em .5em;
-				text-shadow: 0px 2px 6px black
-			}
-		}
-		
-		.preview-image {
-			width: 100%;
-			height: 200px;
-		}		
-	}
-	
-	.read-area {
-		.read:nth-child(1) {
-			&:before {
-				background: linear-gradient(135deg, #cb60b3 0%,#ad1283 50%,#de47ac 100%);
-			}
-		}
-		
-		.read:nth-child(2) {
-			&:before {
-				background: linear-gradient(135deg, #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
-			}
-		}
-		
-		.read:nth-child(3) {
-			&:before {
-				background: linear-gradient(135deg, #627d4d 0%,#1f3b08 100%);
-			}
-		}
-	}
-	
-	.small-read {
-		width: 33.3%;
-		border-top: 1px solid #ccc;
+	.read-banner {
+		width: 50%;
 		float: left;
+		display: block;
+	
+		&:after {
+			clear: both;
+			content: "";
+			display: block;
+		}
+	
+		& > header {
+			background-color: black;
+			margin-top: 15px;
 		
-		header {
-			position: absolute;
-			bottom: 0;
-						
 			h1 {
-				font-family: Oswald;
-				font-size: 150%;
+				text-transform: uppercase;
 				color: white;
-				padding: .1em .5em;
-				text-shadow: 0px 1px 3px black
+				font-size: 140%;
+				padding: .25rem .5rem;
+			
+				span {
+					color: #f42;
+					float: right;
+				}
 			}
 		}
-		
-		.preview-image {
-			width: 100%;
-			height: 150px
-		}
-	}
 	
+		.wide-read {
+			background-color: white;
+			position: relative;
+		
+			header {
+				position: absolute;
+				bottom: 0;
+						
+				h1 {
+					font-family: Oswald;
+					font-size: 250%;
+					color: white;
+					padding: .1em .5em;
+					text-shadow: 0px 2px 6px black
+				}
+			}
+		
+			.preview-image {
+				width: 100%;
+				height: 200px;
+			}		
+		}
+	
+		.preview-image {
+			background-image: url(https://s3.amazonaws.com/HCW10/Images/1_3/atom.svg);
+			background-size: contain;
+		}	
+	}
+
 	.read {
 		position: relative;
 		cursor: pointer;
-		
+	
 		&:before {
 			display: block;
 			content: "";
@@ -1625,21 +1594,74 @@ div.image-callout {
 			opacity: .5;
 			transition: opacity .25s linear;
 		}
-		
+	
 		&:hover {
 			&:before {
 				opacity: .75;
 			}
 		}
-	}
-	
-	.preview-image {
-		background-image: url(https://s3.amazonaws.com/HCW10/Images/1_3/atom.svg);
-		background-size: contain;
 	}	
 }
 
-#prev-read .wide-read header {
+.read-area {
+	clear: both;
+
+	& > header {
+		background-color: black;
+		margin-top: 15px;
+	
+		h1 {
+			text-transform: uppercase;
+			color: white;
+			font-size: 140%;
+			padding: .25rem .5rem;
+		}
+	}
+	
+	.read:nth-child(1) {
+		&:before {
+			background: linear-gradient(135deg, #cb60b3 0%,#ad1283 50%,#de47ac 100%);
+		}
+	}
+	
+	.read:nth-child(2) {
+		&:before {
+			background: linear-gradient(135deg, #fceabb 0%,#fccd4d 50%,#f8b500 51%,#fbdf93 100%);
+		}
+	}
+	
+	.read:nth-child(3) {
+		&:before {
+			background: linear-gradient(135deg, #627d4d 0%,#1f3b08 100%);
+		}
+	}
+	
+	.small-read {
+		width: 33.3%;
+		border-top: 1px solid #ccc;
+		float: left;
+	
+		header {
+			position: absolute;
+			bottom: 0;
+					
+			h1 {
+				font-family: Oswald;
+				font-size: 150%;
+				color: white;
+				padding: .1em .5em;
+				text-shadow: 0px 1px 3px black
+			}
+		}
+	
+		.preview-image {
+			width: 100%;
+			height: 150px
+		}
+	}
+}
+
+.banner header {
 	bottom: auto;
 	top: 0;
 }	
@@ -1652,7 +1674,7 @@ div.image-callout {
 	display: none;
 	
 	h1 {
-		padding: .1em 1em .1em 1em;
+		padding: .1em 1em .1em 45px;
 		background-color: #333;
 		color: white;
 		border-radius: 0 0 15px 0;

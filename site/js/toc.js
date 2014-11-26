@@ -1,4 +1,4 @@
-define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem"], function (Helpers, tinycolor, SearchManager) {
+define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner"], function (Helpers, tinycolor, SearchManager) {
 
     $.widget("que.TOC", {
 
@@ -74,9 +74,6 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		
 			$("#help-system").HelpSystem( { layoutManager: this.options.layoutManager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour" } );
 		
-			$("#next-read .read").click($.proxy(this.onClickNextAd, this));
-			$("#prev-read .read").click($.proxy(this.onClickPreviousAd, this));
-		
 			$("#toggler").click($.proxy(this.onClickToggler, this));
 			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
 		
@@ -87,10 +84,6 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		
 			$("#news-alert").click($.proxy(this.onClickNewsButton, this));
 
-			$("#slideThree").change(function () {
-				me.layoutManager.setContinuousScrolling(this.checked);
-			});
-		
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
 			this.sizeToFitWindow();			
@@ -141,10 +134,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 				id = $(event.target).parents(".entry").data("id");
 			
 			if (id) {
-				$("#next-read").css({ display: "none" });
-				$("#prev-read").css({ display: "none" });
-			
-				$("#content").scrollTop(0);
+				$("body").scrollTop(0);
 				this.openSpread( { id: id, replace: true } );
 			
 				this.closeToggler();
@@ -159,10 +149,6 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			options.callback = $.proxy(this.onSpreadVisible, this, options);
 			
 			this.layoutManager.showSpreadByID(options);
-	
-			if (options.replace) {
-				this.updatePreviousSpreadName(options.id);
-			}
 		},
 
 		showSpreadSelection: function (id) {
@@ -232,92 +218,50 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			$("#loading-spinner").css("display", "none");
 		
 			var layoutDIV = layout.container.parents(".layout");
-			if (options.previous) {
-				layoutDIV.insertAfter($("#prev-read"));
-			} else {
-				layoutDIV.insertBefore($("#next-read"));
-			}
 			layoutDIV.removeClass("loading");
-				
-			if (options.previous) {
-				this.updatePreviousSpreadName(options.id);
-			} else {
-				this.updateNextSpreadBanner(options.id);
+
+			if (options.replace || options.previous) {
+				var prevBanner = $("<div>").Banner( { source_id: options.id, previous: true, toc: this } );
+				prevBanner.insertBefore(layoutDIV);
 			}
-		
-			if ($("#next-read .wide-read h1").text()) {
-				$("#next-read").css({ display: "block" });
-			} else {
-				$("#next-read").css({ display: "none" });
+			
+			if (options.replace || !options.previous) {
+				var nextBanner = $("<div>").Banner( { source_id: options.id, toc: this } );
+				nextBanner.insertAfter(layoutDIV);
 			}
-		
-			if ($("#prev-read .wide-read h1").text()) {
-				$("#prev-read").css({ display: "block" });
-			} else {
-				$("#prev-read").css({ display: "none" });
-			}
-		
+
+			// scroll to top of this spread
 			if (options.replace) {
-				// scroll to top of this spread
-//				$("#content").scrollTop($(".layout").offset().top - 15);			
+				$("body").scrollTop($(".layout").offset().top - 15);			
 			}
 		
-			if (options.previous) {
-				// scroll to top of next spread (to keep our place)
-//				$("#content").scrollTop(layoutDIV.offset().top);
+			// scroll to where we were (to keep our place)
+			if (options.scrollToElement) {
+				$("body").scrollTop(options.scrollToElement.offset().top - 15);	
 			}
 			
 			this.showSpreadSelection(options.id);
 		},
 	
-		updateNextSpreadBanner: function (id) {
-			var nextSpread = this.getNextSpread(id);
-		
-			if (nextSpread) {
-				$("#next-read .wide-read h1").text(nextSpread.title);
-				var layout = this.layouts[nextSpread.id];
-				var img = getRandomImageFromSpread(nextSpread, layout);
-				img = (img == undefined) ? "none" : "url(" + img + ")";
-				$("#next-read .wide-read .preview-image").css("backgroundImage", img);
-				$("#next-read .read").data("next-id", nextSpread.id);
-			}
-		
-			var me = this;
-			var spreads = getRelatedSpreads(this.contents, id, 3);
-			$.each(spreads, function (index, item) {
-				var spread = me.contents[item];
-				var small = $(".read-area .small-read").eq(index);
-				small.find("h1").text(spread.title);
-				var layout = me.layouts[spread.id];
-				var img = getRandomImageFromSpread(spread, layout);
-				img = (img == undefined) ? "none" : "url(" + img + ")";
-				small.find(".preview-image").css("backgroundImage", img);
-				small.data("next-id", spread.id);
-			});
+		getSpreadContent: function (index) {
+			return this.contents[index];
 		},
 
-		updatePreviousSpreadName: function (id) {
-			var prevSpread = this.getPreviousSpread(id);
-		
-			if (prevSpread) {
-				$("#prev-read .wide-read h1").text(prevSpread.title);
-				var layout = this.layouts[prevSpread.id];
-				var img = getRandomImageFromSpread(prevSpread, layout);
-				img = (img == undefined) ? "none" : "url(" + img + ")";
-				$("#prev-read .wide-read .preview-image").css("backgroundImage", img);
-				$("#prev-read .read").data("next-id", prevSpread.id);
-			} else {
-				$("#prev-read .wide-read h1").text("");
-			}
+		getSpreadLayout: function (id) {
+			return this.layouts[id];
 		},
-	
+		
+		getSpreadContentByID: function (id) {
+			return this.options.contents[id];
+		},
+		
 		getNextSpread: function (id) {
 			for (var i = 0; i < this.contents.length; i++) {
 				var c = this.contents[i];
 				if (c.id == id) {
 					var next;
 					if (i == this.contents.length - 1) {
-						next = this.contents[0];
+						next = undefined;
 					} else {
 						next = this.contents[i + 1];
 					}
@@ -338,11 +282,19 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		},
 	
 		onAutoLoadNextSpread: function (id) {
-			this.openSpread( { id: id, replace: false } );
+			var next = this.getNextSpread(id);
+			
+			if (next) {
+				this.openSpread( { id: next.id, replace: false } );
+			}
 		},
 
-		onAutoLoadPreviousSpread: function (id) {
-			this.openSpread( { id: id, replace: false, previous: true } );
+		onAutoLoadPreviousSpread: function (id, scrollToElement) {
+			var prev = this.getPreviousSpread(id);
+			
+			if (prev) {			
+				this.openSpread( { id: prev.id, replace: false, previous: true, scrollToElement: scrollToElement } );
+			}
 		},
 	
 		onClickNextAd: function (event) {
@@ -428,51 +380,51 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			$("#help-menu").toggle("slide", { direction: "up" });
 			this.element.find("#menu").hide("slide", { direction: "up" });
 			this.element.find("#news").hide("slide", { direction: "up" });
-		}
-		
-    });
-	
-	function getRandomImageFromSpread (spread, layout) {
-		var cells = Helpers.objectToArrayWithKey(spread.cells);
-		
-		if (layout.style == "grid") {
-			while (cells.length) {
-				var r = Math.floor(Math.random() * cells.length);
-				var c = cells[r];
-				if (c.image) return c.image;
-				else cells.splice(r, 1);
-			}
-		} else if (layout.style == 'text') {
-			// pick a random image from the HTML
-			var s = $("<div>").html(spread.cells[1].text);			
-			var t = s.text();
-			var reg = /<img\s+[^>]*src="([^"]*)"[^>]*>/g;
-			var matches = [];
-			while (match = reg.exec(t)) {
-				matches.push(match[1]);
-			}
-			var img = matches[Math.floor(Math.random() * matches.length)];
-			return img;
-		} else {
-			return layout.background;
-		}
-	}
-	
-	function getRelatedSpreads (contents, id, quantity) {
-		// for now, just return 3 random spreads; later, use keywords, etc.
-		var n = contents.length;
-		var choices = [];
+		},
 
-		while (choices.length < 3) {		
-			var r = Math.floor(Math.random() * n);
+		getRandomImageFromSpread: function (spread, layout) {
+			var cells = Helpers.objectToArrayWithKey(spread.cells);
 		
-			var candidate_id = contents[r].id;
-		
-			if (candidate_id != id && choices.indexOf(r) == -1) {
-				choices.push(r);
+			if (layout.style == "grid") {
+				while (cells.length) {
+					var r = Math.floor(Math.random() * cells.length);
+					var c = cells[r];
+					if (c.image) return c.image;
+					else cells.splice(r, 1);
+				}
+			} else if (layout.style == 'text') {
+				// pick a random image from the HTML
+				var s = $("<div>").html(spread.cells[1].text);			
+				var t = s.text();
+				var reg = /<img\s+[^>]*src="([^"]*)"[^>]*>/g;
+				var matches = [];
+				while (match = reg.exec(t)) {
+					matches.push(match[1]);
+				}
+				var img = matches[Math.floor(Math.random() * matches.length)];
+				return img;
+			} else {
+				return layout.background;
 			}
+		},
+		
+		getRelatedSpreads: function (id, quantity) {
+			// for now, just return 3 random spreads; later, use keywords, etc.
+			var n = this.contents.length;
+			var choices = [];
+
+			while (choices.length < 3) {		
+				var r = Math.floor(Math.random() * n);
+		
+				var candidate_id = this.contents[r].id;
+		
+				if (candidate_id != id && choices.indexOf(r) == -1) {
+					choices.push(r);
+				}
+			}
+		
+			return choices;
 		}
 		
-		return choices;
-	}
+    });		
 });

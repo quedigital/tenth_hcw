@@ -1,13 +1,15 @@
 
 
-// TODO: animate banner ad hiding or moving (so transition is less jarring)
-// TODO: always show prev/next banner before/after current spread
+// TODO: show "loading" where spread will appear; then remove it
+// TODO: fit text into banner boxes
 // TODO: use timeout to load next spreads
 
 // TODO: flesh out help system steps
-// TODO: walk-thru: step #s, images
-// TODO: welcome / instructions page
+// TODO: walk-thru add step #s, images
+// TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
+// TODO: welcome popup
 
+// TODO: interactive not sized correctly (eg, 5_1)
 // TODO: 11_2 needs to be tweaked for panzoom layout
 // TODO: 11_1 intro has cross-reference and possibly a typo
 // TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
@@ -22,7 +24,7 @@
 // TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
 
 // TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
-// TODO: BUG: 22_1 #3 width is set to 110% ?!
+// TODO: BUG: 22_1 #3 width is set to 110% ?!  and 18_1
 // TODO: 14_4 #3 callout from step without block, etc.
 
 // TODO: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
@@ -355,3 +357,4 @@
 // TODONT: don't show spread name when inside a panzoom [should be enough room now]
 // DONE: panzoom textholder needs to reset scroll when switching steps
 // DONE: scrollToCurrentSpread not called on initial loading
+// DONE: always show prev/next banner before/after current spread

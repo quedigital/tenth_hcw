@@ -94,6 +94,9 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		this.isActive = false;
 	}
 
+	Layout.prototype.reflow = function () {
+	}
+	
 	Layout.prototype.makeSureElementIsOnScreen = function (element, scroller, optional) {
 		var wt = element.offset().top;
 		

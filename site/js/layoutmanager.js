@@ -9,8 +9,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		this.headerIsOff = false;
 		
-		this.continuousScroll = false;
-		
 		$(window).scroll($.proxy(this.onScroll, this));
 		
 		$("#opinion").ratingsSystem("initialize");
@@ -28,6 +26,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	
 	LayoutManager.prototype.clearSpreads = function () {
 		$(".layout").remove();
+		$(".banner").remove();
 		this.layoutArray = [];
 	}
 	
@@ -42,7 +41,12 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		var layout = this.layouts[options.id];
 		
 		var spreadDOM = $("<div>").addClass("layout loading").attr("id", options.id);
-		this.dom.append(spreadDOM);
+		
+		if (options.previous) {
+			this.dom.prepend(spreadDOM);
+		} else {
+			this.dom.append(spreadDOM);
+		}
 
 		if (layout.background) {
 			var back = tinycolor(layout.background);
@@ -138,37 +142,23 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.onScroll = function (event) {
-		var scrollTop = Math.floor($(event.target).scrollTop());
-		var sh = Math.floor($(event.target)[0].scrollHeight);
-		var h = Math.floor($(event.target).height());
+		var scrollTop = Math.floor($("body").scrollTop());
+		var sh = Math.floor($("body").height());
+		var h = Math.floor($(window).height());
 		
 		var amount_left = sh - (h + scrollTop);
 		
 		// if we run out of scrolling height (and we're not loading something already), load the next spread
 		if (amount_left <= 0 && $(".layout.loading").length == 0) {
-			var id = $("#next-read .read").data("next-id");
-			if (this.continuousScroll)
-				this.dom.trigger("next-spread", id);
+			this.dom.trigger("next-spread", this.currentID);
 		} else if (scrollTop <= 0 && $(".layout.loading").length == 0) {
-			var id = $("#prev-read .read").data("next-id");
-			if (this.continuousScroll)
-				this.dom.trigger("previous-spread", id);
+			var el = $(".banner").first();
+			this.dom.trigger("previous-spread", { id: this.currentID, scrollTo: el });
 		}
 		
 		this.identifyCurrentSpread();
 		
 		this.updateSpreadHeader();		
-	}
-	
-	LayoutManager.prototype.endOfCurrentSpreadOnScreen = function () {
-		var layout = this.getCurrentLayout();
-		if (layout) {
-			var end = layout.container.position().top + layout.container.outerHeight();
-			var st = this.dom.parent().scrollTop();
-			var h = this.dom.parent().height();
-			return (end > st) && (end < st + h);
-		}
-		return false;
 	}
 	
 	LayoutManager.prototype.identifyCurrentSpread = function () {
@@ -258,10 +248,6 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		return ch;
 	}
-	
-	LayoutManager.prototype.setContinuousScrolling = function (val) {
-		this.continuousScroll = val;
-	}	
 	
 	return LayoutManager;
 });

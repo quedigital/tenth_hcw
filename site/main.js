@@ -112,8 +112,8 @@ require(["LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (Lay
 		$("#toc-container").TOC( { layoutManager: layoutManager, contents: data.contents, layouts: data.layouts } );
 		$("#toc-container").TOC("openToRandomSpread").TOC("setData", data.contents);
 		
-		layoutManager.dom.bind("next-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadNextSpread", id); });
-		layoutManager.dom.bind("previous-spread", function (event, id) { $("#toc-container").TOC("onAutoLoadPreviousSpread", id); });
+		layoutManager.dom.bind("next-spread", function (event, id, scrollto) { $("#toc-container").TOC("onAutoLoadNextSpread", id, scrollto); });
+		layoutManager.dom.bind("previous-spread", function (event, options) { $("#toc-container").TOC("onAutoLoadPreviousSpread", options.id, options.scrollTo); });
 		layoutManager.dom.bind("current-spread", function (event, id) { $("#toc-container").TOC("onCurrentSpread", id); });
 		layoutManager.dom.bind("open-spread", function (event, options) { $("#toc-container").TOC("openSpread", options); });
 	}

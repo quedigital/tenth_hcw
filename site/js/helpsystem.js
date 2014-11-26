@@ -43,8 +43,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         	if (this.options.layoutManager)
 				this.options.layoutManager.trigger("open-spread", { id: "0_3", replace: true } );
 				
-			$("#next-read").css({ display: "none" });
-			$("#prev-read").css({ display: "none" });
+			$(".banner").css({ display: "none" });
 			
 			$("#content").scrollTop(0);
         },
