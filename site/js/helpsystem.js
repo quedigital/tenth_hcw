@@ -2,11 +2,16 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 
 	var tour = [
 		{
+			type: "centered",
+			block: true,
+			text: "Welcome to the web version of How Computers Work <img width='50' src='https://s3.amazonaws.com/HCW10/Images/0/0000_fig01.jpg'/>"
+		},
+		{
 			target: "#options-button",
 			text: "This is the menu button. Click it to see a list of options.",
 			setup: [
 						{ target: "#toc-container", class: "TOC", type: "command", command: "closeMenus" },
-						{ target: "#toc-container", class: "TOC", type: "command", command: "open" },
+						{ target: "#toc-container", class: "TOC", type: "command", command: "openImmediate" },
 						{ target: "#toc-container", class: "TOC", type: "option", key: "leaveOpen", value: true },
 					],
 			teardown: [
@@ -46,6 +51,8 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			$(".banner").css({ display: "none" });
 			
 			$("#content").scrollTop(0);
+			
+			$("#toc-container").TOC("closeToggler");
         },
 
         beginTour: function () {
@@ -61,7 +68,11 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         advanceTourStep: function () {
         	var details = tour[this.step];
         	
-        	doTeardown(details.teardown);
+        	if (details.teardown)
+				doTeardown(details.teardown);
+				
+			$("html").css("overflow-y", "visible");
+			$("body").css("overflow-y", "scroll");
         	
         	this.step += 1;
         	
@@ -75,11 +86,25 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         showCurrentTourStep: function () {
         	var details = tour[this.step];
         	
-			doSetup(details.setup);
+        	if (details.setup)
+				doSetup(details.setup);
+
+			var me = this;
 			
-        	$(details.target).dimBackground();
-        	
-        	this.showTourTip(details.target, details.text);
+			setTimeout(function () {
+				var target;
+				if (details.target) target = details.target;
+				else target = $(window);
+			
+				if (details.target)			
+					$(details.target).dimBackground();
+			
+				$("html, body").css({'overflow': 'hidden'});
+				
+				var options = { type: details.type, block: details.block };
+			
+				me.showTourTip(target, details.text, options);
+			}, 0);
         },
         
         showEndMessage: function () {
@@ -89,7 +114,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		
 			var me = this;
 			
-			$(window).qtip( {
+			var options = {
 				content: { text: content },
 				style: { classes: "qtip-green qtip-rounded myCustomTooltip" },
 				show: { ready: true, modal: { on: true, blur: true }, delay: 1000 },
@@ -111,10 +136,12 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 						api.destroy();
 					}
 				},
-			} );
+			};
+			
+			$(window).qtip(options);
         },
         
-		showTourTip: function (target, text) {
+		showTourTip: function (target, text, options) {
 			var content = $("<p>").html(text);
 			var div = $("<div>", { class: "two-button-holder" } );
 			content.append(div);
@@ -127,7 +154,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		
 			var me = this;
 			
-			$(target).qtip( {
+			var opts = {
 				content: { text: content },
 				style: { classes: "qtip-green qtip-rounded myCustomTooltip" },
 				show: { ready: true, modal: { on: true, blur: false }, delay: 1000 },
@@ -139,13 +166,27 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 							api.hide(e);
 						});
 					},
+					
 					hide: function (event, api) {
 						api.destroy();
+						$("#qtip-overlay div").removeClass("dimming");
 						$(target).undim();
 						me.advanceTourStep();
 					}
 				},
-			} );
+			};
+			
+			if (options.block) {
+				opts.events.show = function (event, api) {
+						$("#qtip-overlay div").addClass("dimming");
+					};
+			}
+			
+			if (options.type == "centered") {
+				opts.position = { my: "center center", at: "center center" };
+			}
+			
+			$(target).qtip(opts);
 		}
     });
     

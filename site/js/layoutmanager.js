@@ -150,9 +150,11 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		// if we run out of scrolling height (and we're not loading something already), load the next spread
 		if (amount_left <= 0 && $(".layout.loading").length == 0) {
+			this.dom.append($("<div>", { class: "loading-message", text: "Loading Next…" }));
 			this.dom.trigger("next-spread", this.currentID);
 		} else if (scrollTop <= 0 && $(".layout.loading").length == 0) {
-			var el = $(".banner").first();
+			var banner = $(".banner").first();
+			var el = $("<div>", { class: "loading-message", text: "Loading Previous…" }).insertBefore(banner);
 			this.dom.trigger("previous-spread", { id: this.currentID, scrollTo: el });
 		}
 		

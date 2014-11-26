@@ -67,8 +67,9 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip", 
 			// wait for scrollto to be complete (could use scrollTo's callback...)
 			setTimeout(function () {
 				// NOTE: this won't work for all DOM elements but it worked for most of the ones I tested
-				// TODO: write my own using the screen coordinates & 4 divs
 				$(item.target).dimBackground();
+				
+				console.log(item.desc);
 				
 				var content = $("<p>").html(item.desc);
 				var btn = $('<button>', { text: 'Ok', class: 'full' });
@@ -79,7 +80,7 @@ define(["Database", "jquery.ui.widget", "jquery.dim-background", "jquery.qtip", 
 					style: { classes: "qtip-green qtip-rounded myCustomTooltip" },
 					show: { ready: true, modal: { on: true }, delay: 1000 },
 					hide: false,
-					position: { my: "top center", at: "bottom center" },
+					position: { my: "top center", at: "bottom center", viewport: $(window), adjust: { method: "shift" } },
 					events: {
 						render: function (event, api) {
 							$("button", api.elements.content).click(function (e) {

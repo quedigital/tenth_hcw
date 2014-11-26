@@ -216,6 +216,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 	
 		onSpreadVisible: function (options, layout) {
 			$("#loading-spinner").css("display", "none");
+			$(".loading-message").animate( { height: 0, opacity: 0 }, { duration: 1500, complete: function () { $(".loading-message").remove(); } });
 		
 			var layoutDIV = layout.container.parents(".layout");
 			layoutDIV.removeClass("loading");
@@ -329,6 +330,13 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			this.element.stop();
 		
 			this.element.animate( { left: 0 }, 500 );
+			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
+		},
+		
+		openImmediate: function () {
+			this.element.stop();
+		
+			this.element.css({ left: 0 });
 			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
 		},
 	

@@ -37,6 +37,7 @@ requirejs.config({
 		"jquery.json": "jquery.json.min",
 		"jquery.scrollTo": "jquery.scrollto.min",
 		"jquery.dim-background": "jquery.dimbackground",
+		"jquery.textfill": "jquery.textfill.min",
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
 	},
@@ -82,6 +83,10 @@ requirejs.config({
 				deps: ['jquery']
 			},
 			"jquery.dim-background": {
+				export: "$",
+				deps: ['jquery']
+			},
+			"jquery.textfill": {
 				export: "$",
 				deps: ['jquery']
 			},

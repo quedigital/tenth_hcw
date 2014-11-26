@@ -2401,9 +2401,31 @@ div.image-callout {
 }
 
 div.dimmer {
-	position: absolute;
+	position: fixed;
 	background-color: #000;
 	opacity: 0;
 	z-index: 100;
 	transition: opacity .5s linear;
+}
+
+.loading-message {
+	max-width: 1080px;
+	width: 50%;
+	font-size: 150%;
+	font-weight: bold;
+	text-align: center;
+	background-color: white;
+	color: black;
+	margin: 15px auto 0 auto;
+	height: 50px;
+	line-height: 50px;
+	overflow: hidden;
+	
+	-webkit-animation: flickerAnimation 1s infinite;
+}
+
+@-webkit-keyframes flickerAnimation {
+  0%   { color: rgba(0, 0, 0, 1); }
+  50%  { color: rgba(0, 0, 0, 0); }
+  100% { color: rgba(0, 0, 0, 1); }
 }

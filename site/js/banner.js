@@ -1,4 +1,4 @@
-define(["jquery.ui.widget"], function () {
+define(["jquery.ui.widget", "jquery.textfill"], function () {
 
     $.widget("que.Banner", {
 
@@ -22,7 +22,7 @@ define(["jquery.ui.widget"], function () {
 			}
 			
 			if (id) {
-				var html = '<div class="read-banner previous"><header><h1><i class="fa fa-chevron-circle-up"></i> Previous</h1></header><div class="wide-read read"><header><h1>How an Egg Cooks</h1></header><div class="preview-image"></div></div></div>';
+				var html = '<div class="read-banner previous"><header><h1><i class="fa fa-chevron-circle-up"></i> Previous</h1></header><div class="wide-read read"><header><h1></h1></header><div class="preview-image"></div></div></div>';
 
 				this.element.append(html);
 			
@@ -33,7 +33,7 @@ define(["jquery.ui.widget"], function () {
 				var img = this.options.toc.getRandomImageFromSpread(prevSpread, layout);
 				img = (img == undefined) ? "none" : "url(" + img + ")";
 				this.element.find(".previous .wide-read .preview-image").css("backgroundImage", img);
-				this.element.find(".previous .read").data("next-id", this.options.id);			
+				this.element.find(".previous .read").data("next-id", id);			
 			}
 
 			id = undefined;
@@ -45,7 +45,7 @@ define(["jquery.ui.widget"], function () {
 			}
 			
 			if (id && !atStart && !atEnd) {
-				var html = '<div class="read-banner next"><header><h1>Next <i class="fa fa-chevron-circle-down"></i></h1></header><div class="wide-read read"><header><h1>How an Egg Cooks</h1></header><div class="preview-image"></div></div></div><div class="read-area"><header><h1>Explore</h1></header><div class="small-read read"><header><h1>Another Spread</h1></header><div class="preview-image"></div></div><div class="small-read read"><header><h1>Another Spread</h1></header><div class="preview-image"></div></div><div class="small-read read"><header><h1>Another Spread</h1></header><div class="preview-image"></div></div></div>';
+				var html = '<div class="read-banner next"><header><h1>Next <i class="fa fa-chevron-circle-down"></i></h1></header><div class="wide-read read"><header><h1></h1></header><div class="preview-image"></div></div></div><div class="read-area"><header><h1><i class="fa fa-globe"></i> Explore</h1></header><div class="small-read read"><header><h1></h1></header><div class="preview-image"></div></div><div class="small-read read"><header><h1></h1></header><div class="preview-image"></div></div><div class="small-read read"><header><h1></h1></header><div class="preview-image"></div></div></div>';
 			
 				this.element.append(html);
 				
@@ -56,7 +56,7 @@ define(["jquery.ui.widget"], function () {
 				var img = this.options.toc.getRandomImageFromSpread(nextSpread, layout);
 				img = (img == undefined) ? "none" : "url(" + img + ")";
 				this.element.find(".next .wide-read .preview-image").css("backgroundImage", img);
-				this.element.find(".next .read").data("next-id", nextSpread.id);
+				this.element.find(".next .read").data("next-id", id);
 	
 				var spreads = this.options.toc.getRelatedSpreads(id, 3);
 			
@@ -74,6 +74,11 @@ define(["jquery.ui.widget"], function () {
 			}
 			
 			this.element.find(".read").click($.proxy(this.openBannerSpread, this));
+			
+			var els = this.element.find(".read header");
+			setTimeout(function () {
+				els.textfill({ innerTag: "h1" });
+			}, 0);
         },
 
         _destroy: function () {
@@ -96,7 +101,6 @@ define(["jquery.ui.widget"], function () {
         
         openBannerSpread: function (event) {
         	var id = $(event.currentTarget).data("next-id");
-//        	this.options.toc.openSpread( { id: id, previous: this.options.previous, relativeTo: this.element } );
         	this.options.toc.openSpread( { id: id, replace: true } );
         }
     });

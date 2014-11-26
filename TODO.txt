@@ -1,9 +1,5 @@
 
 
-// TODO: show "loading" where spread will appear; then remove it
-// TODO: fit text into banner boxes
-// TODO: use timeout to load next spreads
-
 // TODO: flesh out help system steps
 // TODO: walk-thru add step #s, images
 // TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
@@ -358,3 +354,6 @@
 // DONE: panzoom textholder needs to reset scroll when switching steps
 // DONE: scrollToCurrentSpread not called on initial loading
 // DONE: always show prev/next banner before/after current spread
+// DONE: fit text into banner boxes
+// DONE: show "loading" where spread will appear; then remove it
+// TODONT: use timeout to load next spreads [seems ok the way it is]
