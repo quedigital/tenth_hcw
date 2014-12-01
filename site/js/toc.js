@@ -67,7 +67,6 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);		
 
 			$("#news-widget").NewsItems();
-			$("#news-widget").on("newsitemsbegin", $.proxy(this.onBeginNewsItem, this));
 			$("#news-widget").on("newsitemsend", $.proxy(this.onEndNewsItem, this));
 		
 			$("#news-alert").NewsAlert();
@@ -242,6 +241,10 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			}
 			
 			this.showSpreadSelection(options.id);
+			
+			if (options.onVisibleCallback) {
+				options.onVisibleCallback();
+			}
 		},
 	
 		getSpreadContent: function (index) {
@@ -363,24 +366,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			this.searchManager.closePane();
 		},
 	
-		onBeginNewsItem: function (event, data) {
-			// leave TOC open while news item plays back
-			this.options.leaveOpen = true;
-		
-			var item = data.item;
-		
-			if (item.spread) {
-				if (item.spread != this.getCurrentSpreadID()) {
-					this.openSpread( { id: item.spread, replace: true, callback: data.callback } );
-				} else {
-					data.callback();
-				}
-			}
-		},
-	
 		onEndNewsItem: function () {
-			this.options.leaveOpen = false;
-		
 			$("#news-alert").NewsAlert("refresh");
 		},
 	

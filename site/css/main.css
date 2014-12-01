@@ -2649,6 +2649,17 @@ div.dimmer {
   }
 }
 
+/* line 2433, ../sass/_layouts.scss */
+div.blocker {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background-color: rgba(255, 0, 0, 0);
+}
+
 /* line 2, ../sass/_anims.scss */
 .step.with-callout:hover .callout-icon-container {
   display: none;

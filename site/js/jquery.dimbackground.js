@@ -51,7 +51,7 @@ define(["jquery"], function () {
 		$("body").append(d);
 		
 		setTimeout(function () {
-			d.css("opacity", .5);
+			d.css("opacity", .75);
 		}, 0);
 		
 		dimmedElements.push( { element: elem, dimmer: d } );

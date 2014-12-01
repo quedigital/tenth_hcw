@@ -1,17 +1,20 @@
 
 
 // TODO: flesh out help system steps
-// TODO: walk-thru add step #s, images
-// TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
+// TODO: walk-thru add step #s, skip/cancel, images
 // TODO: welcome popup
+// TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
+
+// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
 
 // TODO: interactive not sized correctly (eg, 5_1)
-// TODO: 11_2 needs to be tweaked for panzoom layout
 // TODO: 11_1 intro has cross-reference and possibly a typo
 // TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
 // TODO: internal links and cross-references (as in: intro to 3_3)
 
 // TODO: checkmarks for spreads "read"
+
+// TODO: [ipad] image zooming in lightbox doesn't work
 
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
@@ -55,8 +58,6 @@
 
 // TODO: hard-code callout line directions in editor? [3_2]
 
-// TODO: [ipad] image zooming in lightbox doesn't work
-
 // TODO: <span intro> is incorrect for 8_4
 // TODO: <span intro> for extracted PanZoom steps
 
@@ -73,6 +74,8 @@
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
 // TODO: make mousewheel/swipe advance panzoom layouts?
+
+// TODO: add pageguide-style navigation for grid layouts?
 
 // TODO: panzoom layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
@@ -357,3 +360,4 @@
 // DONE: fit text into banner boxes
 // DONE: show "loading" where spread will appear; then remove it
 // TODONT: use timeout to load next spreads [seems ok the way it is]
+// DONE: 11_2 needs to be tweaked for panzoom layout
