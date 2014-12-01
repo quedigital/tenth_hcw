@@ -70,7 +70,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
         },
 
         beginGuidedTour: function () {
-			var guide = $("body").TourGuide({ tour: tour });
+			var guide = $("body").TourGuide({ tour: tour, skipButton: true, finishedButtonCaption: "Let's Go!" });
 			guide.TourGuide("beginTour");
         },
     });

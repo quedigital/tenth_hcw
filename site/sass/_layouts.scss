@@ -2207,15 +2207,46 @@ div.image-callout {
 		}
 	}
 	
-	div.two-button-holder {
-		margin-top: 1em;
+	div.control-holder {
+		width: 100%;
+		margin-top: 10px;
 		
-		button:first-child {
-			float: left;
-		}
-		
-		button + button {
-			float: right;
+		.button-bar {
+			
+			button {
+				width: 35%;
+				border: none;
+				float: left;
+				font-weight: bold;
+				font-family: "Archivo Narrow", sans-serif;
+				font-size: 80%;
+				outline: none;
+			}
+			
+			#back {
+			}
+			
+			#skip {
+				background: blue;
+				color: white;
+			}
+			
+			#next {
+				background: green;
+				color: white;
+			}
+			
+			#cancel {
+			}
+			
+			span {
+				width: 30%;
+				float: left;
+				font-size: 80%;
+				text-align: center;
+				color: black;
+				font-family: "Archivo Narrow", sans-serif;
+			}
 		}
 	}
 	

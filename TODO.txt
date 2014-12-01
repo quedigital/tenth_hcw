@@ -13,6 +13,7 @@
 // TODO: internal links and cross-references (as in: intro to 3_3)
 
 // TODO: checkmarks for spreads "read"
+// TODO: "favorites" stored in localStorage
 
 // TODO: [ipad] image zooming in lightbox doesn't work
 

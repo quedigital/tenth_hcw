@@ -57,7 +57,7 @@ define(["Database", "jquery.ui.widget", "tourguide"], function (Database) {
 							}
 						];
 							
-			var guide = $("body").TourGuide({ tour: tour, onComplete: $.proxy(this.endNewsPresentation, this, item) });
+			var guide = $("body").TourGuide({ tour: tour, onComplete: $.proxy(this.endNewsPresentation, this, item), finishedButtonCaption: "Got It!" });
 			guide.TourGuide("beginTour");
 		},
 		
