@@ -1277,6 +1277,7 @@ div.image-callout {
 
 			ul {
 				font-size: 120%;
+				line-height: 1.2em;
 				
 				& > li {
 					position: relative;
@@ -1295,7 +1296,7 @@ div.image-callout {
 					&:before {
 						content: "";
 						position: absolute;
-						top: .5em;
+						top: .4em;
 						left: -1em;
 						width: .5em;
 						height: .5em;
@@ -1345,7 +1346,7 @@ div.image-callout {
 			width: 100%;
 			text-align: center;
 			background-color: #333;
-			margin-bottom: 1em;
+			margin: 1em 0;
 		}
 		
 		.contents {
@@ -1456,7 +1457,18 @@ div.image-callout {
 					opacity: 1;
 				}				
 			}    
-		}		
+		}
+		
+		#favorites-widget {
+			background: white;
+			border-radius: 5px;
+			
+			p {
+				line-height: 1.2em;
+				color: black;
+				padding: .5em;
+			}
+		}
 	}
 	
 	.footer {

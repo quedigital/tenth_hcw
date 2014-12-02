@@ -1,4 +1,4 @@
-define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner"], function (Helpers, tinycolor, SearchManager) {
+define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, SearchManager) {
 
     $.widget("que.TOC", {
 
@@ -72,9 +72,11 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			$("#news-alert").NewsAlert();
 		
 			$("#help-system").HelpSystem( { layoutManager: this.options.layoutManager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour" } );
+			
+			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager.dom } );
 		
 			$("#toggler").click($.proxy(this.onClickToggler, this));
-			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+//			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
 		
 			$("#menu-button").click($.proxy(this.onClickMenuButton, this));
 			$(".menuCloser").click($.proxy(this.onCloseMenu, this));
@@ -332,6 +334,10 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		},
 	
 		onClickMenuButton: function (event) {
+			if (!$("#menu").is(":visible")) {
+				$("#favorites-widget").Favorites("refresh");
+			}
+				
 			$("#menu").toggle("slide", { direction: "up" });
 			this.element.find("#news").hide("slide", { direction: "up" });
 			this.element.find("#help-menu").hide("slide", { direction: "up" });

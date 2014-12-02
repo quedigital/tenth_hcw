@@ -114,8 +114,6 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 
 	var debouncedReflow = Helpers.debounce($.proxy(layoutManager.reflow, layoutManager), 250);
 
-	window.layoutManager = layoutManager;
-	
 	function onData (data, status, jqXHR) {
 		layoutManager.setData(data.layouts, data.contents);
 		

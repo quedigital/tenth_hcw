@@ -16,7 +16,13 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		
 			var stars = this.find(".star");
 		
-			stars.qtip( { content: { title: function () { return this.attr("data-title"); } }, style: { classes: 'qtip-dark' } } );
+			stars.qtip( {
+							content: {
+										title: function () { return this.attr("data-title"); },
+										text: function () { return this.attr("data-text"); }
+									},
+							style: { classes: 'qtip-dark' }
+						} );
 		
 			stars.click($.proxy(onClickStar, this, this));
 		
@@ -134,6 +140,12 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		elem.find(".commentEntry").hide(0);
 		
 		elem.find("h1").html("What did you think of <span>" + options.title + "</span>");
+		
+		elem.find("#star5").attr("data-text", "Now I know exactly <b>" + options.title + "</b>");
+		elem.find("#star4").attr("data-text", "I learned a lot about <b>" + options.title + "</b>");
+		elem.find("#star3").attr("data-text", "I <em>think</em> I get <b>" + options.title + "</b>");
+		elem.find("#star2").attr("data-text", "I would like to know more about <b>" + options.title + "</b>");
+		elem.find("#star1").attr("data-text", "I still don't understand <b>" + options.title + "</b>");
 		
 		var avgRating = Database.getAverageRating(options.id, $.proxy(updateAverageRatingUI, this, elem));
 		
