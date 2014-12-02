@@ -104,9 +104,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			this._super( "_setOption", key, value );
         },
 
-		setData: function (contents) {
-			console.log("got data!");
-			
+		setDataForSearching: function (contents) {
 			var contentsArray = Helpers.objectToArrayWithKey(contents);
 			this.searchManager.setData(contentsArray);
 		},
@@ -211,6 +209,10 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			var rand = Math.floor(Math.random() * this.contents.length);
 		
 			this.openSpread( { id: this.contents[rand].id, replace: true } );
+		},
+		
+		openToFirstSpread: function () {
+			this.openSpread( { id: this.contents[0].id, replace: true } );
 		},
 	
 		onSpreadVisible: function (options, layout) {

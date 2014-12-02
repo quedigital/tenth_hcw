@@ -96,7 +96,7 @@ requirejs.config({
 		}
 });
 
-require(["LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (LayoutManager, TOC, Helpers) {
+require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], function (LayoutManager, TOC, Helpers, Database) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -115,12 +115,30 @@ require(["LayoutManager", "TOC", "Helpers", "jquery", "jqueryui"], function (Lay
 		layoutManager.setData(data.layouts, data.contents);
 		
 		$("#toc-container").TOC( { layoutManager: layoutManager, contents: data.contents, layouts: data.layouts } );
-		$("#toc-container").TOC("openToRandomSpread").TOC("setData", data.contents);
+
+		var id = Database.getPersistentProperty("lastSpread");
+		if (id) {
+			$("#toc-container").TOC("openSpread", { id: id, replace: true });
+		} else {
+			$("#toc-container").TOC("openToFirstSpread");
+		}
+		
+		$("#toc-container").TOC("setDataForSearching", data.contents);
 		
 		layoutManager.dom.bind("next-spread", function (event, id, scrollto) { $("#toc-container").TOC("onAutoLoadNextSpread", id, scrollto); });
 		layoutManager.dom.bind("previous-spread", function (event, options) { $("#toc-container").TOC("onAutoLoadPreviousSpread", options.id, options.scrollTo); });
-		layoutManager.dom.bind("current-spread", function (event, id) { $("#toc-container").TOC("onCurrentSpread", id); });
+		layoutManager.dom.bind("current-spread", onCurrentSpread);
 		layoutManager.dom.bind("open-spread", function (event, options) { $("#toc-container").TOC("openSpread", options); });
+		
+		if (!Database.getPersistentProperty("seenIntro")) {
+			$("#help-system").HelpSystem("beginGuidedTour");
+			Database.setPersistentProperty("seenIntro", true);
+		}
+	}
+	
+	function onCurrentSpread (event, id) {
+		$("#toc-container").TOC("onCurrentSpread", id);
+		Database.setPersistentProperty("lastSpread", id);
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

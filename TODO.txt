@@ -1,9 +1,9 @@
 
 
-// TODO: flesh out help system steps
-// TODO: walk-thru add step #s, skip/cancel, images
-// TODO: welcome popup
+// TODO: change URL location to reflect current spread? (history.pushState)
+
 // TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
+// TODO: flesh out help system steps
 
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
 
@@ -85,8 +85,6 @@
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 // TODO: eliminate memory leaks
 // TODO: during infinite scroll, remove past spreads from memory (or only load one spread at a time)
-
-// TODO: change URL location to reflect current spread? (history.pushState)
 
 // TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
 // TODO: convert things like [dg] in the text
@@ -362,3 +360,6 @@
 // DONE: show "loading" where spread will appear; then remove it
 // TODONT: use timeout to load next spreads [seems ok the way it is]
 // DONE: 11_2 needs to be tweaked for panzoom layout
+// DONE: walk-thru add step #s, skip/cancel, images
+// DONE: welcome popup
+// DONE: re-open last viewed page

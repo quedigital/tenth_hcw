@@ -126,16 +126,12 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			}
 			
 			if (this.options.tour.length > 1) {
-				var t = (this.step + 1) + " of " + (this.options.tour.length);
-				div.append("<span>" + t + "</span>", { class: "caption" });
+				var t = $("<p><span class='counter'>" + (this.step + 1) + "</span> of " + (this.options.tour.length) + "</p>");
+				var d = $("<div>", { class: "label" });
+				d.append(t);
+				div.append(d);
 			}
 
-			if (this.step > 0 && this.step < this.options.tour.length - 1) {
-				btn = $("<button>", { id: "cancel", text: "Cancel" });
-				btn.click($.proxy(this.stopTour, this));
-				div.append(btn);
-			}
-					
 			if (this.step < this.options.tour.length - 1) {
 				if (this.step == 0) {
 					btn = $('<button>', { id: "next", text: 'Begin' });
@@ -151,6 +147,12 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				btn.click($.proxy(this.advanceTourStep, this));
 				div.append(btn);
 			}
+
+			if (this.step > 0 && this.step < this.options.tour.length - 1) {
+				btn = $("<button>", { id: "cancel", text: "Cancel" });
+				btn.click($.proxy(this.stopTour, this));
+				div.append(btn);
+			}
 			
 			var me = this;
 			
@@ -159,7 +161,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			
 			var opts = {
 				content: { text: content },
-				style: { classes: "qtip-green qtip-rounded myCustomTooltip" },
+				style: { classes: "tourPopups", def: false },
 				show: { ready: true, modal: { on: modal, blur: false }, delay: 1000 },
 				hide: false,
 				position: { my: "center left", at: "center right", viewport: $(window), adjust: { method: "shift" } },

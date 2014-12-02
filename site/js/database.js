@@ -142,6 +142,14 @@ define(["firebase", "jquery.json"], function () {
 		
 		return [];
 	}
+	
+	function getPersistentProperty (prop) {
+		return localStorage.getItem(prop);
+	}
+	
+	function setPersistentProperty (prop, val) {
+		localStorage.setItem(prop, val);
+	}
 
 	var Database = {
 		getMyRating: getMyRating,
@@ -151,7 +159,9 @@ define(["firebase", "jquery.json"], function () {
 		addComment: addComment,
 		getNewsItems: getNewsItems,
 		getNewNewsItemCount: getNewNewsItemCount,
-		setNewsItemRead: setNewsItemRead
+		setNewsItemRead: setNewsItemRead,
+		getPersistentProperty: getPersistentProperty,
+		setPersistentProperty: setPersistentProperty,
 	}
 	
 	return Database;	

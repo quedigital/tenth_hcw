@@ -2405,71 +2405,158 @@ div.image-callout span {
 }
 
 /* line 2199, ../sass/_layouts.scss */
-.myCustomTooltip .qtip-content {
+.glossaryTooltip .qtip-content {
   font-size: 22px;
   line-height: 1.4em;
 }
-/* line 2203, ../sass/_layouts.scss */
-.myCustomTooltip .qtip-content button.full {
-  display: block;
-  width: 5em;
-  margin: 1em auto 0 auto;
-}
-/* line 2210, ../sass/_layouts.scss */
-.myCustomTooltip div.control-holder {
-  width: 100%;
-  margin-top: 10px;
-}
-/* line 2216, ../sass/_layouts.scss */
-.myCustomTooltip div.control-holder .button-bar button {
-  width: 35%;
-  border: none;
-  float: left;
-  font-weight: bold;
-  font-family: "Archivo Narrow", sans-serif;
-  font-size: 80%;
-  outline: none;
-}
-/* line 2229, ../sass/_layouts.scss */
-.myCustomTooltip div.control-holder .button-bar #skip {
-  background: blue;
-  color: white;
-}
-/* line 2234, ../sass/_layouts.scss */
-.myCustomTooltip div.control-holder .button-bar #next {
-  background: green;
-  color: white;
-}
-/* line 2242, ../sass/_layouts.scss */
-.myCustomTooltip div.control-holder .button-bar span {
-  width: 30%;
-  float: left;
-  font-size: 80%;
-  text-align: center;
-  color: black;
-  font-family: "Archivo Narrow", sans-serif;
-}
-/* line 2253, ../sass/_layouts.scss */
-.myCustomTooltip .qtip-title {
+/* line 2204, ../sass/_layouts.scss */
+.glossaryTooltip .qtip-title {
   font-size: 200%;
   line-height: 1.4em;
 }
 
-/* line 2259, ../sass/_layouts.scss */
+/* line 2210, ../sass/_layouts.scss */
+.tourPopups {
+  background-color: rgba(94, 112, 134, 0.75);
+  border: 1px solid white;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  width: 50%;
+  max-width: 350px !important;
+}
+/* line 2218, ../sass/_layouts.scss */
+.tourPopups .qtip-content {
+  font-size: 25px;
+  line-height: 1.4em;
+}
+/* line 2222, ../sass/_layouts.scss */
+.tourPopups .qtip-content p.centered {
+  text-align: center;
+}
+/* line 2226, ../sass/_layouts.scss */
+.tourPopups .qtip-content span.title {
+  color: #99d;
+  font-weight: bold;
+}
+/* line 2231, ../sass/_layouts.scss */
+.tourPopups .qtip-content img {
+  padding: 5px;
+  display: block;
+  width: 100%;
+  max-height: 75%;
+}
+/* line 2239, ../sass/_layouts.scss */
+.tourPopups div.control-holder {
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #8ed58e;
+  text-align: center;
+}
+/* line 2246, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar {
+  line-height: 1.5em;
+}
+/* line 2249, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar button {
+  width: 35%;
+  border: none;
+  font-weight: normal;
+  font-family: "Archivo Narrow", sans-serif;
+  font-size: 70%;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  vertical-align: top;
+  margin-top: 2px;
+  background: #999;
+}
+/* line 2262, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar button:hover {
+  background: #ccc;
+}
+/* line 2266, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar button:active {
+  background: #333;
+}
+/* line 2274, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #cancel {
+  height: 1.5em;
+  background: #800;
+}
+/* line 2279, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #cancel:hover {
+  background: #500;
+}
+/* line 2283, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #cancel:active {
+  background: #300;
+}
+/* line 2288, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #skip {
+  background: #00e;
+}
+/* line 2291, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #skip:hover {
+  background: #00a;
+}
+/* line 2295, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #skip:active {
+  background: #003;
+}
+/* line 2300, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #next {
+  background: #080;
+}
+/* line 2303, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #next:hover {
+  background: #060;
+}
+/* line 2307, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar #next:active {
+  background: #030;
+}
+/* line 2312, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar div.label {
+  width: 30%;
+  font-size: 80%;
+  text-align: center;
+  vertical-align: top;
+  line-height: 1.5em;
+  color: black;
+  font-family: "Archivo Narrow", sans-serif;
+  display: inline-block;
+  text-shadow: none;
+  font-weight: bold;
+}
+/* line 2324, ../sass/_layouts.scss */
+.tourPopups div.control-holder .button-bar div.label span.counter {
+  border-radius: .5em;
+  background: #d0c2f2;
+  padding: .25em;
+  color: white;
+}
+/* line 2334, ../sass/_layouts.scss */
+.tourPopups .qtip-title {
+  font-size: 200%;
+  line-height: 1.4em;
+}
+
+/* line 2340, ../sass/_layouts.scss */
 #qtip-overlay div {
   opacity: 0 !important;
   filter: alpha(opacity=0) !important;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" !important;
 }
 
-/* line 2265, ../sass/_layouts.scss */
+/* line 2346, ../sass/_layouts.scss */
 #qtip-overlay div.dimming {
   opacity: .75 !important;
   filter: alpha(opacity=75) !important;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)" !important;
 }
 
-/* line 2271, ../sass/_layouts.scss */
+/* line 2352, ../sass/_layouts.scss */
 #opinion {
   background-color: white;
   position: absolute;
@@ -2480,13 +2567,13 @@ div.image-callout span {
   z-index: 1;
   transition: right .5s ease-in-out;
 }
-/* line 2281, ../sass/_layouts.scss */
+/* line 2362, ../sass/_layouts.scss */
 #opinion #close-button {
   position: absolute;
   top: 10px;
   right: 10px;
 }
-/* line 2287, ../sass/_layouts.scss */
+/* line 2368, ../sass/_layouts.scss */
 #opinion .pulltab {
   position: absolute;
   left: -1.5em;
@@ -2496,7 +2583,7 @@ div.image-callout span {
   background-color: red;
   border-radius: 25px 0 0 25px;
 }
-/* line 2296, ../sass/_layouts.scss */
+/* line 2377, ../sass/_layouts.scss */
 #opinion .pulltab p {
   display: block;
   position: absolute;
@@ -2511,16 +2598,16 @@ div.image-callout span {
   font-family: FontAwesome;
   color: yellow;
 }
-/* line 2315, ../sass/_layouts.scss */
+/* line 2396, ../sass/_layouts.scss */
 #opinion h1 {
   font-size: 150%;
   line-height: 1.1em;
 }
-/* line 2319, ../sass/_layouts.scss */
+/* line 2400, ../sass/_layouts.scss */
 #opinion h1 span {
   color: #e3865e;
 }
-/* line 2324, ../sass/_layouts.scss */
+/* line 2405, ../sass/_layouts.scss */
 #opinion a {
   cursor: pointer;
   font-size: 75%;
@@ -2530,18 +2617,18 @@ div.image-callout span {
   margin-top: .5em;
   border: 1px solid red;
 }
-/* line 2333, ../sass/_layouts.scss */
+/* line 2414, ../sass/_layouts.scss */
 #opinion a:hover {
   color: #600;
   background-color: #ecd0d9;
 }
-/* line 2339, ../sass/_layouts.scss */
+/* line 2420, ../sass/_layouts.scss */
 #opinion #ratingLabel {
   display: inline-block;
   font-size: 80%;
   padding-right: .5em;
 }
-/* line 2345, ../sass/_layouts.scss */
+/* line 2426, ../sass/_layouts.scss */
 #opinion .rating {
   display: inline-block;
   font-size: 120%;
@@ -2550,7 +2637,7 @@ div.image-callout span {
   text-align: left;
   margin-top: .25em;
 }
-/* line 2353, ../sass/_layouts.scss */
+/* line 2434, ../sass/_layouts.scss */
 #opinion .rating span.star {
   font-family: FontAwesome;
   font-weight: normal;
@@ -2558,49 +2645,49 @@ div.image-callout span {
   display: inline-block;
   cursor: pointer;
 }
-/* line 2360, ../sass/_layouts.scss */
+/* line 2441, ../sass/_layouts.scss */
 #opinion .rating span.star:before {
   content: "\f006";
   padding-right: 5px;
   color: #777777;
 }
-/* line 2366, ../sass/_layouts.scss */
+/* line 2447, ../sass/_layouts.scss */
 #opinion .rating span.star.selected:before {
   content: "\f005" !important;
   color: #EAEA48 !important;
 }
-/* line 2372, ../sass/_layouts.scss */
+/* line 2453, ../sass/_layouts.scss */
 #opinion .rating span.star:hover ~ span.star:before, #opinion .rating span.star:hover:before {
   content: "\f005";
   color: #e3cf7a;
 }
-/* line 2380, ../sass/_layouts.scss */
+/* line 2461, ../sass/_layouts.scss */
 #opinion .commentEntry {
   display: none;
   margin-top: 1em;
 }
-/* line 2384, ../sass/_layouts.scss */
+/* line 2465, ../sass/_layouts.scss */
 #opinion .commentEntry p span {
   font-size: 14px;
 }
-/* line 2388, ../sass/_layouts.scss */
+/* line 2469, ../sass/_layouts.scss */
 #opinion .commentEntry input {
   font-size: 100%;
 }
-/* line 2392, ../sass/_layouts.scss */
+/* line 2473, ../sass/_layouts.scss */
 #opinion .commentEntry textarea {
   width: 100%;
 }
-/* line 2396, ../sass/_layouts.scss */
+/* line 2477, ../sass/_layouts.scss */
 #opinion .commentEntry button {
   height: 40px;
   margin-top: 10px;
 }
-/* line 2401, ../sass/_layouts.scss */
+/* line 2482, ../sass/_layouts.scss */
 #opinion .commentEntry button + button {
   margin-left: 10px;
 }
-/* line 2406, ../sass/_layouts.scss */
+/* line 2487, ../sass/_layouts.scss */
 #opinion .comments {
   display: none;
   margin-top: 1em;
@@ -2610,26 +2697,26 @@ div.image-callout span {
   border: 1px solid #ddd;
   overflow-y: scroll;
 }
-/* line 2415, ../sass/_layouts.scss */
+/* line 2496, ../sass/_layouts.scss */
 #opinion .comments .scroller {
   padding: .25em .5em;
 }
-/* line 2418, ../sass/_layouts.scss */
+/* line 2499, ../sass/_layouts.scss */
 #opinion .comments .scroller p {
   padding-left: 1em;
   text-indent: -1em;
 }
-/* line 2422, ../sass/_layouts.scss */
+/* line 2503, ../sass/_layouts.scss */
 #opinion .comments .scroller p span:first-child {
   font-weight: bold;
 }
 
-/* line 2430, ../sass/_layouts.scss */
+/* line 2511, ../sass/_layouts.scss */
 #help-system {
   display: none;
 }
 
-/* line 2434, ../sass/_layouts.scss */
+/* line 2515, ../sass/_layouts.scss */
 div.dimmer {
   position: fixed;
   background-color: #000;
@@ -2638,7 +2725,7 @@ div.dimmer {
   transition: opacity .5s linear;
 }
 
-/* line 2442, ../sass/_layouts.scss */
+/* line 2523, ../sass/_layouts.scss */
 .loading-message {
   max-width: 1080px;
   width: 50%;
@@ -2655,23 +2742,23 @@ div.dimmer {
 }
 
 @-webkit-keyframes flickerAnimation {
-  /* line 2459, ../sass/_layouts.scss */
+  /* line 2540, ../sass/_layouts.scss */
   0% {
     color: black;
   }
 
-  /* line 2460, ../sass/_layouts.scss */
+  /* line 2541, ../sass/_layouts.scss */
   50% {
     color: rgba(0, 0, 0, 0);
   }
 
-  /* line 2461, ../sass/_layouts.scss */
+  /* line 2542, ../sass/_layouts.scss */
   100% {
     color: black;
   }
 }
 
-/* line 2464, ../sass/_layouts.scss */
+/* line 2545, ../sass/_layouts.scss */
 div.blocker {
   position: fixed;
   top: 0;

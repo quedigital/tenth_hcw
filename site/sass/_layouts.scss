@@ -2195,57 +2195,138 @@ div.image-callout {
 	}
 }
 
-.myCustomTooltip {
+.glossaryTooltip {
 	.qtip-content {
 		font-size: 22px;
-		line-height: 1.4em;
+		line-height: 1.4em;	
+	}
 	
-		button.full {
+	.qtip-title {
+		font-size: 200%;
+		line-height: 1.4em;
+	}
+}
+
+.tourPopups {
+	background-color: rgba(94, 112, 134, 0.75);
+	border: 1px solid white;
+	color: white;
+	text-shadow: 1px 1px 2px black;
+	width: 50%;
+	max-width: 350px !important;
+	
+	.qtip-content {
+		font-size: 25px;
+		line-height: 1.4em;	
+
+		p.centered {
+			text-align: center;
+		}
+				
+		span.title {
+			color: #99d;
+			font-weight: bold;
+		}
+		
+		img {
+			padding: 5px;
 			display: block;
-			width: 5em;
-			margin: 1em auto 0 auto;
+			width: 100%;
+			max-height: 75%;
 		}
 	}
 	
 	div.control-holder {
 		width: 100%;
 		margin-top: 10px;
+		padding-top: 10px;
+		border-top: 1px solid rgb(142, 213, 142);
+		text-align: center;
 		
 		.button-bar {
+			line-height: 1.5em;
 			
 			button {
 				width: 35%;
 				border: none;
-				float: left;
-				font-weight: bold;
+				font-weight: normal;
 				font-family: "Archivo Narrow", sans-serif;
-				font-size: 80%;
+				font-size: 70%;
 				outline: none;
+				cursor: pointer;
+				color: white;
+				vertical-align: top;
+				margin-top: 2px;
+				background: #999;
+				
+				&:hover {
+					background: #ccc;
+				}
+				
+				&:active {
+					background: #333;
+				}
 			}
 			
 			#back {
 			}
 			
+			#cancel {
+				height: 1.5em;
+				
+				background: #800;
+				
+				&:hover {
+					background: #500;
+				}
+				
+				&:active {
+					background: #300;
+				}
+			}
+			
 			#skip {
-				background: blue;
-				color: white;
+				background: #00e;
+				
+				&:hover {
+					background: #00a;
+				}
+				
+				&:active {
+					background: #003;	
+				}
 			}
 			
 			#next {
-				background: green;
-				color: white;
+				background: #080;
+				
+				&:hover {
+					background: #060;
+				}
+				
+				&:active {
+					background: #030;	
+				}
 			}
 			
-			#cancel {
-			}
-			
-			span {
+			div.label {
 				width: 30%;
-				float: left;
 				font-size: 80%;
 				text-align: center;
+				vertical-align: top;
+				line-height: 1.5em;
 				color: black;
 				font-family: "Archivo Narrow", sans-serif;
+				display: inline-block;
+				text-shadow: none;
+				font-weight: bold;
+				
+				span.counter {
+					border-radius: .5em;
+					background: rgb(208, 194, 242);
+					padding: .25em;
+					color: white;
+				}	
 			}
 		}
 	}

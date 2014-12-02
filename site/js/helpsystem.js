@@ -4,7 +4,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		{
 			type: "centered",
 			block: true,
-			text: "Welcome to the web version of How Computers Work <img width='50' src='images/HCWX_cover.png'/>"
+			text: "<p class='centered'>Welcome to the web version of<br/><span class='title'>How Computers Work</span> <img width='100%' src='images/HCWX_cover.png'/>Start with a feature tour or jump right in!</p>"
 		},
 		{
 			title: "Pan/Zoom Improvement!",

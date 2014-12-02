@@ -119,7 +119,7 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		});
 
 		terms.qtip( {	style:	{
-									classes: "qtip-green qtip-rounded myCustomTooltip"
+									classes: "qtip-green qtip-rounded glossaryTooltip"
 								},
 						position: {
 									my: "top center",
