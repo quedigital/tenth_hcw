@@ -1,7 +1,5 @@
 
 
-// TODO: change URL location to reflect current spread? (history.pushState)
-
 // TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
 // TODO: flesh out help system steps
 
@@ -363,3 +361,4 @@
 // DONE: walk-thru add step #s, skip/cancel, images
 // DONE: welcome popup
 // DONE: re-open last viewed page
+// DONE: change URL location to reflect current spread? (history.pushState)

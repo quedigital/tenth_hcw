@@ -132,7 +132,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			
 			if (id) {
 				$("body").scrollTop(0);
-				this.openSpread( { id: id, replace: true } );
+				this.openSpread( { id: id, replace: true, active: true } );
 			
 				this.closeToggler();
 			}
@@ -247,6 +247,8 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			if (options.onVisibleCallback) {
 				options.onVisibleCallback();
 			}
+			
+			this.element.trigger("open-spread", options);
 		},
 	
 		getSpreadContent: function (index) {
@@ -291,7 +293,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			var next = this.getNextSpread(id);
 			
 			if (next) {
-				this.openSpread( { id: next.id, replace: false } );
+				this.openSpread( { id: next.id, replace: false, active: true } );
 			}
 		},
 
@@ -299,24 +301,8 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			var prev = this.getPreviousSpread(id);
 			
 			if (prev) {			
-				this.openSpread( { id: prev.id, replace: false, previous: true, scrollToElement: scrollToElement } );
+				this.openSpread( { id: prev.id, replace: false, previous: true, scrollToElement: scrollToElement, active: true } );
 			}
-		},
-	
-		onClickNextAd: function (event) {
-			var t = $(event.currentTarget);
-
-			var id = t.data("next-id");
-		
-			this.openSpread( { id: id, replace: false } );
-		},
-
-		onClickPreviousAd: function (event) {
-			var t = $(event.currentTarget);
-
-			var id = t.data("next-id");
-		
-			this.openSpread( { id: id, replace: false, previous: true } );
 		},
 	
 		onClickToggler: function (event) {

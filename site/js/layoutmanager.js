@@ -97,7 +97,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		});
 	}
 	
-	LayoutManager.prototype.onLayoutComplete = function (layout) {		
+	LayoutManager.prototype.onLayoutComplete = function (layout) {
 		if (this.showCallbackOptions) {
 			if (this.showCallbackOptions.replace) {
 				layout.activate();
@@ -106,7 +106,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 			if (this.showCallbackOptions.callback) {
 				this.showCallbackOptions.callback(layout);
 			}
-		}		
+		}
 	}
 	
 	LayoutManager.prototype.getLayoutByID = function (id) {

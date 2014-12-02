@@ -104,6 +104,11 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
 	}
 	
+	var hashID = window.location.hash;
+	if (hashID) {
+		hashID = hashID.replace("#", "");
+	}
+	
 	var layoutManager = new LayoutManager("#content-holder");
 	var toc;
 
@@ -116,19 +121,23 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 		
 		$("#toc-container").TOC( { layoutManager: layoutManager, contents: data.contents, layouts: data.layouts } );
 
-		var id = Database.getPersistentProperty("lastSpread");
-		if (id) {
-			$("#toc-container").TOC("openSpread", { id: id, replace: true });
+		var idToLoad = hashID;
+		if (!idToLoad) idToLoad = Database.getPersistentProperty("lastSpread");
+		if (idToLoad) {
+			$("#toc-container").TOC("openSpread", { id: idToLoad, replace: true, active: true });
 		} else {
 			$("#toc-container").TOC("openToFirstSpread");
 		}
 		
 		$("#toc-container").TOC("setDataForSearching", data.contents);
+		$("#toc-container").bind("open-spread", onOpenSpread);
 		
 		layoutManager.dom.bind("next-spread", function (event, id, scrollto) { $("#toc-container").TOC("onAutoLoadNextSpread", id, scrollto); });
 		layoutManager.dom.bind("previous-spread", function (event, options) { $("#toc-container").TOC("onAutoLoadPreviousSpread", options.id, options.scrollTo); });
 		layoutManager.dom.bind("current-spread", onCurrentSpread);
-		layoutManager.dom.bind("open-spread", function (event, options) { $("#toc-container").TOC("openSpread", options); });
+		layoutManager.dom.bind("open-spread", doOpenSpread);
+				
+		window.onpopstate = onPopState;
 		
 		if (!Database.getPersistentProperty("seenIntro")) {
 			$("#help-system").HelpSystem("beginGuidedTour");
@@ -136,9 +145,25 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 		}
 	}
 	
+	function doOpenSpread (event, options) {
+		$("#toc-container").TOC("openSpread", options);
+	}
+	
+	function onOpenSpread (event, options) {
+		if (options.active) {
+			var href = window.location.search + "#" + options.id;
+			history.pushState( { id: options.id }, "", href );
+		}
+	}
+	
 	function onCurrentSpread (event, id) {
 		$("#toc-container").TOC("onCurrentSpread", id);
-		Database.setPersistentProperty("lastSpread", id);
+		Database.setPersistentProperty("lastSpread", id);		
+	}
+	
+	function onPopState (event) {
+		if (event.state && event.state.id)
+			$("#toc-container").TOC("openSpread", { id: event.state.id, replace: true });		
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

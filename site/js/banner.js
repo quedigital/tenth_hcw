@@ -101,7 +101,7 @@ define(["jquery.ui.widget", "jquery.textfill"], function () {
         
         openBannerSpread: function (event) {
         	var id = $(event.currentTarget).data("next-id");
-        	this.options.toc.openSpread( { id: id, replace: true } );
+        	this.options.toc.openSpread( { id: id, replace: true, active: true } );
         }
     });
 });
