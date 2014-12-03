@@ -115,9 +115,11 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		sizeToFitWindow: function () {
 			var h1 = $("#toc-header").height();
 			var h2 = $("#toc-footer").height();
-			var h = $(window).height();
-		
-			this.tocInterior.height(h - h1 - h2);
+			var h = window.innerHeight;
+			
+			var interior = h - h1 - h2;
+			
+			this.tocInterior.height(interior);
 		
 			this.element.css("visibility", "visible");
 		
@@ -310,21 +312,35 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			}
 		},
 	
+		// on touch devices, just toggle; with mouse, click = toggle pin
 		onClickToggler: function (event) {
-			if (this.options.leaveOpen) {
-				this.option("leaveOpen", false);
-				
+			if (Helpers.isTouchEnabled()) {
 				if (this.element.offset().left) {
 					this.openToggler();
 				} else {
 					this.closeToggler();
 				}
 			} else {
-				this.option("leaveOpen", true);
+				if (this.options.leaveOpen) {
+					this.option("leaveOpen", false);
+				
+					if (this.element.offset().left) {
+						this.openToggler();
+					} else {
+						this.closeToggler();
+					}
+				} else {
+					this.option("leaveOpen", true);
+				}
 			}
 		},
 
 		openToggler: function (event) {
+			if (window.innerHeight != this.lastInnerHeight) {
+				this.sizeToFitWindow();
+				this.lastInnerHeight = window.innerHeight;
+			}
+			
 			this.open();
 		},
 		

@@ -102,7 +102,7 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		
 		var h = element.height() + (optional ? optional.height() : 0);
 		
-		var wh = $(window).height();
+		var wh = window.innerHeight;
 		
 		var cst = wt - wh + h;
 		

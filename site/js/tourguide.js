@@ -217,7 +217,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 					okToProceed = false;
 					break;
 				case "scrollTo":
-					var top_third = $(window).height() * .3;			
+					var top_third = window.innerHeight * .3;			
 					$("body").scrollTo(step.target, { axis: "y", duration: 1000, offset: { top: -top_third } });
 					setTimeout($.proxy(this.advanceSetup, this), 1000);
 					okToProceed = false;

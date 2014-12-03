@@ -87,7 +87,7 @@ define(["Layout",
 		var image_h = this.img[0].naturalHeight;
 		
 		var pane = $(this.container).parent();
-		var h = $(window).height() - this.controls.height();
+		var h = window.innerHeight - this.controls.height();
 		var w = pane.width();
 		
 		var ch = $("#content-holder");

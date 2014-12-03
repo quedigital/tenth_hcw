@@ -301,6 +301,8 @@ define(["jquery"], function ($) {
 		context.lineTo(Math.floor(x), Math.floor(y));
 		context.stroke();
 	}
+	
+	function isTouchEnabled () { return !!document.createTouch; }
 		
 	var Helpers = {
 		findByID: findByID,
@@ -317,6 +319,7 @@ define(["jquery"], function ($) {
 		isScrolledOff: isScrolledOff,
 		getColorForChapter: getColorForChapter,
 		animateCanvasPath: animateCanvasPath,
+		isTouchEnabled: isTouchEnabled,
 	};
 	
 	return Helpers;

@@ -144,7 +144,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	LayoutManager.prototype.onScroll = function (event) {
 		var scrollTop = Math.floor($("body").scrollTop());
 		var sh = Math.floor($("body").height());
-		var h = Math.floor($(window).height());
+		var h = Math.floor(window.innerHeight);
 		
 		var amount_left = sh - (h + scrollTop);
 		
@@ -166,7 +166,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	LayoutManager.prototype.identifyCurrentSpread = function () {
 		var t = $("body").scrollTop();
 		
-		var h = $(window).height();
+		var h = window.innerHeight;
 		
 		var me = this;
 		

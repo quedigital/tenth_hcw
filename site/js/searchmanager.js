@@ -1,7 +1,6 @@
 define(["lunr", "jquery"], function (lunr) {
-	SearchManager = function (pane, inputter, manager) {
+	SearchManager = function (pane, inputter) {
 		this.pane = pane;
-		this.manager = manager;
 		
 		inputter.on("input focus click", $.proxy(this.onChangeSearch, this));
 		
@@ -24,7 +23,6 @@ define(["lunr", "jquery"], function (lunr) {
 		console.log("got data " + data.length);
 		var s1 = new Date().getTime();
 		
-		/*
 		for (var i = 0; i < data.length; i++) {
 			var spread = data[i];
 			var text = "";
@@ -41,7 +39,6 @@ define(["lunr", "jquery"], function (lunr) {
 			
 			this.idx.add(doc);
 		}
-		*/
 		
 		var s2 = new Date().getTime();
 		console.log(s2 - s1);
@@ -96,7 +93,7 @@ define(["lunr", "jquery"], function (lunr) {
 	SearchManager.prototype.onClickResult = function (event) {
 		var id = $(event.target).data("id");
 		
-		this.manager.dom.trigger("open-spread", { id: id, replace: true } );
+		$("#toc-container").TOC("openSpread", { id: id, replace: true });
 		
 		this.pane.hide(0);
 	}
@@ -116,7 +113,7 @@ define(["lunr", "jquery"], function (lunr) {
 		
 		var b = parseInt(this.pane.css("bottom"));
 
-		var wh = $(window).height()
+		var wh = window.innerHeight;
 		var h1 = $("#results-header").outerHeight();
 		var h2 = $("#results-summary").outerHeight();
 		
