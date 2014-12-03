@@ -1278,12 +1278,19 @@ div.image-callout {
 			ul {
 				font-size: 120%;
 				line-height: 1.2em;
+				background: rgb(242, 228, 228);
+				
+				li:nth-child(odd) {
+					background: rgb(226, 201, 201);
+				}
 				
 				& > li {
 					position: relative;
 					list-style: none;
 					cursor: pointer;
 					color: blue;
+					margin-left: -2em;
+					padding-left: 1em;
 					
 					&:hover {
 						color: green;
@@ -1297,7 +1304,7 @@ div.image-callout {
 						content: "";
 						position: absolute;
 						top: .4em;
-						left: -1em;
+						left: .2em;
 						width: .5em;
 						height: .5em;
 						display: block;
@@ -1460,9 +1467,6 @@ div.image-callout {
 		}
 		
 		#favorites-widget {
-			background: white;
-			border-radius: 5px;
-			
 			p {
 				line-height: 1.2em;
 				color: black;
@@ -2175,7 +2179,7 @@ div.image-callout {
 	min-width: 200px;
 	position: fixed;
 	top: 0;
-	left: 0;
+	left: -1px;
 	bottom: 0;
 	z-index: 4;
 	

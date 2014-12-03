@@ -3,7 +3,7 @@
 // TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
 // TODO: flesh out help system steps
 
-// TODO: Google Analytics
+// TODO: need to adjust property settings for Google Analytics when run from informit
 
 // TODO: checkmarks for spreads "read"
 
@@ -362,3 +362,6 @@
 // DONE: re-open last viewed page
 // DONE: change URL location to reflect current spread? (history.pushState)
 // DONE: "favorites" stored in localStorage and shown in a clickable list
+// DONE: alternate color rows for favorites, news, and help
+// DONE: click toggler bar to pin open
+// DONE: Google Analytics

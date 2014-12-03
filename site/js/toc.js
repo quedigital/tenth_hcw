@@ -76,7 +76,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager.dom } );
 		
 			$("#toggler").click($.proxy(this.onClickToggler, this));
-//			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
 		
 			$("#menu-button").click($.proxy(this.onClickMenuButton, this));
 			$(".menuCloser").click($.proxy(this.onCloseMenu, this));
@@ -95,8 +95,9 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 
         _setOption: function (key, value) {
 			switch (key) {
-				case "someValue":
-					//this.options.someValue = doSomethingWith( value );
+				case "leaveOpen":
+					this.options.leaveOpen = value;
+					$("#togglerButton").css("color", this.options.leaveOpen ? "rgb(229, 162, 38)" : "#fff");
 					break;
 				default:
 					this.options[key] = value;
@@ -250,6 +251,8 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 				options.onVisibleCallback();
 			}
 			
+			// add title
+			options.title = layout.title;			
 			this.element.trigger("open-spread", options);
 		},
 	
@@ -308,10 +311,16 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		},
 	
 		onClickToggler: function (event) {
-			if (this.element.offset().left) {
-				this.openToggler();
+			if (this.options.leaveOpen) {
+				this.option("leaveOpen", false);
+				
+				if (this.element.offset().left) {
+					this.openToggler();
+				} else {
+					this.closeToggler();
+				}
 			} else {
-				this.closeToggler();
+				this.option("leaveOpen", true);
 			}
 		},
 

@@ -151,6 +151,8 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 		if (options.active) {
 			var href = window.location.search + "#" + options.id;
 			history.pushState( { id: options.id }, "", href );
+			
+			ga('send', 'pageview', { page: '/' + options.id, title: options.title });
 		}
 	}
 	
