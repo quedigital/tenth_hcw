@@ -1,8 +1,37 @@
 
 
+// TODO: BUG: 22_1 #3 width is set to 110% ?!  and 18_1
+// TODO: 17_1, image callouts not working
+// TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
+
+// TODO: interactive not sized correctly (eg, 5_1)
+// TODO: 11_1 intro has cross-reference and possibly a typo
+// TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
+// TODO: internal links and cross-references (as in: intro to 3_3)
+
+// TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
+// TODO: 14_4 #3 callout from step without block, etc.
+
+// TODO: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
+
+// TODO: rename 9_2b to 9_2
+
+// TODO: get resizing to work smoothly
+// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
+
+// TODO: <span intro> is incorrect for 8_4
+// TODO: <span intro> for extracted PanZoom steps
+
+// TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
+// TODO: convert things like [dg] in the text
+// TODO: for figures, change <span bold> to <figcaption><h1>
+
+// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
+// TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
+
 // TODO: investigate/fix/replace svg images that don't work on iPad
 
-// TODO: [ipad] image zooming in lightbox doesn't work
+// TODO: svg images don't size properly in colorbox on ipad
 
 // TODO: search results shows number of results and bit of context
 // TODO: animate search result pane appearance
@@ -15,27 +44,6 @@
 
 // TODO: checkmarks for spreads "read"
 
-// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
-
-// TODO: interactive not sized correctly (eg, 5_1)
-// TODO: 11_1 intro has cross-reference and possibly a typo
-// TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
-// TODO: internal links and cross-references (as in: intro to 3_3)
-
-// TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
-
-// TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
-
-// TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
-// TODO: BUG: 22_1 #3 width is set to 110% ?!  and 18_1
-// TODO: 14_4 #3 callout from step without block, etc.
-
-// TODO: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
-
-// TODO: 17_1, image callouts not working
-
-// TODO: rename 9_2b to 9_2
-
 // TODO: add glossary definitions for all terms in text
 
 // TODO: smooth out pan-zoom transitions
@@ -43,12 +51,7 @@
 // TODO: fun entry / surprise page ("How does your phone know...?")
 // TODO: fun "map" page showing which sections of the book you've read, at-a-glance
 
-// TODO: for some reason, my Mac suddenly takes 20 seconds to index the search data, not ~4 seconds (!)
-
 // TODO: better loading indicator
-
-// TODO: get resizing to work smoothly
-// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
 // TODO: make lightbox bigger when zooming in (to show more, ex: 10_1)
 
@@ -61,11 +64,6 @@
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
 
-// TODO: hard-code callout line directions in editor? [3_2]
-
-// TODO: <span intro> is incorrect for 8_4
-// TODO: <span intro> for extracted PanZoom steps
-
 // TODO: use fastclick.js for interactives?
 
 // TODO: embed image sizes to speed up layout
@@ -77,19 +75,8 @@
 
 // TODO: panzoom layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
-// TODO: layouts don't seem to be full-screen on iOS Safari; how to remove browser search bar from iOS Chrome?
-
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 // TODO: eliminate memory leaks
-// TODO: during infinite scroll, remove past spreads from memory (or only load one spread at a time)
-
-// TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
-// TODO: convert things like [dg] in the text
-// TODO: for figures, change <span bold> to <figcaption><h1>
-
-// TODO: on narrow screens, just put grid layouts down the page each @ 100% width?
-
-// TODO: marginTop not working? [not being used]
 
 // UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
 //            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
@@ -370,4 +357,10 @@
 // DONE: fix ipad sizing issues (toc and full-height and panzoom sizing)
 // DONE: load index via webworkers [5 second delay]
 // TODONT: use pre-readied index [not worth the effort, I don't think]
-
+// DONE: zoom in/out buttons for colorbox
+// DONE: [ipad] image zooming in lightbox doesn't work
+// TODONT: hard-code callout line directions in editor? [3_2]
+// DONE: layouts don't seem to be full-screen on iOS Safari; how to remove browser search bar from iOS Chrome?
+// TODONT: during infinite scroll, remove past spreads from memory (or only load one spread at a time)
+// TODONT: on narrow screens, just put grid layouts down the page each @ 100% width?
+// TODONT: marginTop not working? [not being used]

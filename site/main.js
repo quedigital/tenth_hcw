@@ -40,6 +40,7 @@ requirejs.config({
 		"jquery.textfill": "jquery.textfill.min",
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
+		"Hammer": "hammer.min",
 	},
 	
 	shim: {
@@ -92,6 +93,9 @@ requirejs.config({
 			},
 			"firebase": {
 				export: "Firebase"
+			},
+			"Hammer": {
+				export: "Hammer"
 			},
 		}
 });

@@ -1,4 +1,4 @@
-define(["jquery", "jquery.colorbox", "wheelzoom"], function ($) {
+define(["jquery", "jquery.colorbox", "wheelzoom", "Hammer"], function ($) {
 	function showImageInLightbox ($img, text, identifier, background) {
 		var img = $("<img>").attr("src", $img.attr("src")).css("width", "100%");
 		
@@ -25,13 +25,25 @@ define(["jquery", "jquery.colorbox", "wheelzoom"], function ($) {
 			s.append(id);
 		}
 
-		var cb = $.colorbox({ inline: true, href: img, innerHeight: hh, innerWidth: ww, title: s, className: "colorBox",
-				onComplete: function () { wheelzoom(img); }
+		var cb = $.colorbox({ inline: true, href: img, innerHeight: hh, innerWidth: ww, title: s, className: "ourColorBox",
+				onComplete: function () { customizeBox(cb, img); }
 			});
 			
 		$("#cboxLoadedContent").css("background", background);
 //		$(".colorBox").click(function () { $.colorbox.close(); });
 //		wheelzoom(img);		
+	}
+	
+	function customizeBox (cb, img) {
+		var btn = $("<button>", { id: "zoomin", class: "basic" }).append("<i class='fa fa-2x fa-search-plus'>");
+		$("#cboxLoadedContent").append(btn);
+		btn.click(function () { img[0].dispatchEvent(new CustomEvent("wheelzoom.zoomin")); });
+		
+		var btn = $("<button>", { id: "zoomout", class: "basic" }).append("<i class='fa fa-2x fa-search-minus'>");
+		$("#cboxLoadedContent").append(btn);
+		btn.click(function () { img[0].dispatchEvent(new CustomEvent("wheelzoom.zoomout")); });
+		
+		wheelzoom(img);
 	}
 
 	var SiteHelpers = {

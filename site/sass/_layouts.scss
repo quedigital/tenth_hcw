@@ -876,6 +876,11 @@ button.basic {
 		background-color: #666;
 		color: white;
 	}
+	
+	&:active {
+		background-color: white;
+		color: black;
+	}
 }
 
 div.sidebar {
@@ -2569,4 +2574,19 @@ div.blocker {
 	bottom: 0;
 	z-index: 100;
 	background-color: rgba(255, 0, 0, 0);
+}
+
+#cboxLoadedContent {
+	button {
+		position: absolute;
+		top: 5px;
+	}
+	
+	#zoomin {
+		left: 5px;
+	}
+	
+	#zoomout {
+		left: 55px;
+	}
 }
