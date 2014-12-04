@@ -2,6 +2,8 @@ define(["lunr", "jquery"], function (lunr) {
 	SearchManager = function (pane, inputter) {
 		this.pane = pane;
 		
+		this.initialized = this.initializing = false;
+		
 		inputter.on("input focus click", $.proxy(this.onChangeSearch, this));
 		
 		pane.find("#close-button").click($.proxy(this.closePane, this));
@@ -18,41 +20,50 @@ define(["lunr", "jquery"], function (lunr) {
 	SearchManager.prototype.constructor = SearchManager;
 
 	SearchManager.prototype.setData = function (data) {
+		console.log("got search content " + data.length);
 		this.data = data;
 		
-		console.log("got data " + data.length);
-		var s1 = new Date().getTime();
+		setTimeout($.proxy(this.initialize, this), 5000);
+	}
+	
+	SearchManager.prototype.initialize = function () {
+		if (this.initialized || this.initializing) return;
+
+		this.searchWorker = new Worker("js/searchworker.js");
+
+		var me = this;
 		
-		for (var i = 0; i < data.length; i++) {
-			var spread = data[i];
-			var text = "";
-			// TODO: quick way to put all cells headings and text into one field
-			if (spread.cells) {
-				for (var each in spread.cells) {
-					var cell = spread.cells[each];
-					if (cell.heading) text += cell.heading + " ";
-					if (cell.text) text += cell.text;
+		this.searchWorker.postMessage( { type: "initialize", content: this.data } );
+		
+		this.time1 = new Date().getTime();
+
+		this.searchWorker.onmessage = function (event) {
+			if (event.data.type == "progress") {
+				if (event.data.data == "complete") {
+					var time2 = new Date().getTime();
+					console.log("indexing = " + (time2 - me.time1));
+					me.initialized = true;
+					me.initializing = false;
 				}
+			} else if (event.data.type == "results") {
+				me.showSearchResults(event.data.results);
 			}
-			
-			var doc = { title: spread.title, body: text, id: spread.id };
-			
-			this.idx.add(doc);
-		}
+		};
 		
-		var s2 = new Date().getTime();
-		console.log(s2 - s1);
+		this.initializing = true;		
 	}
 	
 	SearchManager.prototype.onChangeSearch = function () {
-		var val = $("#search-box").val();
+		this.initialize();
 		
-		this.showSearchResults(val);
+		if (this.initialized) {
+			var val = $("#search-box").val();
+
+			this.searchWorker.postMessage( { type: "query", term: val } );		
+		}
 	}
 	
-	SearchManager.prototype.showSearchResults = function (term) {
-		var r = this.idx.search(term);
-		
+	SearchManager.prototype.showSearchResults = function (r) {
 		var me = this;
 		
 		var container = this.pane.find(".results");
