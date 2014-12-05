@@ -10,6 +10,8 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 			var settings = $.extend({
 			}, options);
 		
+			this.find(".pulltab").click($.proxy(openPanel, this, this));
+			
 			this.hover($.proxy(openPanel, this, this), $.proxy(possiblyClosePanel, this, this));
 			
 			this.find("#commentArea").autosize();
@@ -142,7 +144,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 	
 	function initialize (elem, options) {
 		// position on-screen
-		elem.position( { my: "left center", at: "right bottom", of: options.bottomOf, collision: "none" } );
+		elem.position( { my: "left top+40px", at: "right bottom", of: options.bottomOf, collision: "none" } );
 		// and then eliminate left (so "right" overrides it and it's off-screen again)
 		elem.css("left", "");
 		

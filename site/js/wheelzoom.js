@@ -4,6 +4,8 @@
 	http://www.jacklmoore.com/wheelzoom
 */
 window.wheelzoom = (function(){
+	var MAX_SCALE = 20;
+	
 	var defaults = {
 		zoom: 0.10
 	};
@@ -66,7 +68,7 @@ window.wheelzoom = (function(){
 
 			if (newWidth <= width || newHeight <= height) {
 				reset();
-			} else if (zoom < 20) {
+			} else if (zoom < MAX_SCALE) {
 				bgPosX = adjX;
 				bgPosY = adjY;
 				
@@ -138,6 +140,14 @@ window.wheelzoom = (function(){
 			if (bgWidth <= width || bgHeight <= height) {
 				reset();
 			} else {
+				var zoom = (bgWidth / width);
+				if (zoom > MAX_SCALE) {
+					bgWidth = width * MAX_SCALE;
+					bgHeight = height * MAX_SCALE;
+					bgPosX = offsetX - (bgWidth * bgRatioX);
+					bgPosY = offsetY - (bgHeight * bgRatioY);
+				}
+			
 				updateBgStyle();
 			}
 		}

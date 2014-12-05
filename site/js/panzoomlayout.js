@@ -132,6 +132,8 @@ define(["Layout",
 		
 		cells.sort(Helpers.sortByPriority);
 		
+		var styledFirstStep = false;
+		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
 			var hint = Helpers.findByID(cell.id, this.layout.hints);
@@ -147,6 +149,10 @@ define(["Layout",
 				case "step":
 					if (hint.anchor == "before" || hint.anchor == "after") {
 						var step = new Step(cell, hint);
+						if (hint.anchor == "before" && !styledFirstStep) {
+							step.styleFirstWords();
+							styledFirstStep = true;
+						}
 					} else {
 						var step = new FixedRegion(cell, hint);
 					

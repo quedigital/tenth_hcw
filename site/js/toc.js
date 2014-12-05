@@ -146,7 +146,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		openSpread: function (options) {
 			options = $.extend(options, {});
 			
-			$("#loading-spinner").removeClass("animated fadeOutRightBig").addClass("animated bounceIn").css("display", "block");
+			$("#loading-spinner").css("display", "block");
 	
 			options.callback = $.proxy(this.onSpreadVisible, this, options);
 			

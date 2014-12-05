@@ -44,11 +44,13 @@ define(["Layout",
 		var cells = $.map(this.content.cells, function (el) { return el });
 		var hints = $.map(this.layout.hints, function (el) { return el });
 		
-		var firstStep = false;
+		var styledFirstStep = false;
+		
+		cells.sort(Helpers.sortByPriority);
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
-			var hint = hints[i];
+			var hint = Helpers.findByID(cell.id, hints);
 			var cellDOM = $("<div>").addClass("cell");
 			this.container.append(cellDOM);
 			
@@ -90,9 +92,12 @@ define(["Layout",
 						step.elem.click($.proxy(this.showCalloutForStep, this, step));
 					}
 					
-					if (!firstStep && !step.hasNumber()) {
+					if (!styledFirstStep && !step.hasNumber()) {
 						step.styleFirstWords();
-						firstStep = true;
+						styledFirstStep = true;
+					} else if (step.hasNumber()) {
+						// if we pass a step with a number, no "init cap" for this spread
+						styledFirstStep = true;
 					}
 					
 					break;

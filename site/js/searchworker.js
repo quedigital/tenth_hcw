@@ -7,8 +7,6 @@ var idx = lunr(function () {
 
 self.onmessage = function (event) {
 	if (event.data.type == "initialize") {
-		console.log("search initializing");
-		
 		var data = event.data.content;
 	
 		for (var i = 0; i < data.length; i++) {

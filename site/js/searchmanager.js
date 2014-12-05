@@ -28,8 +28,9 @@ define(["lunr", "jquery"], function (lunr) {
 	
 	SearchManager.prototype.initialize = function () {
 		if (this.initialized || this.initializing) return;
-
-		this.searchWorker = new Worker("js/searchworker.js");
+		
+		// add timestamp so .js file is hopefully not cached
+		this.searchWorker = new Worker("js/searchworker.js?q=" + new Date().getTime().toString());
 
 		var me = this;
 		

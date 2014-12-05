@@ -1,16 +1,20 @@
 
 
-// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
+// TODO: ratings tab isn't clickable a second time on iPad
 
-// TODO: optimize panzoom transitions for ipad
+// TODO: add all relevant interactives
+// TODO: make sure all interactives work on desktop & ipad
+
+// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce]
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
-// TODO: <span intro> is incorrect for 8_4
-// TODO: <span intro> for extracted PanZoom steps
+// TODO: investigate/fix/replace svg images that don't work on iPad
 
-// TODO: for figures, change <span bold> to <figcaption><h1>
+// TODO: svg images don't size properly in colorbox on ipad
+
+// TODO: load export.json zipped (stuk.github.io/jszip/)
 
 // TODO: 11_1 intro has cross-reference and possibly a typo
 // TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
@@ -22,14 +26,10 @@
 
 // TODO: "S" lines for some callouts (see 17.1 #1)
 
-// TODO: investigate/fix/replace svg images that don't work on iPad
-
-// TODO: svg images don't size properly in colorbox on ipad
-
 // TODO: search results show bit of context (on mouseover?)
 // TODO: keywords (searchable) for spreads
 
-// TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
+// TODO: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
 // TODO: flesh out help system steps
 
 // TODO: need to adjust property settings for Google Analytics when run from informit
@@ -40,8 +40,6 @@
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 // TODO: fun "map" page showing which sections of the book you've read, at-a-glance
-
-// TODO: better loading indicator
 
 // TODO: make lightbox bigger when zooming in (to show more, ex: 10_1)
 
@@ -67,6 +65,8 @@
 
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
 // TODO: eliminate memory leaks
+
+// TODO: for figures, change <span bold> to <figcaption><h1> [need an example of this]
 
 // UI DESIGN: retina images?  (Cloudinary can downsample for us: http://res.cloudinary.com/hcw10/image/upload/w_0.5/v1406726724/10_1/image1.png)
 //            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
@@ -365,3 +365,8 @@
 // DONE: 14_3 #3 callout from step without block, etc. [added dashed lines around step]
 // DONE: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
 // DONE: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
+// DONE: <span intro> is incorrect for 8_4
+// DONE: <span intro> for extracted PanZoom steps
+// DONE: better loading indicator
+// DONE: optimize panzoom transitions for ipad [was missing -webkit prefix]
+// DONE: limit zooming with wheel or pinch
