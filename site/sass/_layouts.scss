@@ -1183,15 +1183,15 @@ div.image-callout {
 			}
 		}
 		
-		.thumbnail {
-			display: none;
+		
+		.read-marker {
 			position: absolute;
-			right: 1em;
-			top: 1em;
-			height: 50%;
-			width: 50%;
-			background-size: contain;
-			opacity: .5;
+			bottom: 0;
+			left: 0;
+			
+			.rating {
+				font-size: 80%;
+			}
 		}
 	}
 }
@@ -1502,7 +1502,7 @@ div.image-callout {
 		#favorites-widget {
 			p {
 				line-height: 1.2em;
-				color: black;
+				color: white;
 				padding: .5em;
 			}
 		}

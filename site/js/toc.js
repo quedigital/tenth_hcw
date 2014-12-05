@@ -1,4 +1,4 @@
-define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, SearchManager) {
+define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, SearchManager, Database) {
 
     $.widget("que.TOC", {
 
@@ -46,7 +46,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 				$("<p>").addClass("number").text(content.chapter + "." + content.number).appendTo(entry);
 
 				var t = $("<p>").addClass("title").text(content.title);
-			
+							
 				if (content.number == -1) {
 					entry.addClass("toc-part");
 					var ch = $("<p>").addClass("chapter").text("Part " + content.part);
@@ -73,7 +73,7 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 		
 			$("#help-system").HelpSystem( { layoutManager: this.options.layoutManager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour" } );
 			
-			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager.dom } );
+			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager } );
 		
 			$("#toggler").click($.proxy(this.onClickToggler, this));
 			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
@@ -87,7 +87,9 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
-			this.sizeToFitWindow();			
+			this.sizeToFitWindow();
+			
+			setTimeout($.proxy(this.updateRatingMarkers, this), 1000);
         },
 
         _destroy: function () {
@@ -437,7 +439,29 @@ define(["Helpers", "tinycolor", "SearchManager", "jquery.ui.widget", "NewsItems"
 			}
 		
 			return choices;
-		}
+		},
 		
+		updateRatingMarkers: function () {
+			var ratings = Database.getAllSpreadRatings();
+			for (var id in ratings) {
+				this.updateRatingMarkerForID(id, ratings[id].rating);
+			}
+		},
+		
+		updateRatingMarkerForID: function (id, rating) {
+			var entry = $(".entry[data-id='" + id + "']");
+			var content = this.getSpreadContentByID(id);
+			if (entry && content) {
+				var color = Helpers.getColorForChapter(content.chapter);
+				entry.find(".read-marker").remove();
+				var marker = $("<span>", { class: "fa-stack read-marker" });
+				$("<i>", { class: "fa fa-stack-1x fa-certificate" }).appendTo(marker);
+				$("<i>", { class: "rating fa fa-stack-1x", text: rating }).css("color", color).appendTo(marker);
+				marker.appendTo(entry);
+				var tc = tinycolor(color);
+				marker.css("color", tc.brighten(20).toString());
+			}
+		}
+
     });		
 });

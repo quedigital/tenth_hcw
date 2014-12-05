@@ -24,6 +24,10 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		this.contents.sort(Helpers.sortByChapterAndNumber);		
 	}
 	
+	LayoutManager.prototype.getSpreadCount = function () {
+		return this.contents.length;
+	}
+	
 	LayoutManager.prototype.clearSpreads = function () {
 		$(".layout").remove();
 		$(".banner").remove();

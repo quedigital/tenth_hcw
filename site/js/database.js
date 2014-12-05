@@ -179,6 +179,15 @@ define(["firebase", "jquery.json"], function () {
 			
 		return results;
 	}
+	
+	function getAllSpreadRatings () {
+		var ratings = getPersistentProperty("ratings");
+		var allRatings = {};
+		if (ratings) {
+			allRatings = $.evalJSON(ratings);
+		}
+		return allRatings;
+	}
 
 	var Database = {
 		getMyRating: getMyRating,
@@ -192,6 +201,7 @@ define(["firebase", "jquery.json"], function () {
 		getPersistentProperty: getPersistentProperty,
 		setPersistentProperty: setPersistentProperty,
 		getFavoriteSpreads: getFavoriteSpreads,
+		getAllSpreadRatings: getAllSpreadRatings,
 	}
 	
 	return Database;	

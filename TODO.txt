@@ -1,7 +1,5 @@
 
 
-// TODO: ratings tab isn't clickable a second time on iPad
-
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad
 
@@ -33,8 +31,6 @@
 // TODO: flesh out help system steps
 
 // TODO: need to adjust property settings for Google Analytics when run from informit
-
-// TODO: checkmarks for spreads "read"
 
 // TODO: add glossary definitions for all terms in text
 
@@ -370,3 +366,6 @@
 // DONE: better loading indicator
 // DONE: optimize panzoom transitions for ipad [was missing -webkit prefix]
 // DONE: limit zooming with wheel or pinch
+// DONE: ratings tab isn't clickable a second time on iPad
+// DONE: checkmarks for spreads "read" [put ratings, if any, in the toc]
+// DONE: put ratings count in the menu

@@ -140,6 +140,8 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		if (currentID) {
 			Database.setMyRating(currentID, rating);
 		}
+		
+		elem.trigger("rating");
 	}
 	
 	function initialize (elem, options) {

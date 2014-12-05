@@ -1,4 +1,4 @@
-define(["Database", "jquery.ui.widget"], function (Database) {
+define(["Database", "Helpers", "jquery.ui.widget"], function (Database, Helpers) {
 
     $.widget("que.Favorites", {
 
@@ -17,7 +17,7 @@ define(["Database", "jquery.ui.widget"], function (Database) {
         },
         
 		onClickItem: function (id, event) {
-			this.options.layoutManager.trigger("open-spread", { id: id, replace: true, active: true });
+			this.options.layoutManager.dom.trigger("open-spread", { id: id, replace: true, active: true });
 		},
 
         refresh: function () {
@@ -41,6 +41,12 @@ define(["Database", "jquery.ui.widget"], function (Database) {
 				var p = $("<p>You haven't given out any 5-star ratings yet.</p>");
 				p.appendTo(this.element);
 			}
+			
+			var ratings = Database.getAllSpreadRatings();
+			ratings = Helpers.objectToArrayWithKey(ratings);
+			var total = this.options.layoutManager.getSpreadCount();
+			var p = $("<p>You have rated " + ratings.length + " out of " + total + " pages.</p>");
+			this.element.append(p);
         },
     });
 });

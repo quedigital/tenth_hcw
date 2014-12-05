@@ -138,6 +138,10 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 		layoutManager.dom.bind("previous-spread", function (event, options) { $("#toc-container").TOC("onAutoLoadPreviousSpread", options.id, options.scrollTo); });
 		layoutManager.dom.bind("current-spread", onCurrentSpread);
 		layoutManager.dom.bind("open-spread", doOpenSpread);
+		
+		$("#opinion").bind("rating", function () {
+			$("#toc-container").TOC("updateRatingMarkers");
+		});
 				
 		window.onpopstate = onPopState;
 		
