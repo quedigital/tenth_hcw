@@ -262,7 +262,7 @@ define(["Layout",
 						
 					case "interactive":
 						var interactive = elem.find(".interactive").data("interactive");
-						var pane = $("body");
+						var pane = $(window);
 						interactive.format(pane);
 						break;
 					

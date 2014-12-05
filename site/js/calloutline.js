@@ -25,7 +25,7 @@ define(["Helpers"], function (Helpers) {
 		var viewSource = elemSource[0].getBoundingClientRect();
 		var viewTarget = target[0].getBoundingClientRect();
 		
-		options = $.extend(options, {});
+		this.options = $.extend(options, {});
 		
 		// first, calculate the best layout for the callout line
 		
@@ -41,23 +41,23 @@ define(["Helpers"], function (Helpers) {
 		var dir = undefined;
 		var startX = 0, startY = 0;
 		
-		if (options.style == "label") {
+		if (this.options.style == "label") {
 			startX = viewSource.left + viewSource.width * .5;
 			
 			dir = "VH";
 			
 			// adjust start Y depending on line direction / destination
-			if (options.my[0] == "B" && options.at[0] == "T") {
+			if (this.options.my[0] == "B" && this.options.at[0] == "T") {
 				startY = viewSource.bottom;
-			} else if (options.my[0] == "T" && options.at[0] == "B") {
+			} else if (this.options.my[0] == "T" && this.options.at[0] == "B") {
 				startY = viewSource.top;
-			} else if (options.my == "L" && options.at == "R") {
+			} else if (this.options.my == "L" && this.options.at == "R") {
 				startY = viewSource.top + viewSource.height * .5;
 				startX = viewSource.left;
 				dir = "S";
 			} else {
 				startY = viewSource.bottom;
-				console.log("Don't know where to start line for " + options.my + " and " + options.at);
+				console.log("Don't know where to start line for " + this.options.my + " and " + this.options.at);
 			}
 			
 			if (dy < 10)
@@ -166,6 +166,9 @@ define(["Helpers"], function (Helpers) {
 		this.targetY = viewTarget.top;
 		
 		this.drawn = false;
+		
+		if (this.options.alwaysVisible)
+			this.animate();
 	}
 	
 	CalloutLine.prototype = Object.create(null);
@@ -218,7 +221,11 @@ define(["Helpers"], function (Helpers) {
 		}
 		
 		if (!this.drawn) {
-			Helpers.animateCanvasPath(points, this.canvas[0]);
+			if (this.options.alwaysVisible) {
+				Helpers.drawCanvasPath(points, this.canvas[0]);
+			} else {
+				Helpers.animateCanvasPath(points, this.canvas[0]);
+			}
 			this.drawn = true;
 		}
 	}

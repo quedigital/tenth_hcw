@@ -69,14 +69,19 @@ define([], function () {
 		this.contents.parent().css( { width: "auto", height: "auto" } );
 		
 		var cw = this.contents.parent().innerWidth();
-		var ph = pane.height();
+		var ph = pane.innerHeight();
 		
 		// NOTE: we don't want the scale to be greater than 1, so fit either the width or the height
 		
-		// NEW THEORY: use all available width (works for Ducks 1_1)
+		// NEW THEORY: use all available width (works for Ducks 1_1), unless that makes the height larger then the pane height
 		
 		w = cw - 20;
 		h = w * this.ratio;
+		
+		if (h > ph ) {
+			h = ph;
+			w = h / this.ratio;
+		}
 		
 		scale = w / this.size_w;
 		

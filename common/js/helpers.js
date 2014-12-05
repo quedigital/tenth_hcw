@@ -200,6 +200,22 @@ define(["jquery"], function ($) {
 		node[0].nodeValue = text.slice(first.length);
 		node.before('<span class="' + klass + '">' + first + '</span>');
 	};
+
+	function drawCanvasPath (points, canvas) {
+		var d = 0;
+		
+		var context = canvas.getContext("2d");
+		
+		clearCanvas(canvas, context);
+		context.beginPath();
+		
+		for (var i = 1; i < points.length; i++) {
+			var pt0 = points[i - 1];
+			var pt1 = points[i];
+			
+			drawSegment(context, pt0, pt1);
+		}		
+	}
 	
 	function animateCanvasPath (points, canvas) {
 		var d = 0;
@@ -319,6 +335,7 @@ define(["jquery"], function ($) {
 		isScrolledOff: isScrolledOff,
 		getColorForChapter: getColorForChapter,
 		animateCanvasPath: animateCanvasPath,
+		drawCanvasPath: drawCanvasPath,
 		isTouchEnabled: isTouchEnabled,
 	};
 	

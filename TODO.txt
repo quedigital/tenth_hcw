@@ -1,20 +1,11 @@
 
 
-// TODO: BUG: 22_1 #3 width is set to 110% ?!  and 18_1
-// TODO: 17_1, image callouts not working
-// TODO: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
-
-// TODO: interactive not sized correctly (eg, 5_1)
-// TODO: 11_1 intro has cross-reference and possibly a typo
-// TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
-// TODO: internal links and cross-references (as in: intro to 3_3)
-
 // TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
-// TODO: 14_4 #3 callout from step without block, etc.
-
 // TODO: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
 
-// TODO: rename 9_2b to 9_2
+// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
+
+// TODO: optimize panzoom transitions for ipad
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
@@ -22,19 +13,23 @@
 // TODO: <span intro> is incorrect for 8_4
 // TODO: <span intro> for extracted PanZoom steps
 
-// TODO: remove embedded "line-height" tags from the text and linebreaks (\n)
-// TODO: convert things like [dg] in the text
 // TODO: for figures, change <span bold> to <figcaption><h1>
 
-// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
+// TODO: 11_1 intro has cross-reference and possibly a typo
+// TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
+// TODO: internal links and cross-references (as in: intro to 3_3)
+
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
+
+// TODO: minify scripts
+
+// TODO: "S" lines for some callouts (see 17.1 #1)
 
 // TODO: investigate/fix/replace svg images that don't work on iPad
 
 // TODO: svg images don't size properly in colorbox on ipad
 
-// TODO: search results shows number of results and bit of context
-// TODO: animate search result pane appearance
+// TODO: search results show bit of context (on mouseover?)
 // TODO: keywords (searchable) for spreads
 
 // TODO: guide: ratings, toc, panzoom, grid, callout lines, image zooming, interactives
@@ -45,8 +40,6 @@
 // TODO: checkmarks for spreads "read"
 
 // TODO: add glossary definitions for all terms in text
-
-// TODO: smooth out pan-zoom transitions
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 // TODO: fun "map" page showing which sections of the book you've read, at-a-glance
@@ -364,3 +357,12 @@
 // TODONT: during infinite scroll, remove past spreads from memory (or only load one spread at a time)
 // TODONT: on narrow screens, just put grid layouts down the page each @ 100% width?
 // TODONT: marginTop not working? [not being used]
+// DONE: rename 9_2b to 9_2
+// DONE: convert things like [dg] in the text
+// DONE: remove embedded "line-height" tags from the text
+// DONE: remove multiple linebreaks (\n)
+// DONE: BUG: 22_1 #3 width is set to 110% ?!  and 18_1
+// DONE: 17_1, image callouts not working
+// DONE: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
+// DONE: interactive not sized correctly (eg, 5_1)
+// DONE: 14_3 #3 callout from step without block, etc. [added dashed lines around step]

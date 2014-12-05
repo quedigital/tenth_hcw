@@ -75,7 +75,7 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 		if (!isNaN(hint.imageWidth)) {
 			image_w = Math.max(.1, Math.min(.9, hint.imageWidth)) * 100 + "%"
 		}
-		img.width(image_w);
+		img.css("width", image_w);
 		
 		switch (hint.image) {
 			case "TL":

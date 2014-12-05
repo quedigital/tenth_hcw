@@ -23,7 +23,7 @@ define(["Helpers"], function (Helpers) {
 		
 		this.elem.position({ my: my, at: at, of: cell.find("img"), collision: "none" });
 		
-		this.line = new CalloutLine(container, this.span, cell, options.target, { style: "label", my: options.my, at: options.at } );
+		this.line = new CalloutLine(container, this.span, cell, options.target, { style: "label", my: options.my, at: options.at, alwaysVisible: true } );
 	}
 
 	CalloutLabel.prototype = Object.create(null);

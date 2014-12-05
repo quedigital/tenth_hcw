@@ -44,6 +44,8 @@ define(["lunr", "jquery"], function (lunr) {
 					console.log("indexing = " + (time2 - me.time1));
 					me.initialized = true;
 					me.initializing = false;
+				} else {
+					console.log("indexing progress = " + event.data.data);
 				}
 			} else if (event.data.type == "results") {
 				me.showSearchResults(event.data.results);

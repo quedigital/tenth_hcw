@@ -25,6 +25,11 @@ self.onmessage = function (event) {
 			var doc = { title: spread.title, body: text, id: spread.id };
 		
 			idx.add(doc);
+			
+			if (i % 10 == 0) {
+				var pct = Math.floor((i / data.length) * 100) + "%";
+				self.postMessage({ type: "progress", data: pct });
+			}
 		}
 	
 		self.postMessage({ type: "progress", data: "complete" });
