@@ -206,7 +206,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	LayoutManager.prototype.onSpreadChange = function () {
 		var layout = this.getCurrentLayout();
 		if (layout) {
-			$("#opinion").ratingsSystem("update", { bottomOf: layout.container, title: layout.title, id: layout.id } );
+			var bottomOf = layout.container;
+			$("#opinion").ratingsSystem("update", { bottomOf: bottomOf, title: layout.title, id: layout.id } );
 		}
 	}
 	

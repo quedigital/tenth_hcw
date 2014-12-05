@@ -1,8 +1,5 @@
 
 
-// TODO: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
-// TODO: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)
-
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner)
 
 // TODO: optimize panzoom transitions for ipad
@@ -366,3 +363,5 @@
 // DONE: width of images doesn't seem to match editor (ie, 17_4 #4, extracted, should be .1)
 // DONE: interactive not sized correctly (eg, 5_1)
 // DONE: 14_3 #3 callout from step without block, etc. [added dashed lines around step]
+// DONE: BUG: imagesLoaded isn't working with TextLayouts so the page height isn't known when positioning the ratings tab (?)
+// DONE: use .position (and ignore left) for putting the ratings tab in the right place (since my code doesn't seem to be working)

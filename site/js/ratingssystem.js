@@ -36,12 +36,18 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		} else if (command == "update") {
 			var b = options.bottomOf.position().top + options.bottomOf.outerHeight();
 			
-			var options = { bottom: b, title: options.title, id: options.id };
+			var options = { bottom: b, title: options.title, id: options.id, bottomOf: options.bottomOf };
 			
 			currentID = options.id;
 			
 			// using animate because it is queued
-			this.fadeOut().delay(1000).animate( { top: b, right: OFFSCREEN_X }, 0, $.proxy(initialize, this, this, options) ).delay(1000).fadeIn();
+			this.fadeOut().delay(1000).animate(
+				{ top: b, right: OFFSCREEN_X },
+				{
+					duration: 0,
+					complete: $.proxy(initialize, this, this, options)
+				} )
+				.delay(1000).fadeIn();
 		}
 		
 		return this;
@@ -135,6 +141,11 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 	}
 	
 	function initialize (elem, options) {
+		// position on-screen
+		elem.position( { my: "left center", at: "right bottom", of: options.bottomOf, collision: "none" } );
+		// and then eliminate left (so "right" overrides it and it's off-screen again)
+		elem.css("left", "");
+		
 		elem.css( { visibility: "hidden", display: "block" } );
 		elem.find(".comments").hide(0);
 		elem.find(".commentEntry").hide(0);
@@ -152,7 +163,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		var myRating = Database.getMyRating(options.id);
 		updateMyRatingUI(elem, myRating);
 				
-		elem.css( { visibility: "visible", display: "none", top: options.bottom - elem.outerHeight() } );
+		elem.css( { visibility: "visible", display: "none" } );
 	}
 	
 	function updateMyRatingUI (elem, myRating) {
