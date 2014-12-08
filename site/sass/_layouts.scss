@@ -886,6 +886,7 @@ body {
 		-webkit-transform-origin: 50% 0;
 		padding: 10px;
 		background-color: $interactive-color;
+		box-sizing: content-box;
 	}
 }
 

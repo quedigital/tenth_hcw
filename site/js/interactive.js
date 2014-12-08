@@ -10,6 +10,8 @@ define([], function () {
 
 		this.size_w = parseInt(hints.size.substr(0, hints.size.indexOf(",")));
 		this.size_h = parseInt(hints.size.substr(hints.size.indexOf(",") + 1));	
+
+		this.url = options.image;
 		
 		switch (style) {
 			case "fullscreen":		
@@ -26,7 +28,6 @@ define([], function () {
 				contents.append(close);
 				close.click($.proxy(this.minimize, this));
 		
-				this.url = options.image;
 				this.contents = contents;
 				this.iframe = iframe;		
 		
@@ -46,7 +47,7 @@ define([], function () {
 				
 				this.contents = contents;
 				
-				var iframe = $("<iframe>").attr( { src: options.image, width: this.size_w, height: this.size_h, frameBorder: 0 } );
+				var iframe = $("<iframe>").attr( { src: this.url, width: this.size_w, height: this.size_h, frameBorder: 0 } );
 				contents.append(iframe);
 				
 				this.iframe = iframe;
@@ -69,7 +70,7 @@ define([], function () {
 		this.contents.parent().css( { width: "auto", height: "auto" } );
 		
 		var cw = this.contents.parent().innerWidth();
-		var ph = pane.innerHeight();
+		var ph = pane.innerHeight() - 20;
 		
 		// NOTE: we don't want the scale to be greater than 1, so fit either the width or the height
 		
@@ -78,7 +79,7 @@ define([], function () {
 		w = cw - 20;
 		h = w * this.ratio;
 		
-		if (h > ph ) {
+		if (h > ph) {
 			h = ph;
 			w = h / this.ratio;
 		}
@@ -97,14 +98,17 @@ define([], function () {
 		this.iframe.attr("src", this.url);
 		
 		// scale the iframe to fit in our window
-		var w = $(window).width();
-		var h = $(window).height();
+		var w = window.innerWidth - 20;
+		var h = window.innerHeight - 20;
 		
 		var scale_w = w / this.size_w;
 		var scale_h = h / this.size_h;
 		var scale = Math.min(scale_w, scale_h);
 		
-		this.iframe.css("transform", "scale(" + scale + ")");
+		var marginLeft = (w - (this.size_w * scale)) * .5;
+		var marginTop = (h - (this.size_h * scale)) * .5;
+		
+		this.iframe.css( { transform: "scale(" + scale + ")", marginLeft: marginLeft + "px", marginTop: marginTop + "px" } );
 	}
 	
 	Interactive.prototype.minimize = function () {

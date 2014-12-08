@@ -1,9 +1,24 @@
 
 
+// TODO: interactive not sized exactly right on iPad
+
+// TODO: style <ul> in GridLayouts [18_1]
+
+// TODO: BandwidthBoats needs mouse support [18_1]
+
+// TODO: pinch-zoom on iPad images is still too jerky
+
+// TODO: keywords for spreads
+// TODO: search includes keywords
+
+// TODO: put step # in panzoom text box?
+
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad
 
-// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce]
+// TODO: grid view search results, with keywords at top?
+
+// TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce; maybe only with debugging tools open?]
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
@@ -369,3 +384,4 @@
 // DONE: ratings tab isn't clickable a second time on iPad
 // DONE: checkmarks for spreads "read" [put ratings, if any, in the toc]
 // DONE: put ratings count in the menu
+// DONE: DuckWave isn't drawing waves on iPad (and touch isn't working) [1_1]

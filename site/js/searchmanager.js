@@ -30,7 +30,7 @@ define(["lunr", "jquery"], function (lunr) {
 		if (this.initialized || this.initializing) return;
 		
 		// add timestamp so .js file is hopefully not cached
-		this.searchWorker = new Worker("js/searchworker.js?q=" + new Date().getTime().toString());
+		this.searchWorker = new Worker("site/js/searchworker.js?q=" + new Date().getTime().toString());
 
 		var me = this;
 		

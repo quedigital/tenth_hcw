@@ -4,7 +4,7 @@ define([], function () {
 		this.elem = $("<div>").addClass("video");
 		
 		var video = $("<video controls>");
-		var src = $("<source>").attr( { src: options.image, type: "video/mp4" } );
+		var src = $("<source>").attr( { src: "site/" + options.image, type: "video/mp4" } );
 		video.append(src);
 		
 		this.elem.append(video);

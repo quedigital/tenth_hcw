@@ -18,8 +18,12 @@ require(["pixi", "DuckWave"], function (PIXI) {
 	// create an new instance of a pixi stage
 	var stage = new PIXI.Stage(0xEDF5F5);
 
+	var rendererOptions = {
+		antialiasing: false,
+	};
+
 	// create a renderer instance
-	var renderer = new PIXI.autoDetectRenderer(400, 240);
+	var renderer = new PIXI.autoDetectRenderer(400, 235, rendererOptions);
 
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);

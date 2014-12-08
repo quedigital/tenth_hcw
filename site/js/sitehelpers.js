@@ -6,8 +6,8 @@ define(["jquery", "jquery.colorbox", "wheelzoom", "Hammer"], function ($) {
 		var h = $img[0].naturalHeight;
 		
 		var ww, hh;
-		var w_w = $(window).width();
-		var w_h = $(window).height();
+		var w_w = window.innerWidth;
+		var w_h = window.innerHeight;
 		
 		if (w/h > w_w/w_h) {
 			var scale = (w_w * .8) / w;

@@ -2,6 +2,8 @@ requirejs.config({
 	baseUrl: "js",
 	paths: {
 		"Phaser": "../../common/js/phaser.min",
+		"PacketManager": "packetmanager",
+		"Scorer": "scorer",
 	},
 	
 	shim: {

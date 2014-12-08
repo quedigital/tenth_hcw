@@ -11,11 +11,7 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		this.angle = 0;
 		this.speed = .025;
 
-		this.position.x = posx;
-		this.position.y = posy;
-		
-		var x = this.position.x;
-		var y = this.position.y;
+		this.waterline = { x: posx, y: posy };
 		
 		var spacing = 8;
 
@@ -24,9 +20,9 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		this.waves = [];
 		for (var i = 0; i < 4; i++) {
 			this.waves[i] = new PIXI.Sprite.fromImage("art/wave.png");
-			this.waves[i].anchor.y = 35 / 70;
+			this.waves[i].anchor.y = .5;
+			this.waves[i].y = 200;
 			this.waves[i].x = (i - 1) * this.waves[i].width;
-			this.waves[i].y = y;
 			this.addChild(this.waves[i]);
 		}
 		
@@ -34,7 +30,7 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		for (var i = 0; i < 9; i++) {
 			this.arrows[i] = new PIXI.Sprite.fromImage("art/arrow.png");
 			this.arrows[i].x = (i - 1) * 103 + 52;
-			this.arrows[i].y = y;
+			this.arrows[i].y = this.waterline.y;
 			this.arrows[i].anchor.x = .5;
 			this.arrows[i].anchor.y = .5;
 			this.addChild(this.arrows[i]);
@@ -42,9 +38,8 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		
 		this.RIGHT = 8 * 103 + 52;
 		
-		var scope = this;
-		
 		stage.mousedown = $.proxy(this.gotClick, this);
+		stage.tap = $.proxy(this.gotTap, this);
 	}
 
 	DuckWave.prototype = Object.create(PIXI.SpriteBatch.prototype);
@@ -67,7 +62,7 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		var offsetX = -78;
 		var offsetY = -23;
 		for (var x = 0; x < this.RIGHT; x += step) {
-			var y = this.position.y + offsetY + Math.sin((x + offsetX) / scale) * amplitude;
+			var y = 200 + offsetY + Math.sin((x + offsetX) / scale) * amplitude;
 			if (x == 0) {
 				this.graphics.moveTo(startX + x, y);
 			} else {
@@ -83,7 +78,7 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		var offsetX = -78;
 		var offsetY = -23;
 		var waveHeight = Math.sin((x + offsetX) / scale) * amplitude;
-		var y = this.position.y + offsetY + waveHeight;
+		var y = this.waterline.y + offsetY + waveHeight;
 		return y;
 	}
 	
@@ -99,6 +94,8 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 	}
 	
 	DuckWave.prototype.updateTransform = function () {
+//		this.drawSine(this.stage, 0);
+		
 		var sets = this.arrows.length;
 
 		var delta = this.speed * 40;
@@ -137,9 +134,9 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 		}
   	}
 	
-	DuckWave.prototype.gotClick = function (event) {
+	DuckWave.prototype.addDuck = function (pos) {
 		var duck = new PIXI.Sprite.fromImage("art/duck.png");
-		duck.x = event.global.x;
+		duck.x = pos.x;
 		duck.y = 0;
 		duck.anchor.x = 36 / 54;
 		duck.anchor.y = 28 / 38;
@@ -156,5 +153,13 @@ define(["pixi", "TweenLite", "jquery"], function (PIXI, TweenLite) {
 			
 			this.stage.removeChild(old[0]);
 		}
+	}
+	
+	DuckWave.prototype.gotClick = function (event) {
+		this.addDuck(event.global);
+	}
+	
+	DuckWave.prototype.gotTap = function (data) {
+		this.addDuck(data.global);
 	}
 });

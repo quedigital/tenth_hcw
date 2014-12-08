@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Bandwidth Boats</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			width: 1024px;
+			height: 560px;
+			background-color: #fec;
+			overflow: hidden;
+		}
+		
+		#myCanvas {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		
+		#elapsed1 {
+			position: absolute;
+			top: 50px;
+			left: 10px;
+			width: 6em;
+			text-align: right;
+		}
+		
+		#elapsed2 {
+			position: absolute;
+			top: 180px;
+			left: 10px;
+			width: 6em;
+			text-align: right;
+		}
+
+		#restart {
+			position: absolute;
+			top: 500px;
+		}
+		
+		#bandwidth_button {
+			position: absolute;
+			left: 550px;
+			top: 250px;
+		}
+		
+		#speed_button {
+			position: absolute;
+			left: 150px;
+			top: 250px;
+		}
+		
+		#go_button {
+			position: absolute;
+			top: 400px;
+			left: 420px;
+		}
+		
+		#restart_button {
+			position: absolute;
+			top: 400px;
+			left: 420px;
+			display: none;
+		}
+	</style>
+	
+	<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="../../common/js/easel.js"></script>
+	<script type="text/javascript" src="../../common/js/Tween.js"></script>
+	<script type="text/javascript" src="boats.js"></script>
+</head>
+<body ontouchmove="BlockMove(event);">
+<canvas id="myCanvas" width="1024" height="500"></canvas>
+<div id="bandwidth_button"><img src="bigarrow_red.png"/></div>
+<div id="speed_button"><img src="speed_button.png"/></div>
+<div id="go_button"><img src="go_button.png"/></div>
+<div id="restart_button"><img src="restart_button.png"/></div>
+<p id="elapsed1">0:00</p>
+<p id="elapsed2">0:00</p>
+</body>
+</html>
