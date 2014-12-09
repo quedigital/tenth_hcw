@@ -5,13 +5,15 @@
 
 // TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
 
+// TODO: delete 14_3
+
 // TODO: need to adjust property settings for Google Analytics when run from informit
 
 // TODO: add glossary definitions for all terms in text
 
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
-// TODO: etching interactive on iPad [2_1]
+// TODO: microchip etching interactive on iPad [2_1]
 
 // TODO: pinch-zoom on iPad images is still too jerky
 
@@ -387,3 +389,5 @@
 // DONE: hide banner ad text until it's resized
 // DONE: style <ul> in GridLayouts [18_1]
 // DONE: link to support form from within main menu
+// DONE: About the Author, Acknowledgements, etc. (per Todd)
+// DONE: interactives on panzoom pages

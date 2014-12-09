@@ -38,7 +38,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.stage.backgroundColor = 0xe02020;//0x4488cc;
 		
 		this.unetchedData = this.game.make.bitmapData(this.game.cache.getImage("unetched").width, this.game.cache.getImage("unetched").height);
-		this.unetchedData.copyPixels("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
+		this.unetchedData.copyRect("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
 		this.unetchedData.update();
 		
 		this.unetched = this.game.add.sprite(252, 400, this.unetchedData);
@@ -119,8 +119,27 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 		this.laserOff = true;
 		
+		this.game.input.onDown.add(this.onClickOrTap, this);
+		this.game.input.addMoveCallback(this.onMove, this);
+		this.game.input.onUp.add(this.onRelease, this);
+		
     	this.showProgress(0);				
 	};
+	
+	GameState.prototype.onMove = function (pointer, x, y, down) {
+		this.laserX = this.game.input.x;
+		this.laserY = this.game.input.y;
+	}
+	
+	GameState.prototype.onClickOrTap = function () {
+		this.laserX = this.game.input.x;
+		this.laserY = this.game.input.y;
+		this.inputDown = true;
+	}
+
+	GameState.prototype.onRelease = function () {
+		this.inputDown = false;
+	}
 	
 	GameState.prototype.resetBurnProgress = function () {
 		this.status = [];
@@ -244,7 +263,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			var etchY = y3 + offsetY - 15;
 			
 			var area = new Phaser.Rectangle(etchX - 10, offsetY - 15, 20, 20);
-			this.etchedData.copyPixels("etched", area, etchX - 10, offsetY - 15);
+			this.etchedData.copyRect("etched", area, etchX - 10, offsetY - 15);
 			
 			area.y += 1;
 			fillRGB.call(this.unetchedData, 255, 0, 0, 0, area);
@@ -280,7 +299,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		
 //		console.log(this.game.input.x + ", " + this.game.input.y);
 		
-		if (!this.complete && this.game.input.mousePointer.isDown) {
+		if (!this.complete && this.inputDown) {
 			if (this.laserOff) {
 				// TODO: animate laser on
 				this.laserOff = false;
@@ -288,7 +307,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 				this.emitter.on = true;
 			}
 			
-			var xx = this.game.input.x, yy = this.game.input.y;
+			var xx = this.laserX, yy = this.laserY;
 			
 			// don't let the laser go off the bounds of the etching
 			// right side:

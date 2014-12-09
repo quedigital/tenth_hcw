@@ -199,6 +199,13 @@ define(["Layout",
 					elem = image.elem;
 					
 					break;
+					
+				case "interactive":
+					var interactive = new Interactive(cell, hint);
+					this.elements[i] = interactive;
+					elem = interactive.elem;
+					
+					break;
 			}
 			
 			if (hint.anchor == "before" || hint.anchor == "after") {

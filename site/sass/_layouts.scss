@@ -497,91 +497,91 @@ body {
 		}
 	}
 	
-	.interactive {
-		min-height: 50px;
-		
-		.try-me {
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-		
-		.interactive-contents {
-			text-align: center;
-			margin: 0 auto;
-			overflow: hidden;
-			border: 10px solid $interactive-color;
-			position: relative;
-			transition: border .2s linear;
-			box-sizing: content-box;
-			
-			iframe {
-				position: absolute;
-				left: 0;
-			}
-			
-			&:hover {
-				border: 10px solid white;
-			}
-			
-			&:hover:after {
-				content: "interactive";
-				background-color: $interactive-color;
-				padding: 0 3em 0 .5em;
-				border-radius: .5em 0 0 .5em;
-				font-size: 150%;
-				position: absolute;
-				top: 10%;
-				right: -20em;
-				color: black;
-				transition: right .5s linear;
-			}
-			
-			&:not(:hover):after {
-				content: "interactive";
-				background-color: $interactive-color;
-				padding: 0 3em 0 .5em;
-				border-radius: .5em 0 0 .5em;
-				font-size: 150%;
-				position: absolute;
-				top: 10%;
-				right: 0;
-				color: black;
-				transition: right .5s linear;
-			}
-		}
-				
-		.pullover {
-			position: absolute;
-			right: 0;
-			background-color: $interactive-color;
-			color: black;
-			text-transform: lowercase;
-			font-size: 175%;
-			border-radius: .5em 0 0 .5em;
-			box-shadow: 0 4px 8px #666;
-			padding: 0 2em 0 .5em;
-			transition: all .25s linear;
-			cursor: pointer;
-			z-index: 1;
-			
-			&:after {
-				content: "\f138";
-				font-family: FontAwesome;
-				position: absolute;
-				left: 80%;
-				color: white;
-			}
-			
-			&:hover {
-				padding-right: 6em;
-			}
-		}
-	}
-	
 	.video video {
 		display: block;
 		margin: 0 auto;
+	}
+}
+
+.interactive {
+	min-height: 50px;
+	
+	.try-me {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	.interactive-contents {
+		text-align: center;
+		margin: 0 auto;
+		overflow: hidden;
+		border: 10px solid $interactive-color;
+		position: relative;
+		transition: border .2s linear;
+		box-sizing: content-box;
+		
+		iframe {
+			position: absolute;
+			left: 0;
+		}
+		
+		&:hover {
+			border: 10px solid white;
+		}
+		
+		&:hover:after {
+			content: "interactive";
+			background-color: $interactive-color;
+			padding: 0 3em 0 .5em;
+			border-radius: .5em 0 0 .5em;
+			font-size: 150%;
+			position: absolute;
+			top: 10%;
+			right: -20em;
+			color: black;
+			transition: right .5s linear;
+		}
+		
+		&:not(:hover):after {
+			content: "interactive";
+			background-color: $interactive-color;
+			padding: 0 3em 0 .5em;
+			border-radius: .5em 0 0 .5em;
+			font-size: 150%;
+			position: absolute;
+			top: 10%;
+			right: 0;
+			color: black;
+			transition: right .5s linear;
+		}
+	}
+			
+	.pullover {
+		position: absolute;
+		right: 0;
+		background-color: $interactive-color;
+		color: black;
+		text-transform: lowercase;
+		font-size: 175%;
+		border-radius: .5em 0 0 .5em;
+		box-shadow: 0 4px 8px #666;
+		padding: 0 2em 0 .5em;
+		transition: all .25s linear;
+		cursor: pointer;
+		z-index: 1;
+		
+		&:after {
+			content: "\f138";
+			font-family: FontAwesome;
+			position: absolute;
+			left: 80%;
+			color: white;
+		}
+		
+		&:hover {
+			padding-right: 6em;
+		}
 	}
 }
 
@@ -701,6 +701,10 @@ body {
 		border: 1px solid #999;
 		padding: 1em 40px;
 		margin: 0;
+	}
+	
+	.interactive {
+		margin-top: 1em;
 	}
 }
 
@@ -2053,6 +2057,10 @@ div.image-callout {
 		
 		h1 + figure + p, h1 + p {
 			text-indent: 0 !important;
+		}
+		
+		h1 + p {
+			margin-top: 1em;
 		}
 		
 		.center {
