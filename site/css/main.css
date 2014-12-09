@@ -271,11 +271,11 @@ body {
   background-color: white;
 }
 /* line 44, ../sass/_layouts.scss */
-.layout.dark .step .block {
+.layout.dark .block {
   color: black;
 }
 /* line 47, ../sass/_layouts.scss */
-.layout.dark .step .block:before {
+.layout.dark .block:before {
   background-color: white;
 }
 
