@@ -109,7 +109,7 @@ define(["firebase", "jquery.json"], function () {
 			snapshot.forEach(function (child) {
 				var childData = child.val();
 				childData.key = child.key();
-				if (viewed.indexOf(childData.key) == -1) {
+				if (!childData.old && viewed.indexOf(childData.key) == -1) {
 					vals.push(childData);
 				}
 			});
@@ -124,7 +124,8 @@ define(["firebase", "jquery.json"], function () {
 			var count = 0;
 			snapshot.forEach(function (child) {
 				var key = child.key();
-				if (viewed.indexOf(key) == -1) {
+				var childData = child.val();
+				if (!childData.old && viewed.indexOf(key) == -1) {
 					count++;
 				}
 			});

@@ -1,11 +1,8 @@
 
 
-// TODO: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
 // TODO: flesh out help system steps
 
 // TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
-
-// TODO: delete 14_3
 
 // TODO: need to adjust property settings for Google Analytics when run from informit
 
@@ -25,8 +22,8 @@
 
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce; maybe only with debugging tools open?]
 
-// TODO: get resizing to work smoothly
-// TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
+// TODO: get resizing to work smoothly and consistently
+// TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
 
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
@@ -391,3 +388,5 @@
 // DONE: link to support form from within main menu
 // DONE: About the Author, Acknowledgements, etc. (per Todd)
 // DONE: interactives on panzoom pages
+// DONE: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
+// DONE: delete 14_3
