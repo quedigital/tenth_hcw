@@ -1,6 +1,7 @@
 importScripts('lunr.min.js');
 
 var idx = lunr(function () {
+	this.field('keywords', { boost: 100 })
 	this.field('title', { boost: 10 })
 	this.field('body')
 });
@@ -20,7 +21,7 @@ self.onmessage = function (event) {
 				}
 			}
 		
-			var doc = { title: spread.title, body: text, id: spread.id };
+			var doc = { keywords: spread.keywords, title: spread.title, body: text, id: spread.id };
 		
 			idx.add(doc);
 			

@@ -2,19 +2,19 @@
 
 // TODO: interactive not sized exactly right on iPad
 
+// TODO: hide banner ad text until it's resized
+
+// TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
+
 // TODO: style <ul> in GridLayouts [18_1]
 
-// TODO: BandwidthBoats needs mouse support [18_1]
-
 // TODO: pinch-zoom on iPad images is still too jerky
-
-// TODO: keywords for spreads
-// TODO: search includes keywords
 
 // TODO: put step # in panzoom text box?
 
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad
+// TODO: interactives only run when they have focus?
 
 // TODO: grid view search results, with keywords at top?
 
@@ -385,3 +385,6 @@
 // DONE: checkmarks for spreads "read" [put ratings, if any, in the toc]
 // DONE: put ratings count in the menu
 // DONE: DuckWave isn't drawing waves on iPad (and touch isn't working) [1_1]
+// DONE: BandwidthBoats needs mouse support [18_1]
+// DONE: keywords for spreads
+// DONE: search includes keywords

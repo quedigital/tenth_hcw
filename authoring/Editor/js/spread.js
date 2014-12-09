@@ -330,6 +330,7 @@ define(["knockout", "knockoutfire", "gridder", "fixer", "Helpers", "ImagePositio
 						"chapter": true,
 						"number": true,
 						"title": true,
+						"keywords": true,
 						"cells": {
 							"$cell": {
 								id: true,

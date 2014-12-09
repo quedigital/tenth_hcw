@@ -12,6 +12,7 @@
 			height: 560px;
 			background-color: #fec;
 			overflow: hidden;
+			font-family: sans-serif;
 		}
 		
 		#myCanvas {
@@ -44,19 +45,22 @@
 		#bandwidth_button {
 			position: absolute;
 			left: 550px;
-			top: 250px;
+			top: 280px;
+			cursor: pointer;
 		}
 		
 		#speed_button {
 			position: absolute;
 			left: 150px;
-			top: 250px;
+			top: 280px;
+			cursor: pointer;
 		}
 		
 		#go_button {
 			position: absolute;
 			top: 400px;
 			left: 420px;
+			cursor: pointer;
 		}
 		
 		#restart_button {
@@ -65,15 +69,24 @@
 			left: 420px;
 			display: none;
 		}
+		
+		#instructions {
+			position: absolute;
+			top: 210px;
+			left: 0;
+			text-align: center;
+			width: 1024px;
+		}
 	</style>
 	
 	<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
 	<script type="text/javascript" src="../../common/js/easel.js"></script>
-	<script type="text/javascript" src="../../common/js/Tween.js"></script>
+	<script type="text/javascript" src="../../common/js/tween.js"></script>
 	<script type="text/javascript" src="boats.js"></script>
 </head>
 <body ontouchmove="BlockMove(event);">
 <canvas id="myCanvas" width="1024" height="500"></canvas>
+<div id="instructions"><h2>You control Boat 2. Can you beat Boat 1?</h2></div>
 <div id="bandwidth_button"><img src="bigarrow_red.png"/></div>
 <div id="speed_button"><img src="speed_button.png"/></div>
 <div id="go_button"><img src="go_button.png"/></div>

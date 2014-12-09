@@ -395,94 +395,98 @@ input {
   font-size: 24px;
   font-weight: bold;
 }
-/* line 159, ../sass/_editor.scss */
+/* line 158, ../sass/_editor.scss */
+#content .spread-header #keywordsLabel {
+  text-align: right;
+}
+/* line 163, ../sass/_editor.scss */
 #content #lblInputTitle {
   text-align: right;
   display: inline-block;
   width: 100%;
 }
-/* line 165, ../sass/_editor.scss */
+/* line 169, ../sass/_editor.scss */
 #content .control {
   display: inline-block;
 }
-/* line 169, ../sass/_editor.scss */
+/* line 173, ../sass/_editor.scss */
 #content #heading {
   width: 30em;
 }
-/* line 173, ../sass/_editor.scss */
+/* line 177, ../sass/_editor.scss */
 #content .cell {
   padding: 5px 10px;
   display: table-row;
 }
-/* line 177, ../sass/_editor.scss */
+/* line 181, ../sass/_editor.scss */
 #content .cell .cell-left {
   min-width: 45px;
   display: table-cell;
 }
-/* line 182, ../sass/_editor.scss */
+/* line 186, ../sass/_editor.scss */
 #content .cell .cell-right {
   display: table-cell;
   padding-left: 10px;
   width: 100%;
 }
-/* line 189, ../sass/_editor.scss */
+/* line 193, ../sass/_editor.scss */
 #content .sortable-placeholder {
   height: 50px;
   width: 100%;
   background-color: purple;
 }
-/* line 195, ../sass/_editor.scss */
+/* line 199, ../sass/_editor.scss */
 #content .cell:nth-child(even) {
   background-color: #eef;
 }
-/* line 198, ../sass/_editor.scss */
+/* line 202, ../sass/_editor.scss */
 #content .cell:nth-child(even) .cell-left {
   background-color: #ccd;
 }
-/* line 203, ../sass/_editor.scss */
+/* line 207, ../sass/_editor.scss */
 #content .cell:nth-child(odd) {
   background-color: #cce;
 }
-/* line 206, ../sass/_editor.scss */
+/* line 210, ../sass/_editor.scss */
 #content .cell:nth-child(odd) .cell-left {
   background-color: #aac;
 }
-/* line 211, ../sass/_editor.scss */
+/* line 215, ../sass/_editor.scss */
 #content .step-text {
   margin: 10px 10px 0 0;
 }
-/* line 214, ../sass/_editor.scss */
+/* line 218, ../sass/_editor.scss */
 #content .step-text div.editable-text {
   border: 2px solid #88a;
   border-radius: 10px;
 }
-/* line 221, ../sass/_editor.scss */
+/* line 225, ../sass/_editor.scss */
 #content .callout-text #inputTitle {
   margin-bottom: 1em;
 }
-/* line 226, ../sass/_editor.scss */
+/* line 230, ../sass/_editor.scss */
 #content textarea {
   width: 100%;
   font-size: 18px;
 }
-/* line 231, ../sass/_editor.scss */
+/* line 235, ../sass/_editor.scss */
 #content span.glossary {
   font-weight: bold;
   color: blue;
 }
 
-/* line 238, ../sass/_editor.scss */
+/* line 242, ../sass/_editor.scss */
 #layout .grid {
   position: relative;
   margin: 1em auto 0 auto;
 }
-/* line 242, ../sass/_editor.scss */
+/* line 246, ../sass/_editor.scss */
 #layout .grid .cell {
   display: block;
   position: absolute;
   transition: left .25s ease, top .25s ease;
 }
-/* line 248, ../sass/_editor.scss */
+/* line 252, ../sass/_editor.scss */
 #layout .grid .cell .inset {
   position: absolute;
   left: 0;
@@ -490,7 +494,7 @@ input {
   background-color: orange;
   /*border: 1px solid white;*/
 }
-/* line 255, ../sass/_editor.scss */
+/* line 259, ../sass/_editor.scss */
 #layout .grid .cell .inset .ui-resizable-handle {
   width: 5px;
   right: -5px;
@@ -499,23 +503,23 @@ input {
   background-color: #ccc;
   height: 100%;
 }
-/* line 264, ../sass/_editor.scss */
+/* line 268, ../sass/_editor.scss */
 #layout .grid .cell .inset textarea {
   width: 100%;
   bottom: 0;
   position: absolute;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 272, ../sass/_editor.scss */
+/* line 276, ../sass/_editor.scss */
 #layout .grid .cell.selected .inset {
   background-color: yellow;
 }
-/* line 278, ../sass/_editor.scss */
+/* line 282, ../sass/_editor.scss */
 #layout .fixer {
   margin: 1em 0 1em 0;
   position: relative;
 }
-/* line 282, ../sass/_editor.scss */
+/* line 286, ../sass/_editor.scss */
 #layout .fixer img {
   width: 100%;
   position: relative;
@@ -523,62 +527,62 @@ input {
   left: 0;
   border: 1px solid black;
 }
-/* line 290, ../sass/_editor.scss */
+/* line 294, ../sass/_editor.scss */
 #layout .fixer .bounds {
   position: absolute;
   border: 2px dotted blue;
 }
-/* line 294, ../sass/_editor.scss */
+/* line 298, ../sass/_editor.scss */
 #layout .fixer .bounds .cell-id {
   font-family: Courier;
   margin-left: .5em;
   color: blue;
 }
-/* line 300, ../sass/_editor.scss */
+/* line 304, ../sass/_editor.scss */
 #layout .fixer .bounds .styling {
   width: 100%;
 }
-/* line 303, ../sass/_editor.scss */
+/* line 307, ../sass/_editor.scss */
 #layout .fixer .bounds .styling textarea {
   width: 100%;
   position: absolute;
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 311, ../sass/_editor.scss */
+/* line 315, ../sass/_editor.scss */
 #layout .fixer .bounds:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
-/* line 315, ../sass/_editor.scss */
+/* line 319, ../sass/_editor.scss */
 #layout .fixer .bounds.selected {
   background-color: rgba(255, 255, 0, 0.5);
 }
-/* line 322, ../sass/_editor.scss */
+/* line 326, ../sass/_editor.scss */
 #layout .fixer.swipe .bounds:not(.selected), #layout .fixer.panzoom .bounds:not(.selected) {
   display: none;
 }
-/* line 327, ../sass/_editor.scss */
+/* line 331, ../sass/_editor.scss */
 #layout #cell-property-table {
   display: none;
 }
-/* line 332, ../sass/_editor.scss */
+/* line 336, ../sass/_editor.scss */
 #layout #propertyPane h4 {
   margin: .5em 0 0 0;
   text-align: center;
 }
-/* line 339, ../sass/_editor.scss */
+/* line 343, ../sass/_editor.scss */
 #layout .notes-group textarea {
   display: block;
   width: 100%;
 }
-/* line 345, ../sass/_editor.scss */
+/* line 349, ../sass/_editor.scss */
 #layout .small-right {
   width: 6em;
   margin-left: auto;
   margin-right: 0;
 }
 
-/* line 352, ../sass/_editor.scss */
+/* line 356, ../sass/_editor.scss */
 .thumbnail {
   width: 250px;
   border: 2px solid #66a;
@@ -586,12 +590,12 @@ input {
   background-color: #339;
   padding: 10px;
 }
-/* line 360, ../sass/_editor.scss */
+/* line 364, ../sass/_editor.scss */
 .thumbnail img {
   width: 100%;
 }
 
-/* line 365, ../sass/_editor.scss */
+/* line 369, ../sass/_editor.scss */
 table.properties, table.callout-properties {
   border: 1px solid #669;
   width: 100%;
@@ -599,16 +603,16 @@ table.properties, table.callout-properties {
   border-collapse: separate;
   margin-top: .5em;
 }
-/* line 375, ../sass/_editor.scss */
+/* line 379, ../sass/_editor.scss */
 table.properties td, table.callout-properties td {
   border: 1px solid #99e;
   min-width: 6em;
 }
-/* line 379, ../sass/_editor.scss */
+/* line 383, ../sass/_editor.scss */
 table.properties td:first-child, table.callout-properties td:first-child {
   background-color: #ddd;
 }
-/* line 383, ../sass/_editor.scss */
+/* line 387, ../sass/_editor.scss */
 table.properties td input, table.callout-properties td input {
   width: 100%;
   height: 100%;
@@ -616,45 +620,45 @@ table.properties td input, table.callout-properties td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 390, ../sass/_editor.scss */
+/* line 394, ../sass/_editor.scss */
 table.properties td input:focus, table.callout-properties td input:focus {
   outline: 0;
 }
-/* line 396, ../sass/_editor.scss */
+/* line 400, ../sass/_editor.scss */
 table.properties .split-left, table.callout-properties .split-left {
   float: left;
   /*		width: 70%;*/
   max-width: 50%;
 }
-/* line 402, ../sass/_editor.scss */
+/* line 406, ../sass/_editor.scss */
 table.properties .split-right, table.callout-properties .split-right {
   float: right;
   /*		width: 30%;*/
   line-height: 25px;
 }
 
-/* line 409, ../sass/_editor.scss */
+/* line 413, ../sass/_editor.scss */
 .hideable {
   display: none;
 }
 
-/* line 413, ../sass/_editor.scss */
+/* line 417, ../sass/_editor.scss */
 div#image_details {
   margin-right: .5em;
 }
-/* line 416, ../sass/_editor.scss */
+/* line 420, ../sass/_editor.scss */
 div#image_details div.callout-header {
   background-color: black;
   color: white;
   line-height: 30px;
   position: relative;
 }
-/* line 422, ../sass/_editor.scss */
+/* line 426, ../sass/_editor.scss */
 div#image_details div.callout-header h4 {
   text-align: center;
   margin: 0;
 }
-/* line 427, ../sass/_editor.scss */
+/* line 431, ../sass/_editor.scss */
 div#image_details div.callout-header button {
   margin: 3px;
   height: 24px;
@@ -662,7 +666,7 @@ div#image_details div.callout-header button {
   position: absolute;
   top: 0;
 }
-/* line 436, ../sass/_editor.scss */
+/* line 440, ../sass/_editor.scss */
 div#image_details table.callouts {
   border: 1px solid #669;
   width: 100%;
@@ -670,17 +674,17 @@ div#image_details table.callouts {
   border-collapse: separate;
   margin-bottom: 1em;
 }
-/* line 446, ../sass/_editor.scss */
+/* line 450, ../sass/_editor.scss */
 div#image_details table.callouts td {
   border: 1px solid #99e;
 }
-/* line 449, ../sass/_editor.scss */
+/* line 453, ../sass/_editor.scss */
 div#image_details table.callouts td:nth-child(2) {
   width: 40px;
   text-align: center;
   button-width: 100%;
 }
-/* line 458, ../sass/_editor.scss */
+/* line 462, ../sass/_editor.scss */
 div#image_details table.callouts td input {
   width: 100%;
   height: 100%;
@@ -688,20 +692,20 @@ div#image_details table.callouts td input {
   font-size: 12px;
   padding: 0;
 }
-/* line 465, ../sass/_editor.scss */
+/* line 469, ../sass/_editor.scss */
 div#image_details table.callouts td input:focus {
   outline: 0;
 }
 
-/* line 474, ../sass/_editor.scss */
+/* line 478, ../sass/_editor.scss */
 .grid .inset.with-callout-line {
   border-top: 1px dashed black;
 }
-/* line 478, ../sass/_editor.scss */
+/* line 482, ../sass/_editor.scss */
 .grid .inset.with-image-callouts {
   border-left: 1px dashed black;
 }
-/* line 483, ../sass/_editor.scss */
+/* line 487, ../sass/_editor.scss */
 .grid .inset .id-label {
   position: absolute;
   top: 20px;
@@ -717,7 +721,7 @@ div#image_details table.callouts td input:focus {
   z-index: 0;
   pointer-events: none;
 }
-/* line 499, ../sass/_editor.scss */
+/* line 503, ../sass/_editor.scss */
 .grid .inset input {
   position: absolute;
   margin: 0;
@@ -726,54 +730,54 @@ div#image_details table.callouts td input:focus {
   height: 12px;
   z-index: 1;
 }
-/* line 508, ../sass/_editor.scss */
+/* line 512, ../sass/_editor.scss */
 .grid .inset input[name='TL'] {
   top: 0;
   left: 0;
 }
-/* line 513, ../sass/_editor.scss */
+/* line 517, ../sass/_editor.scss */
 .grid .inset input[name='T'] {
   top: 0;
   left: calc(50% - 4px);
 }
-/* line 518, ../sass/_editor.scss */
+/* line 522, ../sass/_editor.scss */
 .grid .inset input[name='TR'] {
   top: 0;
   right: 0;
 }
-/* line 523, ../sass/_editor.scss */
+/* line 527, ../sass/_editor.scss */
 .grid .inset input[name='R'] {
   right: 0;
   top: 27px;
 }
-/* line 528, ../sass/_editor.scss */
+/* line 532, ../sass/_editor.scss */
 .grid .inset input[name='BR'] {
   bottom: 0;
   right: 0;
 }
-/* line 533, ../sass/_editor.scss */
+/* line 537, ../sass/_editor.scss */
 .grid .inset input[name='B'] {
   bottom: 0;
   left: calc(50% - 4px);
 }
-/* line 538, ../sass/_editor.scss */
+/* line 542, ../sass/_editor.scss */
 .grid .inset input[name='BL'] {
   bottom: 0;
   left: 0;
 }
-/* line 543, ../sass/_editor.scss */
+/* line 547, ../sass/_editor.scss */
 .grid .inset input[name='L'] {
   left: 0;
   top: 27px;
 }
-/* line 548, ../sass/_editor.scss */
+/* line 552, ../sass/_editor.scss */
 .grid .inset .slider {
   margin: 35px 25px 0 25px;
   height: 0px;
   border: none;
   z-index: 0;
 }
-/* line 554, ../sass/_editor.scss */
+/* line 558, ../sass/_editor.scss */
 .grid .inset .slider.ui-slider .ui-slider-handle {
   width: 5px;
   height: 66px;
@@ -784,7 +788,7 @@ div#image_details table.callouts td input:focus {
 }
 
 /* SQUARED ONE */
-/* line 571, ../sass/_editor.scss */
+/* line 575, ../sass/_editor.scss */
 .squaredOne {
   width: 28px;
   height: 28px;
@@ -801,18 +805,18 @@ div#image_details table.callouts td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
   position: relative;
 }
-/* line 588, ../sass/_editor.scss */
+/* line 592, ../sass/_editor.scss */
 .squaredOne input {
   margin: 3px 0.5ex;
   /* back to user-agent default */
 }
-/* line 592, ../sass/_editor.scss */
+/* line 596, ../sass/_editor.scss */
 .squaredOne input[type=checkbox]:checked + label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=100);
   opacity: 1;
 }
-/* line 598, ../sass/_editor.scss */
+/* line 602, ../sass/_editor.scss */
 .squaredOne label {
   cursor: pointer;
   position: absolute;
@@ -830,13 +834,13 @@ div#image_details table.callouts td input:focus {
   background: linear-gradient(top, #222222 0%, #45484d 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#222', endColorstr='#45484d',GradientType=0 );
 }
-/* line 617, ../sass/_editor.scss */
+/* line 621, ../sass/_editor.scss */
 .squaredOne label:hover::after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
   filter: alpha(opacity=30);
   opacity: 0.3;
 }
-/* line 623, ../sass/_editor.scss */
+/* line 627, ../sass/_editor.scss */
 .squaredOne label:after {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
@@ -858,38 +862,38 @@ div#image_details table.callouts td input:focus {
   box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* line 649, ../sass/_editor.scss */
+/* line 653, ../sass/_editor.scss */
 .w2ui-sidebar .w2ui-sidebar-div .w2ui-node-caption {
   white-space: normal !important;
 }
 
-/* line 654, ../sass/_editor.scss */
+/* line 658, ../sass/_editor.scss */
 #dialog-form .validateTips {
   font-size: 10px;
   border: 1px solid transparent;
   padding: 0.3em;
   opacity: 0;
 }
-/* line 660, ../sass/_editor.scss */
+/* line 664, ../sass/_editor.scss */
 #dialog-form .validateTips.checking {
   opacity: 1;
 }
-/* line 665, ../sass/_editor.scss */
+/* line 669, ../sass/_editor.scss */
 #dialog-form .ui-state-error {
   padding: .3em;
 }
 
-/* line 670, ../sass/_editor.scss */
+/* line 674, ../sass/_editor.scss */
 #dialog-message {
   display: none;
 }
 
-/* line 676, ../sass/_editor.scss */
+/* line 680, ../sass/_editor.scss */
 #dialog-target-selector .control img {
   max-width: 640px;
 }
 
-/* line 682, ../sass/_editor.scss */
+/* line 686, ../sass/_editor.scss */
 .clickCatcher {
   width: 100%;
   height: 100%;

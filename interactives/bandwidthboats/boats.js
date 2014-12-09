@@ -294,8 +294,9 @@ function buildCargo (boat) {
 	var i = 0;
 	var crates = Math.floor(boat.bandwidth / 3000);
 	
-	if (boat.numCrates == crates) return;
-	else boat.numCrates = crates;
+//	if (boat.numCrates == crates) return;
+//	else boat.numCrates = crates;
+	boat.numCrates = crates;
 	
 	var divisor = 2;
 	var height = crates / divisor;
@@ -590,6 +591,36 @@ function drawCrates (boat, start_y) {
 	}
 }
 
+function onClickBandwidth (event) {
+	var w = $(event.currentTarget).width();
+	
+	if (event.offsetX > w * .5) {
+		if (boat2.bandwidth < 3000 * 21) {
+			boat2.bandwidth += 3000;
+	
+			buildCargo(boat2);
+			dropCrates(boat2);
+		}
+	} else {
+		if (boat2.bandwidth > 0) {
+			boat2.bandwidth -= 3000;
+	
+			buildCargo(boat2);
+			dropCrates(boat2);
+		}
+	}
+}
+
+function onClickSpeed (event) {
+	var w = $(event.currentTarget).width();
+	
+	if (event.offsetX > w * .5) {
+		boat2.speed = Math.min(8, boat2.speed + 1);
+	} else {
+		boat2.speed = Math.max(1, boat2.speed - 1);
+	}
+}
+
 $(document).ready(function () {
 	var canvas = $("#myCanvas")[0];
 	var context = canvas.getContext("2d");
@@ -600,10 +631,12 @@ $(document).ready(function () {
 	$('#bandwidth_button')[0].ontouchstart = ontouchslider_bandwidth_start;
 	$('#bandwidth_button')[0].ontouchmove = ontouchslider_bandwidth_move;
 	$('#bandwidth_button')[0].ontouchend = ontouchslider_bandwidth_end;
+	$("#bandwidth_button").click(onClickBandwidth);
 	
 	// speed button
 	$('#speed_button')[0].ontouchmove = ontouchslider_speed_move;
 	$('#speed_button')[0].ontouchend = ontouchslider_speed_end;
+	$("#speed_button").click(onClickSpeed);
 	
 	// go button
 	$('#go_button')[0].onclick = onGo;
