@@ -1,31 +1,32 @@
 
 
-// TODO: interactive not sized exactly right on iPad
-
-// TODO: hide banner ad text until it's resized
+// TODO: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
+// TODO: flesh out help system steps
 
 // TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
 
-// TODO: style <ul> in GridLayouts [18_1]
+// TODO: need to adjust property settings for Google Analytics when run from informit
+
+// TODO: add glossary definitions for all terms in text
+
+// TODO: add all relevant interactives
+// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
+// TODO: etching interactive on iPad [2_1]
 
 // TODO: pinch-zoom on iPad images is still too jerky
 
+// TODO: grid view search results, with keywords at top?
+
 // TODO: put step # in panzoom text box?
 
-// TODO: add all relevant interactives
-// TODO: make sure all interactives work on desktop & ipad
 // TODO: interactives only run when they have focus?
-
-// TODO: grid view search results, with keywords at top?
 
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce; maybe only with debugging tools open?]
 
 // TODO: get resizing to work smoothly
 // TODO: BUG: window resize isn't always correctly compensated for by fixed layouts
 
-// TODO: investigate/fix/replace svg images that don't work on iPad
-
-// TODO: svg images don't size properly in colorbox on ipad
+// TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
 // TODO: load export.json zipped (stuk.github.io/jszip/)
 
@@ -41,13 +42,6 @@
 
 // TODO: search results show bit of context (on mouseover?)
 // TODO: keywords (searchable) for spreads
-
-// TODO: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
-// TODO: flesh out help system steps
-
-// TODO: need to adjust property settings for Google Analytics when run from informit
-
-// TODO: add glossary definitions for all terms in text
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 // TODO: fun "map" page showing which sections of the book you've read, at-a-glance
@@ -388,3 +382,8 @@
 // DONE: BandwidthBoats needs mouse support [18_1]
 // DONE: keywords for spreads
 // DONE: search includes keywords
+// DONE: svg images don't size properly in colorbox on ipad [I think this was resolved]
+// DONE: interactive not sized exactly right on iPad [I think this was resolved too]
+// DONE: hide banner ad text until it's resized
+// DONE: style <ul> in GridLayouts [18_1]
+// DONE: link to support form from within main menu

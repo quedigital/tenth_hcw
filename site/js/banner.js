@@ -76,8 +76,12 @@ define(["jquery.ui.widget", "jquery.textfill"], function () {
 			this.element.find(".read").click($.proxy(this.openBannerSpread, this));
 			
 			var els = this.element.find(".read header");
+			// try to hide until text has been resized to fit
+			els.css("visibility", "hidden");
+			
 			setTimeout(function () {
 				els.textfill({ innerTag: "h1" });
+				els.css("visibility", "visible");
 			}, 0);
         },
 

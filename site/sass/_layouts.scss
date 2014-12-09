@@ -136,6 +136,24 @@ body {
 		display: block;
 		clear: both;
 	}
+	
+	ul {
+		& > li {
+			position: relative;
+			list-style: none;
+			
+			&:before {
+				content: "";
+				position: absolute;
+				top: .5em;
+				left: -1em;
+				width: 8px;
+				height: 8px;
+				display: block;
+				background-color: $hcw-light-brown;
+			}
+		}
+	}	
 }
 
 .textblock {
@@ -1398,6 +1416,24 @@ div.image-callout {
 		.label {
 			display: inline-block;
 			width: 10em;
+		}
+		
+		#links {
+			a {
+				font-size: 150%;
+				color: rgb(126, 126, 213);
+				
+				&:hover {
+					color: green;
+				}
+			}
+		}
+		
+		.tiny {
+			font-size: 12px;
+			color: #999;
+			text-align: center;
+			margin-top: 2em;
 		}
 		
 		.slideThree {
