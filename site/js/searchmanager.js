@@ -1,12 +1,6 @@
 define(["lunr", "jquery"], function (lunr) {
-	SearchManager = function (pane, inputter) {
-		this.pane = pane;
-		
+	SearchManager = function () {
 		this.initialized = this.initializing = false;
-		
-		inputter.on("input focus click", $.proxy(this.onChangeSearch, this));
-		
-		pane.find("#close-button").click($.proxy(this.closePane, this));
 		
 		var idx = lunr(function () {
 			this.field('title', { boost: 10 })
@@ -49,46 +43,25 @@ define(["lunr", "jquery"], function (lunr) {
 					console.log("indexing progress = " + event.data.data);
 				}
 			} else if (event.data.type == "results") {
-				me.showSearchResults(event.data.results);
+				if (me.resultsCallback) {
+					me.resultsCallback(event.data.results, this);
+				}
 			}
 		};
 		
 		this.initializing = true;		
 	}
 	
-	SearchManager.prototype.onChangeSearch = function () {
+	SearchManager.prototype.doSearch = function (terms, callback) {
+		this.resultsCallback = callback;
+		
 		this.initialize();
 		
 		if (this.initialized) {
-			var val = $("#search-box").val();
-
-			this.searchWorker.postMessage( { type: "query", term: val } );		
+			this.searchWorker.postMessage( { type: "query", term: terms } );
 		}
 	}
 	
-	SearchManager.prototype.showSearchResults = function (r) {
-		var me = this;
-		
-		var container = this.pane.find(".results");
-		container.empty();
-		
-		$.each(r, function (index, item) {
-			var title = me.getSpreadTitle(item.ref);
-			
-			var row = $("<div>").addClass("result").text(title).data("id", item.ref);
-			
-			container.append(row);
-		});
-		
-		container.find(".result").click($.proxy(this.onClickResult, this));
-		
-		this.pane.find(".summary").text(r.length + (r.length == 1 ? " page" : " pages") + " found.");
-		
-		this.sizeToFit();
-		
-		this.pane.show("slide", { direction: "left" });
-	}
-
 	SearchManager.prototype.getSpreadTitle = function (id) {
 		var spread = this.getSpread(id);
 		if (spread) return spread.title;
@@ -98,45 +71,28 @@ define(["lunr", "jquery"], function (lunr) {
 		var spread = $.grep(this.data, function (spread) {
 			return spread.id == id;
 		});
+		
 		if (spread.length)
 			return spread[0];
 		else
 			return undefined;
 	}
 	
-	SearchManager.prototype.onClickResult = function (event) {
-		var id = $(event.target).data("id");
+	SearchManager.prototype.getAllKeywords = function () {
+		var keywords = [];
 		
-		$("#toc-container").TOC("openSpread", { id: id, replace: true });
+		$.each(this.data, function (index, item) {
+			if (item.keywords) {
+				var keys = item.keywords.split(" ");
+				for (var i = 0; i < keys.length; i++) {
+					if (keywords.indexOf(keys[i]) == -1) {
+						keywords.push(keys[i]);
+					}
+				}
+			}
+		});
 		
-		this.pane.hide(0);
-	}
-	
-	SearchManager.prototype.closePane = function () {
-		this.pane.hide("slide", { direction: "left" });
-	}
-	
-	SearchManager.prototype.sizeToFit = function () {
-		var rehide = false;
-		
-		// size it while it's "visible" (ie, display is set to block)
-		if (!this.pane.is(":visible")) {
-			this.pane.css({ visibility: "hidden", display: "block" });
-			rehide = true;
-		}
-		
-		var b = parseInt(this.pane.css("bottom"));
-
-		var wh = window.innerHeight;
-		var h1 = $("#results-header").outerHeight();
-		var h2 = $("#results-summary").outerHeight();
-		
-		var h = wh - h1 - h2 - b;
-		$("#results-scroller").css("max-height", h);
-		
-		if (rehide) {
-			this.pane.css({ visibility: "visible", display: "none" });
-		}
+		return keywords;
 	}
 	
 	return SearchManager;

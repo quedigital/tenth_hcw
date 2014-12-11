@@ -68,7 +68,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 
         showManual: function () {
         	if (this.options.layoutManager)
-				this.options.layoutManager.trigger("open-spread", { id: "0_3", replace: true } );
+				this.options.layoutManager.trigger("open-spread", { id: "0_3", replace: true, active: true } );
 				
 			$(".banner").css({ display: "none" });
 			

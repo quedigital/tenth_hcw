@@ -1,6 +1,37 @@
 
 
-// TODO: flesh out help system steps
+// TODO: show all spreads with a given keyword
+// TODO: re-do search as a modal window
+// TODO: grid view search results, with keywords at top?
+// TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
+// TODO: search window starts with all keywords visible (and has a button to show them all)
+// TODO: show search result count and down arrow (for more results)
+
+// TODO: compiler spread animated gif?
+
+// TODO: "line-height" garbage text is BACK! Remove it.
+
+// TODO: cross-reference any "See chapter" links
+
+// TODO: make Google Analytics work for both firebase and informit servers? (ie, change trackers based on window.location)
+
+// TODO: browser detection notice
+
+// TODO: get resizing to work smoothly and consistently
+// TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
+
+// TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
+
+// TODO: put step # in panzoom text box?
+// TODO: increase opacity of panzoom text background
+
+// TODO: flesh out help system steps, like a spread itself [Kylie]
+
+// TODO: add all relevant interactives
+// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
+// TODO: controller interactive not working on desktop or iPad [14_3b]
+
+// TODO: don't load big images in the banner ad (or use thumbnails or designated images)
 
 // TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
 
@@ -8,24 +39,11 @@
 
 // TODO: add glossary definitions for all terms in text
 
-// TODO: add all relevant interactives
-// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
-// TODO: microchip etching interactive on iPad [2_1]
-
 // TODO: pinch-zoom on iPad images is still too jerky
-
-// TODO: grid view search results, with keywords at top?
-
-// TODO: put step # in panzoom text box?
 
 // TODO: interactives only run when they have focus?
 
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce; maybe only with debugging tools open?]
-
-// TODO: get resizing to work smoothly and consistently
-// TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
-
-// TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
 // TODO: load export.json zipped (stuk.github.io/jszip/)
 
@@ -390,3 +408,8 @@
 // DONE: interactives on panzoom pages
 // DONE: guide: ratings, toc, panzoom, grid, callout lines [yellow highlights, dashed lines], image zooming, interactives
 // DONE: delete 14_3
+// DONE: microchip etching interactive on iPad [2_1]
+// DONE: combine front-matter pages
+// DONE: add copyright
+// DONE: word-break in banner ads
+// DONE: Gene Krupa song [YouTube link, 1_2]

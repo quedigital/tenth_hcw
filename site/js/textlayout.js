@@ -29,7 +29,7 @@ define(["Layout",
 				$("<span>").addClass("title").text(item.title).appendTo(d);
 				d.appendTo(h);
 				d.click(function () {
-					manager.dom.trigger("open-spread", { id: item.id, replace: true } );
+					manager.dom.trigger("open-spread", { id: item.id, replace: true, active: true } );
 				});
 			});
 		} else

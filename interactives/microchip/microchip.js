@@ -35,7 +35,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	// Setup the example
 	GameState.prototype.create = function () {
 		// Set stage background color
-		this.game.stage.backgroundColor = 0xe02020;//0x4488cc;
+		this.game.stage.backgroundColor = 0x67a8c0;
 		
 		this.unetchedData = this.game.make.bitmapData(this.game.cache.getImage("unetched").width, this.game.cache.getImage("unetched").height);
 		this.unetchedData.copyRect("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
@@ -109,11 +109,11 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			);
 		}
 		
-		this.completeText = this.game.add.text(this.game.world.centerX, 620, "Well Done!", { font: "bold italic 36px Arial", fill: "#d0e044" });
+		this.completeText = this.game.add.text(this.game.world.centerX, 620, "Well Done!", { font: "bold italic 36px Arial", fill: "#2f3958" });
 		this.completeText.anchor.set(.5, .5);
 		this.completeText.alpha = 0;
 		
-		this.instructions = this.game.add.text(35, 20, "", { font: "bold 24px Arial", fill: "#d0e044" });
+		this.instructions = this.game.add.text(35, 20, "", { font: "bold 24px Arial", fill: "#2f3958" });
 		this.instructions.align = "center";
 		this.instructions.setText("Use your mouse or touch\nto guide the laser.");
 		

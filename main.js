@@ -41,6 +41,7 @@ requirejs.config({
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
 		"Hammer": "hammer.min",
+		"SearchWindow": "searchwindow"
 	},
 	
 	shim: {
@@ -100,7 +101,7 @@ requirejs.config({
 		}
 });
 
-require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], function (LayoutManager, TOC, Helpers, Database) {
+require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery", "jqueryui", "SearchWindow"], function (LayoutManager, TOC, Helpers, Database, SearchManager) {
 	var params = window.location.search.substring(1);
 	if (params == "local") {
 		$.getJSON("export.json", null, onData);
@@ -114,10 +115,13 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 	}
 	
 	var layoutManager = new LayoutManager("#content-holder");
-	var toc;
 
 	var debouncedReflow = Helpers.debounce($.proxy(layoutManager.reflow, layoutManager), 250);
-
+	
+	var searchManager = new SearchManager();
+	
+	$("#search-window").SearchWindow( { searchManager: searchManager } );
+	
 	function onData (data, status, jqXHR) {
 		layoutManager.setData(data.layouts, data.contents);
 		
@@ -131,8 +135,10 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "jquery", "jqueryui"], f
 			$("#toc-container").TOC("openToFirstSpread");
 		}
 		
-		$("#toc-container").TOC("setDataForSearching", data.contents);
 		$("#toc-container").bind("open-spread", onOpenSpread);
+		
+		var contentsArray = Helpers.objectToArrayWithKey(data.contents);
+		searchManager.setData(contentsArray);
 		
 		layoutManager.dom.bind("next-spread", function (event, id, scrollto) { $("#toc-container").TOC("onAutoLoadNextSpread", id, scrollto); });
 		layoutManager.dom.bind("previous-spread", function (event, options) { $("#toc-container").TOC("onAutoLoadPreviousSpread", options.id, options.scrollTo); });

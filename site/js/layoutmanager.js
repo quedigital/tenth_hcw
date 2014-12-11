@@ -156,7 +156,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		if (amount_left <= 0 && $(".layout.loading").length == 0) {
 			this.dom.append($("<div>", { class: "loading-message", text: "Loading Next…" }));
 			this.dom.trigger("next-spread", this.currentID);
-		} else if (scrollTop <= 0 && $(".layout.loading").length == 0) {
+		} else if (this.currentID != "0_1" && scrollTop <= 0 && $(".layout.loading").length == 0) {
 			var banner = $(".banner").first();
 			var el = $("<div>", { class: "loading-message", text: "Loading Previous…" }).insertBefore(banner);
 			this.dom.trigger("previous-spread", { id: this.currentID, scrollTo: el });

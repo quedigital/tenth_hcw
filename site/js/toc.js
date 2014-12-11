@@ -1,5 +1,9 @@
-define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, SearchManager, Database) {
+define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, Database) {
 
+	function showSearchWindow () {
+		$("#search-window").SearchWindow("show");
+	}
+	
     $.widget("que.TOC", {
 
         options: {
@@ -64,8 +68,6 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 				entry.click($.proxy(me.onClickEntry, me));
 			});
 
-			this.searchManager = new SearchManager($("#results-pane"), $("#search-box"), this);		
-
 			$("#news-widget").NewsItems();
 			$("#news-widget").on("newsitemsend", $.proxy(this.onEndNewsItem, this));
 		
@@ -84,6 +86,8 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 			$("#help-button").click($.proxy(this.openHelpMenu, this));
 		
 			$("#news-alert").click($.proxy(this.onClickNewsButton, this));
+			
+			$("#search-button").click(showSearchWindow);
 
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
@@ -109,11 +113,6 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 			this._super( "_setOption", key, value );
         },
 
-		setDataForSearching: function (contents) {
-			var contentsArray = Helpers.objectToArrayWithKey(contents);
-			this.searchManager.setData(contentsArray);
-		},
-		
 		sizeToFitWindow: function () {
 			var h1 = $("#toc-header").height();
 			var h2 = $("#toc-footer").height();
@@ -128,8 +127,6 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 			if (this.element.offset().left < 0) {
 				this.element.css("left", -this.element.width());
 			}
-			
-			this.searchManager.sizeToFit();
 		},
         
 		onClickEntry: function (event) {
@@ -289,7 +286,7 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 		},
 
 		getPreviousSpread: function (id) {
-			for (var i = 0; i < this.contents.length; i++) {
+			for (var i = 1; i < this.contents.length; i++) {
 				var c = this.contents[i];
 				if (c.id == id) {
 					return this.contents[i - 1];
@@ -384,7 +381,6 @@ define(["Helpers", "tinycolor", "SearchManager", "Database", "jquery.ui.widget",
 			this.element.find("#menu").hide("slide", { direction: "up" });
 			this.element.find("#news").hide("slide", { direction: "up" });
 			this.element.find("#help-menu").hide("slide", { direction: "up" });
-			this.searchManager.closePane();
 		},
 	
 		onEndNewsItem: function () {

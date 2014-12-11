@@ -1439,81 +1439,6 @@ div.image-callout {
 			text-align: center;
 			margin-top: 2em;
 		}
-		
-		.slideThree {
-			display: inline-block;
-			width: 80px;
-			height: 26px;
-			background: #333;
-			margin: 5px auto;
-
-			-webkit-border-radius: 50px;
-			-moz-border-radius: 50px;
-			border-radius: 50px;
-			position: relative;
-
-			-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
-			-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
-			box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
-		}
-
-		.slideThree:after {
-			content: 'OFF';
-			font: 12px/26px Arial, sans-serif;
-			color: #000;
-			position: absolute;
-			right: 10px;
-			z-index: 0;
-			font-weight: bold;
-			text-shadow: 1px 1px 0px rgba(255,255,255,.15);
-		}
-
-		.slideThree:before {
-			content: 'ON';
-			font: 12px/26px Arial, sans-serif;
-			color: #00bf00;
-			position: absolute;
-			left: 10px;
-			z-index: 0;
-			font-weight: bold;
-		}
-
-		.slideThree label {
-			display: block;
-			width: 34px;
-			height: 20px;
-
-			-webkit-border-radius: 50px;
-			-moz-border-radius: 50px;
-			border-radius: 50px;
-
-			-webkit-transition: all .4s ease;
-			-moz-transition: all .4s ease;
-			-o-transition: all .4s ease;
-			-ms-transition: all .4s ease;
-			transition: all .4s ease;
-			cursor: pointer;
-			position: absolute;
-			top: 3px;
-			left: 3px;
-			z-index: 1;
-
-			-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-			-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-			box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-			background: #fcfff4;
-
-			background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-			background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-			background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-			background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-			background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
-		}
-
-		.slideThree input[type=checkbox]:checked + label {
-			left: 43px;
-		}
 
 		.checkstar {
 			display: inline-block;
@@ -1558,33 +1483,48 @@ div.image-callout {
 
 #toc-footer {
 	height: 70px;
+	border-top: 1px solid white;
+}
+
+.search-area {
+	width: 100%;
+	height: 100%;
+	line-height: 70px;
+	background-color: #3A3A3A;
+	position: relative;
+	padding: 0 10px;
 	
-	#search-area {
-		width: 100%;
-		height: 100%;
-		line-height: 70px;
-		background-color: #3A3A3A;
-		
-		i {
-			color: white;
-			padding: 10px;
-			width: 20%;
-			text-align: center;
-		}
-		
-		#search-box {
-			background: none;
-			border: 2px solid #aaf;
-			font-size: 110%;
-			line-height: 1.5rem;
-			height: 2rem;
-			width: 70%;
-			border-radius: 15px;
-			color: white;
-			vertical-align: middle;
-			padding: 8px;
-			outline: none;
-		}
+	p.label {
+		font-size: 60%;
+		line-height: 1em;
+		text-shadow: 1px 1px 2px black;
+		position: absolute;
+		top: 2px;
+		left: 0;
+		color: white;
+		text-transform: uppercase;
+		font-family: "Archivo Narrow", sans-serif;
+	}
+	
+	i {
+		color: white;
+		padding: 10px;
+		width: 20%;
+		text-align: center;
+	}
+	
+	#search-box {
+		background: none;
+		border: 2px solid #aaf;
+		font-size: 110%;
+		line-height: 1.5rem;
+		height: 2rem;
+		width: 70%;
+		border-radius: 15px;
+		color: white;
+		vertical-align: middle;
+		padding: 8px;
+		outline: none;
 	}
 }
 
@@ -1654,7 +1594,8 @@ div.image-callout {
 					font-size: 250%;
 					color: white;
 					padding: .1em .5em;
-					text-shadow: 0px 2px 6px black
+					text-shadow: 0px 2px 6px black;
+					word-break: break-word;
 				}
 			}
 		
@@ -1742,7 +1683,8 @@ div.image-callout {
 				font-size: 150%;
 				color: white;
 				padding: .1em .5em;
-				text-shadow: 0px 1px 3px black
+				text-shadow: 0px 1px 3px black;
+				word-break: break-word;
 			}
 		}
 	
@@ -2061,6 +2003,14 @@ div.image-callout {
 		
 		h1 + p {
 			margin-top: 1em;
+		}
+		
+		h3, h4 {
+			margin: 1em 0 0 0;
+		}
+		
+		h4 + p {
+			text-indent: 0 !important;
 		}
 		
 		.center {
@@ -2667,4 +2617,207 @@ div.blocker {
 	#zoomout {
 		left: 55px;
 	}
+}
+
+#search-window {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right:  0;
+	bottom: 0;
+	background: rgba(200, 180, 10, .5);
+	z-index: 100;
+	display: none;
+	
+	#close-button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 1;
+	}
+	
+	.interior {
+		position: absolute;
+		top: 50px;
+		left: 50px;
+		right: 50px;
+		bottom: 50px;
+		background-color: #3A3A3A;
+	}
+	
+	.search-area {
+		height: 70px;
+		margin: 0 auto;
+		background: none;
+		text-align: center;
+		
+		i {
+			display: inline;
+		}
+		
+		#search-box {
+			max-width: 300px;
+		}
+		
+		.slideThree {
+			vertical-align: middle;
+		}
+		
+		input[type=checkbox] {
+			visibility: hidden;
+/*			display: none;*/
+		}
+
+		.options {
+			display: inline-block;
+		}
+				
+		p {
+			display: inline-block;
+			color: white;
+			margin-left: 3em;
+		}		
+	}
+	
+	.keyword-results {
+		margin-bottom: 25px;
+		
+		.keyword-scroller {
+			text-align: center;
+			overflow-x: scroll;
+			
+			div.result {
+				display: inline-block;
+				background-color: white;
+				border-radius: .5em;
+				padding: .5em;
+				margin: 0 5px;
+				transition: background-color .25s linear, color .25s linear;
+				cursor: pointer;
+				
+				&:hover {
+					background-color: black;
+					color: white;
+				}
+				
+				&.selected {
+					background-color: rgb(47, 47, 194);
+					color: white;
+				}
+			}
+		}
+	}
+	
+	.spread-results {
+		overflow: scroll;
+		
+		.spread-scroller {
+			overflow-y: scroll;
+			
+			div.result {
+				color: white;
+				width: 200px;
+				height: 200px;
+				background-color: black;
+				position: relative;
+				display: inline-block;
+				margin: 10px;
+				transition: background-color .5s linear, color .25s linear;
+				cursor: pointer;
+				
+				span {
+					position: absolute;
+					bottom: 0;
+					width: 100%;
+					text-align: center;
+				}
+				
+				&:hover {
+					background: white;
+					color: black;
+				}
+				
+				&:active {
+					background: #2B2B7E;
+					color: white;
+					transition: none;
+				}
+			}
+		}
+	}
+}
+
+.slideThree {
+	display: inline-block;
+	width: 80px;
+	height: 26px;
+	background: #333;
+	margin: 5px auto;
+
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+	position: relative;
+
+	-webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	-moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+	box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+}
+
+.slideThree:after {
+	content: 'OFF';
+	font: 12px/26px Arial, sans-serif;
+	color: #000;
+	position: absolute;
+	right: 10px;
+	z-index: 0;
+	font-weight: bold;
+	text-shadow: 1px 1px 0px rgba(255,255,255,.15);
+}
+
+.slideThree:before {
+	content: 'ON';
+	font: 12px/26px Arial, sans-serif;
+	color: #00bf00;
+	position: absolute;
+	left: 10px;
+	z-index: 0;
+	font-weight: bold;
+}
+
+.slideThree label {
+	display: block;
+	width: 34px;
+	height: 20px;
+
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+
+	-webkit-transition: all .4s ease;
+	-moz-transition: all .4s ease;
+	-o-transition: all .4s ease;
+	-ms-transition: all .4s ease;
+	transition: all .4s ease;
+	cursor: pointer;
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	z-index: 1;
+
+	-webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
+	background: #fcfff4;
+
+	background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -moz-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -o-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: -ms-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
+}
+
+.slideThree input[type=checkbox]:checked + label {
+	left: 43px;
 }

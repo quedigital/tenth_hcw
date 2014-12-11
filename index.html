@@ -24,7 +24,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-48406787-2', 'auto');
+  ga('create', 'UA-48406787-3', 'auto');
   ga('send', 'pageview');
 
 </script>
@@ -100,9 +100,9 @@
 	<div id="toc">
 	</div>
 	<div id="toc-footer">
-		<div id="search-area">
-			<i class="fa fa-search fa-lg"></i>
-			<input id="search-box" placeholder="Search" type="text"/>
+		<div class="search-area">
+			<p class="label">Search Tools</p>
+			<button id="search-button" class="fa fa-search fa-lg basic"></button>
 		</div>
 	</div>
 	
@@ -170,6 +170,32 @@
 	<div class="rect3"></div>
 	<div class="rect4"></div>
 	<div class="rect5"></div>
+</div>
+
+<div id="search-window">
+	<div class="interior">
+		<button id="close-button" class="fa fa-times fa-2x basic"></button>
+		<div class="search-area">
+			<i class="fa fa-search fa-lg"></i>
+			<input id="search-box" placeholder="Search" type="text"/>
+			
+			<div class="options">
+				<p>Show All Keywords?</p>
+				<div class="slideThree">
+					<input type="checkbox" id="showAllKeywords" name="check" />
+					<label for="showAllKeywords"></label>
+				</div>
+			</div>
+		</div>
+		<div class="keyword-results">
+			<div class="keyword-scroller">
+			</div>
+		</div>
+		<div class="spread-results">
+			<div class="spread-scroller">
+			</div>
+		</div>
+	</div>
 </div>
 
 <div id="help-system">
