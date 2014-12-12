@@ -869,7 +869,7 @@ body {
   min-width: 200px;
   height: auto;
   max-height: 90%;
-  background: rgba(200, 50, 50, 0.75);
+  background: rgba(200, 50, 50, 0.9);
   padding: 1rem;
   margin-top: 42px;
   margin-left: 1em;
@@ -2848,6 +2848,14 @@ div.blocker {
   z-index: 1;
 }
 /* line 2643, ../sass/_layouts.scss */
+#search-window #scroll-button {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 25px;
+}
+/* line 2651, ../sass/_layouts.scss */
 #search-window .interior {
   position: absolute;
   top: 50px;
@@ -2856,7 +2864,7 @@ div.blocker {
   bottom: 50px;
   background-color: #3A3A3A;
 }
-/* line 2651, ../sass/_layouts.scss */
+/* line 2659, ../sass/_layouts.scss */
 #search-window .interior p#label {
   position: absolute;
   top: 0;
@@ -2868,57 +2876,58 @@ div.blocker {
   text-transform: uppercase;
   font-size: 85%;
 }
-/* line 2664, ../sass/_layouts.scss */
+/* line 2672, ../sass/_layouts.scss */
 #search-window .search-area {
   height: 70px;
   margin: 0 auto;
   background: none;
   text-align: center;
 }
-/* line 2670, ../sass/_layouts.scss */
+/* line 2678, ../sass/_layouts.scss */
 #search-window .search-area i {
   display: inline;
 }
-/* line 2674, ../sass/_layouts.scss */
+/* line 2682, ../sass/_layouts.scss */
 #search-window .search-area #search-box {
   max-width: 300px;
 }
-/* line 2678, ../sass/_layouts.scss */
+/* line 2686, ../sass/_layouts.scss */
 #search-window .search-area .slideThree {
   vertical-align: middle;
 }
-/* line 2682, ../sass/_layouts.scss */
+/* line 2690, ../sass/_layouts.scss */
 #search-window .search-area input[type=checkbox] {
   visibility: hidden;
 }
-/* line 2686, ../sass/_layouts.scss */
+/* line 2694, ../sass/_layouts.scss */
 #search-window .search-area .options {
   display: inline-block;
 }
-/* line 2690, ../sass/_layouts.scss */
+/* line 2698, ../sass/_layouts.scss */
 #search-window .search-area p#search-count {
   width: 8em;
   font-size: 85%;
   line-height: 1.4em;
   text-shadow: 1px 1px 2px black;
 }
-/* line 2697, ../sass/_layouts.scss */
+/* line 2705, ../sass/_layouts.scss */
 #search-window .search-area p {
   display: inline-block;
   color: white;
   margin-left: 1em;
 }
-/* line 2704, ../sass/_layouts.scss */
+/* line 2712, ../sass/_layouts.scss */
 #search-window .keyword-results {
   margin-bottom: 25px;
 }
-/* line 2707, ../sass/_layouts.scss */
+/* line 2715, ../sass/_layouts.scss */
 #search-window .keyword-results .keyword-scroller {
   text-align: center;
   overflow-x: scroll;
   min-height: 2.5em;
+  -webkit-overflow-scrolling: auto;
 }
-/* line 2712, ../sass/_layouts.scss */
+/* line 2721, ../sass/_layouts.scss */
 #search-window .keyword-results .keyword-scroller div.result {
   display: inline-block;
   background-color: white;
@@ -2928,25 +2937,26 @@ div.blocker {
   transition: background-color .25s linear, color .25s linear;
   cursor: pointer;
 }
-/* line 2721, ../sass/_layouts.scss */
+/* line 2730, ../sass/_layouts.scss */
 #search-window .keyword-results .keyword-scroller div.result:hover {
   background-color: black;
   color: white;
 }
-/* line 2726, ../sass/_layouts.scss */
+/* line 2735, ../sass/_layouts.scss */
 #search-window .keyword-results .keyword-scroller div.result.selected {
   background-color: #2f2fc2;
   color: white;
 }
-/* line 2734, ../sass/_layouts.scss */
+/* line 2743, ../sass/_layouts.scss */
 #search-window .spread-results {
   overflow: scroll;
+  -webkit-overflow-scrolling: auto;
 }
-/* line 2737, ../sass/_layouts.scss */
+/* line 2747, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller {
   overflow-y: scroll;
 }
-/* line 2740, ../sass/_layouts.scss */
+/* line 2750, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result {
   width: 200px;
   height: 200px;
@@ -2958,7 +2968,7 @@ div.blocker {
   transition: background-color .5s linear, color .25s linear;
   cursor: pointer;
 }
-/* line 2751, ../sass/_layouts.scss */
+/* line 2761, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result span {
   position: absolute;
   bottom: .25em;
@@ -2968,19 +2978,19 @@ div.blocker {
   line-height: 1.2em;
   font-weight: bold;
 }
-/* line 2761, ../sass/_layouts.scss */
+/* line 2771, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result:hover {
   background: white !important;
   color: black;
 }
-/* line 2766, ../sass/_layouts.scss */
+/* line 2776, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result:active {
   background: #2B2B7E !important;
   color: white;
   transition: none;
 }
 
-/* line 2776, ../sass/_layouts.scss */
+/* line 2786, ../sass/_layouts.scss */
 .slideThree {
   display: inline-block;
   width: 80px;
@@ -2996,7 +3006,7 @@ div.blocker {
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
 }
 
-/* line 2793, ../sass/_layouts.scss */
+/* line 2803, ../sass/_layouts.scss */
 .slideThree:after {
   content: 'OFF';
   font: 12px/26px Arial, sans-serif;
@@ -3008,7 +3018,7 @@ div.blocker {
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
 }
 
-/* line 2804, ../sass/_layouts.scss */
+/* line 2814, ../sass/_layouts.scss */
 .slideThree:before {
   content: 'ON';
   font: 12px/26px Arial, sans-serif;
@@ -3019,7 +3029,7 @@ div.blocker {
   font-weight: bold;
 }
 
-/* line 2814, ../sass/_layouts.scss */
+/* line 2824, ../sass/_layouts.scss */
 .slideThree label {
   display: block;
   width: 34px;
@@ -3049,7 +3059,7 @@ div.blocker {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
 }
 
-/* line 2847, ../sass/_layouts.scss */
+/* line 2857, ../sass/_layouts.scss */
 .slideThree input[type=checkbox]:checked + label {
   left: 43px;
 }

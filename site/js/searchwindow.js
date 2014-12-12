@@ -21,6 +21,8 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			this.element.find("#search-box").on("input focus click", $.proxy(this.onChangeSearch, this));
 			this.element.find("#close-button").click($.proxy(this.hide, this));			
 			this.element.find("#clear-search").click($.proxy(this.clearSearch, this));
+			
+			this.element.find("#scroll-button").click($.proxy(this.onScrollResults, this));
 		},
 
 		// Destroy an instantiated plugin and clean up modifications
@@ -102,6 +104,7 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 		
 		clearResults: function () {
 			this.element.find(".spread-scroller").empty();
+			this.element.find("#scroll-button").css("display", "none");
 		},
 		
 		clearKeywords: function () {
@@ -172,6 +175,10 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 				this.clearKeywords();
 				this.showKeywords(this.currentKeywords);
 			}
+			
+			var container = this.element.find(".spread-scroller")[0];
+			var overflows = container.scrollHeight > container.offsetHeight;
+			this.element.find("#scroll-button").css("display", overflows ? "block" : "none");
 		},
 		
 		onClickResult: function (event) {
@@ -245,6 +252,11 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 					container.append(d);	
 				});
 			}
-		},		
+		},
+		
+		onScrollResults: function () {
+			var container = this.element.find(".spread-scroller");
+			container.animate({ scrollTop: container.scrollTop() + 225 }, 500);
+		}
 	});
 });

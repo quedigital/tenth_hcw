@@ -90,6 +90,8 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			
 			$("#search-button").click($.proxy(showSearchWindow, this, { type: "text" } ));
 			$("#keyword-button").click($.proxy(showSearchWindow, this, { type: "keyword" } ));
+			
+			$('[title != ""]').qtip({ position: { viewport: $(window) } });
 
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		

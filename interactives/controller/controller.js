@@ -1,7 +1,7 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../Common/js/phaser.min",
+		"Phaser": "../../Common/js/phaser",
 	},
 	
 	shim: {
@@ -54,7 +54,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	// Setup the example
 	GameState.prototype.create = function () {
 		this.game.stage.backgroundColor = 0xFFFFFF;
-
+		
 		var tv = new Phaser.Sprite(this.game, this.game.world.centerX, 220, "tv");
 		tv.anchor.set(.5, .5);
 		this.game.add.existing(tv);
@@ -170,7 +170,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 			this.fpsText = this.game.add.text(
 				970, 20, '', { font: '12px Arial', fill: '#ffffff' }
 			);
-		}
+		}		
 	};
 	
 	// The update() method is called every frame

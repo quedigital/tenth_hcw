@@ -1,12 +1,11 @@
 
 
-// TODO: tooltips for search buttons
-// TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
-// TODO: show search result count and down arrow (for more results)
+// TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
-// TODO: "line-height" garbage text is BACK! Remove it.
+// TODO: flesh out help system steps, like a spread itself [Kylie?]
 
-// TODO: cross-reference any "See chapter" links
+// TODO: add all relevant interactives
+// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
 
 // TODO: make Google Analytics work for both firebase and informit servers? (ie, change trackers based on window.location)
 
@@ -15,24 +14,19 @@
 // TODO: get resizing to work smoothly and consistently
 // TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
 
-// TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
-
-// TODO: put step # in panzoom text box?
-// TODO: increase opacity of panzoom text background
-
-// TODO: flesh out help system steps, like a spread itself [Kylie]
-
-// TODO: add all relevant interactives
-// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
-// TODO: controller interactive not working on desktop or iPad [14_3b]
-
-// TODO: don't load big images in the banner ad (or use thumbnails or designated images)
-
-// TODO: glitch with search results hiding (it hangs over visibly when TOC is hidden)
-
 // TODO: need to adjust property settings for Google Analytics when run from informit
 
 // TODO: add glossary definitions for all terms in text
+
+// TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
+
+// TODO: "line-height" garbage text is BACK! Remove it.
+
+// TODO: cross-reference any "See chapter" links
+
+// TODO: put step # in panzoom text box?
+
+// TODO: don't load big images in the banner ad (or use thumbnails or designated images)
 
 // TODO: pinch-zoom on iPad images is still too jerky
 
@@ -48,12 +42,13 @@
 
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
+// TODO: make the tutorial tooltip pointer arrow bigger
+
 // TODO: minify scripts
 
 // TODO: "S" lines for some callouts (see 17.1 #1)
 
-// TODO: search results show bit of context (on mouseover?)
-// TODO: keywords (searchable) for spreads
+// TODO: search results show random image and bit of context (on mouseover?)
 
 // TODO: fun entry / surprise page ("How does your phone know...?")
 // TODO: fun "map" page showing which sections of the book you've read, at-a-glance
@@ -412,3 +407,10 @@
 // DONE: re-do search as a modal window
 // DONE: grid view search results, with keywords at top?
 // DONE: search window starts with all keywords visible (and has a button to show them all)
+// DONE: tooltips for search buttons
+// DONE: increase opacity of panzoom text background
+// DONE: controller interactive not working on desktop or iPad [14_3b] [rolled back Phaser.js]
+// DONE: keywords (searchable) for spreads
+// TODONT: glitch with search results hiding (it hangs over visibly when TOC is hidden) [replaced]
+// DONE: BUG: firewall interactive, bad packets in trash doesn't update score
+// DONE: show search result count and down arrow (for more results)

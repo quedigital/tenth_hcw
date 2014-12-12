@@ -211,6 +211,8 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 				this.showPopup("success");
 		
 				this.numBlocked++;
+				
+				this.scorer.updateScores(this.numGood, this.numBlocked, this.numMissed);
 			} else {
 				this.showPopup("good deleted");
 			}

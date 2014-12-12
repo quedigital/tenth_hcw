@@ -657,7 +657,7 @@ body {
 		min-width: 200px;
 		height: auto;
 		max-height: 90%;
-		background: rgba(200, 50, 50, .75);
+		background: rgba(200, 50, 50, .9);
 		padding: 1rem;
 		margin-top: 42px;
 		margin-left: 1em;
@@ -2640,6 +2640,14 @@ div.blocker {
 		z-index: 1;
 	}
 	
+	#scroll-button {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		text-align: center;
+		height: 25px;
+	}
+	
 	.interior {
 		position: absolute;
 		top: 50px;
@@ -2708,6 +2716,7 @@ div.blocker {
 			text-align: center;
 			overflow-x: scroll;
 			min-height: 2.5em;
+			-webkit-overflow-scrolling: auto;
 			
 			div.result {
 				display: inline-block;
@@ -2733,6 +2742,7 @@ div.blocker {
 	
 	.spread-results {
 		overflow: scroll;
+		-webkit-overflow-scrolling: auto;
 		
 		.spread-scroller {
 			overflow-y: scroll;

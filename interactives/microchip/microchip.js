@@ -38,7 +38,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.stage.backgroundColor = 0x67a8c0;
 		
 		this.unetchedData = this.game.make.bitmapData(this.game.cache.getImage("unetched").width, this.game.cache.getImage("unetched").height);
-		this.unetchedData.copyRect("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
+		this.unetchedData.copyPixels("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
 		this.unetchedData.update();
 		
 		this.unetched = this.game.add.sprite(252, 400, this.unetchedData);
@@ -263,7 +263,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 			var etchY = y3 + offsetY - 15;
 			
 			var area = new Phaser.Rectangle(etchX - 10, offsetY - 15, 20, 20);
-			this.etchedData.copyRect("etched", area, etchX - 10, offsetY - 15);
+			this.etchedData.copyPixels("etched", area, etchX - 10, offsetY - 15);
 			
 			area.y += 1;
 			fillRGB.call(this.unetchedData, 255, 0, 0, 0, area);
