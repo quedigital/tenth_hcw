@@ -103,6 +103,7 @@
 		<div class="search-area">
 			<p class="label">Search Tools</p>
 			<button id="search-button" class="fa fa-search fa-lg basic"></button>
+			<button id="keyword-button" class="fa fa-key fa-lg basic"></button>
 		</div>
 	</div>
 	
@@ -175,10 +176,15 @@
 <div id="search-window">
 	<div class="interior">
 		<button id="close-button" class="fa fa-times fa-2x basic"></button>
+		<p id="label">Text Search</p>
 		<div class="search-area">
-			<i class="fa fa-search fa-lg"></i>
+			<i id="search-icon" class="fa fa-search fa-lg"></i>
 			<input id="search-box" placeholder="Search" type="text"/>
+			<button id="clear-search" class="fa fa-times-circle-o fa-lg basic clear"></button>
 			
+			<p id="search-count">160 pages found.</p>
+			
+			<!--
 			<div class="options">
 				<p>Show All Keywords?</p>
 				<div class="slideThree">
@@ -186,6 +192,7 @@
 					<label for="showAllKeywords"></label>
 				</div>
 			</div>
+			-->
 		</div>
 		<div class="keyword-results">
 			<div class="keyword-scroller">

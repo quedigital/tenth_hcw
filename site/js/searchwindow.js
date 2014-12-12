@@ -1,11 +1,11 @@
-define(["jquery.ui.widget"], function () {
+define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 
 	var allKeywords = [];
 	
 	$.widget("que.SearchWindow", {
 
 		// Options to be used as defaults
-		options: { showAllKeywords: false },
+		options: { type: "text" },
 
 		// Set up widget (e.g. create element, apply theming,
 		// bind events, etc.)
@@ -18,14 +18,9 @@ define(["jquery.ui.widget"], function () {
 			// this.options
 			this.element.css("display", "none");
 			
-			this.element.find("#showAllKeywords").prop("checked", this.options.showAllKeywords);
-
-			var d = $("<div>", { id: "interior" });
-			this.element.append(d);
-			
 			this.element.find("#search-box").on("input focus click", $.proxy(this.onChangeSearch, this));
 			this.element.find("#close-button").click($.proxy(this.hide, this));			
-			this.element.find("#showAllKeywords").on("change", $.proxy(this.onChangeKeywordSetting, this));
+			this.element.find("#clear-search").click($.proxy(this.clearSearch, this));
 		},
 
 		// Destroy an instantiated plugin and clean up modifications
@@ -35,81 +30,114 @@ define(["jquery.ui.widget"], function () {
 		},
 		
 		show: function () {
+			switch (this.options.type) {
+				case "text":
+					this.element.find("#search-box").css("display", "inline");
+					this.element.find("#search-icon").css("display", "inline");
+					this.element.find("#clear-search").css("display", "inline");
+					break;
+				case "keyword":
+					this.element.find("#search-box").css("display", "none");
+					this.element.find("#search-icon").css("display", "none");
+					this.element.find("#clear-search").css("display", "none");
+					
+					break;
+			}
+			
+			var me = this;
+			
 			this.element.show("drop");
 			this.sizeToFit();
 			
-			if (allKeywords.length == 0) {
-				allKeywords = this.options.searchManager.getAllKeywords();
-			}
-
-			if (this.options.showAllKeywords) {
-				this.showAllKeywords();
-			}
-
 			// only set the focus if the box is empty (so we don't refresh when coming back to the window)
 			var sb = this.element.find("#search-box");
 			if (sb.val() == "") {
 				this.element.find("#search-box").focus();
 			}
+			
+			$(document).keyup(function (e) {
+				if (e.keyCode == 27) { me.hide(); };
+			});
+			
 		},
 		
 		hide: function () {
+			$(document).unbind("keyup");
+			
 			this.element.hide(500);
 		},
 
 		sizeToFit: function () {
 			var h = this.element.find(".interior").innerHeight();
-			var r = this.element.find(".spread-results");
+			var r = this.element.find(".spread-scroller");
 			var max_height = h - r.position().top - 25;
 			r.height(max_height);
 		},
 		
 		// Respond to any changes the user makes to the option method
-		_setOption: function ( key, value ) {
+		_setOption: function (key, value) {
 			switch (key) {
-				case "someValue":
-					//this.options.someValue = doSomethingWith( value );
-					break;
+				case "type":
+					if (this.options.type != value) {
+						this.clearSearch();
+						this.element.find("#label").text(value + " Search");
+						
+						if (value == "keyword") {
+							this.showAllKeywords();
+						}
+					}
+					// fall through:					
 				default:
-					//this.options[ key ] = value;
+					this.options[key] = value;
 					break;
 			}
-
-			// For UI 1.8, _setOption must be manually invoked from
-			// the base widget
-			$.Widget.prototype._setOption.apply( this, arguments );
-			// For UI 1.9 the _super method can be used instead
-			//this._super( "_setOption", key, value );
+			this._super( "_setOption", key, value );
+		},
+		
+		clearSearch: function () {
+			$("#search-box").val("").focus();
+			
+			this.onChangeSearch();
 		},
 		
 		clearResults: function () {
-			var container = this.element.find(".spread-scroller");
-			container.empty();			
+			this.element.find(".spread-scroller").empty();
 		},
 		
 		clearKeywords: function () {
-			container = this.element.find(".keyword-scroller");
-			container.empty();
+			this.element.find(".keyword-scroller").empty();
 		},
 		
 		addResult: function (item) {
 			var container = this.element.find(".spread-scroller");
 			
-			var s = $("<div>", { class: "spread result" } ).data("id", item.id).append($("<span>", { text: item.title } ));
+			var s = $("<div>", { class: "spread result" } )
+				.data("id", item.id)
+				.css("backgroundColor", item.color)
+				.append($("<span>", { text: item.title } ));
+				
 			container.append(s);
 		},
 		
 		onChangeSearch: function (event) {
-			var term = $(event.currentTarget).val();
+			var term = $("#search-box").val();
 			
 			if (term) {
 				this.options.searchManager.doSearch(term, $.proxy(this.showSearchResults, this));
 			} else {
 				this.clearResults();
-				if (!this.options.showAllKeywords) {
-					this.clearKeywords();
-				}
+				this.clearKeywords();
+				this.setSearchCount(undefined);
 			}
+		},
+		
+		setSearchCount: function (count) {
+			if (count == undefined)
+				$("#search-count").html("&nbsp;");
+			else if (count != 1)
+				$("#search-count").text(count + " pages found");
+			else
+				$("#search-count").text("1 page found");			
 		},
 		
 		showSearchResults: function (results) {
@@ -122,7 +150,7 @@ define(["jquery.ui.widget"], function () {
 			$.each(results, function (index, item) {
 				var content = me.options.searchManager.getSpread(item.ref);
 				if (content) {
-					me.addResult( { id: item.ref, title: content.title } );
+					me.addResult( { id: item.ref, title: content.title, color: Helpers.getColorForChapter(content.chapter) } );
 					
 					if (content.keywords) {
 						var myKeywords = content.keywords.split(" ");
@@ -138,7 +166,9 @@ define(["jquery.ui.widget"], function () {
 			
 			this.element.find(".spread.result").click($.proxy(this.onClickResult, this));
 			
-			if (!this.options.showAllKeywords) {
+			this.setSearchCount(results.length);
+			
+			if (this.options.type == "text") {
 				this.clearKeywords();
 				this.showKeywords(this.currentKeywords);
 			}
@@ -159,11 +189,12 @@ define(["jquery.ui.widget"], function () {
 			var keywordEls = this.element.find(".keyword.result.selected");
 			var keywords = $.map(keywordEls, function (val, i) { return $(val).data("keyword"); });
 			
-			var searchTerm = this.element.find("#search-box").val();
+			if (this.options.type == "keyword") {
+				var results = this.options.searchManager.getSpreadsWithAllKeywords(keywords);
+				this.showSearchResults(results);
+			} else if (this.options.type == "text") {
+				var searchTerm = this.element.find("#search-box").val();
 			
-			if (this.options.showAllKeywords && searchTerm == "") {
-				console.log("filter all spreads for this");
-			} else {
 				var results = this.element.find(".spread.result");
 			
 				if (keywords.length > 0) {			
@@ -193,10 +224,16 @@ define(["jquery.ui.widget"], function () {
 		},
 		
 		showAllKeywords: function () {
+			if (allKeywords.length == 0) {
+				allKeywords = this.options.searchManager.getAllKeywords();
+			}
+
 			this.showKeywords(allKeywords);
 		},
 		
 		showKeywords: function (keywords) {
+			this.clearKeywords();
+			
 			var container = this.element.find(".keyword-scroller");
 			
 			var me = this;
@@ -208,19 +245,6 @@ define(["jquery.ui.widget"], function () {
 					container.append(d);	
 				});
 			}
-		},
-		
-		onChangeKeywordSetting: function (event) {
-			this.clearKeywords();
-			
-			var setting = $(event.currentTarget).prop("checked");
-			this.options.showAllKeywords = setting;
-			
-			if (setting) {
-				this.showAllKeywords();
-			} else {
-				this.showKeywords(this.currentKeywords);
-			}
-		}
+		},		
 	});
 });

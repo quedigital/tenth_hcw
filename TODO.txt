@@ -1,13 +1,8 @@
 
 
-// TODO: show all spreads with a given keyword
-// TODO: re-do search as a modal window
-// TODO: grid view search results, with keywords at top?
+// TODO: tooltips for search buttons
 // TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
-// TODO: search window starts with all keywords visible (and has a button to show them all)
 // TODO: show search result count and down arrow (for more results)
-
-// TODO: compiler spread animated gif?
 
 // TODO: "line-height" garbage text is BACK! Remove it.
 
@@ -413,3 +408,7 @@
 // DONE: add copyright
 // DONE: word-break in banner ads
 // DONE: Gene Krupa song [YouTube link, 1_2]
+// DONE: show all spreads with a given keyword
+// DONE: re-do search as a modal window
+// DONE: grid view search results, with keywords at top?
+// DONE: search window starts with all keywords visible (and has a button to show them all)

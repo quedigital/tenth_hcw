@@ -95,5 +95,27 @@ define(["lunr", "jquery"], function (lunr) {
 		return keywords;
 	}
 	
+	SearchManager.prototype.getSpreadsWithAllKeywords = function (keywords) {
+		var spreads = [];
+		
+		$.each(this.data, function (index, item) {
+			if (item.keywords) {
+				var noGood = false;
+				var keys = item.keywords.split(" ");
+				for (var i = 0; i < keywords.length; i++) {
+					if (keys.indexOf(keywords[i]) == -1) {
+						noGood = true;
+						break;
+					}
+				}
+				if (!noGood) {
+					spreads.push( { ref: item.id } );
+				}
+			}
+		});
+		
+		return spreads;
+	}
+	
 	return SearchManager;
 });

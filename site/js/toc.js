@@ -1,6 +1,7 @@
 define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, Database) {
 
-	function showSearchWindow () {
+	function showSearchWindow (options) {
+		$("#search-window").SearchWindow("option", options);
 		$("#search-window").SearchWindow("show");
 	}
 	
@@ -87,7 +88,8 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 		
 			$("#news-alert").click($.proxy(this.onClickNewsButton, this));
 			
-			$("#search-button").click(showSearchWindow);
+			$("#search-button").click($.proxy(showSearchWindow, this, { type: "text" } ));
+			$("#keyword-button").click($.proxy(showSearchWindow, this, { type: "keyword" } ));
 
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
