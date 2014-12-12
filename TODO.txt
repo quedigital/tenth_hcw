@@ -4,6 +4,8 @@
 
 // TODO: flesh out help system steps, like a spread itself [Kylie?]
 
+// TODO: does qtip make it so you have to tap buttons twice on the ipad??
+
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
 

@@ -197,8 +197,13 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			var keywords = $.map(keywordEls, function (val, i) { return $(val).data("keyword"); });
 			
 			if (this.options.type == "keyword") {
-				var results = this.options.searchManager.getSpreadsWithAllKeywords(keywords);
-				this.showSearchResults(results);
+				if (keywords.length > 0) {
+					var results = this.options.searchManager.getSpreadsWithAllKeywords(keywords);
+					this.showSearchResults(results);
+				} else {
+					this.clearResults();
+					this.setSearchCount(undefined);
+				}
 			} else if (this.options.type == "text") {
 				var searchTerm = this.element.find("#search-box").val();
 			

@@ -99,7 +99,10 @@ define(["Layout",
 			this.img.width(w - padding);
 		}
 
-		this.image_holder.height(h - padding);
+		// don't make us too tall (especially in portrait mode)
+		var desired_h = Math.min(h - padding, window.innerHeight * .75);
+		
+		this.image_holder.height(desired_h);
 	}
 	
 	PanZoomLayout.prototype.onImagesLoaded = function () {

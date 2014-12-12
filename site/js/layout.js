@@ -106,7 +106,9 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		
 		var cst = wt - wh + h;
 		
-		scroller.animate({ scrollTop: cst }, 500);
+		if (scroller.scrollTop() < cst) {
+			scroller.animate({ scrollTop: cst }, 500);
+		}
 	}		
 	
 	Layout.prototype.initializeGlossaryTerms = function () {

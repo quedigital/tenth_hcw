@@ -2627,11 +2627,21 @@ div.blocker {
 	position: fixed;
 	top: 0;
 	left: 0;
-	right:  0;
+	right: 0;
 	bottom: 0;
-	background: rgba(200, 180, 10, .5);
 	z-index: 100;
 	display: none;
+	
+	&:before {
+		content: "";
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(200, 180, 10, .5);
+		pointer-events: none;
+	}	
 	
 	#close-button {
 		position: absolute;
