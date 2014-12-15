@@ -347,10 +347,14 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			this.open();
 		},
 		
-		open: function () {
+		open: function (options) {
 			this.element.stop();
 		
-			this.element.animate( { left: 0 }, 500 );
+			if (options && options.instant)
+				this.element.css("left", 0);
+			else
+				this.element.animate( { left: 0 }, 500 );
+				
 			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
 		},
 		

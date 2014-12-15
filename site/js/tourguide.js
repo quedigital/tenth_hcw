@@ -73,10 +73,11 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			if (details.target) target = details.target;
 			else target = $(window);
 		
-			if (details.target)			
+			if (details.target)	{	
 				$(details.target).dimBackground();
+			}
 		
-			var options = { type: details.type, block: details.block };
+			var options = { type: details.type, blockWholeScreen: details.blockWholeScreen, target: details.target };
 		
 			this.showTourTip(target, details.text, options);
 		},
@@ -161,7 +162,14 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			
 			var opts = {
 				content: { text: content },
-				style: { classes: "tourPopups", def: false },
+				style: {
+					classes: "tourPopups",
+					def: false,
+					tip: {
+						width: 20,
+						height: 20,
+					}					
+				},
 				show: { ready: true, modal: { on: modal, blur: false }, delay: 1000 },
 				hide: false,
 				position: { my: "center left", at: "center right", viewport: $(window), adjust: { method: "shift" } },
@@ -175,12 +183,12 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 					hide: function (event, api) {
 						api.destroy();
 						$("#qtip-overlay div").removeClass("dimming");
-						$(target).undim();
+						$(options.target).undim();
 					}
 				},
 			};
 			
-			if (options.block) {
+			if (options.blockWholeScreen) {
 				opts.events.show = function (event, api) {
 						$("#qtip-overlay div").addClass("dimming");
 					};
@@ -188,6 +196,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			
 			if (options.type == "centered") {
 				opts.position = { my: "center center", at: "center center" };
+				target = $(window);
 			}
 			
 			$(target).qtip(opts);

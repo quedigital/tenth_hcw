@@ -19,6 +19,9 @@
 
 <script>
 
+	// break us out of the informIT iframe
+	breakout_of_frame();
+	
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -26,6 +29,12 @@
 
   ga('create', 'UA-48406787-3', 'auto');
   ga('send', 'pageview');
+
+function breakout_of_frame () {
+	if (top.location != location) {
+    	top.location.href = document.location.href;
+	}
+}
 
 </script>
 	
@@ -83,11 +92,13 @@
 		</div>
 		<div id="menu" class="menu">
 			<div class="contents">
+				<div class="links">
+					<h1>Links</h1>
+					<a href="//memberservices.informit.com/my_account/index.aspx">Your Account Page</a>
+					<a href="//www.quepublishing.com/about/contact_us" target="_blank">Contact Us</a>
+				</div>
 				<h1>Your Favorites:</h1>
 				<div id="favorites-widget">
-				</div>
-				<div id="links">
-					<a href="//www.quepublishing.com/about/contact_us" target="_blank">Contact Us</a>
 				</div>
 				<p class="tiny">Viewing chapter <span id="chapter" class="number">1</span> page <span id="page" class="number">12</span>.</p>
 				<p class="tiny">Copyright © 2015 by Ron White</p>

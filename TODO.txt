@@ -1,5 +1,9 @@
 
 
+// TODO: add keywords for all spreads
+
+// TODO: add glossary definitions for all terms in text
+
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
 // TODO: flesh out help system steps, like a spread itself [Kylie?]
@@ -9,16 +13,10 @@
 // TODO: add all relevant interactives
 // TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
 
-// TODO: make Google Analytics work for both firebase and informit servers? (ie, change trackers based on window.location)
-
 // TODO: browser detection notice
 
 // TODO: get resizing to work smoothly and consistently
 // TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
-
-// TODO: need to adjust property settings for Google Analytics when run from informit
-
-// TODO: add glossary definitions for all terms in text
 
 // TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
 
@@ -43,8 +41,6 @@
 // TODO: internal links and cross-references (as in: intro to 3_3)
 
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
-
-// TODO: make the tutorial tooltip pointer arrow bigger
 
 // TODO: minify scripts
 
@@ -416,3 +412,7 @@
 // TODONT: glitch with search results hiding (it hangs over visibly when TOC is hidden) [replaced]
 // DONE: BUG: firewall interactive, bad packets in trash doesn't update score
 // DONE: show search result count and down arrow (for more results)
+// TODONT: make Google Analytics work for both firebase and informit servers? (ie, change trackers based on window.location)
+// DONE: need to adjust property settings for Google Analytics when run from informit [seems to be working]
+// DONE: guided tour dimming is buggy
+// DONE: add keywords for all spreads

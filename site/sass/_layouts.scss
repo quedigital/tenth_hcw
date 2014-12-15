@@ -1426,8 +1426,9 @@ div.image-callout {
 			width: 10em;
 		}
 		
-		#links {
+		.links {
 			a {
+				display: block;
 				font-size: 150%;
 				color: rgb(126, 126, 213);
 				
@@ -2264,7 +2265,7 @@ div.image-callout {
 }
 
 .tourPopups {
-	background-color: rgba(94, 112, 134, 0.75);
+	background-color: rgba(94, 112, 134, 0.9);
 	border: 1px solid white;
 	color: white;
 	text-shadow: 1px 1px 2px black;

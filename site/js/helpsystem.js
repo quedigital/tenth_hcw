@@ -3,11 +3,12 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 	var tour = [
 		{
 			type: "centered",
-			block: true,
+			blockWholeScreen: true,
 			text: "<p class='centered'>Welcome to the web version of<br/><span class='title'>How Computers Work</span> <img width='100%' src='site/images/HCWX_cover.png'/>Start with a feature tour or jump right in!</p>"
 		},
 		{
 			type: "centered",
+			target: ".layout .spread",
 			text: "This is the main reading area. Scroll down through this area to follow along with the text."
 		},
 		{
@@ -15,7 +16,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			text: "This is the table of contents. Scroll through this list to see all the topics to explore. Click on a topic that interests you to open it in the main reading area.",
 			setup: [
 						{ type: "command", target: "#toc-container", class: "TOC", command: "closeMenus" },
-						{ type: "command", target: "#toc-container", class: "TOC", command: "open" },
+						{ type: "command", target: "#toc-container", class: "TOC", command: "open", params: { instant: true } },
 						{ type: "option", target: "#toc-container", class: "TOC", key: "leaveOpen", value: true },
 					],
 			teardown: [
@@ -49,7 +50,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		*/
 		{
 			type: "centered",
-			block: true,
+			blockWholeScreen: true,
 			text: "There's much more to explore. Enjoy this exciting new version of <b>How Computers Work</b>!"
 		},
 	];
