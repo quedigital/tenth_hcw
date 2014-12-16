@@ -1,9 +1,8 @@
 
 
-// TODO: add "keywords selected" label
-
 // TODO: add and test all iBooks interactives (LCD 246, Compression 134, Cellphone 354, Transistor 54)
 // TODO: video in other formats?
+// TODO: video thumbnail
 
 // TODO: finish new interactives
 
@@ -421,3 +420,4 @@
 // DONE: guided tour dimming is buggy
 // DONE: add keywords for all spreads
 // TODONT: orphaned interactives (Surge 226, Handwriting 18)
+// DONE: add "keywords selected" label

@@ -2715,7 +2715,7 @@ div.blocker {
 			font-size: 85%;
 			line-height: 1.4em;
 			text-shadow: 1px 1px 2px black;
-		}
+		}		
 				
 		p {
 			display: inline-block;
@@ -2725,7 +2725,7 @@ div.blocker {
 	}
 	
 	.keyword-results {
-		margin-bottom: 25px;
+		margin-bottom: 10px;
 		
 		.keyword-scroller {
 			text-align: center;
@@ -2753,6 +2753,15 @@ div.blocker {
 				}
 			}
 		}
+	}
+	
+	p#keyword-count {
+		text-align: center;
+		color: white;
+		font-size: 85%;
+		line-height: 1.4em;
+		text-shadow: 1px 1px 2px black;
+		display: none;
 	}
 	
 	.spread-results {

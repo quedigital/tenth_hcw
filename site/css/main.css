@@ -2934,7 +2934,7 @@ div.blocker {
 }
 /* line 2727, ../sass/_layouts.scss */
 #search-window .keyword-results {
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 /* line 2730, ../sass/_layouts.scss */
 #search-window .keyword-results .keyword-scroller {
@@ -2964,15 +2964,24 @@ div.blocker {
   color: white;
 }
 /* line 2758, ../sass/_layouts.scss */
+#search-window p#keyword-count {
+  text-align: center;
+  color: white;
+  font-size: 85%;
+  line-height: 1.4em;
+  text-shadow: 1px 1px 2px black;
+  display: none;
+}
+/* line 2767, ../sass/_layouts.scss */
 #search-window .spread-results {
   overflow: scroll;
   -webkit-overflow-scrolling: auto;
 }
-/* line 2762, ../sass/_layouts.scss */
+/* line 2771, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller {
   overflow-y: scroll;
 }
-/* line 2765, ../sass/_layouts.scss */
+/* line 2774, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result {
   width: 200px;
   height: 200px;
@@ -2984,7 +2993,7 @@ div.blocker {
   transition: background-color .5s linear, color .25s linear;
   cursor: pointer;
 }
-/* line 2776, ../sass/_layouts.scss */
+/* line 2785, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result span {
   position: absolute;
   bottom: .25em;
@@ -2994,19 +3003,19 @@ div.blocker {
   line-height: 1.2em;
   font-weight: bold;
 }
-/* line 2786, ../sass/_layouts.scss */
+/* line 2795, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result:hover {
   background: white !important;
   color: black;
 }
-/* line 2791, ../sass/_layouts.scss */
+/* line 2800, ../sass/_layouts.scss */
 #search-window .spread-results .spread-scroller div.result:active {
   background: #2B2B7E !important;
   color: white;
   transition: none;
 }
 
-/* line 2801, ../sass/_layouts.scss */
+/* line 2810, ../sass/_layouts.scss */
 .slideThree {
   display: inline-block;
   width: 80px;
@@ -3022,7 +3031,7 @@ div.blocker {
   box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
 }
 
-/* line 2818, ../sass/_layouts.scss */
+/* line 2827, ../sass/_layouts.scss */
 .slideThree:after {
   content: 'OFF';
   font: 12px/26px Arial, sans-serif;
@@ -3034,7 +3043,7 @@ div.blocker {
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
 }
 
-/* line 2829, ../sass/_layouts.scss */
+/* line 2838, ../sass/_layouts.scss */
 .slideThree:before {
   content: 'ON';
   font: 12px/26px Arial, sans-serif;
@@ -3045,7 +3054,7 @@ div.blocker {
   font-weight: bold;
 }
 
-/* line 2839, ../sass/_layouts.scss */
+/* line 2848, ../sass/_layouts.scss */
 .slideThree label {
   display: block;
   width: 34px;
@@ -3075,7 +3084,7 @@ div.blocker {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfff4', endColorstr='#b3bead',GradientType=0 );
 }
 
-/* line 2872, ../sass/_layouts.scss */
+/* line 2881, ../sass/_layouts.scss */
 .slideThree input[type=checkbox]:checked + label {
   left: 43px;
 }

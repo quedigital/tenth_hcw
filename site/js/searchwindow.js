@@ -60,7 +60,6 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			$(document).keyup(function (e) {
 				if (e.keyCode == 27) { me.hide(); };
 			});
-			
 		},
 		
 		hide: function () {
@@ -86,6 +85,9 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 						
 						if (value == "keyword") {
 							this.showAllKeywords();
+							this.refreshKeywordCount();
+						} else if (value == "text") {
+							this.element.find("#keyword-count").css("display", "none");
 						}
 					}
 					// fall through:					
@@ -98,6 +100,10 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 		
 		clearSearch: function () {
 			$("#search-box").val("").focus();
+			
+			if (this.options.type == "text") {
+				this.element.find("#keyword-count").css("display", "none");
+			}
 			
 			this.onChangeSearch();
 		},
@@ -179,6 +185,8 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			var container = this.element.find(".spread-scroller")[0];
 			var overflows = container.scrollHeight > container.offsetHeight;
 			this.element.find("#scroll-button").css("display", overflows ? "block" : "none");
+			
+			this.refreshKeywordCount();
 		},
 		
 		onClickResult: function (event) {
@@ -186,6 +194,18 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			var id = r.data("id");
 			$("#toc-container").TOC("openSpread", { id: id, replace: true, active: true });
 			this.hide();
+		},
+		
+		refreshKeywordCount: function () {
+			var keywordEls = this.element.find(".keyword.result.selected");
+			
+			var s;
+			if (keywordEls.length == 0) s = "No keywords selected  ";
+			else if (keywordEls.length == 1) s = "1 keyword selected ";
+			else s = keywordEls.length + " keywords selected ";
+			this.element.find("#keyword-count").html("<span>" + s + "</span><i class='fa fa-level-up'></i>");
+			
+			this.element.find("#keyword-count").css("display", "block");
 		},
 		
 		onClickKeyword: function (event) {
@@ -196,6 +216,8 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			var keywordEls = this.element.find(".keyword.result.selected");
 			var keywords = $.map(keywordEls, function (val, i) { return $(val).data("keyword"); });
 			
+			this.refreshKeywordCount();
+						
 			if (this.options.type == "keyword") {
 				if (keywords.length > 0) {
 					var results = this.options.searchManager.getSpreadsWithAllKeywords(keywords);
@@ -209,6 +231,8 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			
 				var results = this.element.find(".spread.result");
 			
+				var count = 0;
+				
 				if (keywords.length > 0) {			
 					var me = this;
 			
@@ -228,9 +252,14 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 							noGood = true;
 						}
 						$(result).css("display", noGood ? "none" : "inline-block");
+						
+						count += !noGood;
 					});
+					
+					this.setSearchCount(count);
 				} else {
 					results.css("display", "inline-block");
+					this.setSearchCount(results.length);
 				}
 			}
 		},
