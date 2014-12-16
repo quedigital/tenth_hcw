@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Writing Data to RAM</title>
+<style type="text/css">
+	html, body {
+		font-family: Futura;
+		background-color: black;
+	}
+	
+	h1 {
+		font-weight: normal;
+	}
+	
+	#raff_container { 
+		/*border: 8px solid black;*/
+		background-color: #f7a0a0;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 0;
+/*		display: none;*/
+	}
+	
+	#canvas {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	
+	.container {
+		width: 1024px;
+		height: 768px;
+		position: absolute;
+	}
+	
+	.top_left {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 500px;
+		margin-left: 25px;
+	}
+	
+	.bottom_right {
+		position: absolute;
+		text-align: right;
+		right: 0;
+		bottom: 10px;
+		width: 500px;
+		margin-right: 25px;
+	}
+	
+	.instructions {
+	}
+	
+	.dart {
+		position: absolute;
+	}
+	
+	.caption {
+		font-size: 80%;
+		font-family: GillSans-Light;
+		position: absolute;
+	}
+	
+	.bit_caption {
+		font-size: 300%;
+		color: white;
+		position: absolute;
+	}
+	
+	#bit0 { top: 630px; left: 110px; }
+	#bit1 { top: 577px; left: 230px; }
+	#bit2 { top: 524px; left: 351px; }
+	#bit3 { top: 471px; left: 471px; }
+	#bit4 { top: 418px; left: 592px; }
+	#bit5 { top: 365px; left: 712px; }
+	#bit6 { top: 312px; left: 833px; }
+	#bit7 { top: 259px; left: 954px; }
+	
+	#result_caption {
+		color: blue;
+		font-size: 150%;
+		position: absolute;
+		top: 500px;
+		right: 25px;
+		text-align: right;
+	}
+	
+	#address_caption {
+		top: 425px;
+		left: 30px;
+		-webkit-transform: rotate(-24deg);
+	}
+	
+	#data_caption {
+		top: 345px;
+		left: 100px;
+		-webkit-transform: rotate(64deg);
+	}
+	
+	#capacitor_caption {
+		top: 578px;
+		left: 150px;
+	}
+	
+	#transistor_caption {
+		top: 420px;
+		left: 165px;
+	}
+	
+</style>
+<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../common/js/raphael.js"></script>
+<!-- paper.js didn't have alpha testing for images; neither does raphael -->
+<script type="text/javascript" src="../common/js/easel.js"></script>
+<script type="text/javascript" src="../common/js/tween.js"></script>
+<script type="text/javascript" src="../common/js/ease.js"></script>
+<script type="text/javascript" src="ram.js"></script>
+</head>
+
+<body>
+
+<div id="raff_container"></div>
+<canvas id="canvas" width="1024" height="768"></canvas>
+
+<div class="container">
+	<div class="top_left instructions">
+		<h1>Writing Data to RAM</h1>
+		<p>To write a bit, tap the address line. Wait for the transistors to close. Tap the data line of the bit you want to write.</p>
+	</div>
+	<div class="bottom_right instructions">
+		<h1>Reading Data from RAM</h1>
+		<p>To read a bit, tap the address line to close the transistors.  Capacitors with bits stored in them will discharge them out through their data lines.</p>
+	</div>
+	<p id="address_caption" class="caption">Address line</p>
+	<p id="data_caption" class="caption">Data line</p>
+	<p id="capacitor_caption" class="caption">Capacitor</p>
+	<p id="transistor_caption" class="caption">Transistor</p>
+	<p id="bit0" class="bit_caption">0</p>
+	<p id="bit1" class="bit_caption">0</p>
+	<p id="bit2" class="bit_caption">0</p>
+	<p id="bit3" class="bit_caption">0</p>
+	<p id="bit4" class="bit_caption">0</p>
+	<p id="bit5" class="bit_caption">0</p>
+	<p id="bit6" class="bit_caption">0</p>
+	<p id="bit7" class="bit_caption">0</p>
+	<p id="result_caption">00000000 = 0</p>
+</div>
+</body>
+</html>

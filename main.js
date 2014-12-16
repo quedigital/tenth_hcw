@@ -155,6 +155,8 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 			$("#help-system").HelpSystem("beginGuidedTour");
 			Database.setPersistentProperty("seenIntro", true);
 		}
+		
+		window.getAllGlossaryTerms = $.proxy(Helpers.getAllGlossaryTerms, this, data.contents);
 	}
 	
 	function doOpenSpread (event, options) {

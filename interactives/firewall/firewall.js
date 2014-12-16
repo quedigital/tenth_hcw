@@ -4,6 +4,7 @@ requirejs.config({
 		"Phaser": "../../common/js/phaser.min",
 		"PacketManager": "packetmanager",
 		"Scorer": "scorer",
+		"Packet": "packet",
 	},
 	
 	shim: {
@@ -23,10 +24,10 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("router", "assets/firewall_box.png");
 		this.game.load.image("closed port", "assets/door.png");
-		this.game.load.spritesheet("green packet", 'assets/greenSparkle_sheet.png', 50, 50, 9);
-		this.game.load.spritesheet("yellow packet", 'assets/yellowSparkle_sheet.png', 50, 50, 9);
-		this.game.load.spritesheet("blue packet", 'assets/blueSparkle_sheet.png', 50, 50, 9);
-		this.game.load.spritesheet("animated bad packet", 'assets/sparksRed_sheet.png', 50, 50, 15);
+		this.game.load.spritesheet("green packet", 'assets/greensparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("yellow packet", 'assets/yellowsparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("blue packet", 'assets/bluesparkle_sheet.png', 50, 50, 9);
+		this.game.load.spritesheet("animated bad packet", 'assets/sparksred_sheet.png', 50, 50, 15);
 		this.game.load.image("arrow1", 'assets/arrow1.png');
 		this.game.load.image("arrow2", 'assets/arrow2.png');
 		this.game.load.image("arrow3", 'assets/arrow3.png');
@@ -39,7 +40,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.load.image("success", 'assets/success_popup.png');
 		this.game.load.image("scorer", "assets/packet_list.png");
 		this.game.load.image("red x", "assets/redx.png");
-		this.game.load.image("good deleted", "assets/goodDeleted_popup.png");
+		this.game.load.image("good deleted", "assets/gooddeleted_popup.png");
 		this.game.load.image("failure", "assets/failure_popup.png");
 		this.game.load.image("game over", "assets/gameover_popup.png");
 		this.game.load.image("start button", 'assets/start_upbtn.png');

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Multicore Widget</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			padding: 0;
+			background-image: url('chip.png');
+			background-repeat: no-repeat;
+			font-family: TrebuchetMS;
+			width: 1024px;
+			height: 768px;
+		}
+		
+		#explain {
+/*			border: 1px solid rgba(0, 128, 0, .4);*/
+/*			box-shadow: 4px 4px 15px 5px rgba(0, 0, 0, .3);*/
+/*			box-shadow: inset 0 0 10px #000000;*/
+/*			background-color: rgba(255, 255, 255, .4);*/
+			background-color: rgba(200, 200, 50, .3);
+			box-shadow: 8px 8px 8px -6px black;
+			width: 700px;
+/*			height: 85px;*/
+			position: absolute;
+			top: 5px;
+			padding-bottom: 5px;
+			left: 300px;
+			opacity: 0;
+		}
+		
+		#explain p {
+			color: #008;//#336;
+			padding: 0 10px;
+			margin: 10px 0;
+			font-size: 20px;
+		}
+		
+		#restart {
+			position: absolute;
+			width: 80px;
+			height: 40px;
+			left: 930px;
+			top: 718px;
+			border-radius: 10px;
+			background-color: rgba(192, 192, 192, .2);
+			display: block;
+			cursor: pointer;
+		}
+		
+		#restart:hover {
+			background-color: rgb(192, 192, 192);
+		}
+		
+		#restart p {
+			text-align: center;
+			font-size: 14px;
+			margin: 10px 0;
+			padding: 0;
+		}
+		
+	</style>
+	
+	<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="../common/js/raphael-min.js"></script>
+	<script type="text/javascript" src="../common/js/raphael_myriad_pro_700.font.js"></script>
+	<script type="text/javascript" src="../common/js/paper.js"></script>
+	<script type="text/javascript" src="multicore.js"></script>
+	<script type="text/javascript" src="paths.json"></script>
+
+</head>
+<body>
+<!--<canvas style="position: absolute; top: 0; left: 0;" id="myCanvas" resize="true"></canvas>-->
+<div id="canvas_container"></div>
+<div id="explain"><p>The numbers add themselves up like magic.</p></div>
+<div id="restart"><p>Restart</p></div>
+</body>
+</html>

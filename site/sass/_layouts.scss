@@ -684,7 +684,7 @@ body {
 		overflow: hidden;
 		
 		.image_wrapper {
-			transition: transform 2s ease-in-out, transform-origin 2s ease-in-out;
+			transition: transform 2s ease-in-out/*, transform-origin 2s ease-in-out*/;
 			-webkit-transition: -webkit-transform 2s ease-in-out, -webkit-transform-origin 2s ease-in-out;
 		}
 	}
@@ -1110,6 +1110,10 @@ span.green {
 
 span.blue {
 	color: #277BBB;
+}
+
+span.courier {
+	font-family: "Courier";
 }
 
 .spacer {

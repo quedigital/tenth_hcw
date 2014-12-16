@@ -1,17 +1,21 @@
 
 
+// TODO: add "keywords selected" label
+
+// TODO: add and test all iBooks interactives (LCD 246, Compression 134, Cellphone 354, Transistor 54)
+// TODO: video in other formats?
+
+// TODO: finish new interactives
+
+// TODO: flesh out help system steps, like a spread itself [Kylie?]
+
 // TODO: add keywords for all spreads
 
 // TODO: add glossary definitions for all terms in text
 
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
-// TODO: flesh out help system steps, like a spread itself [Kylie?]
-
 // TODO: does qtip make it so you have to tap buttons twice on the ipad??
-
-// TODO: add all relevant interactives
-// TODO: make sure all interactives work on desktop & ipad [Phaser interactives?]
 
 // TODO: browser detection notice
 
@@ -38,7 +42,7 @@
 
 // TODO: 11_1 intro has cross-reference and possibly a typo
 // TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
-// TODO: internal links and cross-references (as in: intro to 3_3)
+// TODO: internal links and cross-references (as in: intro to 3_3, 11_2)
 
 // TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
@@ -416,3 +420,4 @@
 // DONE: need to adjust property settings for Google Analytics when run from informit [seems to be working]
 // DONE: guided tour dimming is buggy
 // DONE: add keywords for all spreads
+// TODONT: orphaned interactives (Surge 226, Handwriting 18)

@@ -1,7 +1,9 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../Common/js/phaser",
+		"Phaser": "../../common/js/phaser",
+		"FakeButton": "fakebutton",
+		"MultiSprite": "multisprite",
 	},
 	
 	shim: {

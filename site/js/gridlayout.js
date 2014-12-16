@@ -272,6 +272,7 @@ define(["Layout",
 						break;
 					
 					case "video":
+						var video = elem.find(".video").data("video");
 						break;
 				}
 				

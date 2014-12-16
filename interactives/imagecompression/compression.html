@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../common/js/easel.js"></script>
+<script type="text/javascript" src="../common/js/tween.js"></script>
+<script type="text/javascript" src="../common/js/ease.js"></script>
+
+<script type="text/javascript" src="compression.js"></script>
+
+<meta charset="UTF-8">
+
+<style>
+	html, body {
+		font-family: GillSans;
+		-webkit-user-select: none;
+	}
+	
+	#container {
+		width: 1024px;
+		height: 768px;
+		background-color: #2A535F;
+		position: relative;
+	}
+	
+	#source_container {
+		position: absolute;
+		top: 100px;
+		left: 60px;
+	}
+	
+	#dest_container {
+		position: absolute;
+		top: 100px;
+		right: 60px;
+	}
+	
+	body {
+		background-color: black;
+		margin: 0;
+	}
+	
+	#myCanvas {
+		-webkit-user-select: none;
+	}
+	
+	#images {
+		margin: 0 auto;
+		width: 900px;
+	}
+	
+	#slider {
+		position: absolute;
+		top: 470px;
+		left: 360px;
+	}
+	
+	p {
+		font-size: 40px;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		color: white;
+	}
+	
+	p.smaller {
+		font-size: 25px;
+	}
+	
+	p.even_smaller {
+		font-size: 14px;
+	}
+		
+	#dest {
+		background-color: gray;
+		width: 435px;
+		height: 290px;
+	}
+	
+	/*
+	#indicator {
+		width: 2px;
+		height: 120px;
+		position: absolute;
+		background-color: yellow;
+		left: 360px;
+		top: 460px;
+	}
+	*/
+	
+	.glass {  
+	   background-image:url('magglassround.png');  
+	   background-repeat:no-repeat;  
+	   background-position:top left;  
+	   width:250px;  
+	   height:170px;  
+	   padding-top:10px;  
+	   padding-left:92px;  
+	   margin:0;  
+	   position:absolute;  
+	   display:none;
+	   z-index: 1;
+	   pointer-events: none;
+	}  
+	
+	.glass-image {
+		width:150px;  
+		height:150px;  
+		border-radius: 75px;
+		background-repeat: no-repeat;  
+		background-color: #2A535F;
+		background-size: 750px 939px;
+		margin:0;  
+		padding:0;  
+		cursor:none;
+	}  
+	
+	.side_left {
+		position: absolute;
+		left: -60px;
+		top: 150px;
+		width: 60px;
+	}
+	
+	.side_right {
+		position: absolute;
+		left: 435px;
+		top: 150px;
+		width: 60px;
+	}
+	
+	#info {
+		position: absolute;
+		right: 220px;
+		top: 50px;
+	}
+	
+	#indicator {
+		position: absolute;
+		top: 485px;
+	}
+	
+</style>
+</head>
+<body>
+<div id="container">
+	<div id="images">
+		<div id="source_container">
+			<img id="source" src="catamaran.png"/>
+			<p class="smaller">Original</p>
+			<p class="even_smaller side_left">Touch to zoom.</p>
+		</div>
+		<p id="info" class="smaller">Quality: 10%</p>
+		<div id="dest_container">
+			<img id="dest"/>
+			<p class="smaller">Compressed</p>
+			<p class="even_smaller side_right">Touch to zoom.</p>
+		</div>
+		<div id="slider">
+			<img id="slider_arrow" src="bigarrow_red.png"/>
+			<p>Compression Quality</p>
+			<p class="even_smaller">Touch to set.</p>
+		</div>
+		<div id="indicator">
+			<img src="slider.png"/>
+		</div>
+	</div>
+	<div id="glass_d" class="glass">  
+		<div id="glass_d-image" class="glass-image">
+		</div>  
+	</div>
+	<div id="glass_s" class="glass">  
+		<div id="glass_s-image" class="glass-image">
+		</div>  
+	</div>
+</div>
+</body>
+</html>

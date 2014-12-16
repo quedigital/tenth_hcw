@@ -319,7 +319,24 @@ define(["jquery"], function ($) {
 	}
 	
 	function isTouchEnabled () { return !!document.createTouch; }
-		
+	
+	function getAllGlossaryTerms (content) {
+		for  (var each in content) {
+			var spread = content[each];
+			for (var i in spread.cells) {
+				var cell = spread.cells[i];
+				var t = $("<div>").html(cell.text);
+				var g = t.find(".glossary");
+				if (g.length) { 
+					for (var j = 0; j < g.length; j++) {
+						var e = g[j];
+						console.log($(e).text() + "\t" + (spread.id + "(" + cell.id + ")"));
+					}
+				}
+			}
+		}
+	}
+	
 	var Helpers = {
 		findByID: findByID,
 		reserveSpace: reserveSpace,
@@ -337,6 +354,7 @@ define(["jquery"], function ($) {
 		animateCanvasPath: animateCanvasPath,
 		drawCanvasPath: drawCanvasPath,
 		isTouchEnabled: isTouchEnabled,
+		getAllGlossaryTerms: getAllGlossaryTerms
 	};
 	
 	return Helpers;
