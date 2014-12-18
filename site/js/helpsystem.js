@@ -9,7 +9,10 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		{
 			type: "centered",
 			target: ".layout .spread",
-			text: "This is the main reading area. Scroll down through this area to follow along with the text."
+			text: "This is the main reading area. Scroll down through this area to follow along with the text.",
+			setup: [
+						{ type: "command", target: "#toc-container", class: "TOC", command: "close", params: { instant: true } },
+					],
 		},
 		{
 			target: "#toc-container",

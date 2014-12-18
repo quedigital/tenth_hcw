@@ -104,6 +104,16 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			}		
 		},
 		
+		hideLastPopup: function () {
+			var popup = this.options.tour[this.step - 1].popup;
+			if (popup) {
+				var api = popup.qtip("api");
+				if (api) {
+					api.hide();
+				}
+			}
+		},
+		
 		showTourTip: function (target, text, options) {
 			var content = $("<p>").html(text);
 			var div1 = $("<div>", { class: "control-holder" } );
@@ -175,10 +185,18 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				position: { my: "center left", at: "center right", viewport: $(window), adjust: { method: "shift" } },
 				events: {
 					render: function (event, api) {
+						var buttons = api.elements.content.find("button");
+						buttons.click(function (e) {
+							me.hideLastPopup();
+						});
+					},
+				/*
+					render: function (event, api) {
 						$("button", api.elements.content).click(function (e) {
 							api.hide(e);
 						});
 					},
+				*/
 					
 					hide: function (event, api) {
 						api.destroy();
@@ -199,7 +217,9 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				target = $(window);
 			}
 			
-			$(target).qtip(opts);
+			var popup = $(target).qtip(opts);
+			
+			this.options.tour[this.step].popup = popup;
 		},
 		
 		doSetup: function (steps) {

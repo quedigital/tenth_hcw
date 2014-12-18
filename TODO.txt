@@ -1,8 +1,14 @@
 
 
-// TODO: add and test all iBooks interactives (LCD 246, Compression 134, Cellphone 354, Transistor 54)
+// TODO: cellphone interactive in iframe suspends javascript during drag? [but lcd doesn't seem to]
+
+// TODO: on ipad, selecting spread from search result doesn't close toc
+
+// TODO: on ipad, search window opens, shows keyboard, then hides it
+
+// TODO: panzoom 18_4 is sometimes blurry on Safari when zoomed
+
 // TODO: video in other formats?
-// TODO: video thumbnail
 
 // TODO: finish new interactives
 
@@ -13,8 +19,6 @@
 // TODO: add glossary definitions for all terms in text
 
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
-
-// TODO: does qtip make it so you have to tap buttons twice on the ipad??
 
 // TODO: browser detection notice
 
@@ -421,3 +425,10 @@
 // DONE: add keywords for all spreads
 // TODONT: orphaned interactives (Surge 226, Handwriting 18)
 // DONE: add "keywords selected" label
+// DONE: video thumbnail
+// DONE: panzoom interactives are not centered (lcd vs microchip) [changed transform-origin 50% 0 to 0 0]
+// DONE: add and test all iBooks interactives (LCD 246, Compression 134, Cellphone 354, Transistor 54)
+// DONE: qtip for search buttons is not on-screen on ipad [changed viewport from window to #toc-container]
+// TODONT: does qtip make it so you have to tap buttons twice on the ipad?? [yes; "hover" issue; feature?]
+// DONE: .interactive-contents hang around after layout is removed?
+// DONE: tour "begin" button requires two clicks on iPad [:hover problem with toc? or qtip window target problem?]

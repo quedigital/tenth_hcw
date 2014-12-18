@@ -6,6 +6,11 @@ define([], function () {
 		this.elem.data("video", this);
 		
 		this.video = $("<video controls>").css("width", "100%");
+		
+		if (options.text) {
+			this.video.attr("poster", options.text);
+		}
+		
 		var src = $("<source>").attr( { src: options.image, type: "video/mp4" } );
 		this.video.append(src);
 		

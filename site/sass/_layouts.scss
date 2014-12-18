@@ -904,8 +904,8 @@ body {
 	iframe {
 		display: block;
 		margin: 0 auto;
-		transform-origin: 50% 0;
-		-webkit-transform-origin: 50% 0;
+		transform-origin: 0 0;
+		-webkit-transform-origin: 0 0;
 		padding: 10px;
 		background-color: $interactive-color;
 		box-sizing: content-box;

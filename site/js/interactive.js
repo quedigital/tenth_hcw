@@ -122,5 +122,9 @@ define([], function () {
 		}, 500);
 	}
 	
+	Interactive.prototype.unload = function () {
+		this.contents.remove();
+	}
+	
 	return Interactive;
 });

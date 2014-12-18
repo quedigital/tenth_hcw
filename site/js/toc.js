@@ -79,7 +79,10 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager } );
 		
 			$("#toggler").click($.proxy(this.onClickToggler, this));
-			this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+			// use click, not hover, on ipad (so it doesn't complicate the clicking of other items; ie 2 clicks for some things)
+			if (!Helpers.isTouchEnabled()) {
+				this.element.hover($.proxy(this.openToggler, this), $.proxy(this.closeToggler, this));
+			}
 		
 			$("#menu-button").click($.proxy(this.onClickMenuButton, this));
 			$(".menuCloser").click($.proxy(this.onCloseMenu, this));
@@ -91,7 +94,7 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			$("#search-button").click($.proxy(showSearchWindow, this, { type: "text" } ));
 			$("#keyword-button").click($.proxy(showSearchWindow, this, { type: "keyword" } ));
 			
-			$('[title != ""]').qtip({ position: { viewport: $(window) } });
+			$('[title != ""]').qtip({ position: { viewport: $("#toc-container"), adjust: { method: "shift" } } });
 
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
@@ -357,6 +360,19 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 				
 			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
 		},
+
+		close: function (options) {
+			this.element.stop();
+		
+			if (options && options.instant)
+				this.element.css("left", -this.element.width());
+			else
+				this.element.animate( { left: -this.element.width() }, 500 );
+				
+			$("#toggler i").removeClass("fa-chevron-circle-left").addClass("fa-chevron-circle-right");
+		
+			this.closeMenus();
+		},
 		
 		openImmediate: function () {
 			this.element.stop();
@@ -364,7 +380,7 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			this.element.css({ left: 0 });
 			$("#toggler i").removeClass("fa-chevron-circle-right").addClass("fa-chevron-circle-left");		
 		},
-	
+		
 		onClickMenuButton: function (event) {
 			if (!$("#menu").is(":visible")) {
 				$("#favorites-widget").Favorites("refresh");

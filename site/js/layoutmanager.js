@@ -29,6 +29,10 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.clearSpreads = function () {
+		$.each(this.layoutArray, function (index, element) {
+			this.unload();
+		});
+	
 		$(".layout").remove();
 		$(".banner").remove();
 		this.layoutArray = [];

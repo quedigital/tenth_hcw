@@ -218,6 +218,17 @@
 											<label for="inputURL">Video</label>
 											<input id="inputURL" data-bind="value: image" type="text"/>
 										</div>
+										<div class="section group">
+											<div class="col span_2_of_4">
+												<label for="inputID">Thumbnail</label>
+												<input data-bind="value: text" type="text"></input>
+											</div>
+											<div class="col span_2_of_4">
+												<div class="thumbnail" data-bind="visible: text">
+													<img data-bind="attr: { src: '../../' + text() }"/>
+												</div>
+											</div>
+										</div>
 									</div>
 									<div id="image_group" class="section group">
 										<div data-bind="if:type()=='step' || type()=='sidebar' || type()=='image' || type()=='text'">

@@ -97,6 +97,12 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 	Layout.prototype.reflow = function () {
 	}
 	
+	Layout.prototype.unload = function () {
+		$.each(this.elements, function (index, element) {
+			if (this.unload) this.unload();
+		});
+	}
+	
 	Layout.prototype.makeSureElementIsOnScreen = function (element, scroller, optional) {
 		var wt = element.offset().top;
 		
