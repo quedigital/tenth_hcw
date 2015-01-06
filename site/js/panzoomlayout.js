@@ -92,17 +92,19 @@ define(["Layout",
 		
 		var ch = $("#content-holder");
 		var padding = ch.outerWidth() - ch.width();
-		
-		if (image_w / image_h < w / h) {
-			this.img.height(h - padding);
-		} else {
-			this.img.width(w - padding);
-		}
 
 		// don't make us too tall (especially in portrait mode)
 		var desired_h = Math.min(h - padding, window.innerHeight * .75);
 		
 		this.image_holder.height(desired_h);
+		
+		if (image_w / image_h < w / h) {
+			this.img.height(desired_h);
+			this.img.width("auto");
+		} else {
+			this.img.width(w - padding);
+			this.img.height("auto");
+		}
 	}
 	
 	PanZoomLayout.prototype.onImagesLoaded = function () {

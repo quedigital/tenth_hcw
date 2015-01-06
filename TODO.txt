@@ -1,22 +1,24 @@
 
 
-// TODO: cellphone interactive in iframe suspends javascript during drag? [but lcd doesn't seem to]
-
-// TODO: on ipad, selecting spread from search result doesn't close toc
-
-// TODO: on ipad, search window opens, shows keyboard, then hides it
-
-// TODO: panzoom 18_4 is sometimes blurry on Safari when zoomed
-
-// TODO: video in other formats?
-
 // TODO: finish new interactives
 
-// TODO: flesh out help system steps, like a spread itself [Kylie?]
+// TODO: flesh out help system steps, like a spread itself
 
 // TODO: add keywords for all spreads
 
 // TODO: add glossary definitions for all terms in text
+
+// TODO: "line-height" garbage text is BACK! Remove it.
+
+// TODO: cross-reference any "See chapter" links
+
+// TODO: put step # in panzoom text box?
+
+// TODO: secure Firebase host without breaking ratings and comments storage
+
+// TODO: panzoom 18_4 is sometimes blurry on Safari when zoomed
+
+// TODO: video in other formats?
 
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
@@ -26,12 +28,6 @@
 // TODO: BUG: window resize isn't always correctly compensated for by pan&zoom layouts
 
 // TODO: replace search area with: search button, favorites button, popular button, keyword button, random button
-
-// TODO: "line-height" garbage text is BACK! Remove it.
-
-// TODO: cross-reference any "See chapter" links
-
-// TODO: put step # in panzoom text box?
 
 // TODO: don't load big images in the banner ad (or use thumbnails or designated images)
 
@@ -63,8 +59,6 @@
 // TODO: check styling of sidebars: are they consistent in the book? do ours match?
 
 // TODO: adjust grid step image's margin and padding based on alignment (ex: 1_1 #6, move image to top, class "align-L")
-
-// TODO: security for Firebase data?
 
 // TODO: for interactives, how often (and why?) are they reloaded?
 // TODO: also, they seem to be loaded twice when they're embedded
@@ -432,3 +426,8 @@
 // TODONT: does qtip make it so you have to tap buttons twice on the ipad?? [yes; "hover" issue; feature?]
 // DONE: .interactive-contents hang around after layout is removed?
 // DONE: tour "begin" button requires two clicks on iPad [:hover problem with toc? or qtip window target problem?]
+// DONE: panzoom scaling still was not quite right for all image ratios
+// DONE: panzoom images don't resize with window? [width/height "auto" problem]
+// TODONT: cellphone interactive [18_5] in iframe suspends javascript during drag? [but lcd doesn't seem to; I think cellphone code is just slow]
+// TODONT: on ipad, search window opens, shows keyboard, then hides it [tricky iOS situation, not worth the trouble]
+// DONE: on ipad, selecting spread from search result doesn't close toc [close toc when search window opens]

@@ -1,6 +1,8 @@
 define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, Database) {
 
 	function showSearchWindow (options) {
+		this.close();
+		
 		$("#search-window").SearchWindow("option", options);
 		$("#search-window").SearchWindow("show");
 	}
