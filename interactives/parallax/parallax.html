@@ -7,10 +7,160 @@
     <style type="text/css">
         body {
             margin: 0;
+            font-family: sans-serif;
         }
+
+        #page {
+            width: 1000px;
+            height: 580px;
+            background-color: #87c3ff;
+        }
+
+        #scene-holder {
+            width: 600px;
+            height: 400px;
+            background-color: #dddcd2;
+            overflow: hidden;
+        }
+
+        #scene {
+            transform: scale(.4);
+            position: relative;
+        }
+
+        .pane {
+            display: block;
+            -webkit-transform: perspective(600px) rotateX(-70deg);
+            position: absolute;
+            left: -180px;
+        }
+
+        #street {
+            top: -108px;
+            left: -450px;
+        }
+
+        #road {
+            background-color: #686577;
+            width: 900px;
+            height: 130px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #counter {
+            top: 80px;
+            left: -200px;
+        }
+
+        #table {
+            top: 350px;
+            left: -200px;
+        }
+
+        #barista {
+            top: 600px;
+            left: -380px;
+        }
+
+        #eye-layer {
+            width: 900px;
+            height: 180px;
+            background-color: blue;
+            position: relative;
+        }
+
+        #eyes {
+            display: block;
+            position: absolute;
+            top: -362px;
+            left: 140px;
+        }
+
+        .result {
+            width: 400px;
+            height: 290px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result .label {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding-bottom: 10px;
+            color: white;
+        }
+
+        #left-eye {
+            position: absolute;
+            top: 0;
+            left: 600px;
+            background-color: orange;
+        }
+
+        .barista {
+            top: -10px;
+        }
+
+        .table {
+            top: -10px;
+        }
+
+        .counter {
+            top: -35px;
+        }
+
+        .street {
+            top: -35px;
+        }
+
+        #right-eye {
+            position: absolute;
+            top: 290px;
+            left: 600px;
+            background-color: green;
+        }
+
+        .result .layer {
+            position: absolute;
+            transform: scale(.85);
+        }
+
     </style>
 </head>
 <body>
+
+<div id="page">
+    <div id="scene-holder">
+        <div id="road"></div>
+        <div id="scene">
+            <img class="pane" id="street" src="parallax1.png"/>
+            <img class="pane" id="counter" src="parallax2.png"/>
+            <img class="pane" id="table" src="parallax3.png"/>
+            <img class="pane" id="barista" src="parallax4.png"/>
+        </div>
+    </div>
+    <div id="eye-layer">
+        <img id="eyes" src="eyes.png"/>
+    </div>
+    <div class="result" id="left-eye">
+        <img class="layer street" src="parallax1.png"/>
+        <img class="layer counter" src="parallax2.png"/>
+        <img class="layer table" src="parallax3.png"/>
+        <img class="layer barista" src="parallax4.png"/>
+        <span class="label">Left eye sees</span>
+    </div>
+    <div class="result" id="right-eye">
+        <img class="layer street" src="parallax1.png"/>
+        <img class="layer counter" src="parallax2.png"/>
+        <img class="layer table" src="parallax3.png"/>
+        <img class="layer barista" src="parallax4.png"/>
+        <span class="label">Right eye sees</span>
+    </div>
+</div>
 
 </body>
 </html>
