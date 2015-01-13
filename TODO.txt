@@ -18,8 +18,6 @@
 
 // TODO: panzoom 18_4 is sometimes blurry on Safari when zoomed
 
-// TODO: video in other formats?
-
 // TODO: investigate/fix/replace svg images that don't work on iPad [1_1, 1_2]
 
 // TODO: browser detection notice
@@ -431,3 +429,6 @@
 // TODONT: cellphone interactive [18_5] in iframe suspends javascript during drag? [but lcd doesn't seem to; I think cellphone code is just slow]
 // TODONT: on ipad, search window opens, shows keyboard, then hides it [tricky iOS situation, not worth the trouble]
 // DONE: on ipad, selecting spread from search result doesn't close toc [close toc when search window opens]
+// DONE: [2_1] video in other formats? [all mp4?]
+// DONE: ignore Google Analytics for host hcw10.firebaseapp.com
+// DONE: add parallax interactive

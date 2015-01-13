@@ -19,24 +19,25 @@
         #scene-holder {
             width: 600px;
             height: 400px;
-            background-color: #dddcd2;
+            background-color: #909087;
             overflow: hidden;
         }
 
         #scene {
+            -webkit-transform: scale(.4);
             transform: scale(.4);
             position: relative;
         }
 
         .pane {
             display: block;
-            -webkit-transform: perspective(600px) rotateX(-70deg);
+            -webkit-transform: perspective(600px) rotateX(-20deg);
             position: absolute;
             left: -180px;
         }
 
         #street {
-            top: -108px;
+            top: 0px;
             left: -450px;
         }
 
@@ -51,7 +52,7 @@
 
         #counter {
             top: 80px;
-            left: -200px;
+            left: -700px;
         }
 
         #table {
@@ -65,9 +66,8 @@
         }
 
         #eye-layer {
-            width: 900px;
+            width: 600px;
             height: 180px;
-            background-color: blue;
             position: relative;
         }
 
@@ -79,26 +79,36 @@
         }
 
         .result {
+            box-sizing: border-box;
             width: 400px;
             height: 290px;
             position: relative;
             overflow: hidden;
+            border: 5px solid #2b3f52;
         }
 
         .result .label {
             position: absolute;
-            bottom: 0;
+            top: 0;
             width: 100%;
             text-align: center;
-            padding-bottom: 10px;
+        }
+
+        .result .label span {
+            display: inline-block;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px black;
             color: white;
+            background-color: rgba(43, 63, 82, .6);
+            padding: 5px 10px;
+
         }
 
         #left-eye {
             position: absolute;
             top: 0;
             left: 600px;
-            background-color: orange;
+            background-color: #909087;
         }
 
         .barista {
@@ -121,12 +131,29 @@
             position: absolute;
             top: 290px;
             left: 600px;
-            background-color: green;
+            background-color: #909087;
+            border-top: none;
         }
 
         .result .layer {
             position: absolute;
+            -webkit-transform: scale(.85);
             transform: scale(.85);
+        }
+
+        .eye-label {
+            position: absolute;
+            height: 2em;
+            line-height: 2em;
+            bottom: 0;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            background-color: #2b3f52;
+            width: 100%;
+            display: block;
+            padding: 0;
+            margin: 0;
         }
 
     </style>
@@ -145,20 +172,21 @@
     </div>
     <div id="eye-layer">
         <img id="eyes" src="eyes.png"/>
+        <p class="eye-label">Hover your mouse over the eyes to see the parallax effect.</p>
     </div>
     <div class="result" id="left-eye">
         <img class="layer street" src="parallax1.png"/>
         <img class="layer counter" src="parallax2.png"/>
         <img class="layer table" src="parallax3.png"/>
         <img class="layer barista" src="parallax4.png"/>
-        <span class="label">Left eye sees</span>
+        <div class="label"><span>Left eye sees:</span></div>
     </div>
     <div class="result" id="right-eye">
         <img class="layer street" src="parallax1.png"/>
         <img class="layer counter" src="parallax2.png"/>
         <img class="layer table" src="parallax3.png"/>
         <img class="layer barista" src="parallax4.png"/>
-        <span class="label">Right eye sees</span>
+        <div class="label"><span>Right eye sees:</span></div>
     </div>
 </div>
 

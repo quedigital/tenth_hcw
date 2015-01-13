@@ -336,6 +336,10 @@ define(["jquery"], function ($) {
 			}
 		}
 	}
+
+	function onHost (url) {
+		return (window.location.hostname == url);
+	}
 	
 	var Helpers = {
 		findByID: findByID,
@@ -354,7 +358,8 @@ define(["jquery"], function ($) {
 		animateCanvasPath: animateCanvasPath,
 		drawCanvasPath: drawCanvasPath,
 		isTouchEnabled: isTouchEnabled,
-		getAllGlossaryTerms: getAllGlossaryTerms
+		getAllGlossaryTerms: getAllGlossaryTerms,
+		onHost: onHost
 	};
 	
 	return Helpers;

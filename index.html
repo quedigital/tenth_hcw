@@ -27,8 +27,10 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-48406787-3', 'auto');
-  ga('send', 'pageview');
+	if (window.location.hostname != "hcw10.firebaseapp.com") {
+		ga('create', 'UA-48406787-3', 'auto');
+		ga('send', 'pageview');
+	}
 
 function breakout_of_frame () {
 	if (top.location != location) {
@@ -164,7 +166,7 @@ function breakout_of_frame () {
 			</div>
 			<div class="commentEntry">
 				<p>Your Name: <span>(optional)</span></p>
-				<input type="text" id="name"></input>
+				<input type="text" id="name"/>
 				<p>Comment:</p>
 				<textarea id="comment"></textarea>
 				<button id="send-button">Send</button><button id="cancel-button">Cancel</button>

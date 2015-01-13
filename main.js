@@ -46,7 +46,7 @@ requirejs.config({
 	
 	shim: {
 			"jquery": {
-				export: "$",
+				export: "$"
 			},
 			"jqueryui": {
 				export: "$" ,
@@ -97,16 +97,16 @@ requirejs.config({
 			},
 			"Hammer": {
 				export: "Hammer"
-			},
+			}
 		}
 });
 
 require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery", "jqueryui", "SearchWindow"], function (LayoutManager, TOC, Helpers, Database, SearchManager) {
 	var params = window.location.search.substring(1);
-	if (params == "local") {
-		$.getJSON("export.json", null, onData);
-	} else {
+	if (params == "remote") {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
+	} else {
+		$.getJSON("export.json", null, onData);
 	}
 	
 	var hashID = window.location.hash;
@@ -165,10 +165,12 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	
 	function onOpenSpread (event, options) {
 		if (options.active) {
-			var href = window.location.search + "#" + options.id;
-			history.pushState( { id: options.id }, "", href );
-			
-			ga('send', 'pageview', { page: '/' + options.id, title: options.title });
+			if (!Helpers.onHost("hcw10.firebaseapp.com")) {
+				var href = window.location.search + "#" + options.id;
+				history.pushState({id: options.id}, "", href);
+
+				ga('send', 'pageview', {page: '/' + options.id, title: options.title});
+			}
 		}
 	}
 	
