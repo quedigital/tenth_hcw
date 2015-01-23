@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="UTF-8">
+	<title>Compression</title>
+
+    <link rel="stylesheet" type="text/css" href="../../site/css/animate.css"/>
+    <link rel="stylesheet" type="text/css" href="../common/css/jquery-tourbus.min.css"/>
+
+    <script data-main="compression" src="../../common/js/require.js"></script>
+
+	<style type="text/css">
+		body {
+			margin: 0;
+			font-family: sans-serif;
+		}
+
+		#page {
+			width: 600px;
+			height: 600px;
+			background: url(assets/word_bg.png) 50% 50% no-repeat;
+            position: relative;
+		}
+
+        #game-widget {
+            position: absolute;
+            top: 110px;
+            left: 43px;
+            right: 48px;
+            height: 300px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .word {
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .letter {
+            display: inline-block;
+            width: 32px;
+            height: 50px;
+            box-sizing: content-box;
+            line-height: 50px;
+            text-align: center;
+            font-weight: bold;
+            margin: 0 1px 0 1px;
+            position: relative;
+        }
+
+        #game-widget .letter:not(.compressed) {
+            cursor: pointer;
+        }
+
+        .letter:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url(assets/tile.png) no-repeat;
+            background-size: cover;
+        }
+
+        .letter span.char {
+            display: inline-block;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        #game-widget .letter:not(.compressed):hover:before {
+            background: rgba(255, 255, 55, 1);
+        }
+
+        #game-widget .letter:not(.compressed):hover span.char {
+            color: #87c3ff;
+        }
+
+        .letter.selected:before {
+            background: rgb(153, 255, 169);
+        }
+
+        .letter.selected:before {
+            border-bottom: 5px solid green;
+        }
+
+        #game-widget .letter.compressed:before, .letter.selected:before {
+            opacity: .25;
+        }
+
+        .letter.compressed:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 36px;
+            height: 4px;
+            left: -2px;
+            bottom: -5px;
+        }
+
+        .orange:after {
+            background-color: orange;
+        }
+
+        .blue:after {
+            background-color: blue;
+        }
+
+        .red:after {
+            background-color: red;
+        }
+
+        .green:after {
+            background-color: green;
+        }
+
+        .purple:after {
+            background-color: purple;
+        }
+
+        .aqua:after {
+            background-color: aqua;
+        }
+
+        .gray:after {
+            background-color: gray;
+        }
+
+        .letter.selected span.char {
+            color: #E836A9;
+        }
+
+        #game-widget .letter.compressed span.char {
+            color: gray;
+            font-size: 30px;
+        }
+
+        #dictionary {
+            position: absolute;
+            top: 410px;
+            background-color: rgb(139, 153, 210);
+            border-top: 1px solid rgb(81, 91, 158);
+            box-sizing: border-box;
+            height: 190px;
+            left: 39px;
+            right: 44px;
+            padding-top: 20px;
+        }
+
+        #btnPattern {
+            position: absolute;
+            top: 44px;
+            left: 136px;
+            width: 248px;
+            height: 38px;
+            background: rgba(255, 255, 0, .3);
+            display: none;
+        }
+
+        #btnCompress {
+            position: absolute;
+            top: 48px;
+            left: 400px;
+            height: 30px;
+        }
+
+        #lblPattern {
+            position: absolute;
+            top: 45px;
+            right: 470px;
+            font-weight: bold;
+        }
+
+        #curPattern {
+            position: absolute;
+            text-decoration: underline;
+            top: 42px;
+            left: 144px;
+            font-weight: bold;
+            font-size: 32px;
+            color: rgb(132, 143, 221);
+            pointer-events: none;
+            letter-spacing: 3px;
+            width: 159px;
+            height: 40px;
+        }
+
+        #groupTotal {
+            float: left;
+            padding-left: 10px;
+            padding-top: 8px;
+        }
+
+        #groupTarget {
+            float: left;
+            padding-left: 10px;
+            margin-left: 10px;
+            padding-top: 8px;
+            border-left: 1px solid black;
+            height: 42px;
+        }
+
+        #lblCompressionTotal, #lblCompressionTarget {
+            font-weight: bold;
+            vertical-align: baseline;
+            font-size: 18px;
+            text-shadow: 2px 2px 4px rgb(138, 155, 145);
+        }
+
+        #curCompressionTotal, #curCompressionTarget {
+            font-weight: bold;
+            font-size: 26px;
+            color: blue;
+            vertical-align: baseline;
+            padding-left: 10px;
+            color: white;
+            text-shadow: 2px 2px 4px black;
+        }
+
+        #curCompressionTarget {
+            color: white;
+            background-color: black;
+            border-radius: 20px;
+            display: inline-block;
+            text-shadow: none;
+            padding: 0 10px;
+        }
+
+        #dictionary .word {
+            margin-right: 20px;
+            margin-top: 2px;
+            margin-bottom: 0;
+        }
+
+        #dictionary .letter span {
+            color: rgb(50, 108, 50);
+        }
+
+        #btnRestart {
+            font-size: 14px;
+            height: 40px;
+            float: right;
+            margin-right: 5px;
+            margin-top: 5px;
+        }
+
+        #bottomBar {
+            position: absolute;
+            bottom: 0;
+            height: 50px;
+            left: 39px;
+            right: 44px;
+            background-color: rgb(161, 197, 155);
+        }
+
+        .lblCaption {
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            font-size: 14px;
+            font-weight: bold;
+            color: rgb(65, 67, 113);
+        }
+
+        .lblRightCaption {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            color: rgb(161, 197, 155);
+        }
+
+        button {
+            outline: none;
+            border-radius: 10px;
+        }
+
+        button:enabled {
+            cursor: pointer;
+        }
+
+        button:enabled:hover {
+            background-color: #AFCAE9;
+        }
+
+        .tourbus-leg {
+            box-shadow: 3px 3px 14px black;
+            border-radius: 8px;
+        }
+
+        .tour-cancel {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.25em;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .tour-cancel:hover {
+            color: black;
+        }
+
+        .tourbus-arrow-bottom:after {
+            border-bottom-color: #eeeeee;
+        }
+
+        .tourbus-arrow-bottom:before {
+            border-bottom-color: #eeeeee;
+        }
+
+        a.tourbus-next, a.button.tourbus-stop {
+            background-color: #55a892;
+            color: white;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            font-size: .8em;
+            padding: .75em 2em;
+            vertical-align: middle;
+            cursor: pointer;
+        }
+
+        a.button.tourbus-stop {
+            background-color: #171255;
+        }
+
+        .tourbus-leg-inner {
+            padding: 0;
+        }
+
+        .tourbus-leg-main {
+            padding: 20px;
+        }
+
+        .tourbus-leg-main p {
+            margin: 0;
+            line-height: 1.4em;
+        }
+
+        .tourbus-buttons {
+            text-align: right;
+            margin-top: 2em;
+        }
+
+        .tourbus-leg header {
+            background-color: #eeeeee;
+            padding: 1em;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .tourbus-leg header:after {
+            clear: both;
+            content: "";
+            display: block;
+        }
+
+        .tourbus-leg h3 {
+            float: left;
+            text-transform: uppercase;
+            font-weight: 100;
+            margin-bottom: 0;
+        }
+
+        #lblLevel {
+            font-size: 12px;
+            position: absolute;
+            top: 26px;
+            left: 88px;
+            width: 94px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .star {
+            position: absolute;
+            margin: -13px 0 0 -13px;
+        }
+
+        #btnHelp {
+            position: absolute;
+            font-weight: bold;
+            top: 6px;
+            right: 24px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="page">
+    <span id="lblLevel">Level 1 of 3</span>
+    <div id="btnPattern"></div>
+    <span id="lblPattern">Selected<br/>Pattern:</span>
+    <span id="curPattern"></span>
+    <button id="btnCompress">Compress</button>
+    <div id="game-widget">
+        <div class="lblCaption">Document <span id="byteCount"></span></div>
+        <span id="document-bytes" class="lblRightCaption">0 bytes</span>
+    </div>
+    <div id="dictionary">
+        <span class="lblCaption">Dictionary</span>
+        <span id="dictionary-bytes" class="lblRightCaption">0 bytes</span>
+    </div>
+    <div id="bottomBar">
+        <div id="groupTotal">
+            <span id="lblCompressionTotal">Compression:</span>
+            <span id="curCompressionTotal">0%</span>
+        </div>
+        <div id="groupTarget">
+            <span id="lblCompressionTarget">Target:</span>
+            <span id="curCompressionTarget"></span>
+        </div>
+        <button id="btnRestart">Start Over</button>
+    </div>
+    <button id="btnHelp" class="button">?</button>
+</div>
+
+<ol class='tourbus-legs' id='my-tour-id'>
+    <li data-el="#page" data-orientation='centered' data-width="300">
+        <header>
+            <h3>Dictionary-based Compression</h3>
+            <a class="tour-cancel tourbus-stop">✕</a>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Shrink this file!</p>
+            <div class="tourbus-buttons">
+                <a class='tourbus-next'>Learn How</a>
+            </div>
+        </div>
+    </li>
+
+    <li data-el='#game-widget .letter' data-orientation='bottom' data-width="300" data-arrow='25'>
+        <header>
+            <h3>Pick a letter, any letter</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Click on the letters one by one to find and match <strong>patterns</strong> in the document.</p>
+            <div class="tourbus-buttons">
+                <a class='tourbus-next'>Next</a>
+            </div>
+        </div>
+    </li>
+
+    <li data-el='#curPattern' data-orientation='bottom' data-align="center" data-width='300'>
+        <header>
+            <h3>Find the patterns</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Try to find the longest, most common patterns.</p>
+            <div class="tourbus-buttons">
+                <a class='tourbus-next'>Next</a>
+            </div>
+        </div>
+    </li>
+
+    <li data-el='#btnCompress' data-orientation='bottom' data-align="center" data-width='250'>
+        <header>
+            <h3>Compress!</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Click the <strong>Compress</strong> button when you think you have a good pattern.</p>
+            <div class="tourbus-buttons">
+                <a class='tourbus-next'>Next</a>
+            </div>
+        </div>
+    </li>
+
+    <li data-el='#dictionary' data-orientation='top' data-align="center" data-width='250'>
+        <header>
+            <h3>Store it away</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Your patterns get stored in the dictionary. And that saves space in your document.</p>
+            <div class="tourbus-buttons">
+                <a class='tourbus-next'>Next</a>
+            </div>
+        </div>
+    </li>
+
+    <li data-el='#curCompressionTarget' data-orientation='top' data-align="center" data-width='250'>
+        <header>
+            <h3>How to win:</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Move to the next level by reaching the target compression.</p>
+            <div class="tourbus-buttons">
+                <a class='button tourbus-stop'>Ready</a>
+            </div>
+        </div>
+    </li>
+</ol>
+
+<ol class='tourbus-legs' id='level-complete-id'>
+    <li data-el="#page" data-orientation='centered' data-width="300">
+        <header>
+            <h3>title</h3>
+        </header>
+        <div class="tourbus-leg-main">
+            <p>Text</p>
+            <div class="tourbus-buttons">
+                <a id="confirm" class='button tourbus-stop'>Button</a>
+            </div>
+        </div>
+    </li>
+</ol>
+
+<img class="hidden" src="assets/star.png"/>
+
+</body>
+</html>

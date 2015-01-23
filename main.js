@@ -106,7 +106,8 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	if (params == "remote") {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
 	} else {
-		$.getJSON("export.json", null, onData);
+		$.getJSON("https://s3.amazonaws.com/HCW10/hcw.json", null, onData);
+//		$.getJSON("export.json", null, onData);
 	}
 	
 	var hashID = window.location.hash;

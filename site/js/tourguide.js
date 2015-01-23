@@ -105,7 +105,9 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 		
 		hideLastPopup: function () {
-			var popup = this.options.tour[this.step - 1].popup;
+			var step = this.step > 0 ? this.step - 1 : 0;
+
+			var popup = this.options.tour[step].popup;
 			if (popup) {
 				var api = popup.qtip("api");
 				if (api) {

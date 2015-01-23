@@ -181,7 +181,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		var headers = this.dom.find(".spread");
 		$.each(headers, function (index, item) {
 			var it = $(item);
-			if (it.offset().top + it.height() > t + h * .4) {
+			// THEORY: when the bottom of a spread goes above the top 10% of the screen, it's no longer current
+			if (it.offset().top + it.height() > t + h * .1) {
 				var layout = it.parents(".layout");
 				var id = layout.attr("id");
 				if (me.currentID != id) {

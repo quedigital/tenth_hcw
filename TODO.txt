@@ -1,5 +1,4 @@
 
-
 // TODO: finish new interactives
 
 // TODO: flesh out help system steps, like a spread itself
@@ -432,3 +431,4 @@
 // DONE: [2_1] video in other formats? [all mp4?]
 // DONE: ignore Google Analytics for host hcw10.firebaseapp.com
 // DONE: add parallax interactive
+// DONE: the ratings box seems to appear & disappear incorrectly [changed to top .1 of page]
