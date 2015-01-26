@@ -41,7 +41,8 @@ requirejs.config({
 		"lunr": "lunr.min",
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
 		"Hammer": "hammer.min",
-		"SearchWindow": "searchwindow"
+		"SearchWindow": "searchwindow",
+		"hcwData": "../hcwData"
 	},
 	
 	shim: {
@@ -106,8 +107,9 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	if (params == "remote") {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
 	} else {
-		$.getJSON("https://s3.amazonaws.com/HCW10/hcw.json", null, onData);
-//		$.getJSON("export.json", null, onData);
+		require(["hcwData"], function (hcwData) {
+			onData(hcwData);
+		});
 	}
 	
 	var hashID = window.location.hash;
@@ -122,6 +124,8 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	var searchManager = new SearchManager();
 	
 	$("#search-window").SearchWindow( { searchManager: searchManager } );
+
+	$(window).on("trackedevent", onTrackedEvent);
 	
 	function onData (data, status, jqXHR) {
 		layoutManager.setData(data.layouts, data.contents);
@@ -183,6 +187,11 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	function onPopState (event) {
 		if (event.state && event.state.id)
 			$("#toc-container").TOC("openSpread", { id: event.state.id, replace: true });		
+	}
+
+	function onTrackedEvent (event, data) {
+		console.log("tracked event");
+		ga('send', 'event', data.category, data.action, data.label);
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

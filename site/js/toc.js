@@ -401,6 +401,8 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			$("#news").toggle("slide", { direction: "up" });
 			this.element.find("#menu").hide("slide", { direction: "up" });
 			this.element.find("#help-menu").hide("slide", { direction: "up" });
+
+			this.element.trigger("trackedevent", { category: "button", action: "click", label: "news" });
 		},
 	
 		closeMenus: function () {

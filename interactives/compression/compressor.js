@@ -402,7 +402,7 @@ define(["jquery.ui.widget", "letter", "star"], function () {
 					break;
 			}
 
-			this._trigger("levelcomplete");
+			this._trigger("levelcomplete", null, { level: this.currentLevel });
 		},
 
 		launchStar: function (index) {
