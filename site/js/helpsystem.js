@@ -68,6 +68,9 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				
 			if (this.options.tourLink)
 				$(this.options.tourLink).click($.proxy(this.beginGuidedTour, this));
+
+	        if (this.options.newsLink)
+	            $(this.options.newsLink).click($.proxy(this.showNews, this));
         },
 
         showManual: function () {
@@ -85,5 +88,9 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			var guide = $("body").TourGuide({ tour: tour, skipButton: true, finishedButtonCaption: "Let's Go!" });
 			guide.TourGuide("beginTour");
         },
+
+	    showNews: function () {
+		    $("#toc-container").TOC("onClickNewsButton");
+	    }
     });
 });

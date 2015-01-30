@@ -186,7 +186,7 @@ define(["jquery"], function ($) {
 		var text = node.text();
 		var words = text.split(" ", numWords);
 		for (var i = 0; i < words.length; i++) {
-			if (words[i].indexOf(":") != -1) {
+			if (words[i].indexOf(":") != -1 || words[i].indexOf(".") != -1) {
 				words = words.slice(0, i + 1);
 				break;
 			}

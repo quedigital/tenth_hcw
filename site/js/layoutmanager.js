@@ -150,7 +150,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.onScroll = function (event) {
-		var scrollTop = Math.floor($("body").scrollTop());
+		// NOTE: firefox $("body").scrollTop() didn't match, so switched to $(window)
+		var scrollTop = Math.floor($(window).scrollTop());
 		var sh = Math.floor($("body").height());
 		var h = Math.floor(window.innerHeight);
 		
@@ -172,7 +173,8 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.identifyCurrentSpread = function () {
-		var t = $("body").scrollTop();
+		// NOTE: switched $("body") to $(window)
+		var t = $(window).scrollTop();
 		
 		var h = window.innerHeight;
 		

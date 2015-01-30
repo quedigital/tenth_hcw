@@ -1,5 +1,5 @@
 
-// TODO: finish new interactives
+// TODO: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds
 
 // TODO: flesh out help system steps, like a spread itself
 
@@ -10,6 +10,10 @@
 // TODO: "line-height" garbage text is BACK! Remove it.
 
 // TODO: cross-reference any "See chapter" links
+
+// TODO: too many banner ads opening on initial open [reproducible? seems worse in Firefox]
+
+// TODO: finish new interactives
 
 // TODO: put step # in panzoom text box?
 
@@ -432,3 +436,12 @@
 // DONE: ignore Google Analytics for host hcw10.firebaseapp.com
 // DONE: add parallax interactive
 // DONE: the ratings box seems to appear & disappear incorrectly [changed to top .1 of page]
+// DONE: Firefox doesn't have continuous scroll and loads a bunch of spreads at the wrong time [changed $("body").scrollTop => $(window).scrollTop]
+// DONE: stop intro capitalization if a "." is encountered [20_2]
+// DONE: add a button to see all news items
+// DONE: fonts on some interactives are not sans on windows [LCD, cellphone, writing to RAM, multicore, flowchart, image compression]
+// DONE: interactive needs to not have scrollbars on windows [writing to RAM]
+// DONE: search window doesn't need scrollbar for search area [chrome for windows]
+// DONE: Firefox [1_1] interactive isn't sized to fit [fixed with Firefox 35 > 16]
+// DONE: Firefox [1_2] callout is in side margins (!) [DIV needed width to be positioned correctly]
+// DONE: Firewall animated port door doesn't work [CORS restriction]

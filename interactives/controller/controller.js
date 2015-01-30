@@ -1,16 +1,17 @@
 requirejs.config({
 	baseUrl: "js",
 	paths: {
-		"Phaser": "../../common/js/phaser",
+		"Phaser": "../../common/js/phaser.min",
 		"FakeButton": "fakebutton",
 		"MultiSprite": "multisprite",
+		"imagesLoaded": "../../../site/js/imagesloaded.pkgd.min"
 	},
 	
 	shim: {
 	},
 });
 
-require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, MultiSprite) {
+require(["Phaser", "FakeButton", "MultiSprite", "imagesLoaded"], function (Phaser, FakeButton, MultiSprite, imagesLoaded) {
 	var DEBUG = false;
 	
 	var GameState = function (game) {
@@ -52,6 +53,14 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.sprite.bringToTop();
 		this.sprite.play("animation", 18, false);
 	}
+
+	function getPIXITexture (id) {
+		var img, base, texture;
+
+		img = document.getElementById(id), base = new PIXI.BaseTexture(img), texture = new PIXI.Texture(base);
+
+		return texture;
+	}
 	
 	// Setup the example
 	GameState.prototype.create = function () {
@@ -65,7 +74,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 		this.group1 = group1;
 		group1.y = 150;
 		
-		this.controller = new Phaser.Sprite(this.game, this.game.world.centerX, this.game.world.centerY, "controller");
+		this.controller = new Phaser.Sprite(this.game, this.game.world.centerX, this.game.world.centerY, getPIXITexture("controller"));
 		this.controller.anchor.set(.5, .5);
 		group1.add(this.controller);
 		
@@ -234,7 +243,7 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 	GameState.prototype.doShake = function () {
 		var x = this.group1.x, y = this.group1.y;
 		
-		var tween = game.add.tween(this.group1)
+		var tween = this.game.add.tween(this.group1)
 			.to({ x: x + 3, y: y + 3 }, 20, Phaser.Easing.Linear.None)
 			.to({ x: x + 6, y: y }, 20, Phaser.Easing.Linear.None)
 			.to({ x: x + 3, y: y }, 20, Phaser.Easing.Linear.None)
@@ -248,8 +257,12 @@ require(["Phaser", "FakeButton", "MultiSprite"], function (Phaser, FakeButton, M
 			.to({ x: x + 3, y: y }, 20, Phaser.Easing.Linear.None)
 			.to({ x: x, y: y }, 20, Phaser.Easing.Linear.None)
 			.start();
-	}	
-	
-	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
-	game.state.add('game', GameState, true);	
+	}
+
+	imagesLoaded(document.body, initialize);
+
+	function initialize () {
+		var game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game');
+		game.state.add('game', GameState, true);
+	}
 });

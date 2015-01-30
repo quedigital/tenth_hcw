@@ -76,7 +76,8 @@ body {
 
 		.callout-line-target {
 			position: absolute;
-		}	
+			width: 1px;
+		}
 	}
 
 	.callout-line {
@@ -2765,7 +2766,7 @@ div.blocker {
 	}
 	
 	.spread-results {
-		overflow: scroll;
+		overflow: hidden;
 		-webkit-overflow-scrolling: auto;
 		
 		.spread-scroller {

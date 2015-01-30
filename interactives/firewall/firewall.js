@@ -5,17 +5,26 @@ requirejs.config({
 		"PacketManager": "packetmanager",
 		"Scorer": "scorer",
 		"Packet": "packet",
+		"imagesLoaded": "../../../site/js/imagesloaded.pkgd.min"
 	},
 	
 	shim: {
 	},
 });
 
-require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, Scorer) {
+require(["Phaser", "PacketManager", "Scorer", "imagesLoaded"], function (Phaser, PacketManager, Scorer, imagesLoaded) {
 	var DEBUG = false;
 	
 	var MISSES_UNTIL_GAME_OVER = 3;
-	
+
+	function getPIXITexture (id) {
+		var img, base, texture;
+
+		img = document.getElementById(id), base = new PIXI.BaseTexture(img), texture = new PIXI.Texture(base);
+
+		return texture;
+	}
+
 	var GameState = function (game) {
 	};
 
@@ -23,7 +32,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 	GameState.prototype.preload = function () {
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
 		this.game.load.image("router", "assets/firewall_box.png");
-		this.game.load.image("closed port", "assets/door.png");
+//		this.game.load.image("closed port", "assets/door.png");
 		this.game.load.spritesheet("green packet", 'assets/greensparkle_sheet.png', 50, 50, 9);
 		this.game.load.spritesheet("yellow packet", 'assets/yellowsparkle_sheet.png', 50, 50, 9);
 		this.game.load.spritesheet("blue packet", 'assets/bluesparkle_sheet.png', 50, 50, 9);
@@ -35,7 +44,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.load.image("bouncearrow2", 'assets/bouncearrow2.png');
 		this.game.load.image("bouncearrow3", 'assets/bouncearrow3.png');
 		this.game.load.image("overlay", 'assets/firewall_overlay.png');
-		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
+//		this.game.load.image("magnifying glass", 'assets/magnifying_glass.png');
 		this.game.load.image("trash", 'assets/trashbin.png');
 		this.game.load.image("success", 'assets/success_popup.png');
 		this.game.load.image("scorer", "assets/packet_list.png");
@@ -54,20 +63,21 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 
 		this.game.add.sprite(325, 200, "router");
 		
-		this.arrowGroup = game.add.group();
-		this.backPacketGroup = game.add.group();
-		this.panel = game.add.group();
-		this.doorGroup = game.add.group();
-		this.frontArrowGroup = game.add.group();
+		this.arrowGroup = this.game.add.group();
+		this.backPacketGroup = this.game.add.group();
+		this.panel = this.game.add.group();
+		this.doorGroup = this.game.add.group();
+		this.frontArrowGroup = this.game.add.group();
 		
 		this.trash = this.game.add.sprite(760, 590, "trash");
 		this.trash.anchor.set(.5, .5);
 		
-		this.frontPacketGroup = game.add.group();
+		this.frontPacketGroup = this.game.add.group();
 					
 		this.doorPositions = [ [375, 256, 318], [505, 292, 353], [638, 328, 390] ];
+		var tex = getPIXITexture("closed-port");
 		for (var i = 0; i <= 2; i++) {
-			var door = new Phaser.Sprite(game, this.doorPositions[i][0], this.doorPositions[i][1], "closed port");
+			var door = new Phaser.Sprite(this.game, this.doorPositions[i][0], this.doorPositions[i][1], tex);
 			this.doorGroup.add(door);
 			door.inputEnabled = true;
 			door.input.pixelPerfectClick = true;
@@ -75,16 +85,16 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 			door.events.onInputDown.add(this.togglePort, this);
 		}
 		
-		this.panel.add(new Phaser.Sprite(game, 357, 289, "overlay"));				
+		this.panel.add(new Phaser.Sprite(this.game, 357, 289, "overlay"));
 		
 		this.arrows = [
-			new Phaser.Sprite(game, 0, 330, "arrow1"),
-			new Phaser.Sprite(game, 0, 370, "arrow2"),
-			new Phaser.Sprite(game, 0, 410, "arrow3") ];
+			new Phaser.Sprite(this.game, 0, 330, "arrow1"),
+			new Phaser.Sprite(this.game, 0, 370, "arrow2"),
+			new Phaser.Sprite(this.game, 0, 410, "arrow3") ];
 		this.bouncearrows = [
-			new Phaser.Sprite(game, 0, 333, "bouncearrow1"),
-			new Phaser.Sprite(game, 0, 373, "bouncearrow2"),
-			new Phaser.Sprite(game, 0, 410, "bouncearrow3") ];
+			new Phaser.Sprite(this.game, 0, 333, "bouncearrow1"),
+			new Phaser.Sprite(this.game, 0, 373, "bouncearrow2"),
+			new Phaser.Sprite(this.game, 0, 410, "bouncearrow3") ];
 		this.arrowGroup.add(this.arrows[0]);
 		this.arrowGroup.add(this.arrows[1]);
 		this.arrowGroup.add(this.arrows[2]);
@@ -187,14 +197,14 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		
 		// open:
 		if (sprite.y > this.doorPositions[index][2] - 5) {
-			game.add.tween(sprite).to({ y: this.doorPositions[index][1] }, 500, Phaser.Easing.Linear.None).start();
+			this.game.add.tween(sprite).to({ y: this.doorPositions[index][1] }, 500, Phaser.Easing.Linear.None).start();
 			this.packetManager.openPort(index);
 //			this.arrowGroup.add(this.arrows[index]);
 			this.arrows[index].alpha = 1;
 			this.bouncearrows[index].alpha = 0;
 		// closed:
 		} else {
-			game.add.tween(sprite).to({ y: this.doorPositions[index][2] }, 500, Phaser.Easing.Linear.None).start();
+			this.game.add.tween(sprite).to({ y: this.doorPositions[index][2] }, 500, Phaser.Easing.Linear.None).start();
 			this.packetManager.closePort(index);
 //			this.frontArrowGroup.add(this.arrows[index]);
 			this.arrows[index].alpha = 0;
@@ -224,7 +234,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 	}
 	
 	GameState.prototype.onOverTrash = function () {
-		this.trashTween = game.add.tween(this.trash).to({ rotation: -.1 }, 100, Phaser.Easing.Cubic.InOut)
+		this.trashTween = this.game.add.tween(this.trash).to({ rotation: -.1 }, 100, Phaser.Easing.Cubic.InOut)
 			.to({ rotation: .1 }, 100, Phaser.Easing.Cubic.InOut, true, 0, Number.MAX_VALUE, true);
 	}
 
@@ -236,7 +246,7 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		// NOTE: this is kind of annoying to have to stop all the tweens individually
 		this.trashTween.stop();
 		this.trashTween._lastChild.stop();
-		game.add.tween(this.trash).to({ rotation: 0 }, 100, Phaser.Easing.Linear.None, true);
+		this.game.add.tween(this.trash).to({ rotation: 0 }, 100, Phaser.Easing.Linear.None, true);
 	}
 	
 	GameState.prototype.onScorePacket = function (value, packet) {
@@ -344,7 +354,11 @@ require(["Phaser", "PacketManager", "Scorer"], function (Phaser, PacketManager, 
 		this.game.state.start("game", true, true);
 	}
 
-	var game = new Phaser.Game(1024, 768, Phaser.AUTO, "game");
-	game.state.add("game", GameState, true);
-	game.state.add("game over", GameOver);
+	imagesLoaded(document.body, initialize);
+
+	function initialize () {
+		var game = new Phaser.Game(1024, 768, Phaser.CANVAS, "game");
+		game.state.add("game", GameState, true);
+		game.state.add("game over", GameOver);
+	}
 });

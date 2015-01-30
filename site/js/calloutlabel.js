@@ -5,7 +5,11 @@ define(["Helpers"], function (Helpers) {
 		this.span = $("<span>").text(text).appendTo(this.elem);
 		
 		var remainingWidthPerSide = (1.0 - cell_hint.imageWidth) * .5;
-		this.elem.width(remainingWidthPerSide * 100 + "%");
+
+		var w = Math.round(remainingWidthPerSide * 100) + "%";
+
+		// NOTE: Firefox didn't like this.elem.width(w);
+		this.elem.css("width", w);
 		
 		cell.append(this.elem);
 		

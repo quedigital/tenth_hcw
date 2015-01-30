@@ -87,7 +87,7 @@ function initialize () {
 	f.beginSet("variables");
 	f.addArrow( { x1: f.currentLeft, y1: f.currentTop + 22, height: 18, sides: "L" } );
 	f.currentTop += 10;
-	f.addNote( { id: "variable_text", text: "<p style='font-family: GillSans-Light'>Set variables:</p><p>Location = Balcony</p><p>Match = False</p><p>Cannon = Present</p><p>Struck = False</p><p>Object = False</p><p>Chances Left = 4</p>", width: 250, left: f.currentLeft, top: f.currentTop + 60, movePen: true, centeredX: true } );
+	f.addNote( { id: "variable_text", text: "<p style='font-family: GillSans-Light, sans-serif'>Set variables:</p><p>Location = Balcony</p><p>Match = False</p><p>Cannon = Present</p><p>Struck = False</p><p>Object = False</p><p>Chances Left = 4</p>", width: 250, left: f.currentLeft, top: f.currentTop + 60, movePen: true, centeredX: true } );
 	f.addLine( { x1: f.currentLeft - 95, y1: f.currentTop - 70, sides: "T", width: 15 } );
 	f.addLine( { x1: f.currentLeft - 80, y1: f.currentTop - 128, sides: "TBL", width: 15, height: 120 } );
 	f.addNote( { text: "Variables are set to initial values.", width: 150, top: f.currentTop - 80, left: f.currentLeft - 225 } );

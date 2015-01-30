@@ -23,7 +23,8 @@ require(["pixi", "DuckWave"], function (PIXI) {
 	};
 
 	// create a renderer instance
-	var renderer = new PIXI.autoDetectRenderer(400, 235, rendererOptions);
+//	var renderer = new PIXI.autoDetectRenderer(400, 235, rendererOptions);
+	var renderer = new PIXI.CanvasRenderer(400, 235, rendererOptions);
 
 	// add the renderer view element to the DOM
 	document.body.appendChild(renderer.view);
@@ -31,7 +32,7 @@ require(["pixi", "DuckWave"], function (PIXI) {
 	var loader = new PIXI.AssetLoader([	"art/duck.png",
 										"art/arrow.png",
 										"art/wave.png",
-									]);
+									], false);
 	loader.addEventListener("onComplete", initialize);
 	loader.load();
 	

@@ -76,7 +76,7 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 		
 			$("#news-alert").NewsAlert();
 		
-			$("#help-system").HelpSystem( { layoutManager: this.options.layoutManager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour" } );
+			$("#help-system").HelpSystem( { layoutManager: this.options.layoutManager.dom, manualLink: "#how-to-use", tourLink: "#take-the-tour", newsLink: "#whats-new" } );
 			
 			$("#favorites-widget").Favorites( { layoutManager: this.options.layoutManager } );
 		
@@ -144,7 +144,7 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 				id = $(event.target).parents(".entry").data("id");
 			
 			if (id) {
-				$("body").scrollTop(0);
+				$(window).scrollTop(0);
 				this.openSpread( { id: id, replace: true, active: true } );
 			
 				this.closeToggler();
@@ -247,12 +247,12 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 
 			// scroll to top of this spread
 			if (options.replace) {
-				$("body").scrollTop($(".layout").offset().top - 15);			
+				$(window).scrollTop($(".layout").offset().top - 15);
 			}
 		
 			// scroll to where we were (to keep our place)
 			if (options.scrollToElement) {
-				$("body").scrollTop(options.scrollToElement.offset().top - 15);	
+				$(window).scrollTop(options.scrollToElement.offset().top - 15);
 			}
 			
 			this.showSpreadSelection(options.id);
