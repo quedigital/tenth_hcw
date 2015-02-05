@@ -112,6 +112,7 @@ define(["Layout",
 				case "interactive":
 					var interactive = new Interactive(cell, hint);
 					cellDOM.append(interactive.elem);
+					this.elements.push(interactive);
 					break;
 				case "video":
 					var video = new Video(cell);

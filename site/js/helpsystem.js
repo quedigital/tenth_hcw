@@ -4,19 +4,30 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		{
 			type: "centered",
 			blockWholeScreen: true,
-			text: "<p class='centered'>Welcome to the web version of<br/><span class='title'>How Computers Work</span> <img width='100%' src='site/images/HCWX_cover.png'/>Start with a feature tour or jump right in!</p>"
+			skipButton: true,
+			text: "<p class='centered'>Welcome to the web version of<br/><span class='title'>How Computers Work</span> <img width='100%' src='site/images/HCWX_cover.png'/>Start with a feature tour or jump right in!</p>",
 		},
 		{
 			type: "centered",
 			target: ".layout .spread",
-			text: "This is the main reading area. Scroll down through this area to follow along with the text.",
+			text: "This is the main reading area. Scroll down and new pages will continue to appear.",
 			setup: [
+				{ type: "openTo", spread: "3_2" },
 						{ type: "command", target: "#toc-container", class: "TOC", command: "close", params: { instant: true } },
 					],
 		},
 		{
+			target: ".step:first",
+			arrow: "top",
+			text: "This style of page is read from left to right, top to bottom, following the numbered steps.",
+			setup: [
+				{ type: "command", target: "#toc-container", class: "TOC", command: "close", params: { instant: true } },
+			],
+		},
+		{
 			target: "#toc-container",
-			text: "This is the table of contents. Scroll through this list to see all the topics to explore. Click on a topic that interests you to open it in the main reading area.",
+			arrow: "left",
+			text: "This is the table of contents. Scroll through this list to see all the parts, chapters, and pages of the book. Click on a heading to open it in the main reading area.",
 			setup: [
 						{ type: "command", target: "#toc-container", class: "TOC", command: "closeMenus" },
 						{ type: "command", target: "#toc-container", class: "TOC", command: "open", params: { instant: true } },

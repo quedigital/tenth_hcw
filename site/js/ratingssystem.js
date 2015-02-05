@@ -34,6 +34,8 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 			this.find("#cancel-button").click($.proxy(addComment, this, this));
 			
 			this.find("#close-button").click($.proxy(closePanel, this, this));
+
+			this.find(".commentflag").qtip();
 			
 		} else if (command == "update") {
 			var b = options.bottomOf.position().top + options.bottomOf.outerHeight();
@@ -70,7 +72,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		}, 500);
 	}
 	
-	// close the panel if we hover out and no sub-panels are open and we didn't just clicked the close button
+	// close the panel if we hover out and no sub-panels are open and we didn't just click the close button
 	function possiblyClosePanel (elem) {
 		if (!justClickedClose && (!elem.find(".commentEntry").is(":visible") && !elem.find(".comments").is(":visible"))) {
 			closePanel(elem);
@@ -166,8 +168,15 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		
 		var myRating = Database.getMyRating(options.id);
 		updateMyRatingUI(elem, myRating);
+
+		Database.getComments(options.id, $.proxy(showOrHideCommentsIndicator, this, this));
 				
 		elem.css( { visibility: "visible", display: "none" } );
+	}
+
+	function showOrHideCommentsIndicator (elem, comments) {
+		var v = comments.length > 0;
+		elem.find(".commentflag").css( { display: v ? "block" : "none" } );
 	}
 	
 	function updateMyRatingUI (elem, myRating) {

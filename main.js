@@ -42,7 +42,8 @@ requirejs.config({
 		"firebase": "https://cdn.firebase.com/js/client/2.0.4/firebase",
 		"Hammer": "hammer.min",
 		"SearchWindow": "searchwindow",
-		"hcwData": "../hcwData"
+		"hcwData": "../hcwdata",
+		"fastclick": "../../common/js/fastclick"
 	},
 	
 	shim: {

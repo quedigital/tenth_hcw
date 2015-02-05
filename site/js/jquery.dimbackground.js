@@ -25,19 +25,26 @@ define(["jquery"], function () {
 	
 	$.fn.undim = function () {
 		var n = 0;
-		
+
+		console.log("trying to undim");
+
 		while (n < dimmedElements.length) {
 			var d = dimmedElements[n];
 			if (d.element.is(this)) {
+				console.log("undimming");
 				d.dimmer.css("opacity", 0);
 				
 				var func = $.proxy(d.dimmer.remove, d.dimmer);
 				setTimeout(func, 500);
 				
 				dimmedElements.splice(n, 1);
-			} else
+			} else {
 				n++;
+				console.log(d.element);
+			}
 		}
+
+		console.log("left = " + dimmedElements.length);
 	}
 	
 	$.undim = function () {

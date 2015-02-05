@@ -8,8 +8,9 @@ define(["Layout",
 		"Helpers",
 		"debug",
 		"tinycolor",
+		"fastclick",
 		"FixedControls",
-		], function (Layout, jqueryui, imagesLoaded, Step, FixedRegion, Sidebar, CellImage, Helpers, debug, tinycolor) {
+		], function (Layout, jqueryui, imagesLoaded, Step, FixedRegion, Sidebar, CellImage, Helpers, debug, tinycolor, FastClick) {
 		
 	PanZoomLayout = function (container, layout, content, manager) {	
 		Layout.call(this, container, manager, content);
@@ -72,6 +73,8 @@ define(["Layout",
 		}
 		
 		this.buildCells();
+
+		FastClick.attach(this.container[0]);
 		
 		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
 		

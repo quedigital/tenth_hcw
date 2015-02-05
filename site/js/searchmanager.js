@@ -14,7 +14,6 @@ define(["lunr", "jquery"], function (lunr) {
 	SearchManager.prototype.constructor = SearchManager;
 
 	SearchManager.prototype.setData = function (data) {
-		console.log("got search content " + data.length);
 		this.data = data;
 		
 		setTimeout($.proxy(this.initialize, this), 5000);
@@ -36,11 +35,9 @@ define(["lunr", "jquery"], function (lunr) {
 			if (event.data.type == "progress") {
 				if (event.data.data == "complete") {
 					var time2 = new Date().getTime();
-					console.log("indexing = " + (time2 - me.time1));
 					me.initialized = true;
 					me.initializing = false;
 				} else {
-					console.log("indexing progress = " + event.data.data);
 				}
 			} else if (event.data.type == "results") {
 				if (me.resultsCallback) {

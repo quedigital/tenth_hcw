@@ -608,6 +608,8 @@ body {
     border-radius: 4px;
     background-color: rgba(0, 0, 0, 0.5);
     -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5); }
+  .spread.panzoom .text_holder div {
+    margin-top: .5em; }
 .spread.panzoom .viewport {
   width: 100%;
   height: 100%;
@@ -1803,11 +1805,20 @@ div.image-callout {
   top: -500px;
   padding: 10px 40px 10px 1.5em;
   z-index: 1;
-  transition: right .5s ease-in-out; }
+  transition: right .5s ease-in-out;
+  min-height: 10em; }
   #opinion #close-button {
     position: absolute;
     top: 10px;
     right: 10px; }
+  #opinion .commentflag {
+    position: absolute;
+    left: 0;
+    top: .25em;
+    width: 1.5em;
+    text-align: center;
+    color: #FFB1BD;
+    text-shadow: -1px 1px 3px black; }
   #opinion .pulltab {
     position: absolute;
     left: -1.5em;
@@ -2144,6 +2155,141 @@ div.blocker {
 
 .slideThree input[type=checkbox]:checked + label {
   left: 43px; }
+
+.tourtip .container {
+  position: absolute;
+  background-color: rgba(94, 112, 134, 0.9);
+  border: 1px solid white;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+  font-size: 25px;
+  line-height: 1.4em;
+  width: 50%;
+  max-width: 350px !important;
+  padding: 8px 10px;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  z-index: 999; }
+  .tourtip .container.arrow:after, .tourtip .container.arrow:before {
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none; }
+  .tourtip .container.arrow-top:after, .tourtip .container.arrow-top:before {
+    bottom: 100%;
+    left: 50%; }
+  .tourtip .container.arrow-bottom:after, .tourtip .container.arrow-bottom:before {
+    top: 100%;
+    left: 50%; }
+  .tourtip .container.arrow-left:after, .tourtip .container.arrow-left:before {
+    right: 100%;
+    top: 50%; }
+  .tourtip .container.arrow-right:after, .tourtip .container.arrow-right:before {
+    left: 100%;
+    top: 50%; }
+  .tourtip .container.arrow:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-width: 25px; }
+  .tourtip .container.arrow:before {
+    border-color: rgba(255, 255, 255, 0);
+    border-width: 26px; }
+  .tourtip .container.arrow-top:after {
+    border-bottom-color: white;
+    margin-left: -25px; }
+  .tourtip .container.arrow-top:before {
+    border-bottom-color: white;
+    margin-left: -26px; }
+  .tourtip .container.arrow-bottom:after {
+    border-top-color: white;
+    margin-left: -25px; }
+  .tourtip .container.arrow-bottom:before {
+    border-top-color: white;
+    margin-left: -26px; }
+  .tourtip .container.arrow-left:after {
+    border-right-color: white;
+    margin-top: -25px; }
+  .tourtip .container.arrow-left:before {
+    border-right-color: white;
+    margin-top: -26px; }
+  .tourtip .container.arrow-right:after {
+    border-left-color: white;
+    margin-top: -25px; }
+  .tourtip .container.arrow-right:before {
+    border-left-color: white;
+    margin-top: -26px; }
+  .tourtip .container img {
+    padding: 5px;
+    display: block;
+    width: 100%;
+    max-height: 75%; }
+  .tourtip .container span.title {
+    color: #99d;
+    font-weight: bold; }
+  .tourtip .container p.centered {
+    text-align: center; }
+  .tourtip .container .content {
+    overflow: hidden; }
+  .tourtip .container div.buttons {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #8ed58e;
+    text-align: center; }
+    .tourtip .container div.buttons .button-bar {
+      line-height: 1.5em; }
+      .tourtip .container div.buttons .button-bar button {
+        width: 35%;
+        border: none;
+        font-weight: normal;
+        font-family: "Archivo Narrow", sans-serif;
+        font-size: 70%;
+        outline: none;
+        cursor: pointer;
+        color: white;
+        vertical-align: top;
+        margin-top: 2px;
+        background: #999; }
+        .tourtip .container div.buttons .button-bar button:hover {
+          background: #ccc; }
+        .tourtip .container div.buttons .button-bar button:active {
+          background: #333; }
+      .tourtip .container div.buttons .button-bar button.cancel {
+        height: 1.5em;
+        background: #800; }
+        .tourtip .container div.buttons .button-bar button.cancel:hover {
+          background: #500; }
+        .tourtip .container div.buttons .button-bar button.cancel:active {
+          background: #300; }
+      .tourtip .container div.buttons .button-bar button.skip {
+        background: #00e; }
+        .tourtip .container div.buttons .button-bar button.skip:hover {
+          background: #00a; }
+        .tourtip .container div.buttons .button-bar button.skip:active {
+          background: #003; }
+      .tourtip .container div.buttons .button-bar button.next {
+        background: #080; }
+        .tourtip .container div.buttons .button-bar button.next:hover {
+          background: #060; }
+        .tourtip .container div.buttons .button-bar button.next:active {
+          background: #030; }
+      .tourtip .container div.buttons .button-bar div.label {
+        width: 30%;
+        font-size: 80%;
+        text-align: center;
+        vertical-align: top;
+        line-height: 1.5em;
+        color: black;
+        font-family: "Archivo Narrow", sans-serif;
+        display: inline-block;
+        text-shadow: none;
+        font-weight: bold; }
+        .tourtip .container div.buttons .button-bar div.label span.counter {
+          border-radius: .5em;
+          background: #d0c2f2;
+          padding: .25em;
+          color: white; }
 
 .step.with-callout:hover .callout-icon-container {
   display: none; }

@@ -1,4 +1,4 @@
-define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scrollTo"], function () {
+define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scrollTo", "tourtip"], function () {
 	$.widget("que.TourGuide", {
 
 		options: {},
@@ -7,30 +7,52 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 
 		beginTour: function () {
+			this.tourtip = $("<div>").TourTip( {
+				onClickNext: $.proxy(this.onClickNext, this),
+				onClickBack: $.proxy(this.onClickBack, this),
+				onClickClose: $.proxy(this.stopTour, this)
+			} );
+
+			$("body").append(this.tourtip);
+
 			this.step = 0;
 
-			this.addBlocker();
+//			this.addBlocker();
 			
 			this.preventScrolling();
 			
 			this.showCurrentTourStep();
 		},
-		
+
+		onClickNext: function () {
+			this.advanceTourStep();
+		},
+
+		onClickBack: function () {
+			this.backOneTourStep();
+		},
+
 		endTour: function () {
 			this.onTourComplete();
 		},
 		
 		stopTour: function () {
+			this.tourtip.TourTip("hide");
+
+			$.undim();
+
 			var details = this.options.tour[this.step];
 			
 			if (details.teardown)
 				doTeardown(details.teardown);
 				
-			this.removeBlocker();
+//			this.removeBlocker();
 			this.allowScrolling();				
 		},
 		
 		advanceTourStep: function () {
+			$.undim();
+
 			var details = this.options.tour[this.step];
 			
 			if (details.teardown)
@@ -46,6 +68,8 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 
 		backOneTourStep: function () {
+			$.undim();
+
 			var details = this.options.tour[this.step];
 			
 			if (details.teardown)
@@ -57,6 +81,8 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 		
 		showCurrentTourStep: function () {
+			$.undim();
+
 			var details = this.options.tour[this.step];
 			
 			if (details.setup) {
@@ -73,13 +99,13 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			if (details.target) target = details.target;
 			else target = $(window);
 		
-			if (details.target)	{	
+			if (details.target)	{
 				$(details.target).dimBackground();
 			}
 		
-			var options = { type: details.type, blockWholeScreen: details.blockWholeScreen, target: details.target };
+			//var options = { type: details.type, blockWholeScreen: details.blockWholeScreen, target: details.target };
 		
-			this.showTourTip(target, details.text, options);
+			this.showTourTip(target, details.text, details);
 		},
 		
 		preventScrolling: function () {
@@ -96,7 +122,9 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 		
 		onTourComplete: function () {
-			this.removeBlocker();
+			this.tourtip.TourTip("hide");
+
+//			this.removeBlocker();
 			this.allowScrolling();
 			
 			if (this.options.onComplete) {
@@ -105,6 +133,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 		},
 		
 		hideLastPopup: function () {
+			console.log("hide last popup");
 			var step = this.step > 0 ? this.step - 1 : 0;
 
 			var popup = this.options.tour[step].popup;
@@ -115,8 +144,21 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				}
 			}
 		},
-		
+
+		showTourTip2: function (target, text, options) {
+			var opts = { step: this.step, steps: this.options.tour.length };
+
+			$.extend(opts, options);
+
+			this.tourtip.TourTip("option", { target: target, content: text, options: opts } );
+//			this.tourtip.position( { my: "center", at: "center", of: $(window), collision: "fit" } );
+		},
+
 		showTourTip: function (target, text, options) {
+			this.showTourTip2(target, text, options);
+
+			return;
+
 			var content = $("<p>").html(text);
 			var div1 = $("<div>", { class: "control-holder" } );
 			var div = $("<div>", { class: "button-bar" } );
@@ -184,7 +226,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 				},
 				show: { ready: true, modal: { on: modal, blur: false }, delay: 1000 },
 				hide: false,
-				position: { my: "center left", at: "center right", viewport: $(window), adjust: { method: "shift" } },
+				position: { my: "left center", at: "right center", viewport: $(window), adjust: { method: "shift" } },
 				events: {
 					render: function (event, api) {
 						var buttons = api.elements.content.find("button");
@@ -203,7 +245,6 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 					hide: function (event, api) {
 						api.destroy();
 						$("#qtip-overlay div").removeClass("dimming");
-						$(options.target).undim();
 					}
 				},
 			};
@@ -215,7 +256,7 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			}
 			
 			if (options.type == "centered") {
-				opts.position = { my: "center center", at: "center center" };
+				opts.position = { my: "right center", at: "right center" };
 				target = $(window);
 			}
 			

@@ -1,7 +1,18 @@
 
 // TODO: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds
 
-// TODO: flesh out help system steps, like a spread itself
+// TODO: flesh out tour guide
+
+// TODO: remove the scroll position setting code (because it was usually wonky)
+
+// TODO: embed the ads better [only post-spread?]
+// TODO: too many banner ads opening on initial open [reproducible? seems worse in Firefox]
+
+// TODO: add ratings boxes for every spread
+
+// TODO: make the comments sync position with the post-spread ad (or just embed it there)
+
+// TODO: pan & zoom buttons on Chrome mobile look bad
 
 // TODO: add keywords for all spreads
 
@@ -10,10 +21,6 @@
 // TODO: "line-height" garbage text is BACK! Remove it.
 
 // TODO: cross-reference any "See chapter" links
-
-// TODO: too many banner ads opening on initial open [reproducible? seems worse in Firefox]
-
-// TODO: finish new interactives
 
 // TODO: put step # in panzoom text box?
 
@@ -445,3 +452,8 @@
 // DONE: Firefox [1_1] interactive isn't sized to fit [fixed with Firefox 35 > 16]
 // DONE: Firefox [1_2] callout is in side margins (!) [DIV needed width to be positioned correctly]
 // DONE: Firewall animated port door doesn't work [CORS restriction]
+// DONE: flesh out help system steps, like a spread itself
+// DONE: "stop" interactive when minimized [0_4, surge]
+// DONE: fastclick for pan & zoom buttons [needs iPad testing]
+// DONE: finish new interactives
+// DONE: comments indicator on rating tab

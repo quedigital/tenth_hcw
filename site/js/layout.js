@@ -99,7 +99,9 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 	
 	Layout.prototype.unload = function () {
 		$.each(this.elements, function (index, element) {
-			if (this.unload) this.unload();
+			if (this.unload) {
+				this.unload();
+			}
 		});
 	}
 	

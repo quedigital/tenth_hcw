@@ -119,6 +119,9 @@ define([], function () {
 		
 		setTimeout(function () {
 			me.contents.css("display", "none").removeClass("full-screen animated bounceOutDown");
+
+			if (me.iframe[0].contentWindow.stop)
+				me.iframe[0].contentWindow.stop();
 		}, 500);
 	}
 	
