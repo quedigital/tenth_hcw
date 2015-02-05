@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">-->
+<title>How Surge Protectors Work</title>
+	<style type="text/css">
+		html, body {
+			font-family: GillSans, sans-serif;
+			-webkit-user-select: none;
+		}
+		
+		body {
+			margin: 0;
+			padding: 0;
+			width: 1024px;
+			height: 768px;
+			background-color: black;
+		}
+		
+		#fps {
+			position: absolute;
+			top: 0;
+			left: 0;
+			color: white;
+			z-index: 1;
+			margin: 0;
+			display: none;
+		}
+		
+		#title {
+			position: absolute;
+			top: 30px;
+			left: 350px;
+			color: black;
+			font-size: 32px;
+			font-weight: bold;
+			z-index: 1;
+			margin: 0;
+		}
+		
+		#instructions {
+			position: absolute;
+			top: 450px;
+			left: 30px;
+			color: white;
+			z-index: 1;
+			margin: 0;
+		}
+		
+		.line {
+			z-index: 1;
+			background-color: white;
+			height: 2px;
+		}
+		
+		#horiz1 {
+			width: 50px;
+			position: absolute;
+			top: 739px;
+			left: 45px;
+		}
+		
+		#vert1 {
+			width: 30px;
+			position: absolute;
+			top: 739px;
+			left: 45px;
+			-webkit-transform-origin: 0% 0%;
+			-webkit-transform: rotate(-90deg);
+		}
+		
+		#sounds {
+			display: none;
+		}
+	</style>
+
+	<script type="text/javascript" src="../../common/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="../../common/js/easel.js"></script>
+	<script type="text/javascript" src="../../common/js/tween.js"></script>
+	<script type="text/javascript" src="../common/js/ease.js"></script>
+	<script type="text/javascript" src="../common/js/kinetic-v3.10.3.min.js"></script>
+	
+	<script type="text/javascript" src="surge.js"></script>
+</head>
+
+<body ontouchmove="BlockMove(event);">
+<p id="title">How Surge Protectors Work</p>
+<p id="instructions">Swipe up and down to create power surges.<br/>Swipe left and right to create electrical noise.</p>
+<p id="fps">fps</p>
+<!--<p id="instructions">Move the sliders to simulate applying an electrical charge to the LCD cells.</p>
+<div id="horiz1" class="line"></div>
+<div id="vert1" class="line"></div>-->
+<div id="kinetic"></div>
+
+<div id="sounds">
+	<audio id="hum" src="hum.m4a" autoplay></audio>
+	<audio id="buzz" src="buzz.m4a"></audio>
+	<audio id="choke" src="choke.m4a"></audio>
+	<audio id="burnt_out" src="burnt_out.m4a" preload="auto"></audio>
+</div>
+
+</body>
+</html>
