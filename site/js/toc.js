@@ -1,7 +1,8 @@
 define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "NewsAlert", "HelpSystem", "banner", "favorites"], function (Helpers, tinycolor, Database) {
 
 	function showSearchWindow (options) {
-		this.close();
+		if (this != window)
+			this.close();
 		
 		$("#search-window").SearchWindow("option", options);
 		$("#search-window").SearchWindow("show");
@@ -98,10 +99,16 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 			
 			$('[title != ""]').qtip({ position: { viewport: $("#toc-container"), adjust: { method: "shift" } } });
 
+	        this.element.on("openMenu", $.proxy(this.onClickMenuButton, this));
+	        this.element.on("openHelp", $.proxy(this.openHelpMenu, this));
+	        this.element.on("showSearch", function (event, params) {
+		        showSearchWindow({ type: "text", term: params });
+	        });
+
 			$(window).resize($.proxy(this.sizeToFitWindow, this));
 		
 			this.sizeToFitWindow();
-			
+
 			setTimeout($.proxy(this.updateRatingMarkers, this), 1000);
         },
 

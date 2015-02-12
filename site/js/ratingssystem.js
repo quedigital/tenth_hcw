@@ -36,6 +36,8 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 			this.find("#close-button").click($.proxy(closePanel, this, this));
 
 			this.find(".commentflag").qtip();
+
+			this.on("openRatings", $.proxy(openPanel, this, this));
 			
 		} else if (command == "update") {
 			var b = options.bottomOf.position().top + options.bottomOf.outerHeight();

@@ -90,6 +90,9 @@ define(["Layout",
 						*/
 						step.elem.hover($.proxy(this.onHoverStep, this, step), $.proxy(this.onHoverOutStep, this, step));
 						step.elem.click($.proxy(this.showCalloutForStep, this, step));
+
+						step.elem.on("calloutOn", $.proxy(this.onHoverStep, this, step));
+						step.elem.on("calloutOff", $.proxy(this.onHoverOutStep, this, step));
 					}
 					
 					if (!styledFirstStep && !step.hasNumber()) {

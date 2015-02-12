@@ -77,7 +77,10 @@ define(["Layout",
 		FastClick.attach(this.container[0]);
 		
 		imagesLoaded(this.container, $.proxy(this.onImagesLoaded, this));
-		
+
+		this.container.on("beginPresentation", $.proxy(this.gotoStep, this, 1));
+		this.container.on("advanceStep", $.proxy(this.gotoNext, this));
+
 		this.currentStep = undefined;
 	}
 	
@@ -517,6 +520,8 @@ define(["Layout",
 		this.text_holder.scrollTop(0);
 		
 		this.text_holder.hide(0).html(step.options.text).delay(500).show(0);
+		
+		this.initializeGlossaryTerms();
 		
 		this.currentStep = step;
 		

@@ -1,22 +1,19 @@
 
 // TODO: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds
 
-// TODO: flesh out tour guide
+// TODO: add keywords for all spreads
+
+// TODO: better placement of pan & zoom right/left advance arrows (closer to text box?)
 
 // TODO: remove the scroll position setting code (because it was usually wonky)
 
 // TODO: embed the ads better [only post-spread?]
 // TODO: too many banner ads opening on initial open [reproducible? seems worse in Firefox]
 
-// TODO: add ratings boxes for every spread
-
+// TODO: add ratings boxes for every spread?
 // TODO: make the comments sync position with the post-spread ad (or just embed it there)
 
 // TODO: pan & zoom buttons on Chrome mobile look bad
-
-// TODO: add keywords for all spreads
-
-// TODO: add glossary definitions for all terms in text
 
 // TODO: "line-height" garbage text is BACK! Remove it.
 
@@ -457,3 +454,6 @@
 // DONE: fastclick for pan & zoom buttons [needs iPad testing]
 // DONE: finish new interactives
 // DONE: comments indicator on rating tab
+// DONE: flesh out tour guide; make sure it works backwards (don't zoom twice); test on iPad
+// DONE: make glossary terms work for panzoom layouts
+// DONE: add glossary definitions for all terms in text [for all terms from 9th edition]

@@ -151,8 +151,6 @@ define(["jquery"], function () {
 	function scrollLeft (elem) {
 		var amt = this.data("scrollAmount");
 		
-		console.log(amt);
-		
 		elem.stop();
 		elem.animate( { scrollLeft: elem.scrollLeft() - amt }, 250);
 	}

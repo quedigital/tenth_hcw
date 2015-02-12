@@ -117,38 +117,50 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		if (scroller.scrollTop() < cst) {
 			scroller.animate({ scrollTop: cst }, 500);
 		}
-	}		
+	}
+	
+	function htmlEncode (value) {
+		return $('<div/>').text(value).html();
+	}
 	
 	Layout.prototype.initializeGlossaryTerms = function () {
 		var terms = this.container.find(".glossary");
 		
+		terms.removeClass("defined").qtip("destroy");
+		
+		var me = this;
+
 		$.each(terms, function (index, item) {
 			var t = $(item).text();
 			var def = Glossary.getDefinition(t);
-			$(item).attr("title", def);
-		});
-
-		terms.qtip( {	style:	{
-									classes: "qtip-green qtip-rounded glossaryTooltip"
-								},
-						position: {
-									my: "top center",
-									at: "bottom center",
-									viewport: this.container.parent(),
-								},
-						show: {
-									delay: 500,
-									effect: function (offset) {
-										$(this).removeClass("animated fadeOutUp").addClass("animated bounceInDown").show(0);
+			if (def) {
+				$(item).addClass("defined");
+				$(item).qtip( {	
+								content: htmlEncode(def),
+								style:	{
+											classes: "qtip-green qtip-rounded glossaryTooltip"
+										},
+								position: {
+											my: "top center",
+											at: "bottom center",
+											viewport: $("#cboxOverlay"),
+											adjust: { method: "shift" },
+										},
+								show: {
+											delay: 500,
+											effect: function (offset) {
+												$(this).removeClass("animated fadeOutUp").addClass("animated bounceInDown").show(0);
+											},
+										},
+								hide: {
+											delay: 500,
+											effect: function () {
+												$(this).removeClass("animated bounceInDown").addClass("animated fadeOutUp").delay(500);
+											}
 									},
-								},
-						hide: {
-									delay: 500,
-									effect: function () {
-										$(this).removeClass("animated bounceInDown").addClass("animated fadeOutUp").delay(500);
-									}
-							},
-					} );
+							} );
+			}
+		});		
 	}
 	
 	return Layout;

@@ -23,6 +23,8 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 			this.element.find("#clear-search").click($.proxy(this.clearSearch, this));
 			
 			this.element.find("#scroll-button").click($.proxy(this.onScrollResults, this));
+
+			this.element.on("hide", $.proxy(this.hide, this));
 		},
 
 		// Destroy an instantiated plugin and clean up modifications
@@ -78,6 +80,10 @@ define(["Helpers", "jquery.ui.widget"], function (Helpers) {
 		// Respond to any changes the user makes to the option method
 		_setOption: function (key, value) {
 			switch (key) {
+				case "term":
+					$("#search-box").val(value);
+					this.onChangeSearch();
+					break;
 				case "type":
 					if (this.options.type != value) {
 						this.clearSearch();

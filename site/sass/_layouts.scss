@@ -1093,15 +1093,19 @@ div.cell {
 
 span.glossary {
 	font-weight: bold;
-	padding: .1em .25em;
-	cursor: pointer;
-	transition: background-color .25s linear, color .25s linear;
-	border-radius: 25px;
 	
-	&:hover {
-		background-color: white;
-		color: black;
-		border-radius: 25px;
+	&.defined {
+		padding: .1em .25em;
+		cursor: pointer;
+		transition: background-color .25s linear, color .25s linear, border-bottom .25s linear;
+		border-bottom: 2px solid rgba(0, 0, 255, .5);
+		
+		&:hover {
+			background-color: white;
+			color: black;
+			border-radius: 25px;
+			border-bottom: none;
+		}
 	}
 }
 
@@ -2625,7 +2629,7 @@ div.blocker {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	z-index: 100;
+	z-index: 10000;
 	background-color: rgba(255, 0, 0, 0);
 }
 
@@ -2900,7 +2904,7 @@ div.blocker {
 
 .tourtip {
 	.container {
-		position: absolute;
+		position: fixed;
 		background-color: rgba(94, 112, 134, 0.9);
 		border: 1px solid white;
 		color: white;
@@ -2912,7 +2916,7 @@ div.blocker {
 		padding: 8px 10px;
 		-webkit-transition: all 1s ease-in-out;
 		transition: all 1s ease-in-out;
-		z-index: 999;
+		z-index: 10001;
 
 		&.arrow:after, &.arrow:before {
 			border: solid transparent;
@@ -2921,6 +2925,7 @@ div.blocker {
 			width: 0;
 			position: absolute;
 			pointer-events: none;
+			-webkit-filter: drop-shadow(0px 0px 2px black);
 		}
 
 		&.arrow-top:after, &.arrow-top:before {
@@ -3103,6 +3108,7 @@ div.blocker {
 						background: rgb(208, 194, 242);
 						padding: .25em;
 						color: white;
+						text-shadow: 1px 1px 2px black;
 					}
 				}
 			}

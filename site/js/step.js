@@ -28,7 +28,20 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 			var div = $("<div>").addClass("image").append(img);
 			div.addClass("align-" + hints.image);
 			this.elem.append(div);
-			
+
+			this.elem.on("imageZoom", function () {
+				SiteHelpers.showImageInLightbox(img, options.text, undefined, hints.background);
+			});
+
+			this.elem.on("closeZoom", function (event, params) {
+				if (params == "fast") {
+					$.colorbox({ fadeOut: 0 });
+				} else {
+					$.colorbox( { fadeOut: 300 });
+				}
+				$.colorbox.close();
+			});
+
 			img.click($.proxy(SiteHelpers.showImageInLightbox, SiteHelpers, img, options.text, undefined, hints.background));
 		}
 		
@@ -55,7 +68,7 @@ define(["Helpers", "SiteHelpers"], function (Helpers, SiteHelpers) {
 	
 	function reflow (elem) {
 	}
-	
+
 	Step.prototype.hasNumber = function () {
 		return (this.number != undefined && parseInt(this.number) > 0);
 	}

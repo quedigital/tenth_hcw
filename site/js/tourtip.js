@@ -1,10 +1,16 @@
-define(["imagesloaded.pkgd.min", "jquery.ui.widget"], function (imagesLoaded) {
+define(["imagesloaded.pkgd.min", "Helpers", "jquery.ui.widget"], function (imagesLoaded, Helpers) {
+
+	function offsetToString (offset) {
+		if (offset == 0) return "";
+		else if (offset < 0) return offset + "px";
+		else if (offset > 0) return "+" + offset + "px";
+	}
 
 	$.widget("que.TourTip", {
 
 		options: {},
 
-		defaults: { skipButton: false, type: "", arrow: "" },
+		defaults: { skipButton: false, type: "", arrow: "", noBlocker: "" },
 
 		_create: function () {
 			this.element.addClass("tourtip");
@@ -70,35 +76,69 @@ define(["imagesloaded.pkgd.min", "jquery.ui.widget"], function (imagesLoaded) {
 
 		onImagesLoaded: function () {
 			if (this.options.type == "centered") {
-				this.container.position( { my: "center center", at: "center center", of: $(window), collision: "fit" } );
+				// jquery ui position was not working on ipad to fit within the window (!)
+				Helpers.alignElementInWindow(this.container, "center center", "window", "center center");
 			} else {
 				var my, at;
+				var atOffset = [0, 0];
 
 				switch (this.options.arrow) {
 					case "top":
 						my = "center top";
-						at = "center bottom+25px";
+						at = ["center", "bottom"];
+						atOffset = [0, 25];
 						break;
 					case "left":
 						my = "left center";
-						at = "right+25px center";
+						at = ["right", "center"];
+						atOffset = [25, 0];
 						break;
 					case "right":
 						my = "right center";
-						at = "left-25px center";
+						at = ["left", "center"];
+						atOffset = [-25, 0];
 						break;
 					case "bottom":
 						my = "center bottom";
-						at = "center top-25px";
+						at = ["center", "top"];
+						atOffset = [0, -25];
 						break;
 				}
 
-				this.container.position( { my: my, at: at, of: this.options.target, collision: "fit" });
+				if (this.options.offset) {
+					atOffset[0] += this.options.offset[0];
+					atOffset[1] += this.options.offset[1];
+				}
+
+				var adjustment = Helpers.alignElementInWindow(this.container, my, this.options.target, at.join(" "), atOffset);
+				
+				// see if we need to adjust the arrow point
+				if ( (this.options.arrow == "top" || this.options.arrow == "bottom") && adjustment[0] != 0) {
+					var px = Math.round(adjustment[0]);
+					Helpers.overrideStyle(".arrow-top:before,.arrow-top:after,.arrow-bottom:before,.arrow-bottom:after { left: calc(50% - " + px + "px) !important; }");
+					// kludge to force redraw of arrows
+					setTimeout(function () {
+							$(".arrow-top,.arrow-bottom").css("overflow", "hidden").height();
+							$(".arrow-top,.arrow-bottom").css("overflow", "show");
+						}, 0);
+				} else if ( (this.options.arrow == "left" || this.options.arrow == "right") && adjustment[1] != 0) {
+					var px = Math.round(adjustment[1]);
+					Helpers.overrideStyle(".arrow-right:before,.arrow-right:after,.arrow-left:before,.arrow-left:after { top: calc(50% - " + px + "px) !important; }");
+					setTimeout(function () {
+							$(".arrow-left,.arrow-right").css("overflow", "hidden").height();
+							$(".arrow-left,.arrow-right").css("overflow", "show");
+						}, 0);
+				} else {
+					Helpers.overrideStyle("");
+				}
 			}
 		},
 
 		refreshControls: function () {
-			this.element.find(".blocker").css("display", "block");
+			if (this.options.noBlocker)
+				this.element.find(".blocker").css("display", "none");
+			else
+				this.element.find(".blocker").css("display", "block");
 
 			this.element.find(".container").removeClass("arrow arrow-top arrow-left arrow-right arrow-bottom");
 			if (this.options.arrow) this.element.find(".container").addClass("arrow arrow-" + this.options.arrow);
@@ -109,7 +149,7 @@ define(["imagesloaded.pkgd.min", "jquery.ui.widget"], function (imagesLoaded) {
 			var nextCaption = "Next";
 			switch (this.options.step) {
 				case 0:
-					nextCaption = "Begin";
+					nextCaption = "Begin Tour";
 					break;
 				case this.options.steps - 1:
 					nextCaption = "Let's Go!";
