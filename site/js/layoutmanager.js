@@ -1,4 +1,4 @@
-define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor", "RatingsSystem"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor) {
+define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "tinycolor"], function (GridLayout, FixedLayout, PanZoomLayout, TextLayout, Helpers, tinycolor) {
 	LayoutManager = function (selector) {
 		this.dom = $(selector);
 		
@@ -11,7 +11,7 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 		
 		$(window).scroll($.proxy(this.onScroll, this));
 		
-		$("#opinion").ratingsSystem("initialize");
+		//$("#opinion").ratingsSystem("initialize");
 	}
 	
 	LayoutManager.prototype = Object.create({});
@@ -215,11 +215,13 @@ define(["GridLayout", "FixedLayout", "PanZoomLayout", "TextLayout", "Helpers", "
 	}
 	
 	LayoutManager.prototype.onSpreadChange = function () {
+		/*
 		var layout = this.getCurrentLayout();
 		if (layout) {
 			var bottomOf = layout.container;
 			$("#opinion").ratingsSystem("update", { bottomOf: bottomOf, title: layout.title, id: layout.id } );
 		}
+		*/
 	}
 	
 	LayoutManager.prototype.updateSpreadHeader = function () {

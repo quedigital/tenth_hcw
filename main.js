@@ -103,7 +103,7 @@ requirejs.config({
 		}
 });
 
-require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery", "jqueryui", "SearchWindow"], function (LayoutManager, TOC, Helpers, Database, SearchManager) {
+require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery", "jqueryui", "SearchWindow", "jquery.qtip"], function (LayoutManager, TOC, Helpers, Database, SearchManager) {
 	var params = window.location.search.substring(1);
 	if (params == "remote") {
 		$.getJSON("https://s3.amazonaws.com/HCW10/export.json", null, onData);
@@ -117,6 +117,8 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	if (hashID) {
 		hashID = hashID.replace("#", "");
 	}
+	
+	var pagesViewed = 0;
 	
 	var layoutManager = new LayoutManager("#content-holder");
 
@@ -151,7 +153,7 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 		layoutManager.dom.bind("current-spread", onCurrentSpread);
 		layoutManager.dom.bind("open-spread", doOpenSpread);
 		
-		$("#opinion").bind("rating", function () {
+		$(window).bind("rating", function () {
 			$("#toc-container").TOC("updateRatingMarkers");
 		});
 				
@@ -162,6 +164,11 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 			Database.setPersistentProperty("seenIntro", true);
 		}
 		
+		var n = Database.getPersistentProperty("visitsSinceSurvey");
+		if (!n) n = 0;
+		else n = parseInt(n);
+		Database.setPersistentProperty("visitsSinceSurvey", n + 1);
+		
 		window.getAllGlossaryTerms = $.proxy(Helpers.getAllGlossaryTerms, this, data.contents);
 	}
 	
@@ -170,12 +177,25 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	}
 	
 	function onOpenSpread (event, options) {
+		pagesViewed++;
+		
 		if (options.active) {
 			if (!Helpers.onHost("hcw10.firebaseapp.com")) {
 				var href = window.location.search + "#" + options.id;
 				history.pushState({id: options.id}, "", href);
 
 				ga('send', 'pageview', {page: '/' + options.id, title: options.title});
+			}
+		}
+		
+		var survey = Database.getPersistentProperty("surveyed");
+		
+		if (survey != "true" && survey != "decline") {
+			var n = Database.getPersistentProperty("visitsSinceSurvey");
+			
+			// show survey after 15 pages (first visit) or 5 pages (second visit)
+			if (pagesViewed >= 15 || (n > 1 && pagesViewed >= 5) ) {
+				showSurveyPrompt();
 			}
 		}
 	}
@@ -191,8 +211,69 @@ require(["LayoutManager", "TOC", "Helpers", "Database", "SearchManager", "jquery
 	}
 
 	function onTrackedEvent (event, data) {
-		console.log("tracked event");
 		ga('send', 'event', data.category, data.action, data.label);
+	}
+	
+	window.showSurveyPrompt = showSurveyPrompt;
+	
+	function launchSurvey () {
+		$(window).trigger("trackedevent", { category: "prompt", action: "accept", label: "survey" });
+		
+		Database.setPersistentProperty("surveyed", true);
+		
+		window.open("http://goo.gl/forms/aej4m6i10V");
+	}
+	
+	function delaySurvey () {
+		$(window).trigger("trackedevent", { category: "prompt", action: "delay", label: "survey" });
+		
+		pagesViewed = 0;
+		Database.setPersistentProperty("visitsSinceSurvey", 0);
+	}
+	
+	function declineSurvey () {
+		$(window).trigger("trackedevent", { category: "prompt", action: "decline", label: "survey" });
+		
+		Database.setPersistentProperty("surveyed", "decline");
+	}
+	
+	function showSurveyPrompt () {
+		$(window).trigger("trackedevent", { category: "survey", action: "show", label: "survey" });
+		
+		var content = $("<p>", { text: "Would you like to help improve our product by taking a short survey?" });
+		var area = $("<div>", { class: "button-area" }).appendTo(content);
+		var ok = $("<button>", { class: "basic green", text: "Sure!" }).click(launchSurvey);
+		var later = $("<button>", { class: "basic yellow", text: "Later" }).click(delaySurvey);
+		var no = $("<button>", { class: "basic red", text: "No thanks" }).click(declineSurvey);
+		area.append(ok).append(later).append(no);
+		
+	    $('<div />').qtip({
+	        content: {
+	            text: content,
+	            title: "Take a Survey",
+	        },
+	        position: {
+	            my: 'center', at: 'center',
+	            target: $(window)
+	        },
+	        show: {
+	            ready: true,
+	            modal: {
+	                on: true,
+	                blur: true,
+	            }
+	        },
+	        hide: false,
+	        style: 'survey-prompt qtip-rounded qtip-blue',
+	        events: {
+	            render: function(event, api) {
+	                $('button', api.elements.content).click(function(e) {
+	                    api.hide(e);
+	                });
+	            },
+	            hide: function(event, api) { api.destroy(); }
+	        }
+	    });
 	}
 	
 	// reflow is currently triggered only when a video is loaded & ready

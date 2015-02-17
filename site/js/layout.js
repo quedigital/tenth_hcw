@@ -1,4 +1,4 @@
-define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers, CalloutLine, Glossary) {
+define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip", "RatingsSystem"], function (Helpers, CalloutLine, Glossary) {
 	Layout = function (container, manager, content) {
 		this.container = container;
 		this.manager = manager;
@@ -14,7 +14,14 @@ define(["Helpers", "CalloutLine", "Glossary", "jquery.qtip"], function (Helpers,
 		this.isReady = false;
 		this.isActive = false;
 		
-		this.container.parents(".layout").css("backgroundColor", Helpers.getColorForChapter(content.chapter));
+		this.layoutHost = this.container.parents(".layout");
+		
+		var beforeHolder = $("<div>", { class: "layout-placeholder before" }).prependTo(this.layoutHost);
+		var afterHolder = $("<div>", { class: "layout-placeholder after" }).appendTo(this.layoutHost);
+		
+		$("<div>", { class: "opinion" }).ratingsSystem("initialize", { title: this.title, id: this.id }).appendTo(afterHolder);
+		
+		this.layoutHost.css("backgroundColor", Helpers.getColorForChapter(content.chapter));
 	}
 	
 	Layout.prototype = Object.create(null);

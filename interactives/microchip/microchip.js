@@ -18,6 +18,8 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 
 	// Load images and sounds
 	GameState.prototype.preload = function () {
+		this.game.load.crossOrigin = "https://memberservices.informit.com";
+		
 		this.game.load.image("etched", "assets/etched_silicon.png");
 		this.game.load.image("unetched", "assets/unetched_silicon.png");
 		this.game.load.image("negative base", "assets/chip_negative.png");

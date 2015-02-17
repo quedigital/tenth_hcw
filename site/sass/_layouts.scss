@@ -928,13 +928,13 @@ button.basic {
 	cursor: pointer;
 	
 	&:hover {
-		background-color: #666;
-		color: white;
+		background-color: #666 !important;
+		color: white !important;
 	}
 	
 	&:active {
-		background-color: white;
-		color: black;
+		background-color: white !important;
+		color: black !important;
 	}
 }
 
@@ -2277,154 +2277,12 @@ div.image-callout {
 	}
 }
 
-.tourPopups {
-	background-color: rgba(94, 112, 134, 0.9);
-	border: 1px solid white;
-	color: white;
-	text-shadow: 1px 1px 2px black;
-	width: 50%;
-	max-width: 350px !important;
-	
-	.qtip-content {
-		font-size: 25px;
-		line-height: 1.4em;	
-
-		p.centered {
-			text-align: center;
-		}
-				
-		span.title {
-			color: #99d;
-			font-weight: bold;
-		}
-		
-		img {
-			padding: 5px;
-			display: block;
-			width: 100%;
-			max-height: 75%;
-		}
-	}
-	
-	div.control-holder {
-		width: 100%;
-		margin-top: 10px;
-		padding-top: 10px;
-		border-top: 1px solid rgb(142, 213, 142);
-		text-align: center;
-		
-		.button-bar {
-			line-height: 1.5em;
-			
-			button {
-				width: 35%;
-				border: none;
-				font-weight: normal;
-				font-family: "Archivo Narrow", sans-serif;
-				font-size: 70%;
-				outline: none;
-				cursor: pointer;
-				color: white;
-				vertical-align: top;
-				margin-top: 2px;
-				background: #999;
-				
-				&:hover {
-					background: #ccc;
-				}
-				
-				&:active {
-					background: #333;
-				}
-			}
-			
-			#back {
-			}
-			
-			#cancel {
-				height: 1.5em;
-				
-				background: #800;
-				
-				&:hover {
-					background: #500;
-				}
-				
-				&:active {
-					background: #300;
-				}
-			}
-			
-			#skip {
-				background: #00e;
-				
-				&:hover {
-					background: #00a;
-				}
-				
-				&:active {
-					background: #003;	
-				}
-			}
-			
-			#next {
-				background: #080;
-				
-				&:hover {
-					background: #060;
-				}
-				
-				&:active {
-					background: #030;	
-				}
-			}
-			
-			div.label {
-				width: 30%;
-				font-size: 80%;
-				text-align: center;
-				vertical-align: top;
-				line-height: 1.5em;
-				color: black;
-				font-family: "Archivo Narrow", sans-serif;
-				display: inline-block;
-				text-shadow: none;
-				font-weight: bold;
-				
-				span.counter {
-					border-radius: .5em;
-					background: rgb(208, 194, 242);
-					padding: .25em;
-					color: white;
-				}	
-			}
-		}
-	}
-	
-	.qtip-title {
-		font-size: 200%;
-		line-height: 1.4em;
-	}
-}
-
-#qtip-overlay div {
-	opacity: 0 !important;
-	filter: alpha(opacity=0) !important;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" !important;	
-}
-
-#qtip-overlay div.dimming {
-	opacity: .75 !important;
-	filter: alpha(opacity=75) !important;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)" !important;	
-}
-
-#opinion {
+.opinion {
 	background-color: white;
 	position: absolute;
 	width: 350px;
 	right: -350px;
-	top: -500px;
+	top: 0;
 	padding: 10px 40px 10px 1.5em;
 	z-index: 1;
 	transition: right .5s ease-in-out;
@@ -2585,6 +2443,13 @@ div.image-callout {
 					font-weight: bold;
 				}
 			}
+		}
+		
+		&:after {
+			content: "Note: Comments won't appear until approved.";
+			display: block;
+			font-size: smaller;
+			font-style: italic;
 		}
 	}	
 }
@@ -3112,6 +2977,45 @@ div.blocker {
 					}
 				}
 			}
+		}
+	}
+}
+
+.layout-placeholder {
+	position: relative;
+}
+
+.qtip.survey-prompt {
+	font-size: 16pt;
+	line-height: 1.4em;
+	
+	p {
+		color: black;
+	}
+	
+	.button-area {
+		margin-top: 20px;
+		text-align: center;
+		
+		button {
+			color: white;
+			font-size: 12px;
+			line-height: 40px;
+			&:nth-child(n+2) {
+				margin-left: 10px;
+			}
+		}
+		
+		.green {
+			background-color: rgb(48, 113, 48);
+		}
+		
+		.yellow {
+			background-color: rgb(192, 192, 37);
+		}
+		
+		.red {
+			background-color: rgb(152, 27, 27);
 		}
 	}
 }

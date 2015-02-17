@@ -241,20 +241,24 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 		
 			var layoutDIV = layout.container.parents(".layout");
 			layoutDIV.removeClass("loading");
-
+			
 			if (options.replace || options.previous) {
 				var prevBanner = $("<div>").Banner( { source_id: options.id, previous: true, toc: this } );
-				prevBanner.insertBefore(layoutDIV);
+				//prevBanner.insertBefore(layoutDIV);
+				layout.layoutHost.find(".layout-placeholder.before").find(".banner").remove();
+				layout.layoutHost.find(".layout-placeholder.before").append(prevBanner);
 			}
 			
 			if (options.replace || !options.previous) {
 				var nextBanner = $("<div>").Banner( { source_id: options.id, toc: this } );
-				nextBanner.insertAfter(layoutDIV);
+				//nextBanner.insertAfter(layoutDIV);
+				layout.layoutHost.find(".layout-placeholder.after").find(".banner").remove();
+				layout.layoutHost.find(".layout-placeholder.after").append(nextBanner);
 			}
 
 			// scroll to top of this spread
 			if (options.replace) {
-				$(window).scrollTop($(".layout").offset().top - 15);
+				$(window).scrollTop($(".layout .spread").offset().top - 15);
 			}
 		
 			// scroll to where we were (to keep our place)
@@ -435,7 +439,7 @@ define(["Helpers", "tinycolor", "Database", "jquery.ui.widget", "NewsItems", "Ne
 				while (cells.length) {
 					var r = Math.floor(Math.random() * cells.length);
 					var c = cells[r];
-					if (c.image) return c.image;
+					if (c.type == "image" && c.image) return c.image;
 					else cells.splice(r, 1);
 				}
 			} else if (layout.style == 'text') {

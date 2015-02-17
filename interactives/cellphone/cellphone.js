@@ -372,7 +372,7 @@ Game.prototype = {
 		var r = new Kinetic.Rect( { width: 400, height: 200, fill: "black", stroke: "white", strokeWidth: 3, x: 0, y: 0 } );	
 		g.add(r);
 			
-		var t = new Kinetic.Text( { name: "textBox", text: "", fontSize: 14, fontFamily: "Futura", align: "center", textFill: "white", width: 400, padding: 20, y: 20 } );
+		var t = new Kinetic.Text( { name: "textBox", text: "", fontSize: 14, fontFamily: "Futura,sans-serif", align: "center", textFill: "white", width: 400, padding: 20, y: 20 } );
 		g.add(t);
 		
 		var button = new Kinetic.Rect( { width: 120, height: 40, fill: "black", stroke: "white", strokeWidth: 2, x: 200, y: 125, cornerRadius: 5 } );
@@ -385,7 +385,7 @@ Game.prototype = {
 			game.setMode("playing");
 		});
 		
-		t = new Kinetic.Text( { text: "Try Again", fontSize: 16, fontFamily: "Arial", align: "center", textFill: "white",
+		t = new Kinetic.Text( { text: "Try Again", fontSize: 16, fontFamily: "Arial,sans-serif", align: "center", textFill: "white",
 								width: 120, x: 200, y: 117, listening: false } );
 		t.setOffset(60, 0);
 		g.add(t);
@@ -519,7 +519,7 @@ function Tower (params) {
 	this.hexGroup.add(hex);
 	
 	if (USING_TEXT) {
-		var text = new Kinetic.Text( { name: "textBox", text: "Current\nBase Station", fontSize: 8, fontFamily: "Futura", align: "center", textFill: "cyan", width: 120, x: this.x, y: this.y + 90, lineHeight: 1.5, alpha: 0 } );
+		var text = new Kinetic.Text( { name: "textBox", text: "Current\nBase Station", fontSize: 8, fontFamily: "Futura,sans-serif", align: "center", textFill: "cyan", width: 120, x: this.x, y: this.y + 90, lineHeight: 1.5, alpha: 0 } );
 		text.setOffset(60, 0);
 		text.hide();
 		this.hexGroup.add(text);
@@ -622,7 +622,7 @@ function Handoff (params) {
 	var r = new Kinetic.Rect( { width: 120, height: 40, fill: "black", stroke: "#5ad", strokeWidth: 3, cornerRadius: 20 } );
 	g.add(r);
 	
-	var t = new Kinetic.Text( { text: "Handoff", fontSize: 18, fontFamily: "Futura", align: "center", textFill: "white", width: 120, y: 10 } );
+	var t = new Kinetic.Text( { text: "Handoff", fontSize: 18, fontFamily: "Futura,sans-serif", align: "center", textFill: "white", width: 120, y: 10 } );
 	g.add(t);
 	
 	g.setPosition( { x: 512, y: 384 } );

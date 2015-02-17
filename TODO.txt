@@ -1,17 +1,15 @@
 
 // TODO: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds
 
+// TODO: add "New" keyword for new spreads since 9th edition [Todd]
+
 // TODO: add keywords for all spreads
 
 // TODO: better placement of pan & zoom right/left advance arrows (closer to text box?)
 
 // TODO: remove the scroll position setting code (because it was usually wonky)
 
-// TODO: embed the ads better [only post-spread?]
 // TODO: too many banner ads opening on initial open [reproducible? seems worse in Firefox]
-
-// TODO: add ratings boxes for every spread?
-// TODO: make the comments sync position with the post-spread ad (or just embed it there)
 
 // TODO: pan & zoom buttons on Chrome mobile look bad
 
@@ -22,6 +20,10 @@
 // TODO: put step # in panzoom text box?
 
 // TODO: secure Firebase host without breaking ratings and comments storage
+
+// TODO: make mousewheel/swipe advance panzoom layouts?
+
+// TODO: add pageguide-style navigation for grid layouts?
 
 // TODO: panzoom 18_4 is sometimes blurry on Safari when zoomed
 
@@ -42,13 +44,9 @@
 
 // TODO: doesn't always seem to scroll to top of spread (ie, shows "previous" banner) [can't seem to reproduce; maybe only with debugging tools open?]
 
-// TODO: load export.json zipped (stuk.github.io/jszip/)
-
 // TODO: 11_1 intro has cross-reference and possibly a typo
 // TODO: 8_3 mentions "4 methods" but it's not clear what are the 4
 // TODO: internal links and cross-references (as in: intro to 3_3, 11_2)
-
-// TODO: BUG: the qTip delay seems buggy (ie, takes forever sometimes)
 
 // TODO: minify scripts
 
@@ -73,10 +71,6 @@
 // TODO: embed image sizes to speed up layout
 // TODO: find a better way to handle video sizing (ie, not knowing the size right away)
 
-// TODO: make mousewheel/swipe advance panzoom layouts?
-
-// TODO: add pageguide-style navigation for grid layouts?
-
 // TODO: panzoom layout textholder needs "more (down)" indicator or is the scrollbar enough?
 
 // TODO: layout.deactivate to destroy or ignore listeners (particularly scroll listeners)
@@ -88,6 +82,12 @@
 //            or you can set a pixel ratio in Cloudinary or use their plugin and .cloudinary_update();
 // UI DESIGN: or use SVG for most non-raster images? (IE9+)
 // CODE DESIGN: decide whether to load from json or from processed HTML/Javascript
+
+
+// EVENTS:
+{ category: "button", action: "click", label: "news" }
+{ category: "interactive", action: "complete", label: "compression" }
+{ category: "prompt", action: "accept/delay/decline", label: "survey" }
 
 // DONE: add a handle for the resizable
 // DONE: view one spread at a time, selectable from list
@@ -457,3 +457,10 @@
 // DONE: flesh out tour guide; make sure it works backwards (don't zoom twice); test on iPad
 // DONE: make glossary terms work for panzoom layouts
 // DONE: add glossary definitions for all terms in text [for all terms from 9th edition]
+// DONE: embed the ads better [only post-spread?]
+// DONE: add ratings boxes for every spread?
+// DONE: make the comments sync position with the post-spread ad (or just embed it there)
+// DONE: getRandomImageFromSpread shouldn't return an interactive URL
+// TODONT: load export.json zipped (stuk.github.io/jszip/) [a pain with our hosting]
+// TODONT: BUG: the qTip delay seems buggy (ie, takes forever sometimes) [not using qtip for tour anymore]
+// DONE: embed survey [shows request after 15 pages (first visit) or 5 pages (second and subsequent until canceled)]

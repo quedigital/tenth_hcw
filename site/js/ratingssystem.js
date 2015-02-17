@@ -1,15 +1,23 @@
 define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Database) {
 	var OFFSCREEN_X = -350;
 	
-	var currentID;
-	
 	var justClickedClose = false;
 	
 	$.fn.ratingsSystem = function (command, options) {
 		if (command == "initialize") {
 			var settings = $.extend({
 			}, options);
-		
+			
+			this.options = options;
+
+			$("<div>", { class: "pulltab" }).html('<p>&#xf005;<br/>&#xf005;<br/>&#xf005;<br/></p><div class="commentflag" title="This page has user comments."><i class="fa fa-comments-o"></i></div>').appendTo(this);
+			
+			$("<div>", { class: "mainarea" }).html('<h1>What did you think?</h1><button id="close-button"><i class="fa fa-times"></i></button><p id="ratingLabel">Your rating:</p><div class="rating"><span id="star5" class="star" data-title="Great!"></span><span id="star4" class="star" data-title="Pretty good!"></span><span id="star3" class="star" data-title="Ok"></span><span id="star2" class="star" data-title="Meh"></span><span id="star1" class="star" data-title="Nope"></span></div><a id="showComments" ref="">Show comments</a><a id="addComment" ref="">Add comment</a>').appendTo(this);
+			
+			$("<div>", { class: "commentEntry" }).html('<p>Your Name: <span>(optional)</span></p><input type="text" id="name"/><p>Comment:</p><textarea id="comment"></textarea><button id="send-button">Send</button><button id="cancel-button">Cancel</button>').appendTo(this);
+			
+			$("<div>", { class: "comments" }).html('<div class="scroller"></div>').appendTo(this);
+			
 			this.find(".pulltab").click($.proxy(openPanel, this, this));
 			
 			this.hover($.proxy(openPanel, this, this), $.proxy(possiblyClosePanel, this, this));
@@ -39,21 +47,7 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 
 			this.on("openRatings", $.proxy(openPanel, this, this));
 			
-		} else if (command == "update") {
-			var b = options.bottomOf.position().top + options.bottomOf.outerHeight();
-			
-			var options = { bottom: b, title: options.title, id: options.id, bottomOf: options.bottomOf };
-			
-			currentID = options.id;
-			
-			// using animate because it is queued
-			this.fadeOut().delay(1000).animate(
-				{ top: b, right: OFFSCREEN_X },
-				{
-					duration: 0,
-					complete: $.proxy(initialize, this, this, options)
-				} )
-				.delay(1000).fadeIn();
+			initialize.call(this, this, options);
 		}
 		
 		return this;
@@ -85,10 +79,10 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 	function postComment (elem) {
 		var c = $(elem).find("#comment").val();
 		
-		if (c) {
+		if (c && this.options.id) {
 			var options = { name: $(elem).find("#name").val(), comment: c, moderated: false };
 		
-			Database.addComment(currentID, options, $.proxy(showComments, this, elem));
+			Database.addComment(this.options.id, options, $.proxy(showComments, this, elem));
 		}
 	}
 	
@@ -105,13 +99,14 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 	function toggleComments (elem) {
 		if ($(elem).find(".comments").is(":visible")) {
 			$(elem).find(".comments").hide("fade");
-		} else {
-			var comments = Database.getComments(currentID, $.proxy(updateCommentsUI, this, this));		
+		} else if (this.options.id) {
+			var comments = Database.getComments(this.options.id, $.proxy(updateCommentsUI, this, this));		
 		}
 	}
 	
 	function showComments (elem) {
-		var comments = Database.getComments(currentID, $.proxy(updateCommentsUI, this, this));		
+		if (this.options.id)
+			Database.getComments(this.options.id, $.proxy(updateCommentsUI, this, this));		
 	}
 	
 	function updateCommentsUI (elem, comments) {
@@ -141,8 +136,8 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		
 		stars.removeClass("selected animated tada").show(0).slice(5 - rating, 5).addClass("selected").addClass("animated tada");
 		
-		if (currentID) {
-			Database.setMyRating(currentID, rating);
+		if (this.options.id) {
+			Database.setMyRating(this.options.id, rating);
 		}
 		
 		elem.trigger("rating");
@@ -150,11 +145,10 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 	
 	function initialize (elem, options) {
 		// position on-screen
-		elem.position( { my: "left top+40px", at: "right bottom", of: options.bottomOf, collision: "none" } );
+//		elem.position( { my: "left top+40px", at: "right bottom", of: options.bottomOf, collision: "none" } );
 		// and then eliminate left (so "right" overrides it and it's off-screen again)
 		elem.css("left", "");
 		
-		elem.css( { visibility: "hidden", display: "block" } );
 		elem.find(".comments").hide(0);
 		elem.find(".commentEntry").hide(0);
 		
@@ -172,8 +166,6 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		updateMyRatingUI(elem, myRating);
 
 		Database.getComments(options.id, $.proxy(showOrHideCommentsIndicator, this, this));
-				
-		elem.css( { visibility: "visible", display: "none" } );
 	}
 
 	function showOrHideCommentsIndicator (elem, comments) {
@@ -202,14 +194,14 @@ define(["Database", "jquery", "jquery.qtip", "jquery.autosize"], function (Datab
 		}
 		
 		var p = elem.find(".pulltab p");
-		elem.css("display", "block");
+//		elem.css("display", "block");
 		
 		p.html(s);
 		
 		var ph = p.parent().height();
 		var h = p.height();
 		
-		elem.css("display", "none");
+//		elem.css("display", "none");
 		
 		var diff = (ph - h) * .5;
 		p.css("marginTop", diff);
