@@ -1,6 +1,3 @@
-
-// TODO: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds
-
 // TODO: add "New" keyword for new spreads since 9th edition [Todd]
 
 // TODO: add keywords for all spreads
@@ -464,3 +461,4 @@
 // TODONT: load export.json zipped (stuk.github.io/jszip/) [a pain with our hosting]
 // TODONT: BUG: the qTip delay seems buggy (ie, takes forever sometimes) [not using qtip for tour anymore]
 // DONE: embed survey [shows request after 15 pages (first visit) or 5 pages (second and subsequent until canceled)]
+// DONE: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds [switched to Canvas renderer]

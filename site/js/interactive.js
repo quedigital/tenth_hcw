@@ -93,6 +93,8 @@ define([], function () {
 	}
 		
 	Interactive.prototype.expand = function () {
+        this.elem.trigger("trackedevent", { category: "interactive", action: "launch", label: this.url });
+
 		this.contents.css("display", "block").addClass("full-screen animated bounceInUp");
 		
 		this.iframe.attr("src", this.url);

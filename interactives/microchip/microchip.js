@@ -359,7 +359,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.game.state.start("game", true, true);		
 	}
 	
-	var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'game');
+	var game = new Phaser.Game(1024, 768, Phaser.CANVAS, 'game');
 	game.state.add('game', GameState, true);
 
 	function fillRGB (r1, g1, b1, a1, region) {
