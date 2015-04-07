@@ -10,7 +10,8 @@ define(["jquery.ui.widget", "jquery.dim-background", "jquery.qtip", "jquery.scro
 			this.tourtip = $("<div>").TourTip( {
 				onClickNext: $.proxy(this.onClickNext, this),
 				onClickBack: $.proxy(this.onClickBack, this),
-				onClickClose: $.proxy(this.stopTour, this)
+				onClickClose: $.proxy(this.stopTour, this),
+				options: this.options.options
 			} );
 
 			$("body").append(this.tourtip);

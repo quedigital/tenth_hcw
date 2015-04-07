@@ -83,11 +83,6 @@ define(["imagesloaded.pkgd.min", "Helpers", "jquery.ui.widget"], function (image
 				var atOffset = [0, 0];
 
 				switch (this.options.arrow) {
-					case "top":
-						my = "center top";
-						at = ["center", "bottom"];
-						atOffset = [0, 25];
-						break;
 					case "left":
 						my = "left center";
 						at = ["right", "center"];
@@ -102,6 +97,12 @@ define(["imagesloaded.pkgd.min", "Helpers", "jquery.ui.widget"], function (image
 						my = "center bottom";
 						at = ["center", "top"];
 						atOffset = [0, -25];
+						break;
+					case "top":
+					default:
+						my = "center top";
+						at = ["center", "bottom"];
+						atOffset = [0, 25];
 						break;
 				}
 
@@ -148,11 +149,11 @@ define(["imagesloaded.pkgd.min", "Helpers", "jquery.ui.widget"], function (image
 			this.container.find(".cancel").css("display", (this.options.step > 0 && this.options.step < this.options.steps - 1) ? "inline-block" : "none");
 			var nextCaption = "Next";
 			switch (this.options.step) {
+				case this.options.steps - 1:
+					nextCaption = this.options.options.finishedButtonCaption ? this.options.options.finishedButtonCaption : "Let's Go!";
+					break;
 				case 0:
 					nextCaption = "Begin Tour";
-					break;
-				case this.options.steps - 1:
-					nextCaption = "Let's Go!";
 					break;
 			}
 			this.container.find(".next").text(nextCaption);

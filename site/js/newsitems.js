@@ -26,7 +26,10 @@ define(["Database", "jquery.ui.widget", "tourguide"], function (Database) {
 			if (items.length) {
 				var me = this;
 				$.each(items, function (index, item) {
-					var li = $("<li>" + item.title + "</li>");
+					var t = item.title;
+					if (!item.viewed) t += " <span class='new-item'>New!</span>";
+
+					var li = $("<li>" + t + "</li>");
 					li.click($.proxy(me.onClickItem, me, item));
 					li.appendTo(ul);
 				});
@@ -57,7 +60,7 @@ define(["Database", "jquery.ui.widget", "tourguide"], function (Database) {
 							}
 						];
 							
-			var guide = $("body").TourGuide({ tour: tour, onComplete: $.proxy(this.endNewsPresentation, this, item), finishedButtonCaption: "Got It!" });
+			var guide = $("body").TourGuide({ tour: tour, onComplete: $.proxy(this.endNewsPresentation, this, item), options: { finishedButtonCaption: "Got It!" } });
 			guide.TourGuide("beginTour");
 		},
 		

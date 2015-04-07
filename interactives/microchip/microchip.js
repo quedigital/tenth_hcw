@@ -18,8 +18,6 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 
 	// Load images and sounds
 	GameState.prototype.preload = function () {
-		this.game.load.crossOrigin = "https://memberservices.informit.com";
-		
 		this.game.load.image("etched", "assets/etched_silicon.png");
 		this.game.load.image("unetched", "assets/unetched_silicon.png");
 		this.game.load.image("negative base", "assets/chip_negative.png");
@@ -38,14 +36,15 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 	GameState.prototype.create = function () {
 		// Set stage background color
 		this.game.stage.backgroundColor = 0x67a8c0;
-		
+
 		this.unetchedData = this.game.make.bitmapData(this.game.cache.getImage("unetched").width, this.game.cache.getImage("unetched").height);
 		this.unetchedData.copyPixels("unetched", { x: 0, y: 0, width: this.game.cache.getImage("unetched").width, height: this.game.cache.getImage("unetched").height }, 0, 0);
-		this.unetchedData.update();
+		// NOTE: this wasn't working via AWS, so just use the unetched bitmap (plus, I can no longer tell the difference in the output)
+		//this.unetchedData.update();
 		
-		this.unetched = this.game.add.sprite(252, 400, this.unetchedData);
+//		this.unetched = this.game.add.sprite(252, 400, this.unetchedData);
 		
-//		this.unetched = this.game.add.sprite(252, 400, "unetched");
+		this.unetched = this.game.add.sprite(252, 400, "unetched");
 		
 		this.finished = this.game.add.sprite(252, 416, "finished");
 		this.finished.alpha = 0;
@@ -166,7 +165,7 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		this.showProgress(percent);
 		
 //		if (percent > .1 && !this.complete) {
-		if (percent > .97 && !this.complete) {
+		if (percent > .92 && !this.complete) {
 			this.showComplete();
 			this.complete = true;
 		}
@@ -298,7 +297,6 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		if (DEBUG && this.game.time.fps !== 0) {
 			this.fpsText.setText(this.game.time.fps + ' FPS');
 		}
-		
 //		console.log(this.game.input.x + ", " + this.game.input.y);
 		
 		if (!this.complete && this.inputDown) {

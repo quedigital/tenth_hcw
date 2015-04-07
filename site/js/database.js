@@ -109,8 +109,9 @@ define(["firebase", "jquery.json"], function () {
 			snapshot.forEach(function (child) {
 				var childData = child.val();
 				childData.key = child.key();
-				if (!childData.old && viewed.indexOf(childData.key) == -1) {
-					vals.push(childData);
+				if (!childData.old) {
+					var obj = $.extend(childData, { viewed: viewed.indexOf(childData.key) != -1 } );
+					vals.push(obj);
 				}
 			});
 			callback(vals);
