@@ -198,6 +198,9 @@ require(["Phaser", "utils"], function (Phaser, utils) {
 		game.add.tween(this.instructions).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true, 2500);
 		
 		game.add.tween(this.startButton).to({ alpha: 1 }, 1000, Phaser.Easing.Linear.None, true, 2500);
+
+		// call out of the iframe
+		parent.$("body").trigger("trackedevent", { category: "interactive", action: "complete", label: "microchip" });
 	}
 	
 	GameState.prototype.getBurnProgress = function () {
