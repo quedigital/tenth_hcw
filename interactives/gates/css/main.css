@@ -1,0 +1,118 @@
+html {
+  overflow: hidden;
+  background: #ddfff3; }
+
+body {
+  margin: 0;
+  font-family: sans-serif; }
+
+svg {
+  pointer-events: none; }
+
+#page {
+  width: 600px;
+  height: 600px;
+  position: relative; }
+
+.gate {
+  position: absolute; }
+
+.part {
+  position: absolute; }
+
+.switch {
+  transform-origin: 8px 5px;
+  cursor: pointer;
+  transition: all .4s ease; }
+
+.clock-pulse {
+  position: absolute; }
+
+.bitSwitch input {
+  transform: translate(20px, 20px);
+  cursor: pointer; }
+.bitSwitch input:before {
+  content: "";
+  width: 123px;
+  height: 44px;
+  position: absolute;
+  transform: translate(-20px, -20px);
+  background: url(../assets/powerswitch-off.png);
+  transition: all .4s ease; }
+.bitSwitch input:checked:before {
+  background: url(../assets/powerswitch-on.png); }
+.bitSwitch label {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all .4s ease;
+  position: absolute;
+  top: 0;
+  left: -3px;
+  z-index: 1;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(to bottom, #f0f0f0 0%, #e5e5e5 100%); }
+
+.result-box.flat {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 100;
+  border: 5px solid black;
+  background: #DF5645;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5); }
+
+.result-box {
+  width: 106px;
+  height: 120px;
+  background: url(../assets/box.png); }
+  .result-box span {
+    position: absolute;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+    text-align: center; }
+  .result-box .white {
+    left: 64px;
+    top: 51px; }
+  .result-box .blue {
+    left: 25px;
+    top: 51px; }
+  .result-box .red {
+    left: 44px;
+    top: 22px;
+    transform: rotate(-60deg); }
+
+.positioner {
+  position: absolute; }
+
+span.label {
+  text-align: center;
+  font-family: 'Inconsolata';
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  transform: translate(-50%, -50%); }
+
+.not-gate .input {
+  top: 20px;
+  left: 150px; }
+.not-gate .output {
+  top: 445px;
+  left: 150px; }
+.not-gate .clock {
+  top: 205px;
+  left: 20px; }
+
+.pulse {
+  position: absolute; }
+  .pulse .segment {
+    position: absolute;
+    background: linear-gradient(to bottom, #5ec9ff 0%, #88fcff 50%, #88fcff 50%, #5ec9ff 100%);
+    /*border: 1px solid rgba(60, 90, 224, .75);*/
+    border-radius: 25px; }
+
+/*# sourceMappingURL=main.css.map */
