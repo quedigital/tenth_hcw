@@ -1,6 +1,17 @@
 var ResultBox = React.createClass({
 	render: function () {
-		var display = this.props.result ? "1" : "0";
+		var display = "";
+
+		switch (this.props.result) {
+			case 1:
+			case true:
+				display = "1"; break;
+			case 0:
+			case false:
+				display = "0"; break;
+			default:
+				display = ""; break;
+		}
 
 		return (
 			<div className="part result-box">

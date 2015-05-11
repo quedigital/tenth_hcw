@@ -1,7 +1,8 @@
-// TODO: show clock pulse
-// TODO: animate result
-// TODO: sync result with clock pulse
+// TODO: OR gate, AND gate, Half-adder, Full-adder
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // DONE: animate switch
+// DONE: show clock pulse
+// DONE: animate result
+// DONE: sync result with clock pulse
