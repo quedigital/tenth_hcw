@@ -462,3 +462,4 @@
 // TODONT: BUG: the qTip delay seems buggy (ie, takes forever sometimes) [not using qtip for tour anymore]
 // DONE: embed survey [shows request after 15 pages (first visit) or 5 pages (second and subsequent until canceled)]
 // DONE: Phaser and PIXI don't like to load images from CloudFront; try to find workarounds [switched to Canvas renderer]
+// DONE: replace "https://s3.amazonaws.com/HCW10/Images/" with "s3/images/"
